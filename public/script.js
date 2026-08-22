@@ -121,10 +121,26 @@
     (function initDriftWall() {
       var mount = document.getElementById("hero-drift-wall");
       if (!mount) return;
-      var items = ["herosection1-1.png", "herosection2-1.png", "herosection3-1.png", "herosection4-1.png", "herosection5-1.png", "herosection6.png", "herosection7.png", "herosection8.png", "herosection9.png", "herosection10.png"].map(function (image, index) {
-        return { image: "assets/projects/" + image, title: "Project " + (index + 1), href: "project.html" };
-      });
-      var config = { columns: 5, tileWidth: 200, tileHeight: 132, gap: 18, tilt: 16, turn: -14, perspective: 1200, depth: 120, speed: 42, variance: 0.45, parallax: 0.6, lift: 64, fade: 0.6, dim: 0.55, overlayColor: "#060010" };
+      // Define each tile's image, title, and exact direct link
+      var items = [
+        { image: "assets/projects/herosection1-1.png", title: "Cognita AI", href: "project.html#herosection-yourride" },
+        { image: "assets/projects/project1-1.png", title: "Magnify Vision Media", href: "project.html#magnify" },
+        { image: "assets/projects/herosection2-1.png", title: "Sonix Audio", href: "project.html#herosection-devialet" },
+        { image: "assets/projects/project2-1.png", title: "Bun & Bite", href: "project.html#bunbite" },
+        { image: "assets/projects/herosection3-1.png", title: "Workli", href: "project.html#herosection-herosection3" },
+        { image: "assets/projects/project3-1.png", title: "NewDay Child Coaching", href: "project.html#newday" },
+        { image: "assets/projects/herosection4-1.png", title: "Aerix", href: "project.html#herosection-herosection4" },
+        { image: "assets/projects/project04-1.png", title: "Inventory System", href: "project.html#inventory" },
+        { image: "assets/projects/herosection5-1.png", title: "Velor", href: "project.html#herosection-herosection5" },
+        { image: "assets/projects/webdesign1-1.png", title: "Where to Know", href: "project.html#webdesign-wheretoknow" },
+        { image: "assets/projects/herosection6.png", title: "Outride", href: "project.html#herosection-herosection6" },
+        { image: "assets/projects/website6-1.png", title: "e-Sweets", href: "project.html#e-Sweets" },
+        { image: "assets/projects/herosection7.png", title: "Payora", href: "project.html#herosection-herosection7" },
+        { image: "assets/projects/herosection8.png", title: "Nexride", href: "project.html#herosection-herosection8" },
+        { image: "assets/projects/herosection9.png", title: "Industera", href: "project.html#herosection-herosection9" },
+        { image: "assets/projects/herosection10.png", title: "Signet", href: "project.html#herosection-herosection10" }
+      ];
+      var config = { columns: 3, tileWidth: 200, tileHeight: 132, gap: 18, tilt: 16, turn: -14, perspective: 1200, depth: 120, speed: 42, variance: 0.45, parallax: 0.6, lift: 64, fade: 0.6, dim: 0.55, overlayColor: "#060010" };
       var wall = document.createElement("div"), plane = document.createElement("div"), tracks = [], offsets = [], pointer = { x: 0, y: 0 }, damped = { x: 0, y: 0 }, hoveredColumn = -1, activeTile = null, lastTime = null;
       wall.className = "drift-wall";
       wall.setAttribute("role", "group");
@@ -312,10 +328,16 @@
     // 5. Dark/Light Theme Toggle Control
     var toggleBtn = document.querySelector(".theme-toggle");
     if (toggleBtn) {
+      toggleBtn.setAttribute(
+        "aria-pressed",
+        String(document.documentElement.classList.contains("dark-mode")),
+      );
       toggleBtn.addEventListener("click", function () {
         var isDark = document.documentElement.classList.toggle("dark-mode");
         localStorage.setItem("theme", isDark ? "dark" : "light");
+        toggleBtn.setAttribute("aria-pressed", String(isDark));
       });
+      toggleBtn.dataset.themeBound = "true";
     }
 
     // 5a. Homepage team rotator with synced animated names
@@ -872,17 +894,7 @@
       }
       updateCursor();
 
-      // DriftWall owns its hover treatment; keep the global expanding cursor out of it.
-      var driftWallEl = document.querySelector(".drift-wall");
-      if (driftWallEl) {
-        driftWallEl.addEventListener("mouseenter", function () {
-          cursor.style.opacity = "0";
-          cursor.classList.remove("hovering");
-        });
-        driftWallEl.addEventListener("mouseleave", function () {
-          cursor.style.opacity = "1";
-        });
-      }
+
 
       // snap to interactive elements
       var interactives = document.querySelectorAll(
@@ -1128,6 +1140,110 @@
 })();
 
 document.addEventListener("DOMContentLoaded", function () {
+  var mobileDockQuery = window.matchMedia("(max-width: 860px)");
+  var mobileDock = null;
+
+  function dockIcon(path) {
+    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + path + "</svg>";
+  }
+
+  function syncMobileDock(matches) {
+    if (matches && !mobileDock) {
+      var currentPage = window.location.pathname.split("/").pop() || "index.html";
+      var items = [
+        ["index.html", "Home", '<path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1Z"/>'],
+        ["project.html", "Work", '<path d="M3 7.5A2.5 2.5 0 0 1 5.5 5H10l2 2h6.5A2.5 2.5 0 0 1 21 9.5v8a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 17.5Z"/><path d="M3 10h18"/>'],
+        ["teams.html", "Team", '<circle cx="9" cy="8" r="3"/><path d="M3 20c.6-3.1 2.7-5 6-5s5.4 1.9 6 5M16 5.5a3 3 0 0 1 0 5M18 15c1.7.5 2.7 1.8 3 3.8"/>'],
+        ["services.html", "Services", '<path d="M4 7h16M4 12h16M4 17h10"/><circle cx="17" cy="17" r="3"/>'],
+        ["contact.html", "Contact", '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>'],
+        ["#theme", "Theme", '<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>'],
+      ];
+
+      mobileDock = document.createElement("nav");
+      mobileDock.className = "mobile-dock";
+      mobileDock.setAttribute("aria-label", "Mobile navigation");
+      var panel = document.createElement("div");
+      panel.className = "mobile-dock__panel";
+      var strip = document.createElement("div");
+      strip.className = "mobile-dock__strip";
+      items.forEach(function (item) {
+        var itemIndex = items.indexOf(item);
+        var control = document.createElement(item[0] === "#theme" ? "button" : "a");
+        control.className = "mobile-dock__item";
+        if (item[0] === "#theme") {
+          control.type = "button";
+          control.setAttribute("aria-pressed", String(document.documentElement.classList.contains("dark-mode")));
+          control.addEventListener("click", function () {
+            var isDark = document.documentElement.classList.toggle("dark-mode");
+            localStorage.setItem("theme", isDark ? "dark" : "light");
+            control.setAttribute("aria-pressed", String(isDark));
+          });
+        } else {
+          control.href = item[0];
+          if (currentPage === item[0]) control.setAttribute("aria-current", "page");
+          control.addEventListener("click", function (event) {
+            event.preventDefault();
+            if (mobileDock.classList.contains("is-navigating")) return;
+            mobileDock.classList.add("is-navigating");
+            control.classList.add("is-selected");
+
+            for (var particleIndex = 0; particleIndex < 6; particleIndex++) {
+              var particle = document.createElement("span");
+              particle.className = "mobile-dock__particle";
+              particle.style.setProperty("--particle-angle", particleIndex * 60 + "deg");
+              control.appendChild(particle);
+              particle.addEventListener("animationend", function () {
+                this.remove();
+              });
+            }
+
+            window.setTimeout(function () {
+              window.location.href = control.href;
+            }, 360);
+          });
+        }
+        control.setAttribute("aria-label", item[1]);
+        control.setAttribute("data-label", item[1]);
+        control.style.setProperty("--dock-item-delay", itemIndex * 55 + "ms");
+        control.innerHTML = dockIcon(item[2]);
+        strip.appendChild(control);
+      });
+
+      var launcher = document.createElement("button");
+      launcher.type = "button";
+      launcher.className = "mobile-dock__launcher";
+      launcher.setAttribute("aria-label", "Open navigation");
+      launcher.setAttribute("aria-expanded", "false");
+      launcher.setAttribute("data-label", "Menu");
+      launcher.innerHTML = dockIcon('<path d="M12 5v14M5 12h14"/>');
+      launcher.addEventListener("click", function () {
+        var isOpen = mobileDock.classList.toggle("is-open");
+        mobileDock.classList.remove("is-opening");
+        if (isOpen) {
+          void strip.offsetWidth;
+          mobileDock.classList.add("is-opening");
+          window.setTimeout(function () {
+            mobileDock.classList.remove("is-opening");
+          }, 700);
+        }
+        launcher.setAttribute("aria-expanded", String(isOpen));
+        launcher.setAttribute("aria-label", isOpen ? "Close navigation" : "Open navigation");
+        launcher.setAttribute("data-label", isOpen ? "Close" : "Menu");
+      });
+      panel.append(strip, launcher);
+      mobileDock.appendChild(panel);
+      document.body.appendChild(mobileDock);
+    } else if (!matches && mobileDock) {
+      mobileDock.remove();
+      mobileDock = null;
+    }
+  }
+
+  syncMobileDock(mobileDockQuery.matches);
+  mobileDockQuery.addEventListener("change", function (event) {
+    syncMobileDock(event.matches);
+  });
+
   var reduceMotion = window.matchMedia(
     "(prefers-reduced-motion: reduce)",
   ).matches;

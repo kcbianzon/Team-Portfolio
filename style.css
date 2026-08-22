@@ -270,6 +270,9 @@ nav a:hover {
 .hero-drift-wall {
   height: 680px;
   min-width: 0;
+  width: 135%;
+  margin-right: -35%;
+  
 }
 
 /* React Bits DriftWall (vanilla JS + CSS integration) */
@@ -307,7 +310,7 @@ nav a:hover {
 .drift-wall__tile.is-active .drift-wall__inner, .drift-wall__tile:focus-visible .drift-wall__inner { opacity: 1; transform: translateZ(var(--dw-lift)); box-shadow: 0 24px 60px -18px rgba(0,0,0,.7); }
 .drift-wall__tile.is-active img, .drift-wall__tile:focus-visible img { filter: saturate(1.05); }
 .drift-wall__tile.is-active .drift-wall__overlay, .drift-wall__tile:focus-visible .drift-wall__overlay { opacity: 0; }
-}
+
 
 .hero h1 .accent {
   min-width: 1px;
@@ -3687,4 +3690,27 @@ section.project-browser-section.reveal {
   max-width: 100% !important;
   
   border-radius: 24px !important;
+}
+
+/* --- ULTIMATE FIX: CLICKABLE IMAGE + ZERO JITTER + CONSISTENT PICKING + CUSTOM CURSOR --- */
+
+/* 1. Make the popped-out visual image solid and clickable */
+.drift-wall__inner {
+  pointer-events: auto !important;
+}
+
+/* 2. Keep the invisible solid base to "catch" the mouse if the 3D image shifts away */
+.drift-wall__tile {
+  background: rgba(0, 0, 0, 0.01) !important;
+  cursor: none !important; /* Hides the native pointer */
+}
+
+/* 3. Force the active card to the absolute front layer so neighbors cannot steal the mouse! */
+.drift-wall__tile.is-active {
+  z-index: 50 !important;
+}
+
+/* 4. Keep the native pointer hidden across the whole wall */
+.drift-wall, .drift-wall__plane {
+  cursor: none !important; /* Hides the native pointer */
 }
