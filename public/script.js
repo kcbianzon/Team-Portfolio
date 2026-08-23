@@ -1140,6 +1140,77 @@
 })();
 
 document.addEventListener("DOMContentLoaded", function () {
+  (function initLiveSiteStats() {
+    var viewerCount = document.getElementById("live-viewer-count");
+    var totalCount = document.getElementById("total-view-count");
+    if (!viewerCount || !totalCount) return;
+
+    var firebaseConfig = {
+      apiKey: "AIzaSyAq-4bK2MLw0q7a3IKsqjzUrD5_Le_hka8",
+      authDomain: "temport-b2930.firebaseapp.com",
+      databaseURL: "https://temport-b2930-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "temport-b2930",
+      appId: "1:194958710524:web:60565cbd5527f130736979"
+    };
+
+    function formatCount(value) {
+      return new Intl.NumberFormat().format(Number(value) || 0);
+    }
+
+    function getSessionId() {
+      var savedId = sessionStorage.getItem("temport_live_session");
+      if (savedId) return savedId;
+      var randomId = window.crypto && window.crypto.randomUUID
+        ? window.crypto.randomUUID()
+        : "session-" + Date.now() + "-" + Math.random().toString(36).slice(2);
+      sessionStorage.setItem("temport_live_session", randomId);
+      return randomId;
+    }
+
+    Promise.all([
+      import("https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js"),
+      import("https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js")
+    ]).then(function (modules) {
+      var appModule = modules[0];
+      var databaseModule = modules[1];
+      var app = appModule.initializeApp(firebaseConfig, "temport-live-stats");
+      var database = databaseModule.getDatabase(app);
+      var sessionRef = databaseModule.ref(database, "presence/" + getSessionId());
+      var presenceRef = databaseModule.ref(database, "presence");
+      var totalViewsRef = databaseModule.ref(database, "stats/totalViews");
+
+      databaseModule.onValue(presenceRef, function (snapshot) {
+        viewerCount.textContent = formatCount(Object.keys(snapshot.val() || {}).length);
+      });
+      databaseModule.onValue(totalViewsRef, function (snapshot) {
+        totalCount.textContent = formatCount(snapshot.val());
+      });
+
+      databaseModule.set(sessionRef, {
+        connectedAt: databaseModule.serverTimestamp(),
+        lastSeen: databaseModule.serverTimestamp()
+      }).then(function () {
+        databaseModule.onDisconnect(sessionRef).remove();
+        window.setInterval(function () {
+          databaseModule.update(sessionRef, {
+            lastSeen: databaseModule.serverTimestamp()
+          });
+        }, 30000);
+      });
+
+      if (!localStorage.getItem("temport_counted_visitor")) {
+        databaseModule.runTransaction(totalViewsRef, function (currentValue) {
+          return (Number(currentValue) || 0) + 1;
+        }).then(function () {
+          localStorage.setItem("temport_counted_visitor", "true");
+        });
+      }
+    }).catch(function () {
+      viewerCount.textContent = "—";
+      totalCount.textContent = "—";
+    });
+  })();
+
   var mobileDockQuery = window.matchMedia("(max-width: 860px)");
   var mobileDock = null;
 
