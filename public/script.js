@@ -121,10 +121,26 @@
     (function initDriftWall() {
       var mount = document.getElementById("hero-drift-wall");
       if (!mount) return;
-      var items = ["herosection1-1.png", "herosection2-1.png", "herosection3-1.png", "herosection4-1.png", "herosection5-1.png", "herosection6.png", "herosection7.png", "herosection8.png", "herosection9.png", "herosection10.png"].map(function (image, index) {
-        return { image: "assets/projects/" + image, title: "Project " + (index + 1), href: "project.html" };
-      });
-      var config = { columns: 5, tileWidth: 200, tileHeight: 132, gap: 18, tilt: 16, turn: -14, perspective: 1200, depth: 120, speed: 42, variance: 0.45, parallax: 0.6, lift: 64, fade: 0.6, dim: 0.55, overlayColor: "#060010" };
+      // Define each tile's image, title, and exact direct link
+      var items = [
+        { image: "assets/projects/herosection1-1.png", title: "Cognita AI", href: "project.html#herosection-yourride" },
+        { image: "assets/projects/project1-1.png", title: "Magnify Vision Media", href: "project.html#magnify" },
+        { image: "assets/projects/herosection2-1.png", title: "Sonix Audio", href: "project.html#herosection-devialet" },
+        { image: "assets/projects/project2-1.png", title: "Bun & Bite", href: "project.html#bunbite" },
+        { image: "assets/projects/herosection3-1.png", title: "Workli", href: "project.html#herosection-herosection3" },
+        { image: "assets/projects/project3-1.png", title: "NewDay Child Coaching", href: "project.html#newday" },
+        { image: "assets/projects/herosection4-1.png", title: "Aerix", href: "project.html#herosection-herosection4" },
+        { image: "assets/projects/project04-1.png", title: "Inventory System", href: "project.html#inventory" },
+        { image: "assets/projects/herosection5-1.png", title: "Velor", href: "project.html#herosection-herosection5" },
+        { image: "assets/projects/webdesign1-1.png", title: "Where to Know", href: "project.html#webdesign-wheretoknow" },
+        { image: "assets/projects/herosection6.png", title: "Outride", href: "project.html#herosection-herosection6" },
+        { image: "assets/projects/website6-1.png", title: "e-Sweets", href: "project.html#e-Sweets" },
+        { image: "assets/projects/herosection7.png", title: "Payora", href: "project.html#herosection-herosection7" },
+        { image: "assets/projects/herosection8.png", title: "Nexride", href: "project.html#herosection-herosection8" },
+        { image: "assets/projects/herosection9.png", title: "Industera", href: "project.html#herosection-herosection9" },
+        { image: "assets/projects/herosection10.png", title: "Signet", href: "project.html#herosection-herosection10" }
+      ];
+      var config = { columns: 3, tileWidth: 200, tileHeight: 132, gap: 18, tilt: 16, turn: -14, perspective: 1200, depth: 120, speed: 42, variance: 0.45, parallax: 0.6, lift: 64, fade: 0.6, dim: 0.55, overlayColor: "#060010" };
       var wall = document.createElement("div"), plane = document.createElement("div"), tracks = [], offsets = [], pointer = { x: 0, y: 0 }, damped = { x: 0, y: 0 }, hoveredColumn = -1, activeTile = null, lastTime = null;
       wall.className = "drift-wall";
       wall.setAttribute("role", "group");
@@ -878,17 +894,7 @@
       }
       updateCursor();
 
-      // DriftWall owns its hover treatment; keep the global expanding cursor out of it.
-      var driftWallEl = document.querySelector(".drift-wall");
-      if (driftWallEl) {
-        driftWallEl.addEventListener("mouseenter", function () {
-          cursor.style.opacity = "0";
-          cursor.classList.remove("hovering");
-        });
-        driftWallEl.addEventListener("mouseleave", function () {
-          cursor.style.opacity = "1";
-        });
-      }
+
 
       // snap to interactive elements
       var interactives = document.querySelectorAll(
@@ -1156,14 +1162,18 @@ document.addEventListener("DOMContentLoaded", function () {
       mobileDock = document.createElement("nav");
       mobileDock.className = "mobile-dock";
       mobileDock.setAttribute("aria-label", "Mobile navigation");
+<<<<<<< HEAD
       var filters = document.createElementNS("http://www.w3.org/2000/svg", "svg");
       filters.setAttribute("aria-hidden", "true");
       filters.classList.add("mobile-dock__filters");
       filters.innerHTML = '<defs><filter id="mobile-gooey-filter"><feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur"/><feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9"/></filter></defs>';
+=======
+>>>>>>> 85babc05f905bad311b1876e0639130425aad6cc
       var panel = document.createElement("div");
       panel.className = "mobile-dock__panel";
       var strip = document.createElement("div");
       strip.className = "mobile-dock__strip";
+<<<<<<< HEAD
       var menuControls = [];
 
       function makeGooeyAppearance(control) {
@@ -1188,6 +1198,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       }
 
+=======
+>>>>>>> 85babc05f905bad311b1876e0639130425aad6cc
       items.forEach(function (item) {
         var itemIndex = items.indexOf(item);
         var control = document.createElement(item[0] === "#theme" ? "button" : "a");
@@ -1228,11 +1240,14 @@ document.addEventListener("DOMContentLoaded", function () {
         control.setAttribute("data-label", item[1]);
         control.style.setProperty("--dock-item-delay", itemIndex * 55 + "ms");
         control.innerHTML = dockIcon(item[2]);
+<<<<<<< HEAD
         var gooeyEffect = document.createElement("span");
         gooeyEffect.className = "mobile-dock__gooey";
         gooeyEffect.setAttribute("aria-hidden", "true");
         control.appendChild(gooeyEffect);
         menuControls.push(control);
+=======
+>>>>>>> 85babc05f905bad311b1876e0639130425aad6cc
         strip.appendChild(control);
       });
 
@@ -1249,6 +1264,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (isOpen) {
           void strip.offsetWidth;
           mobileDock.classList.add("is-opening");
+<<<<<<< HEAD
           mobileDock.classList.add("is-gooey-opening");
           menuControls.forEach(function (control, index) {
             window.setTimeout(function () {
@@ -1259,13 +1275,21 @@ document.addEventListener("DOMContentLoaded", function () {
             mobileDock.classList.remove("is-opening");
             mobileDock.classList.remove("is-gooey-opening");
           }, 1050);
+=======
+          window.setTimeout(function () {
+            mobileDock.classList.remove("is-opening");
+          }, 700);
+>>>>>>> 85babc05f905bad311b1876e0639130425aad6cc
         }
         launcher.setAttribute("aria-expanded", String(isOpen));
         launcher.setAttribute("aria-label", isOpen ? "Close navigation" : "Open navigation");
         launcher.setAttribute("data-label", isOpen ? "Close" : "Menu");
       });
       panel.append(strip, launcher);
+<<<<<<< HEAD
       mobileDock.appendChild(filters);
+=======
+>>>>>>> 85babc05f905bad311b1876e0639130425aad6cc
       mobileDock.appendChild(panel);
       document.body.appendChild(mobileDock);
     } else if (!matches && mobileDock) {

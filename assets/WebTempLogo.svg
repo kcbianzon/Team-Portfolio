@@ -1,0 +1,16 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Team Portfolio Icon</title>
+  <desc id="desc">A slick purple and white TP monogram icon for Team Portfolio.</desc>
+  <defs>
+    <linearGradient id="purple" x1="54" y1="50" x2="458" y2="462" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#8B5CF6"/>
+      <stop offset="1" stop-color="#4C1D95"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="32" y="32" width="448" height="448" rx="116" fill="url(#purple)"/>
+  <path d="M103 135H363V216H278V396H191V216H103V135Z" fill="white"/>
+  <path d="M319 211H399C454 211 490 245 490 298C490 351 454 386 399 386H319V211ZM396 312C416 312 429 305 429 297C429 288 416 281 396 281H401V312H396Z" fill="white"/>
+  <path d="M104 422H410" stroke="white" stroke-width="30" stroke-linecap="round" opacity="0.22"/>
+  <circle cx="407" cy="135" r="30" fill="white" opacity="0.92"/>
+</svg>
