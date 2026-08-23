@@ -18,6 +18,16 @@
   var deletingSpeed = 30;
   var pauseAfterType = 450;
   var pauseAfterDelete = 120;
+  var homeIntroKey = "temport_home_intro_seen";
+  var hasSeenHomeIntro = false;
+
+  if (prefixEl && dynamicEl) {
+    try {
+      hasSeenHomeIntro = sessionStorage.getItem(homeIntroKey) === "true";
+    } catch (error) {
+      hasSeenHomeIntro = false;
+    }
+  }
 
   function revealRest() {
     body.classList.add("revealed");
@@ -113,7 +123,16 @@
   document.addEventListener("DOMContentLoaded", function () {
     if (!prefixEl || !dynamicEl) {
       revealRest();
+    } else if (hasSeenHomeIntro) {
+      prefixEl.textContent = prefixText;
+      dynamicEl.textContent = phrases[phrases.length - 1];
+      revealRest();
     } else {
+      try {
+        sessionStorage.setItem(homeIntroKey, "true");
+      } catch (error) {
+        // If storage is unavailable, keep the existing intro behavior.
+      }
       typePrefix();
     }
 
