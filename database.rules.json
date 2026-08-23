@@ -1,0 +1,18 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "presence": {
+      ".read": true,
+      "$sessionId": {
+        ".write": "!newData.exists() || (!data.exists() && newData.hasChildren(['connectedAt', 'lastSeen']) && newData.child('connectedAt').isNumber() && newData.child('lastSeen').isNumber() && newData.child('connectedAt').val() <= now + 10000 && newData.child('lastSeen').val() <= now + 10000) || (data.exists() && newData.child('connectedAt').val() === data.child('connectedAt').val() && newData.child('lastSeen').isNumber() && newData.child('lastSeen').val() <= now + 10000)"
+      }
+    },
+    "stats": {
+      "totalViews": {
+        ".read": true,
+        ".write": "newData.isNumber() && newData.val() >= 0 && (!data.exists() || newData.val() === data.val() + 1)"
+      }
+    }
+  }
+}

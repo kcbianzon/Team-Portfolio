@@ -400,6 +400,47 @@ nav a:hover {
   border-color: var(--purple-600);
 }
 
+.live-site-stats {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 28px;
+  color: var(--ink-soft);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+}
+
+.live-site-stats__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.live-site-stats strong {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.live-site-stats__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.12);
+  animation: live-status-pulse 1.8s ease-in-out infinite;
+}
+
+.live-site-stats__divider {
+  width: 1px;
+  height: 18px;
+  background: var(--line);
+}
+
+@keyframes live-status-pulse {
+  50% { box-shadow: 0 0 0 7px rgba(34, 197, 94, 0); }
+}
+
 /* ---------------- SECTIONS SHARED ---------------- */
 section {
   max-width: 1280px;
@@ -1086,8 +1127,22 @@ footer .socials {
   }
 
   .hero-drift-wall {
-    height: 500px;
+    width: 100%;
+    min-width: 0;
     max-width: 510px;
+    height: clamp(300px, 95vw, 440px);
+    margin: 0 auto;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  /* Keep the home-only DriftWall inside its column so it cannot disturb the fixed mobile launcher. */
+  .hero:has(.hero-drift-wall) {
+    overflow: clip;
+  }
+
+  .hero:has(.hero-drift-wall) .drift-wall__plane {
+    transform-origin: 50% 50%;
   }
 
   .about-grid {
@@ -1156,6 +1211,13 @@ footer .socials {
   }
 
   .hero p { margin: 18px 0 26px; }
+
+  .live-site-stats {
+    flex-wrap: wrap;
+    gap: 9px;
+    margin-top: 22px;
+    font-size: 11px;
+  }
 
   .eyebrow,
   .mono { font-size: 11px; letter-spacing: 0.1em; }

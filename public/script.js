@@ -1162,18 +1162,14 @@ document.addEventListener("DOMContentLoaded", function () {
       mobileDock = document.createElement("nav");
       mobileDock.className = "mobile-dock";
       mobileDock.setAttribute("aria-label", "Mobile navigation");
-<<<<<<< HEAD
       var filters = document.createElementNS("http://www.w3.org/2000/svg", "svg");
       filters.setAttribute("aria-hidden", "true");
       filters.classList.add("mobile-dock__filters");
       filters.innerHTML = '<defs><filter id="mobile-gooey-filter"><feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur"/><feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9"/></filter></defs>';
-=======
->>>>>>> 85babc05f905bad311b1876e0639130425aad6cc
       var panel = document.createElement("div");
       panel.className = "mobile-dock__panel";
       var strip = document.createElement("div");
       strip.className = "mobile-dock__strip";
-<<<<<<< HEAD
       var menuControls = [];
 
       function makeGooeyAppearance(control) {
@@ -1198,8 +1194,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       }
 
-=======
->>>>>>> 85babc05f905bad311b1876e0639130425aad6cc
       items.forEach(function (item) {
         var itemIndex = items.indexOf(item);
         var control = document.createElement(item[0] === "#theme" ? "button" : "a");
@@ -1240,14 +1234,11 @@ document.addEventListener("DOMContentLoaded", function () {
         control.setAttribute("data-label", item[1]);
         control.style.setProperty("--dock-item-delay", itemIndex * 55 + "ms");
         control.innerHTML = dockIcon(item[2]);
-<<<<<<< HEAD
         var gooeyEffect = document.createElement("span");
         gooeyEffect.className = "mobile-dock__gooey";
         gooeyEffect.setAttribute("aria-hidden", "true");
         control.appendChild(gooeyEffect);
         menuControls.push(control);
-=======
->>>>>>> 85babc05f905bad311b1876e0639130425aad6cc
         strip.appendChild(control);
       });
 
@@ -1264,7 +1255,6 @@ document.addEventListener("DOMContentLoaded", function () {
         if (isOpen) {
           void strip.offsetWidth;
           mobileDock.classList.add("is-opening");
-<<<<<<< HEAD
           mobileDock.classList.add("is-gooey-opening");
           menuControls.forEach(function (control, index) {
             window.setTimeout(function () {
@@ -1275,21 +1265,13 @@ document.addEventListener("DOMContentLoaded", function () {
             mobileDock.classList.remove("is-opening");
             mobileDock.classList.remove("is-gooey-opening");
           }, 1050);
-=======
-          window.setTimeout(function () {
-            mobileDock.classList.remove("is-opening");
-          }, 700);
->>>>>>> 85babc05f905bad311b1876e0639130425aad6cc
         }
         launcher.setAttribute("aria-expanded", String(isOpen));
         launcher.setAttribute("aria-label", isOpen ? "Close navigation" : "Open navigation");
         launcher.setAttribute("data-label", isOpen ? "Close" : "Menu");
       });
       panel.append(strip, launcher);
-<<<<<<< HEAD
       mobileDock.appendChild(filters);
-=======
->>>>>>> 85babc05f905bad311b1876e0639130425aad6cc
       mobileDock.appendChild(panel);
       document.body.appendChild(mobileDock);
     } else if (!matches && mobileDock) {

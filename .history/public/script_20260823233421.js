@@ -1140,77 +1140,6 @@
 })();
 
 document.addEventListener("DOMContentLoaded", function () {
-  (function initLiveSiteStats() {
-    var viewerCount = document.getElementById("live-viewer-count");
-    var totalCount = document.getElementById("total-view-count");
-    if (!viewerCount || !totalCount) return;
-
-    var firebaseConfig = {
-      apiKey: "AIzaSyAq-4bK2MLw0q7a3IKsqjzUrD5_Le_hka8",
-      authDomain: "temport-b2930.firebaseapp.com",
-      databaseURL: "https://temport-b2930-default-rtdb.asia-southeast1.firebasedatabase.app",
-      projectId: "temport-b2930",
-      appId: "1:194958710524:web:60565cbd5527f130736979"
-    };
-
-    function formatCount(value) {
-      return new Intl.NumberFormat().format(Number(value) || 0);
-    }
-
-    function getSessionId() {
-      var savedId = sessionStorage.getItem("temport_live_session");
-      if (savedId) return savedId;
-      var randomId = window.crypto && window.crypto.randomUUID
-        ? window.crypto.randomUUID()
-        : "session-" + Date.now() + "-" + Math.random().toString(36).slice(2);
-      sessionStorage.setItem("temport_live_session", randomId);
-      return randomId;
-    }
-
-    Promise.all([
-      import("https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js"),
-      import("https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js")
-    ]).then(function (modules) {
-      var appModule = modules[0];
-      var databaseModule = modules[1];
-      var app = appModule.initializeApp(firebaseConfig, "temport-live-stats");
-      var database = databaseModule.getDatabase(app);
-      var sessionRef = databaseModule.ref(database, "presence/" + getSessionId());
-      var presenceRef = databaseModule.ref(database, "presence");
-      var totalViewsRef = databaseModule.ref(database, "stats/totalViews");
-
-      databaseModule.onValue(presenceRef, function (snapshot) {
-        viewerCount.textContent = formatCount(Object.keys(snapshot.val() || {}).length);
-      });
-      databaseModule.onValue(totalViewsRef, function (snapshot) {
-        totalCount.textContent = formatCount(snapshot.val());
-      });
-
-      databaseModule.set(sessionRef, {
-        connectedAt: databaseModule.serverTimestamp(),
-        lastSeen: databaseModule.serverTimestamp()
-      }).then(function () {
-        databaseModule.onDisconnect(sessionRef).remove();
-        window.setInterval(function () {
-          databaseModule.update(sessionRef, {
-            lastSeen: databaseModule.serverTimestamp()
-          });
-        }, 30000);
-      });
-
-      if (!localStorage.getItem("temport_counted_visitor")) {
-        databaseModule.runTransaction(totalViewsRef, function (currentValue) {
-          return (Number(currentValue) || 0) + 1;
-        }).then(function () {
-          localStorage.setItem("temport_counted_visitor", "true");
-        });
-      }
-    }).catch(function () {
-      viewerCount.textContent = "—";
-      totalCount.textContent = "—";
-    });
-  })();
-
   var mobileDockQuery = window.matchMedia("(max-width: 860px)");
   var mobileDock = null;
 
@@ -1233,14 +1162,18 @@ document.addEventListener("DOMContentLoaded", function () {
       mobileDock = document.createElement("nav");
       mobileDock.className = "mobile-dock";
       mobileDock.setAttribute("aria-label", "Mobile navigation");
+<<<<<<< HEAD
       var filters = document.createElementNS("http://www.w3.org/2000/svg", "svg");
       filters.setAttribute("aria-hidden", "true");
       filters.classList.add("mobile-dock__filters");
       filters.innerHTML = '<defs><filter id="mobile-gooey-filter"><feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur"/><feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9"/></filter></defs>';
+=======
+>>>>>>> 85babc05f905bad311b1876e0639130425aad6cc
       var panel = document.createElement("div");
       panel.className = "mobile-dock__panel";
       var strip = document.createElement("div");
       strip.className = "mobile-dock__strip";
+<<<<<<< HEAD
       var menuControls = [];
 
       function makeGooeyAppearance(control) {
@@ -1265,6 +1198,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       }
 
+=======
+>>>>>>> 85babc05f905bad311b1876e0639130425aad6cc
       items.forEach(function (item) {
         var itemIndex = items.indexOf(item);
         var control = document.createElement(item[0] === "#theme" ? "button" : "a");
@@ -1305,11 +1240,14 @@ document.addEventListener("DOMContentLoaded", function () {
         control.setAttribute("data-label", item[1]);
         control.style.setProperty("--dock-item-delay", itemIndex * 55 + "ms");
         control.innerHTML = dockIcon(item[2]);
+<<<<<<< HEAD
         var gooeyEffect = document.createElement("span");
         gooeyEffect.className = "mobile-dock__gooey";
         gooeyEffect.setAttribute("aria-hidden", "true");
         control.appendChild(gooeyEffect);
         menuControls.push(control);
+=======
+>>>>>>> 85babc05f905bad311b1876e0639130425aad6cc
         strip.appendChild(control);
       });
 
@@ -1326,6 +1264,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (isOpen) {
           void strip.offsetWidth;
           mobileDock.classList.add("is-opening");
+<<<<<<< HEAD
           mobileDock.classList.add("is-gooey-opening");
           menuControls.forEach(function (control, index) {
             window.setTimeout(function () {
@@ -1336,13 +1275,21 @@ document.addEventListener("DOMContentLoaded", function () {
             mobileDock.classList.remove("is-opening");
             mobileDock.classList.remove("is-gooey-opening");
           }, 1050);
+=======
+          window.setTimeout(function () {
+            mobileDock.classList.remove("is-opening");
+          }, 700);
+>>>>>>> 85babc05f905bad311b1876e0639130425aad6cc
         }
         launcher.setAttribute("aria-expanded", String(isOpen));
         launcher.setAttribute("aria-label", isOpen ? "Close navigation" : "Open navigation");
         launcher.setAttribute("data-label", isOpen ? "Close" : "Menu");
       });
       panel.append(strip, launcher);
+<<<<<<< HEAD
       mobileDock.appendChild(filters);
+=======
+>>>>>>> 85babc05f905bad311b1876e0639130425aad6cc
       mobileDock.appendChild(panel);
       document.body.appendChild(mobileDock);
     } else if (!matches && mobileDock) {

@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Services</title>
-    <link rel="icon" type="image/svg+xml" href="assets/WebTempLogo.svg"/>
+    <title>Teams</title>
+    <link rel="icon" type="image/svg+xml" href="assets/WebTempLogo.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -78,41 +78,147 @@
       </nav>
     </header>
 
-    <!-- ============ SERVICES ============ -->
-    <section id="services" class="reveal d4" style="margin-top: 60px">
+    <!-- ============ TEAMS SHOWCASE ============ -->
+    <section id="teams" class="reveal d4" style="margin-top: 60px">
       <div class="section-head">
         <div>
-          <div class="eyebrow mono">How we help</div>
-          <h2>What we do</h2>
+          <div class="eyebrow mono">Our People</div>
+          <h2>Meet the team</h2>
         </div>
+        <p>
+          A group of passionate designers and engineers committed to building
+          digital experiences that feel inevitable.
+        </p>
       </div>
-      <div class="service-list">
-        <div class="service-row">
-          <div class="num mono">01</div>
-          <h3>Product design</h3>
-          <p>
-            End-to-end UX and UI design for web and mobile products, from
-            research to final pixel.
-          </p>
-        </div>
-        <div class="service-row">
-          <div class="num mono">02</div>
-          <h3>Brand identity</h3>
-          <p>
-            Naming, logotype, and visual systems that give young companies a
-            distinct voice.
-          </p>
-        </div>
-        <div class="service-row">
-          <div class="num mono">03</div>
-          <h3>Development</h3>
-          <p>
-            Front-end engineering that turns design files into fast, accessible,
-            production-ready code.
-          </p>
-        </div>
+
+      <div class="team-grid">
+        <button
+          type="button"
+          class="team-card"
+          data-team-member="kenneth"
+          aria-haspopup="dialog"
+          aria-controls="team-detail-modal"
+        >
+          <div class="team-photo-wrapper">
+            <img src="assets/kenneth.png" alt="Kenneth" class="team-photo" />
+          </div>
+          <h3>Kenneth Cyrus Bianzon</h3>
+          <div class="role mono">Team Leader &middot; Fullstack Developer</div>
+          <div class="team-highlights">
+            <span>Product strategy</span>
+            <span>Fullstack builds</span>
+          </div>
+          <div class="team-card-action mono">View overview</div>
+        </button>
+
+        <button
+          type="button"
+          class="team-card"
+          data-team-member="jenz"
+          aria-haspopup="dialog"
+          aria-controls="team-detail-modal"
+        >
+          <div class="team-photo-wrapper">
+            <img src="assets/jenz.png" alt="Jenz" class="team-photo" />
+          </div>
+          <h3>Jenz Patrick Reguyal</h3>
+          <div class="role mono">Design Lead &middot; UI/UX</div>
+          <div class="team-highlights">
+            <span>UI systems</span>
+            <span>Brand direction</span>
+          </div>
+          <div class="team-card-action mono">View overview</div>
+        </button>
+
+        <button
+          type="button"
+          class="team-card"
+          data-team-member="jamil"
+          aria-haspopup="dialog"
+          aria-controls="team-detail-modal"
+        >
+          <div class="team-photo-wrapper">
+            <img src="assets/jamil.png" alt="Jamil" class="team-photo" />
+          </div>
+          <h3>Jamil Kharim Abinal</h3>
+          <div class="role mono">Team Member &middot; Frontend Developer</div>
+          <div class="team-highlights">
+            <span>Responsive UI</span>
+            <span>Frontend polish</span>
+          </div>
+          <div class="team-card-action mono">View overview</div>
+        </button>
+
+        <button
+          type="button"
+          class="team-card"
+          data-team-member="pacay"
+          aria-haspopup="dialog"
+          aria-controls="team-detail-modal"
+        >
+          <div class="team-photo-wrapper">
+            <img src="assets/pacay.png" alt="Chirsjohn" class="team-photo" />
+          </div>
+          <h3>Chirsjohn Pacay</h3>
+          <div class="role mono">Team Member &middot; Backend Developer</div>
+          <div class="team-highlights">
+            <span>API systems</span>
+            <span>Backend logic</span>
+          </div>
+          <div class="team-card-action mono">View overview</div>
+        </button>
       </div>
     </section>
+
+    <div class="team-detail-modal" id="team-detail-modal" aria-hidden="true">
+      <div class="team-detail-backdrop" data-team-modal-close></div>
+      <div
+        class="team-detail-dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="team-detail-name"
+      >
+        <div class="team-detail-header">
+          <button
+            type="button"
+            class="team-detail-close"
+            data-team-modal-close
+            aria-label="Close team overview"
+          >
+            Close
+          </button>
+        </div>
+        <div class="team-detail-layout">
+          <div class="team-detail-photo-shell">
+            <img
+              src="assets/kenneth.png"
+              alt=""
+              id="team-detail-photo"
+              class="team-detail-photo"
+            />
+          </div>
+          <div class="team-detail-copy">
+            <div class="team-detail-kicker mono" id="team-detail-kicker">
+              Team overview
+            </div>
+            <h3 id="team-detail-name">Kenneth Cyrus Bianzon</h3>
+            <p class="team-detail-role" id="team-detail-role">
+              Team Leader &middot; Fullstack Developer
+            </p>
+            <p class="team-detail-summary" id="team-detail-summary">
+              Kenneth leads how we scope, build, and ship product work across
+              the team.
+            </p>
+            <div class="team-detail-services">
+              <div class="team-detail-services-label mono">
+                What we can do together
+              </div>
+              <ul id="team-detail-services"></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- ============ FOOTER ============ -->
     <footer class="footer-section">
