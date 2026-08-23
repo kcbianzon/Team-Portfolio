@@ -833,6 +833,13 @@ footer .socials {
     inset: 0;
   }
 
+  .mobile-dock__filters {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+  }
+
   .mobile-dock__strip {
     position: absolute;
     bottom: 42px;
@@ -884,25 +891,57 @@ footer .socials {
     transition: transform 0.2s ease, color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
   }
 
-  .mobile-dock__item::before {
+  .mobile-dock__gooey {
     position: absolute;
-    inset: -3px;
-    z-index: -1;
-    border-radius: inherit;
-    background: var(--purple-400);
+    inset: -24px;
+    z-index: 2;
+    display: grid;
+    place-items: center;
+    pointer-events: none;
+    filter: url("#mobile-gooey-filter");
+    opacity: 0;
+  }
+
+  .mobile-dock__gooey::before {
+    width: calc(100% - 48px);
+    height: calc(100% - 48px);
+    border-radius: 10px;
+    background: #fff;
     content: "";
     opacity: 0;
-    transform: scale(0.15);
+    transform: scale(0);
   }
 
-  .mobile-dock.is-open.is-opening .mobile-dock__item {
+  .mobile-dock__gooey.is-active {
+    opacity: 1;
+  }
+
+  .mobile-dock__gooey.is-active::before {
+    animation: mobile-gooey-form 0.62s var(--linear-ease) both;
+  }
+
+  .mobile-dock__gooey-particle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #fff;
     opacity: 0;
-    transform: translateY(14px) scale(0.3);
-    animation: mobile-dock-gooey-in 0.62s var(--linear-ease) var(--dock-item-delay) forwards;
+    transform: translate(-50%, -50%);
   }
 
-  .mobile-dock.is-open.is-opening .mobile-dock__item::before {
-    animation: mobile-dock-gooey-blob 0.62s ease-out var(--dock-item-delay) both;
+  .mobile-dock__gooey.is-active .mobile-dock__gooey-particle {
+    animation: mobile-gooey-particle 0.62s ease-out var(--goo-delay) both;
+  }
+
+  .mobile-dock.is-gooey-opening .mobile-dock__item > svg {
+    position: relative;
+    z-index: 3;
+    color: var(--ink-soft);
+    opacity: 0;
+    animation: mobile-gooey-icon 0.34s ease 0.27s forwards;
   }
 
   .mobile-dock__launcher {
@@ -979,28 +1018,28 @@ footer .socials {
     100% { opacity: 0; transform: translate(-50%, -50%) rotate(var(--particle-angle)) translateY(-34px) scale(0.7); }
   }
 
-  @keyframes mobile-dock-gooey-in {
+  @keyframes mobile-gooey-form {
+    0% { opacity: 0; transform: scale(0); }
+    36% { opacity: 1; transform: scale(1.3, 0.72); }
+    64% { opacity: 1; transform: scale(0.9, 1.12); }
+    100% { opacity: 0; transform: scale(1); }
+  }
+
+  @keyframes mobile-gooey-particle {
     0% {
-      opacity: 0;
-      transform: translateY(14px) scale(0.3);
-    }
-    30% { opacity: 1; }
-    55% {
       opacity: 1;
-      transform: translateY(-4px) scale(1.16, 0.82);
+      transform: translate(-50%, -50%) translate(var(--goo-start-x), var(--goo-start-y)) scale(0.8);
     }
-    72% { transform: translateY(2px) scale(0.92, 1.08); }
+    62% { opacity: 1; }
     100% {
-      opacity: 1;
-      transform: translateY(0) scale(1);
+      opacity: 0;
+      transform: translate(-50%, -50%) translate(var(--goo-end-x), var(--goo-end-y)) scale(0.25);
     }
   }
 
-  @keyframes mobile-dock-gooey-blob {
-    0% { opacity: 0; transform: scale(0.1); }
-    35% { opacity: 0.6; transform: scale(1.45, 0.65); }
-    65% { opacity: 0.25; transform: scale(1.15); }
-    100% { opacity: 0; transform: scale(1.45); }
+  @keyframes mobile-gooey-icon {
+    from { opacity: 0; transform: scale(0.82); }
+    to { opacity: 1; transform: scale(1); }
   }
 
   .mobile-dock__item:active {

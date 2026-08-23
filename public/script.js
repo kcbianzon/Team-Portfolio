@@ -312,10 +312,16 @@
     // 5. Dark/Light Theme Toggle Control
     var toggleBtn = document.querySelector(".theme-toggle");
     if (toggleBtn) {
+      toggleBtn.setAttribute(
+        "aria-pressed",
+        String(document.documentElement.classList.contains("dark-mode")),
+      );
       toggleBtn.addEventListener("click", function () {
         var isDark = document.documentElement.classList.toggle("dark-mode");
         localStorage.setItem("theme", isDark ? "dark" : "light");
+        toggleBtn.setAttribute("aria-pressed", String(isDark));
       });
+      toggleBtn.dataset.themeBound = "true";
     }
 
     // 5a. Homepage team rotator with synced animated names
@@ -1128,6 +1134,151 @@
 })();
 
 document.addEventListener("DOMContentLoaded", function () {
+  var mobileDockQuery = window.matchMedia("(max-width: 860px)");
+  var mobileDock = null;
+
+  function dockIcon(path) {
+    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + path + "</svg>";
+  }
+
+  function syncMobileDock(matches) {
+    if (matches && !mobileDock) {
+      var currentPage = window.location.pathname.split("/").pop() || "index.html";
+      var items = [
+        ["index.html", "Home", '<path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1Z"/>'],
+        ["project.html", "Work", '<path d="M3 7.5A2.5 2.5 0 0 1 5.5 5H10l2 2h6.5A2.5 2.5 0 0 1 21 9.5v8a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 17.5Z"/><path d="M3 10h18"/>'],
+        ["teams.html", "Team", '<circle cx="9" cy="8" r="3"/><path d="M3 20c.6-3.1 2.7-5 6-5s5.4 1.9 6 5M16 5.5a3 3 0 0 1 0 5M18 15c1.7.5 2.7 1.8 3 3.8"/>'],
+        ["services.html", "Services", '<path d="M4 7h16M4 12h16M4 17h10"/><circle cx="17" cy="17" r="3"/>'],
+        ["contact.html", "Contact", '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>'],
+        ["#theme", "Theme", '<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>'],
+      ];
+
+      mobileDock = document.createElement("nav");
+      mobileDock.className = "mobile-dock";
+      mobileDock.setAttribute("aria-label", "Mobile navigation");
+      var filters = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      filters.setAttribute("aria-hidden", "true");
+      filters.classList.add("mobile-dock__filters");
+      filters.innerHTML = '<defs><filter id="mobile-gooey-filter"><feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur"/><feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9"/></filter></defs>';
+      var panel = document.createElement("div");
+      panel.className = "mobile-dock__panel";
+      var strip = document.createElement("div");
+      strip.className = "mobile-dock__strip";
+      var menuControls = [];
+
+      function makeGooeyAppearance(control) {
+        var effect = control.querySelector(".mobile-dock__gooey");
+        if (!effect) return;
+        effect.replaceChildren();
+        effect.classList.remove("is-active");
+        void effect.offsetWidth;
+        effect.classList.add("is-active");
+
+        for (var particleIndex = 0; particleIndex < 12; particleIndex++) {
+          var angle = (Math.PI * 2 * particleIndex) / 12 + (Math.random() - 0.5) * 0.25;
+          var distance = 24 + Math.random() * 16;
+          var particle = document.createElement("span");
+          particle.className = "mobile-dock__gooey-particle";
+          particle.style.setProperty("--goo-start-x", Math.cos(angle) * distance + "px");
+          particle.style.setProperty("--goo-start-y", Math.sin(angle) * distance + "px");
+          particle.style.setProperty("--goo-end-x", Math.cos(angle) * (4 + Math.random() * 7) + "px");
+          particle.style.setProperty("--goo-end-y", Math.sin(angle) * (4 + Math.random() * 7) + "px");
+          particle.style.setProperty("--goo-delay", Math.random() * 90 + "ms");
+          effect.appendChild(particle);
+        }
+      }
+
+      items.forEach(function (item) {
+        var itemIndex = items.indexOf(item);
+        var control = document.createElement(item[0] === "#theme" ? "button" : "a");
+        control.className = "mobile-dock__item";
+        if (item[0] === "#theme") {
+          control.type = "button";
+          control.setAttribute("aria-pressed", String(document.documentElement.classList.contains("dark-mode")));
+          control.addEventListener("click", function () {
+            var isDark = document.documentElement.classList.toggle("dark-mode");
+            localStorage.setItem("theme", isDark ? "dark" : "light");
+            control.setAttribute("aria-pressed", String(isDark));
+          });
+        } else {
+          control.href = item[0];
+          if (currentPage === item[0]) control.setAttribute("aria-current", "page");
+          control.addEventListener("click", function (event) {
+            event.preventDefault();
+            if (mobileDock.classList.contains("is-navigating")) return;
+            mobileDock.classList.add("is-navigating");
+            control.classList.add("is-selected");
+
+            for (var particleIndex = 0; particleIndex < 6; particleIndex++) {
+              var particle = document.createElement("span");
+              particle.className = "mobile-dock__particle";
+              particle.style.setProperty("--particle-angle", particleIndex * 60 + "deg");
+              control.appendChild(particle);
+              particle.addEventListener("animationend", function () {
+                this.remove();
+              });
+            }
+
+            window.setTimeout(function () {
+              window.location.href = control.href;
+            }, 360);
+          });
+        }
+        control.setAttribute("aria-label", item[1]);
+        control.setAttribute("data-label", item[1]);
+        control.style.setProperty("--dock-item-delay", itemIndex * 55 + "ms");
+        control.innerHTML = dockIcon(item[2]);
+        var gooeyEffect = document.createElement("span");
+        gooeyEffect.className = "mobile-dock__gooey";
+        gooeyEffect.setAttribute("aria-hidden", "true");
+        control.appendChild(gooeyEffect);
+        menuControls.push(control);
+        strip.appendChild(control);
+      });
+
+      var launcher = document.createElement("button");
+      launcher.type = "button";
+      launcher.className = "mobile-dock__launcher";
+      launcher.setAttribute("aria-label", "Open navigation");
+      launcher.setAttribute("aria-expanded", "false");
+      launcher.setAttribute("data-label", "Menu");
+      launcher.innerHTML = dockIcon('<path d="M12 5v14M5 12h14"/>');
+      launcher.addEventListener("click", function () {
+        var isOpen = mobileDock.classList.toggle("is-open");
+        mobileDock.classList.remove("is-opening");
+        if (isOpen) {
+          void strip.offsetWidth;
+          mobileDock.classList.add("is-opening");
+          mobileDock.classList.add("is-gooey-opening");
+          menuControls.forEach(function (control, index) {
+            window.setTimeout(function () {
+              makeGooeyAppearance(control);
+          }, index * 55);
+          });
+          window.setTimeout(function () {
+            mobileDock.classList.remove("is-opening");
+            mobileDock.classList.remove("is-gooey-opening");
+          }, 1050);
+        }
+        launcher.setAttribute("aria-expanded", String(isOpen));
+        launcher.setAttribute("aria-label", isOpen ? "Close navigation" : "Open navigation");
+        launcher.setAttribute("data-label", isOpen ? "Close" : "Menu");
+      });
+      panel.append(strip, launcher);
+      mobileDock.appendChild(filters);
+      mobileDock.appendChild(panel);
+      document.body.appendChild(mobileDock);
+    } else if (!matches && mobileDock) {
+      mobileDock.remove();
+      mobileDock = null;
+    }
+  }
+
+  syncMobileDock(mobileDockQuery.matches);
+  mobileDockQuery.addEventListener("change", function (event) {
+    syncMobileDock(event.matches);
+  });
+
   var reduceMotion = window.matchMedia(
     "(prefers-reduced-motion: reduce)",
   ).matches;
