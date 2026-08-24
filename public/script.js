@@ -959,6 +959,11 @@
       var teamDetailSummary = document.getElementById("team-detail-summary");
       var teamDetailKicker = document.getElementById("team-detail-kicker");
       var teamDetailServices = document.getElementById("team-detail-services");
+      var teamDetailResume = document.getElementById("team-detail-resume");
+      var teamResumePreview = teamDetailModal.querySelector("[data-team-resume-expand]");
+      var teamResumeModal = document.getElementById("team-resume-modal");
+      var teamResumeModalImage = document.getElementById("team-resume-modal-image");
+      var teamResumeClosers = teamResumeModal ? teamResumeModal.querySelectorAll("[data-team-resume-close]") : [];
       var teamModalClosers = teamDetailModal.querySelectorAll(
         "[data-team-modal-close]",
       );
@@ -966,54 +971,66 @@
       var teamMembers = {
         kenneth: {
           name: "Kenneth Cyrus Bianzon",
-          role: "Team Leader · Fullstack Developer",
-          kicker: "Strategy, systems, and delivery",
+          role: "Fullstack Developer",
+          kicker: "Profile 01 · Fullstack development",
           photo: "assets/kenneth.png",
+          resume: "resumes/kenneth.png",
           summary:
-            "Kenneth leads how we scope, structure, and ship digital work, connecting product thinking with hands-on fullstack execution.",
+            "Fullstack developer who combines user-focused frontend work with dependable backend integrations, turning product ideas into responsive, production-ready web experiences.",
           services: [
-            "We plan product direction, technical scope, and launch priorities.",
-            "We build end-to-end web experiences from interface to backend logic.",
-            "We keep projects moving with clear decisions, reviews, and implementation support.",
+            "Web development: HTML5, CSS3, JavaScript, React, Shopify, MongoDB, Firebase, and API integration.",
+            "Experience: Freelance Web Developer at Magnify Vision Media, March-April 2026.",
+            "Builds reusable interface components, authentication flows, database-backed features, and deployment-ready pages.",
+            "Collaborates on requirements, translates brand direction into functional web products, and supports testing through launch.",
+            "Additional foundation in computer troubleshooting and mechatronics systems.",
           ],
         },
         jenz: {
           name: "Jenz Patrick Reguyal",
-          role: "Design Lead · UI/UX",
-          kicker: "Visual direction and product design",
+          role: "Web Design & Development",
+          kicker: "Profile 02 · Design & technology",
           photo: "assets/jenz.png",
+          resume: "resumes/jenz.png",
           summary:
-            "Jenz shapes the visual language behind each project, from brand direction and layout systems to polished UI decisions that feel consistent everywhere.",
+            "Design-focused technologist who brings visual direction, interface thinking, and practical web implementation together for clear, engaging digital experiences.",
           services: [
-            "We create wireframes, user flows, and high-fidelity interface concepts.",
-            "We build brand systems that keep products visually clear and memorable.",
-            "We refine design details so the final experience feels intentional on every screen.",
+            "Web and UI/UX: HTML5, CSS3, JavaScript, and Figma.",
+            "Multimedia: Canva, CapCut, image quality evaluation, and data annotation.",
+            "Education: Diploma in Computer Engineering, 2024-present; Mechatronics Servicing NC II trainee.",
+            "Shapes page hierarchy, mood boards, visual systems, and responsive interface treatments from early concept to refinement.",
+            "Works closely with development to keep design decisions practical, consistent, and ready for implementation.",
           ],
         },
         jamil: {
           name: "Jamil Kharim Abinal",
-          role: "Frontend Developer",
-          kicker: "Responsive builds and interface polish",
+          role: "Computer Engineering Technologist",
+          kicker: "Profile 03 · Engineering & support",
           photo: "assets/jamil.png",
+          resume: "resumes/jamil.png",
           summary:
-            "Jamil turns approved concepts into responsive frontend experiences, making sure interactions, layout behavior, and visual polish hold up in the browser.",
+            "Computer Engineering Technology student with a hands-on approach to software development, systems support, circuit logic, mechatronics, and technical documentation.",
           services: [
-            "We develop responsive pages and reusable UI components.",
-            "We translate design systems into smooth, production-ready interfaces.",
-            "We improve page behavior with animation, accessibility, and visual consistency.",
+            "Technical skills: Java, Python, HTML, CSS, AutoCAD, circuit logic, and system troubleshooting.",
+            "Credentials: Mechatronics Servicing NC II and Cisco Networking Academy certificates.",
+            "Experience: Administrative Associate and Notary Assistant, with records and document-processing responsibilities.",
+            "Supports dependable project delivery through structured troubleshooting, careful documentation, and detail-oriented testing.",
+            "Comfortable bridging technical hardware concepts with browser-based tools and practical team workflows.",
           ],
         },
         pacay: {
-          name: "Chirsjohn Pacay",
+          name: "ChrisJohn Pacay",
           role: "Backend Developer",
-          kicker: "Data flow, APIs, and reliability",
+          kicker: "Profile 04 · Backend development",
           photo: "assets/pacay.png",
+          resume: "",
           summary:
-            "Chirsjohn supports the backend side of delivery, helping the team build dependable APIs, structured data flows, and features that stay stable after launch.",
+            "Backend developer focused on the services, data models, and integrations that make the team’s web applications dependable behind the scenes. A formal resume will be added when ready.",
           services: [
-            "We design backend logic that supports real product workflows.",
-            "We connect interfaces to APIs, databases, and core application behavior.",
-            "We help keep systems organized, maintainable, and ready to scale.",
+            "Builds backend logic for real product workflows and integrations.",
+            "Connects interfaces with APIs, databases, and application behavior.",
+            "Keeps data flows structured, maintainable, and ready to scale.",
+            "Supports authentication, validation, error handling, and reliable communication between frontend and server-side services.",
+            "Collaborates with the team to turn product requirements into secure, maintainable technical foundations.",
           ],
         },
       };
@@ -1057,6 +1074,11 @@
             })
             .join("");
         }
+        if (teamDetailResume && teamResumePreview) {
+          teamDetailResume.src = member.resume || "";
+          teamDetailResume.alt = member.resume ? member.name + " resume preview" : "";
+          teamResumePreview.hidden = !member.resume;
+        }
 
         teamDetailModal.classList.add("active");
         teamDetailModal.setAttribute("aria-hidden", "false");
@@ -1074,10 +1096,31 @@
         closer.addEventListener("click", closeTeamModal);
       });
 
+      if (teamResumePreview) {
+        teamResumePreview.addEventListener("click", function () {
+          if (!teamDetailResume || !teamDetailResume.src || !teamResumeModal || !teamResumeModalImage) return;
+          teamResumeModalImage.src = teamDetailResume.src;
+          teamResumeModalImage.alt = teamDetailResume.alt;
+          teamResumeModal.classList.add("active");
+          teamResumeModal.setAttribute("aria-hidden", "false");
+        });
+      }
+
+      teamResumeClosers.forEach(function (closer) {
+        closer.addEventListener("click", function () {
+          teamResumeModal.classList.remove("active");
+          teamResumeModal.setAttribute("aria-hidden", "true");
+        });
+      });
+
       document.addEventListener("keydown", function (event) {
         if (
-          event.key === "Escape" &&
-          teamDetailModal.classList.contains("active")
+          event.key === "Escape" && teamResumeModal && teamResumeModal.classList.contains("active")
+        ) {
+          teamResumeModal.classList.remove("active");
+          teamResumeModal.setAttribute("aria-hidden", "true");
+        } else if (
+          event.key === "Escape" && teamDetailModal.classList.contains("active")
         ) {
           closeTeamModal();
         }

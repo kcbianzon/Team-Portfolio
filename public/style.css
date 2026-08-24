@@ -3979,3 +3979,165 @@ section.project-browser-section.reveal {
 .drift-wall, .drift-wall__plane {
   cursor: none !important; /* Hides the native pointer */
 }
+
+/* ---------------- TEAM PROFILE OVERLAY ---------------- */
+.team-photo-wrapper {
+  display: grid;
+  place-items: center;
+  background: linear-gradient(145deg, var(--lilac-200), var(--bg));
+}
+
+.team-photo {
+  object-fit: contain;
+  object-position: center;
+  padding: 8px;
+}
+
+.team-detail-dialog {
+  width: min(1040px, calc(100vw - 32px));
+  max-height: min(780px, 88vh);
+  overflow: auto;
+  padding: 26px;
+}
+
+.team-detail-header {
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 16px;
+  margin-bottom: 22px;
+}
+
+.team-detail-layout {
+  grid-template-columns: minmax(300px, 1fr) minmax(260px, 0.78fr);
+  gap: 34px;
+}
+
+.team-detail-copy { gap: 18px; }
+
+.team-detail-identity {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.team-detail-photo {
+  width: 74px;
+  height: 74px;
+  aspect-ratio: auto;
+  border-radius: 14px;
+  object-fit: contain;
+  object-position: center;
+  padding: 4px;
+  border: 1px solid var(--line);
+  background: var(--lilac-100);
+}
+
+.team-detail-copy h3 {
+  margin: 0;
+  font-size: clamp(28px, 4vw, 40px);
+}
+
+.team-detail-summary { font-size: 16px; line-height: 1.75; }
+
+.team-detail-services {
+  padding: 18px;
+  background: var(--lilac-100);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+
+.team-detail-services ul { padding-left: 18px; gap: 10px; }
+
+.team-resume-preview {
+  position: relative;
+  display: block;
+  width: 100%;
+  min-height: 420px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--lilac-200);
+  padding: 0;
+  cursor: pointer;
+}
+
+.team-resume-preview img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+
+.team-detail-modal.resume-expanded .team-detail-dialog { width: min(1280px, calc(100vw - 24px)); }
+.team-detail-modal.resume-expanded .team-detail-layout { grid-template-columns: minmax(300px, 0.65fr) minmax(500px, 1.35fr); }
+.team-detail-modal.resume-expanded .team-resume-preview { min-height: 70vh; }
+
+.team-resume-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 13000;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.22s ease, visibility 0.22s ease;
+}
+
+.team-resume-modal.active {
+  visibility: visible;
+  opacity: 1;
+}
+
+.team-resume-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(16, 10, 26, 0.75);
+  backdrop-filter: blur(14px);
+}
+
+.team-resume-dialog {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  width: min(760px, calc(100vw - 32px));
+  height: min(900px, calc(100vh - 36px));
+  margin: 18px auto;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--bg);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+  transform: translateY(16px) scale(0.98);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.team-resume-modal.active .team-resume-dialog { transform: translateY(0) scale(1); }
+
+.team-resume-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 15px 18px;
+  border-bottom: 1px solid var(--line);
+  color: var(--purple-700);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.team-resume-dialog img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: top center;
+  background: var(--lilac-100);
+}
+
+@media (max-width: 700px) {
+  .team-detail-layout,
+  .team-detail-modal.resume-expanded .team-detail-layout { grid-template-columns: 1fr; }
+  .team-resume-preview,
+  .team-detail-modal.resume-expanded .team-resume-preview { min-height: 440px; }
+}
