@@ -11,7 +11,7 @@
       href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="style.css?v=2.4" />
+    <link rel="stylesheet" href="style.css?v=2.5" />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css"
@@ -78,147 +78,51 @@
       </nav>
     </header>
 
-    <!-- ============ TEAMS SHOWCASE ============ -->
-    <section id="teams" class="reveal d4" style="margin-top: 60px">
-      <div class="section-head">
+    <!-- ============ TEAM PROFILES ============ -->
+    <section id="teams" class="reveal d4 team-profiles" style="margin-top: 60px">
+      <div class="section-head team-profiles-head">
         <div>
-          <div class="eyebrow mono">Our People</div>
-          <h2>Meet the team</h2>
+          <div class="eyebrow mono">Our people</div>
+          <h2>The people behind the work.</h2>
         </div>
-        <p>
-          A group of passionate designers and engineers committed to building
-          digital experiences that feel inevitable.
-        </p>
+        <p>Meet the team through the skills, experience, and education featured in their resumes.</p>
       </div>
 
-      <div class="team-grid">
-        <button
-          type="button"
-          class="team-card"
-          data-team-member="kenneth"
-          aria-haspopup="dialog"
-          aria-controls="team-detail-modal"
-        >
-          <div class="team-photo-wrapper">
-            <img src="assets/kenneth.png" alt="Kenneth" class="team-photo" />
+      <div class="team-profile-list">
+        <article class="team-profile-card">
+          <div class="team-profile-intro">
+            <img src="assets/kenneth.png" alt="Kenneth Cyrus Bianzon" class="team-profile-photo" />
+            <div><span class="team-profile-number mono">01</span><h3>Kenneth Cyrus Bianzon</h3><p class="team-profile-role mono">Web Developer</p></div>
           </div>
-          <h3>Kenneth Cyrus Bianzon</h3>
-          <div class="role mono">Team Leader &middot; Fullstack Developer</div>
-          <div class="team-highlights">
-            <span>Product strategy</span>
-            <span>Fullstack builds</span>
-          </div>
-          <div class="team-card-action mono">View overview</div>
-        </button>
+          <div class="team-profile-copy"><p>Freelance web developer with client-facing experience creating responsive websites that translate brand and business goals into clear, user-friendly digital experiences.</p><div class="team-skill-list"><span>HTML5</span><span>CSS3</span><span>JavaScript</span><span>React</span><span>Firebase</span><span>API integration</span></div><p class="team-profile-note mono">Experience: Magnify Vision Media · March-April 2026</p></div>
+          <a class="resume-preview" href="resumes/kenneth.pdf" target="_blank" rel="noopener noreferrer" aria-label="Open Kenneth Cyrus Bianzon's resume PDF"><img src="resumes/kenneth.png" alt="Preview of Kenneth Cyrus Bianzon's resume" /><span class="resume-preview-label mono">Open resume ↗</span></a>
+        </article>
 
-        <button
-          type="button"
-          class="team-card"
-          data-team-member="jenz"
-          aria-haspopup="dialog"
-          aria-controls="team-detail-modal"
-        >
-          <div class="team-photo-wrapper">
-            <img src="assets/jenz.png" alt="Jenz" class="team-photo" />
+        <article class="team-profile-card">
+          <div class="team-profile-intro">
+            <img src="assets/jenz.png" alt="Jenz Patrick Reguyal" class="team-profile-photo" />
+            <div><span class="team-profile-number mono">02</span><h3>Jenz Patrick Reguyal</h3><p class="team-profile-role mono">Web Design &amp; Development</p></div>
           </div>
-          <h3>Jenz Patrick Reguyal</h3>
-          <div class="role mono">Design Lead &middot; UI/UX</div>
-          <div class="team-highlights">
-            <span>UI systems</span>
-            <span>Brand direction</span>
-          </div>
-          <div class="team-card-action mono">View overview</div>
-        </button>
+          <div class="team-profile-copy"><p>Design-focused technologist with experience in web design, UI/UX, multimedia editing, and visual analysis. Brings a practical foundation in digital tools and mechatronics systems.</p><div class="team-skill-list"><span>HTML5</span><span>CSS3</span><span>JavaScript</span><span>Figma</span><span>Canva</span><span>CapCut</span></div><p class="team-profile-note mono">Education: Diploma in Computer Engineering · 2024-present</p></div>
+          <a class="resume-preview" href="resumes/jenz.pdf" target="_blank" rel="noopener noreferrer" aria-label="Open Jenz Patrick Reguyal's resume PDF"><img src="resumes/jenz.png" alt="Preview of Jenz Patrick Reguyal's resume" /><span class="resume-preview-label mono">Open resume ↗</span></a>
+        </article>
 
-        <button
-          type="button"
-          class="team-card"
-          data-team-member="jamil"
-          aria-haspopup="dialog"
-          aria-controls="team-detail-modal"
-        >
-          <div class="team-photo-wrapper">
-            <img src="assets/jamil.png" alt="Jamil" class="team-photo" />
+        <article class="team-profile-card">
+          <div class="team-profile-intro">
+            <img src="assets/jamil.png" alt="Jamil Kharim Abinal" class="team-profile-photo" />
+            <div><span class="team-profile-number mono">03</span><h3>Jamil Kharim Abinal</h3><p class="team-profile-role mono">Computer Engineering Technologist</p></div>
           </div>
-          <h3>Jamil Kharim Abinal</h3>
-          <div class="role mono">Team Member &middot; Frontend Developer</div>
-          <div class="team-highlights">
-            <span>Responsive UI</span>
-            <span>Frontend polish</span>
-          </div>
-          <div class="team-card-action mono">View overview</div>
-        </button>
+          <div class="team-profile-copy"><p>Computer Engineering Technology student with hands-on software, circuit logic, mechatronics, IT support, and administrative documentation experience.</p><div class="team-skill-list"><span>Java</span><span>Python</span><span>HTML</span><span>CSS</span><span>AutoCAD</span><span>System troubleshooting</span></div><p class="team-profile-note mono">Credentials: Mechatronics Servicing NC II · Cisco Networking</p></div>
+          <a class="resume-preview" href="resumes/jamil.pdf" target="_blank" rel="noopener noreferrer" aria-label="Open Jamil Kharim Abinal's resume PDF"><img src="resumes/jamil.png" alt="Preview of Jamil Kharim Abinal's resume" /><span class="resume-preview-label mono">Open resume ↗</span></a>
+        </article>
 
-        <button
-          type="button"
-          class="team-card"
-          data-team-member="pacay"
-          aria-haspopup="dialog"
-          aria-controls="team-detail-modal"
-        >
-          <div class="team-photo-wrapper">
-            <img src="assets/pacay.png" alt="Chirsjohn" class="team-photo" />
-          </div>
-          <h3>Chirsjohn Pacay</h3>
-          <div class="role mono">Team Member &middot; Backend Developer</div>
-          <div class="team-highlights">
-            <span>API systems</span>
-            <span>Backend logic</span>
-          </div>
-          <div class="team-card-action mono">View overview</div>
-        </button>
+        <article class="team-profile-card team-profile-card-pending">
+          <div class="team-profile-intro"><img src="assets/pacay.png" alt="Chirsjohn Pacay" class="team-profile-photo" /><div><span class="team-profile-number mono">04</span><h3>Chirsjohn Pacay</h3><p class="team-profile-role mono">Profile pending</p></div></div>
+          <div class="team-profile-copy"><p>A resume has not yet been supplied for this team member. Add it to the resumes folder to publish verified details and a resume preview here.</p></div>
+          <div class="resume-preview resume-preview-empty" aria-label="Resume preview pending"><span class="mono">Resume preview<br />coming soon</span></div>
+        </article>
       </div>
     </section>
-
-    <div class="team-detail-modal" id="team-detail-modal" aria-hidden="true">
-      <div class="team-detail-backdrop" data-team-modal-close></div>
-      <div
-        class="team-detail-dialog"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="team-detail-name"
-      >
-        <div class="team-detail-header">
-          <button
-            type="button"
-            class="team-detail-close"
-            data-team-modal-close
-            aria-label="Close team overview"
-          >
-            Close
-          </button>
-        </div>
-        <div class="team-detail-layout">
-          <div class="team-detail-photo-shell">
-            <img
-              src="assets/kenneth.png"
-              alt=""
-              id="team-detail-photo"
-              class="team-detail-photo"
-            />
-          </div>
-          <div class="team-detail-copy">
-            <div class="team-detail-kicker mono" id="team-detail-kicker">
-              Team overview
-            </div>
-            <h3 id="team-detail-name">Kenneth Cyrus Bianzon</h3>
-            <p class="team-detail-role" id="team-detail-role">
-              Team Leader &middot; Fullstack Developer
-            </p>
-            <p class="team-detail-summary" id="team-detail-summary">
-              Kenneth leads how we scope, build, and ship product work across
-              the team.
-            </p>
-            <div class="team-detail-services">
-              <div class="team-detail-services-label mono">
-                What we can do together
-              </div>
-              <ul id="team-detail-services"></ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
 
     <!-- ============ FOOTER ============ -->
     <footer class="footer-section">
