@@ -3115,6 +3115,21 @@ html.dark-mode .theme-toggle .moon-icon {
   overflow: hidden;
 }
 
+.project-live-preview {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--lilac-200);
+}
+
+.project-live-preview iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
 .project-media-track {
   display: flex;
   width: 100%;
