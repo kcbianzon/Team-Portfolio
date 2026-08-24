@@ -488,6 +488,10 @@
     var cards = document.querySelectorAll(".resume-card-wrapper");
     var resumePocket = document.querySelector(".resume-pocket");
 
+    function isMobileResumeFolder() {
+      return window.matchMedia && window.matchMedia("(max-width: 640px)").matches;
+    }
+
     function toggleResumeFolder() {
       if (!resumePocket) return;
       resumePocket.classList.toggle("is-open");
@@ -496,12 +500,12 @@
 
     if (resumePocket) {
       resumePocket.addEventListener("click", function (event) {
-        if (!event.target.closest(".resume-card-wrapper")) toggleResumeFolder();
+        if (isMobileResumeFolder() && !event.target.closest(".resume-card-wrapper")) toggleResumeFolder();
       });
       resumePocket.addEventListener("keydown", function (event) {
         if (event.key === "Enter" || event.key === " ") {
           event.preventDefault();
-          toggleResumeFolder();
+          if (isMobileResumeFolder()) toggleResumeFolder();
         }
       });
     }
@@ -509,7 +513,7 @@
     cards.forEach(function (card) {
       card.addEventListener("click", function (event) {
         event.stopPropagation();
-        if (resumePocket && !resumePocket.classList.contains("is-open")) {
+        if (isMobileResumeFolder() && resumePocket && !resumePocket.classList.contains("is-open")) {
           toggleResumeFolder();
           return;
         }

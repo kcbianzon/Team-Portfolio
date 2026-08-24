@@ -4135,6 +4135,51 @@ section.project-browser-section.reveal {
   background: var(--lilac-100);
 }
 
+/* Keep the expanded team profile fully visible without an inner scrollbar. */
+.team-detail-dialog {
+  max-height: none;
+  overflow: visible;
+}
+
+@media (max-width: 640px) {
+  .resume-panel { padding: 14px; align-items: flex-start; overflow-y: auto; }
+  .resume-panel-content { width: 100%; max-height: none; min-height: calc(100dvh - 28px); padding: 62px 16px 24px; overflow: visible; }
+  .resume-pocket-container { margin: 56px auto 20px; max-width: 100%; min-height: 160px; }
+  .resume-pocket { width: 100%; height: 118px; border-radius: 18px; overflow: visible; clip-path: none; }
+  .resume-pocket-front { height: 64px; border-radius: 0 0 18px 18px; }
+  .resume-pocket-front .pocket-label { font-size: 13px; }
+  .resume-pocket-front .pocket-hint { font-size: 11px; margin-top: 3px; }
+  .resume-card-wrapper { width: min(calc((100vw - 58px) / 4), 92px); height: 102px; bottom: 14px; }
+  .resume-card { padding: 10px; border-radius: 11px; }
+  .resume-card-name { font-size: 12px; white-space: nowrap; }
+  .resume-card-title { display: none; }
+  .resume-card-avatar { width: 31px; height: 31px; }
+  .resume-card::after { left: 10px; right: 10px; bottom: 10px; height: 28px; }
+  .resume-card::before { height: 33px; }
+  .resume-card-header { gap: 8px; padding-top: 4px; }
+  .resume-pocket.is-open { transform: none; box-shadow: 0 20px 42px rgba(109, 40, 217, 0.22); }
+  .resume-pocket.is-open .resume-card-wrapper.card-jamil,
+  .resume-pocket.is-open .resume-card-wrapper.card-kenneth,
+  .resume-pocket.is-open .resume-card-wrapper.card-jenz,
+  .resume-pocket.is-open .resume-card-wrapper.card-pacay {
+    bottom: 138px;
+    transform: translateX(-50%) scale(1) rotate(0deg);
+  }
+  .resume-pocket.is-open .resume-card-wrapper.card-jamil { left: 12.5%; z-index: 5; }
+  .resume-pocket.is-open .resume-card-wrapper.card-kenneth { left: 37.5%; z-index: 6; }
+  .resume-pocket.is-open .resume-card-wrapper.card-jenz { left: 62.5%; z-index: 7; }
+  .resume-pocket.is-open .resume-card-wrapper.card-pacay { left: 87.5%; z-index: 8; }
+  .resume-pocket:hover .resume-card-wrapper { transform: translateY(58px) scale(0.94) rotate(0deg) translateX(0); }
+  .resume-pocket.is-open:hover .resume-card-wrapper.card-jamil,
+  .resume-pocket.is-open:hover .resume-card-wrapper.card-kenneth,
+  .resume-pocket.is-open:hover .resume-card-wrapper.card-jenz,
+  .resume-pocket.is-open:hover .resume-card-wrapper.card-pacay { bottom: 138px; transform: translateX(-50%) scale(1) rotate(0deg); }
+  .resume-pocket.is-open:hover .resume-card-wrapper.card-jamil { left: 12.5%; }
+  .resume-pocket.is-open:hover .resume-card-wrapper.card-kenneth { left: 37.5%; }
+  .resume-pocket.is-open:hover .resume-card-wrapper.card-jenz { left: 62.5%; }
+  .resume-pocket.is-open:hover .resume-card-wrapper.card-pacay { left: 87.5%; }
+}
+
 @media (max-width: 700px) {
   .team-detail-layout,
   .team-detail-modal.resume-expanded .team-detail-layout { grid-template-columns: 1fr; }

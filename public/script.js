@@ -486,8 +486,37 @@
 
     // Stacked card clicks inside the pocket
     var cards = document.querySelectorAll(".resume-card-wrapper");
+    var resumePocket = document.querySelector(".resume-pocket");
+
+    function isMobileResumeFolder() {
+      return window.matchMedia && window.matchMedia("(max-width: 640px)").matches;
+    }
+
+    function toggleResumeFolder() {
+      if (!resumePocket) return;
+      resumePocket.classList.toggle("is-open");
+      resumePocket.setAttribute("aria-expanded", resumePocket.classList.contains("is-open") ? "true" : "false");
+    }
+
+    if (resumePocket) {
+      resumePocket.addEventListener("click", function (event) {
+        if (isMobileResumeFolder() && !event.target.closest(".resume-card-wrapper")) toggleResumeFolder();
+      });
+      resumePocket.addEventListener("keydown", function (event) {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          if (isMobileResumeFolder()) toggleResumeFolder();
+        }
+      });
+    }
+
     cards.forEach(function (card) {
-      card.addEventListener("click", function () {
+      card.addEventListener("click", function (event) {
+        event.stopPropagation();
+        if (isMobileResumeFolder() && resumePocket && !resumePocket.classList.contains("is-open")) {
+          toggleResumeFolder();
+          return;
+        }
         var person = card.getAttribute("data-person");
         if (person) {
           showDetailedResume(person);
