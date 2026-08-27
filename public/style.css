@@ -2976,6 +2976,7 @@ html.dark-mode .theme-toggle .moon-icon {
 }
 
 .back-to-pocket-btn {
+  display: none;
   background: var(--lilac-100);
   border: 1px solid var(--line);
   padding: 8px 16px;
@@ -2987,6 +2988,10 @@ html.dark-mode .theme-toggle .moon-icon {
   transition: all 0.3s ease;
   cursor: none !important;
   align-self: flex-start;
+}
+
+.resume-panel-content>.back-to-pocket-btn {
+  margin: 0 0 18px;
 }
 
 .back-to-pocket-btn:hover {
@@ -4630,14 +4635,6 @@ section.project-browser-section.reveal {
 
   .detailed-resume-viewer.mobile-carousel::-webkit-scrollbar {
     display: none;
-  }
-
-  .mobile-carousel .back-to-pocket-btn {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 2;
-    margin: 0;
   }
 
   .mobile-carousel .detailed-resume-content,

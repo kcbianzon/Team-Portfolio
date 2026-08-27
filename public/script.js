@@ -674,6 +674,7 @@
       if (downloadBtn) {
         downloadBtn.style.display = activeResumePdf ? "inline-block" : "none";
       }
+      if (backBtn) backBtn.style.display = "inline-flex";
       // Contain the tall resume viewer inside the card instead of letting it
       // spill past the rounded edges (the pocket needs overflow:visible for
       // its fan-out effect, but the resume viewer needs to be clipped/scrollable)
@@ -721,6 +722,7 @@
       if (modalSub) modalSub.style.display = "block";
       if (modalHeading) modalHeading.textContent = "Our Team Resumes";
       if (downloadBtn) downloadBtn.style.display = "none";
+      if (backBtn) backBtn.style.display = "none";
       activeResumePdf = "";
       if (resumePanelContent)
         resumePanelContent.classList.remove("viewing-detail");
