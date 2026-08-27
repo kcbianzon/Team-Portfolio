@@ -648,6 +648,14 @@
     cards.forEach(function (card) {
       card.addEventListener("click", function (event) {
         event.stopPropagation();
+        if (
+          isMobileResumeFolder() &&
+          resumePocket &&
+          !resumePocket.classList.contains("is-open")
+        ) {
+          toggleResumeFolder();
+          return;
+        }
         var person = card.getAttribute("data-person");
         if (person) {
           showDetailedResume(person);

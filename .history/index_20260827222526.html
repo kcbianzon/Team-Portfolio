@@ -1,16 +1,23 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <link rel="icon" type="image/png" href="assets/projects/herosection1-1.png" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Digital Design &amp; Development Studio</title>
+    <meta property="og:url" content="https://temport-b2930.web.app/" />
+    <meta property="og:title" content="Team Portfolio" />
+    <meta property="og:description" content="Digital design and development studio" />
+    <meta property="og:image" content="https://temport-b2930.web.app/assets/projects/herosection1-1.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <link rel="icon" type="image/svg+xml" href="assets/WebTempLogo.svg"
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="style.css?v=1.3" />
+    <link rel="stylesheet" href="style.css?v=2.9" />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css"
@@ -42,12 +49,22 @@
           transform: translateX(-100%) skewX(-12deg);
         }
       }
+
+      html.skip-home-intro .curtain-wipe {
+        display: none;
+      }
     </style>
     <script>
       // Apply theme instantly on page parse to prevent layout flashes
       if (localStorage.getItem("theme") === "dark") {
         document.documentElement.classList.add("dark-mode");
       }
+      // The homepage opening runs once per browser tab, not on every return to Home.
+      try {
+        if (sessionStorage.getItem("temport_home_intro_seen") === "true") {
+          document.documentElement.classList.add("skip-home-intro");
+        }
+      } catch (error) {}
     </script>
   </head>
   <body>
@@ -64,7 +81,7 @@
             gap: 8px;
           "
         >
-          <span class="logo-mark"></span>
+          <span class="logo-mark"></span>Team Portfolio
         </a>
       </div>
       <nav>
@@ -80,7 +97,7 @@
 
     <!-- ============ HERO ============ -->
     <section class="hero">
-      <div>
+      <div class="hero-copy">
         <div class="eyebrow mono">Digital design &amp; development studio</div>
         <h1>
           <span id="typewriter-prefix"></span><br /><span
@@ -100,7 +117,13 @@
             >View our resume
           </a>
         </div>
+        <aside class="live-site-stats reveal d2" aria-live="polite" aria-label="Website activity">
+          <span class="live-site-stats__item">
+            <strong id="total-view-count">—</strong> total views
+          </span>
+        </aside>
       </div>
+      <div id="hero-drift-wall" class="hero-drift-wall reveal d2" aria-label="Featured work"></div>
     </section>
 
     <!-- ============ MARQUEE SECTION ============ -->
@@ -142,6 +165,7 @@
           <span><i class="devicon-firebase-plain colored"></i> firebase</span>
           <span><i class="devicon-git-plain colored"></i> git</span>
           <span><i class="devicon-figma-plain colored"></i> figma</span>
+          <span><i class="devicon-laravel-plain colored"></i> laravel</span> 
           <span
             ><i class="devicon-tailwindcss-original colored"></i> tailwind</span
           >
@@ -203,6 +227,30 @@
         <div class="skill-badge">
           <i class="devicon-tailwindcss-original colored"></i> Tailwind CSS
         </div>
+        <div class="skill-badge">
+          <i class="devicon-canva-original colored"></i> Canva
+        </div>
+        <div class="skill-badge">
+          <i class="devicon-laravel-original colored"></i> Laravel
+        </div>
+        <div class="skill-badge">
+          <i class="devicon-json-original colored"></i> Json
+        </div>
+        <div class="skill-badge">
+          <i class="devicon-vuejs-plain colored"></i> Vue.js
+        </div>
+        <div class="skill-badge">
+          <i class="devicon-webflow-original colored"></i> Webflow
+        </div>
+        <div class="skill-badge">
+          <i class="devicon-notion-plain"></i> Notion
+        </div>
+        <div class="skill-badge">
+          <i class="devicon-vercel-original"></i> Vercel
+        </div>
+        <div class="skill-badge">
+          <i class="devicon-wordpress-plain colored"></i> WordPress
+        </div>
       </div>
     </section>
 
@@ -227,11 +275,50 @@
           partners at a time, and you always talk directly to the people
           actually building your product.
         </p>
-        <div class="home-about-photo-rotator" aria-hidden="true">
-          <img src="assets/kenneth.png" alt="" class="rotator-img r1" />
-          <img src="assets/jenz.png" alt="" class="rotator-img r2" />
-          <img src="assets/jamil.png" alt="" class="rotator-img r3" />
-          <img src="assets/pacay.png" alt="" class="rotator-img r4" />
+        <div class="home-about-rotator-group">
+          <div
+            class="home-about-photo-rotator"
+            data-home-rotator
+            aria-hidden="true"
+          >
+            <img
+              src="assets/kenneth.png"
+              alt=""
+              class="rotator-img is-active"
+              data-rotator-name="Kenneth Cyrus Bianzon"
+              data-rotator-role="Team Leader · Fullstack Developer"
+            />
+            <img
+              src="assets/jenz.png"
+              alt=""
+              class="rotator-img"
+              data-rotator-name="Jenz Patrick Reguyal"
+              data-rotator-role="Design Lead · UI/UX"
+            />
+            <img
+              src="assets/jamil.png"
+              alt=""
+              class="rotator-img"
+              data-rotator-name="Jamil Kharim Abinal"
+              data-rotator-role="Frontend Developer"
+            />
+            <img
+              src="assets/pacay.png"
+              alt=""
+              class="rotator-img"
+              data-rotator-name="Chirsjohn Pacay"
+              data-rotator-role="Backend Developer"
+            />
+          </div>
+          <div class="home-rotator-caption" aria-live="polite">
+            <div class="home-rotator-label mono">Current focus</div>
+            <div class="home-rotator-name" id="home-rotator-name">
+              Kenneth Cyrus Bianzon
+            </div>
+            <div class="home-rotator-role" id="home-rotator-role">
+              Team Leader · Fullstack Developer
+            </div>
+          </div>
         </div>
       </div>
       <div style="display: flex; justify-content: center; margin-top: 32px">
@@ -258,15 +345,15 @@
         <div class="home-project-group">
           <h3 class="home-project-group-title">Websites</h3>
           <div class="home-project-grid">
-            <a href="project.html" class="home-project-card">
+            <a href="project.html#magnify" class="home-project-card">
               <div class="home-project-media" aria-hidden="true">
                 <img
-                  src="assets/projects/project1-cover.jpg"
+                  src="assets/projects/project1-1.png"
                   alt=""
                   class="home-project-img"
                   onerror="this.style.display = 'none'"
                 />
-                <span class="project-media-placeholder mono">Preview</span>
+                <span class="project-media-placeholder mono"></span>
               </div>
               <div class="home-project-card-body">
                 <h4>Magnify Vision Media</h4>
@@ -277,15 +364,15 @@
               </div>
             </a>
 
-            <a href="project.html" class="home-project-card">
+            <a href="project.html#bunbite" class="home-project-card">
               <div class="home-project-media" aria-hidden="true">
                 <img
-                  src="assets/projects/project2-cover.jpg"
+                  src="assets/projects/project2-1.png"
                   alt=""
                   class="home-project-img"
                   onerror="this.style.display = 'none'"
                 />
-                <span class="project-media-placeholder mono">Preview</span>
+                <span class="project-media-placeholder mono"></span>
               </div>
               <div class="home-project-card-body">
                 <h4>Bun &amp; Bite</h4>
@@ -296,15 +383,15 @@
               </div>
             </a>
 
-            <a href="project.html" class="home-project-card">
+            <a href="project.html#newday" class="home-project-card">
               <div class="home-project-media" aria-hidden="true">
                 <img
-                  src="assets/projects/project3-cover.jpg"
+                  src="assets/projects/project3-1.png"
                   alt=""
                   class="home-project-img"
                   onerror="this.style.display = 'none'"
                 />
-                <span class="project-media-placeholder mono">Preview</span>
+                <span class="project-media-placeholder mono"></span>
               </div>
               <div class="home-project-card-body">
                 <h4>NewDay Child Coaching</h4>
@@ -321,15 +408,15 @@
         <div class="home-project-group">
           <h3 class="home-project-group-title">UI / UX</h3>
           <div class="home-project-grid">
-            <a href="project.html" class="home-project-card">
+            <a href="project.html#mobileappdesign-pathwise" class="home-project-card">
               <div class="home-project-media" aria-hidden="true">
                 <img
-                  src="assets/projects/project4-cover.jpg"
+                  src="assets/projects/mobiledesign1-1.png"
                   alt=""
                   class="home-project-img"
                   onerror="this.style.display = 'none'"
                 />
-                <span class="project-media-placeholder mono">Preview</span>
+                <span class="project-media-placeholder mono"></span>
               </div>
               <div class="home-project-card-body">
                 <h4>PathWise Mobile Project</h4>
@@ -340,15 +427,14 @@
               </div>
             </a>
 
-            <a href="project.html" class="home-project-card">
+            <a href="project.html#webdesign-wheretoknow" class="home-project-card">
               <div class="home-project-media" aria-hidden="true">
                 <img
-                  src="assets/projects/project5-cover.jpg"
-                  alt=""
+                  src="assets/projects/webdesign1-1.png"
                   class="home-project-img"
                   onerror="this.style.display = 'none'"
                 />
-                <span class="project-media-placeholder mono">Preview</span>
+                <span class="project-media-placeholder mono"></span>
               </div>
               <div class="home-project-card-body">
                 <h4>Where to Know</h4>
@@ -359,18 +445,18 @@
               </div>
             </a>
 
-            <a href="project.html" class="home-project-card">
+            <a href="project.html#herosection-herosection6" class="home-project-card">
               <div class="home-project-media" aria-hidden="true">
                 <img
-                  src="assets/projects/project6-cover.jpg"
+                  src="assets/projects/herosection6.png"
                   alt=""
                   class="home-project-img"
                   onerror="this.style.display = 'none'"
                 />
-                <span class="project-media-placeholder mono">Preview</span>
+                <span class="project-media-placeholder mono"></span>
               </div>
               <div class="home-project-card-body">
-                <h4>YourRide Landing Page</h4>
+                <h4>Outride Landing Page</h4>
                 <p>
                   A premium electric-vehicle landing page concept with a
                   minimalist hero and strong visual hierarchy.
@@ -378,21 +464,21 @@
               </div>
             </a>
 
-            <a href="project.html" class="home-project-card">
+            <a href="project.html#herosection-devialet" class="home-project-card">
               <div class="home-project-media" aria-hidden="true">
                 <img
-                  src="assets/projects/project7-cover.jpg"
+                  src="assets/projects/herosection2-1.png"
                   alt=""
                   class="home-project-img"
                   onerror="this.style.display = 'none'"
                 />
-                <span class="project-media-placeholder mono">Preview</span>
+                <span class="project-media-placeholder mono"></span>
               </div>
               <div class="home-project-card-body">
-                <h4>Devialet Phantom Landing Page</h4>
+                <h4>Sonix Audio Landing Page</h4>
                 <p>
                   A cinematic, luxury product landing page designed around the
-                  Devialet Phantom speaker.
+                  Sonix Audio Headsets.
                 </p>
               </div>
             </a>
@@ -451,7 +537,7 @@
           <ul class="footer-links">
             <li><a href="contact.html">Contact Us</a></li>
             <li>
-              <a href="mailto:kcbianzon@gmail.com">kcbianzon@gmail.com</a>
+              <a href="mailto:elaine150605@gmail.com">elaine150605@gmail.com</a>
             </li>
           </ul>
         </div>
@@ -514,7 +600,7 @@
 
         <!-- Stacked fanning pocket -->
         <div class="resume-pocket-container">
-          <div class="resume-pocket">
+          <div class="resume-pocket" role="button" tabindex="0" aria-expanded="false" aria-label="Open team resumes folder">
             <!-- Jamil's Resume Card -->
             <div class="resume-card-wrapper card-jamil" data-person="jamil">
               <div class="resume-card">
@@ -570,7 +656,7 @@
             <!-- Pocket front lip covering bottom half -->
             <div class="resume-pocket-front">
               <div class="pocket-label">&lt;/ Our Team &gt;</div>
-              <div class="pocket-hint">Hover to Fan Out</div>
+              <div class="pocket-hint">Click to open</div>
             </div>
           </div>
         </div>
@@ -680,6 +766,6 @@
     <div class="custom-cursor"></div>
     <div class="curtain-wipe"></div>
 
-    <script src="script.js?v=1.3"></script>
+    <script src="script.js?v=2.9"></script>
   </body>
 </html>

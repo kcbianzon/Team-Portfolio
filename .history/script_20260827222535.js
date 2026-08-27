@@ -142,165 +142,53 @@
       if (!mount) return;
       // Define each tile's image, title, and exact direct link
       var items = [
-        {
-          image: "assets/projects/herosection1-1.png",
-          title: "Cognita AI",
-          href: "project.html#herosection-yourride",
-        },
-        {
-          image: "assets/projects/project1-1.png",
-          title: "Magnify Vision Media",
-          href: "project.html#magnify",
-        },
-        {
-          image: "assets/projects/herosection2-1.png",
-          title: "Sonix Audio",
-          href: "project.html#herosection-devialet",
-        },
-        {
-          image: "assets/projects/project2-1.png",
-          title: "Bun & Bite",
-          href: "project.html#bunbite",
-        },
-        {
-          image: "assets/projects/herosection3-1.png",
-          title: "Workli",
-          href: "project.html#herosection-herosection3",
-        },
-        {
-          image: "assets/projects/project3-1.png",
-          title: "NewDay Child Coaching",
-          href: "project.html#newday",
-        },
-        {
-          image: "assets/projects/herosection4-1.png",
-          title: "Aerix",
-          href: "project.html#herosection-herosection4",
-        },
-        {
-          image: "assets/projects/project04-1.png",
-          title: "Inventory System",
-          href: "project.html#inventory",
-        },
-        {
-          image: "assets/projects/herosection5-1.png",
-          title: "Velor",
-          href: "project.html#herosection-herosection5",
-        },
-        {
-          image: "assets/projects/webdesign1-1.png",
-          title: "Where to Know",
-          href: "project.html#webdesign-wheretoknow",
-        },
-        {
-          image: "assets/projects/herosection6.png",
-          title: "Outride",
-          href: "project.html#herosection-herosection6",
-        },
-        {
-          image: "assets/projects/website6-1.png",
-          title: "e-Sweets",
-          href: "project.html#e-Sweets",
-        },
-        {
-          image: "assets/projects/herosection7.png",
-          title: "Payora",
-          href: "project.html#herosection-herosection7",
-        },
-        {
-          image: "assets/projects/herosection8.png",
-          title: "Nexride",
-          href: "project.html#herosection-herosection8",
-        },
-        {
-          image: "assets/projects/herosection9.png",
-          title: "Industera",
-          href: "project.html#herosection-herosection9",
-        },
-        {
-          image: "assets/projects/herosection10.png",
-          title: "Signet",
-          href: "project.html#herosection-herosection10",
-        },
+        { image: "assets/projects/herosection1-1.png", title: "Cognita AI", href: "project.html#herosection-yourride" },
+        { image: "assets/projects/project1-1.png", title: "Magnify Vision Media", href: "project.html#magnify" },
+        { image: "assets/projects/herosection2-1.png", title: "Sonix Audio", href: "project.html#herosection-devialet" },
+        { image: "assets/projects/project2-1.png", title: "Bun & Bite", href: "project.html#bunbite" },
+        { image: "assets/projects/herosection3-1.png", title: "Workli", href: "project.html#herosection-herosection3" },
+        { image: "assets/projects/project3-1.png", title: "NewDay Child Coaching", href: "project.html#newday" },
+        { image: "assets/projects/herosection4-1.png", title: "Aerix", href: "project.html#herosection-herosection4" },
+        { image: "assets/projects/project04-1.png", title: "Inventory System", href: "project.html#inventory" },
+        { image: "assets/projects/herosection5-1.png", title: "Velor", href: "project.html#herosection-herosection5" },
+        { image: "assets/projects/webdesign1-1.png", title: "Where to Know", href: "project.html#webdesign-wheretoknow" },
+        { image: "assets/projects/herosection6.png", title: "Outride", href: "project.html#herosection-herosection6" },
+        { image: "assets/projects/website6-1.png", title: "e-Sweets", href: "project.html#e-Sweets" },
+        { image: "assets/projects/herosection7.png", title: "Payora", href: "project.html#herosection-herosection7" },
+        { image: "assets/projects/herosection8.png", title: "Nexride", href: "project.html#herosection-herosection8" },
+        { image: "assets/projects/herosection9.png", title: "Industera", href: "project.html#herosection-herosection9" },
+        { image: "assets/projects/herosection10.png", title: "Signet", href: "project.html#herosection-herosection10" }
       ];
-      var config = {
-        columns: 3,
-        tileWidth: 200,
-        tileHeight: 132,
-        gap: 18,
-        tilt: 16,
-        turn: -14,
-        perspective: 1200,
-        depth: 120,
-        speed: 42,
-        variance: 0.45,
-        parallax: 0.6,
-        lift: 64,
-        fade: 0.6,
-        dim: 0.55,
-        overlayColor: "#060010",
-      };
-      var wall = document.createElement("div"),
-        plane = document.createElement("div"),
-        tracks = [],
-        offsets = [],
-        pointer = { x: 0, y: 0 },
-        damped = { x: 0, y: 0 },
-        hoveredColumn = -1,
-        activeTile = null,
-        lastTime = null;
+      var config = { columns: 3, tileWidth: 200, tileHeight: 132, gap: 18, tilt: 16, turn: -14, perspective: 1200, depth: 120, speed: 42, variance: 0.45, parallax: 0.6, lift: 64, fade: 0.6, dim: 0.55, overlayColor: "#060010" };
+      var wall = document.createElement("div"), plane = document.createElement("div"), tracks = [], offsets = [], pointer = { x: 0, y: 0 }, damped = { x: 0, y: 0 }, hoveredColumn = -1, activeTile = null, lastTime = null;
       wall.className = "drift-wall";
       wall.setAttribute("role", "group");
       wall.setAttribute("aria-label", "Drifting wall of project tiles");
-      [
-        ["--dw-tile-w", config.tileWidth + "px"],
-        ["--dw-tile-h", config.tileHeight + "px"],
-        ["--dw-gap", config.gap + "px"],
-        ["--dw-perspective", config.perspective + "px"],
-        ["--dw-lift", config.lift + "px"],
-        ["--dw-dim", config.dim],
-        ["--dw-overlay", config.overlayColor],
-        ["--dw-edge", Math.max(0, (1 - config.fade) * 100) + "%"],
-      ].forEach(function (entry) {
-        wall.style.setProperty(entry[0], entry[1]);
-      });
+      [["--dw-tile-w", config.tileWidth + "px"], ["--dw-tile-h", config.tileHeight + "px"], ["--dw-gap", config.gap + "px"], ["--dw-perspective", config.perspective + "px"], ["--dw-lift", config.lift + "px"], ["--dw-dim", config.dim], ["--dw-overlay", config.overlayColor], ["--dw-edge", Math.max(0, (1 - config.fade) * 100) + "%"]].forEach(function (entry) { wall.style.setProperty(entry[0], entry[1]); });
       plane.className = "drift-wall__plane";
-      function factor(index) {
-        return (
-          1 + config.variance * (((index * 0.6180339887 + 0.35) % 1) * 2 - 1)
-        );
-      }
+      function factor(index) { return 1 + config.variance * ((((index * 0.6180339887 + 0.35) % 1) * 2) - 1); }
       for (var columnIndex = 0; columnIndex < config.columns; columnIndex++) {
-        var column = document.createElement("div"),
-          track = document.createElement("div");
+        var column = document.createElement("div"), track = document.createElement("div");
         column.className = "drift-wall__col";
         track.className = "drift-wall__track";
-        for (var copy = 0; copy < 3; copy++)
-          items.forEach(function (item) {
-            var tile = document.createElement("a"),
-              inner = document.createElement("span"),
-              image = document.createElement("img"),
-              overlay = document.createElement("span");
-            tile.className = "drift-wall__tile";
-            tile.href = item.href;
-            tile.dataset.column = columnIndex;
-            inner.className = "drift-wall__inner";
-            image.src = item.image;
-            image.alt = item.title;
-            image.loading = "lazy";
-            overlay.className = "drift-wall__overlay";
-            inner.append(image, overlay);
-            tile.appendChild(inner);
-            track.appendChild(tile);
-          });
+        for (var copy = 0; copy < 3; copy++) items.forEach(function (item) {
+          var tile = document.createElement("a"), inner = document.createElement("span"), image = document.createElement("img"), overlay = document.createElement("span");
+          tile.className = "drift-wall__tile";
+          tile.href = item.href;
+          tile.dataset.column = columnIndex;
+          inner.className = "drift-wall__inner";
+          image.src = item.image;
+          image.alt = item.title;
+          image.loading = "lazy";
+          overlay.className = "drift-wall__overlay";
+          inner.append(image, overlay);
+          tile.appendChild(inner);
+          track.appendChild(tile);
+        });
         column.appendChild(track);
         plane.appendChild(column);
         tracks.push(track);
-        offsets.push(
-          (config.tileHeight + config.gap) *
-            items.length *
-            ((columnIndex * 0.37) % 1),
-        );
+        offsets.push((config.tileHeight + config.gap) * items.length * ((columnIndex * 0.37) % 1));
       }
       wall.appendChild(plane);
       mount.appendChild(wall);
@@ -317,10 +205,7 @@
         pointer.y = (event.clientY - rect.top) / rect.height - 0.5;
         activate(event.target.closest(".drift-wall__tile"));
       });
-      wall.addEventListener("pointerleave", function () {
-        pointer = { x: 0, y: 0 };
-        activate(null);
-      });
+      wall.addEventListener("pointerleave", function () { pointer = { x: 0, y: 0 }; activate(null); });
       function animate(timestamp) {
         if (lastTime === null) lastTime = timestamp;
         var delta = Math.min(0.05, (timestamp - lastTime) / 1000);
@@ -328,23 +213,12 @@
         var ease = 1 - Math.exp(-delta / 0.12);
         damped.x += (pointer.x * config.parallax * 8 - damped.x) * ease;
         damped.y += (-pointer.y * config.parallax * 8 - damped.y) * ease;
-        plane.style.transform =
-          "translate(-50%, -50%) scale(1.18) rotateX(" +
-          (config.tilt + damped.y) +
-          "deg) rotateY(" +
-          (config.turn + damped.x) +
-          "deg) translateZ(" +
-          -config.depth +
-          "px)";
+        plane.style.transform = "translate(-50%, -50%) scale(1.18) rotateX(" + (config.tilt + damped.y) + "deg) rotateY(" + (config.turn + damped.x) + "deg) translateZ(" + (-config.depth) + "px)";
         tracks.forEach(function (track, index) {
           var cycle = (config.tileHeight + config.gap) * items.length;
-          var velocity =
-            hoveredColumn === index
-              ? 0
-              : config.speed * factor(index) * (index % 2 === 0 ? 1 : -1);
+          var velocity = hoveredColumn === index ? 0 : config.speed * factor(index) * (index % 2 === 0 ? 1 : -1);
           offsets[index] = (offsets[index] + velocity * delta + cycle) % cycle;
-          track.style.transform =
-            "translate3d(0, " + -offsets[index] + "px, 0)";
+          track.style.transform = "translate3d(0, " + (-offsets[index]) + "px, 0)";
         });
         window.requestAnimationFrame(animate);
       }
@@ -615,27 +489,18 @@
     var resumePocket = document.querySelector(".resume-pocket");
 
     function isMobileResumeFolder() {
-      return (
-        window.matchMedia && window.matchMedia("(max-width: 640px)").matches
-      );
+      return window.matchMedia && window.matchMedia("(max-width: 640px)").matches;
     }
 
     function toggleResumeFolder() {
       if (!resumePocket) return;
       resumePocket.classList.toggle("is-open");
-      resumePocket.setAttribute(
-        "aria-expanded",
-        resumePocket.classList.contains("is-open") ? "true" : "false",
-      );
+      resumePocket.setAttribute("aria-expanded", resumePocket.classList.contains("is-open") ? "true" : "false");
     }
 
     if (resumePocket) {
       resumePocket.addEventListener("click", function (event) {
-        if (
-          isMobileResumeFolder() &&
-          !event.target.closest(".resume-card-wrapper")
-        )
-          toggleResumeFolder();
+        if (isMobileResumeFolder() && !event.target.closest(".resume-card-wrapper")) toggleResumeFolder();
       });
       resumePocket.addEventListener("keydown", function (event) {
         if (event.key === "Enter" || event.key === " ") {
@@ -648,6 +513,10 @@
     cards.forEach(function (card) {
       card.addEventListener("click", function (event) {
         event.stopPropagation();
+        if (isMobileResumeFolder() && resumePocket && !resumePocket.classList.contains("is-open")) {
+          toggleResumeFolder();
+          return;
+        }
         var person = card.getAttribute("data-person");
         if (person) {
           showDetailedResume(person);
@@ -936,11 +805,7 @@
         var panelId = hash.slice(0, dashIndex);
         var detailId = hash.slice(dashIndex + 1);
         var matchingDetail = document.querySelector(
-          '[data-panel="' +
-            panelId +
-            '"] [data-detail-view="' +
-            detailId +
-            '"]',
+          '[data-panel="' + panelId + '"] [data-detail-view="' + detailId + '"]',
         );
         if (matchingDetail) {
           return { panelId: panelId, detailId: detailId };
@@ -959,31 +824,23 @@
     }
 
     var initialHashResult = getProjectFromHash();
-
+    
     // If there is no specific project hash in the URL, find a default to load
     if (!initialHashResult.panelId) {
-      var initialPanel = document.querySelector(
-        ".project-viewer-panel.is-active",
-      );
-
+      var initialPanel = document.querySelector(".project-viewer-panel.is-active");
+      
       if (initialPanel && initialPanel.dataset.panel) {
         // Load the panel explicitly marked 'is-active' in HTML
-        initialHashResult = {
-          panelId: initialPanel.dataset.panel,
-          detailId: "",
-        };
+        initialHashResult = { panelId: initialPanel.dataset.panel, detailId: "" };
       } else {
         // Fallback: Automatically load the very first project in the sidebar list
         var firstItem = document.querySelector(".project-sidebar-item");
         if (firstItem && firstItem.dataset.project) {
-          initialHashResult = {
-            panelId: firstItem.dataset.project,
-            detailId: "",
-          };
+          initialHashResult = { panelId: firstItem.dataset.project, detailId: "" };
         }
       }
     }
-
+    
     if (initialHashResult.panelId) {
       openFromHashResult(initialHashResult);
     }
@@ -1085,6 +942,8 @@
       }
       updateCursor();
 
+
+
       // snap to interactive elements
       var interactives = document.querySelectorAll(
         "a:not(.drift-wall__tile), button, .work-card, nav a, .nav-cta, .skill-badge",
@@ -1130,16 +989,10 @@
       var teamDetailKicker = document.getElementById("team-detail-kicker");
       var teamDetailServices = document.getElementById("team-detail-services");
       var teamDetailResume = document.getElementById("team-detail-resume");
-      var teamResumePreview = teamDetailModal.querySelector(
-        "[data-team-resume-expand]",
-      );
+      var teamResumePreview = teamDetailModal.querySelector("[data-team-resume-expand]");
       var teamResumeModal = document.getElementById("team-resume-modal");
-      var teamResumeModalImage = document.getElementById(
-        "team-resume-modal-image",
-      );
-      var teamResumeClosers = teamResumeModal
-        ? teamResumeModal.querySelectorAll("[data-team-resume-close]")
-        : [];
+      var teamResumeModalImage = document.getElementById("team-resume-modal-image");
+      var teamResumeClosers = teamResumeModal ? teamResumeModal.querySelectorAll("[data-team-resume-close]") : [];
       var teamModalClosers = teamDetailModal.querySelectorAll(
         "[data-team-modal-close]",
       );
@@ -1252,9 +1105,7 @@
         }
         if (teamDetailResume && teamResumePreview) {
           teamDetailResume.src = member.resume || "";
-          teamDetailResume.alt = member.resume
-            ? member.name + " resume preview"
-            : "";
+          teamDetailResume.alt = member.resume ? member.name + " resume preview" : "";
           teamResumePreview.hidden = !member.resume;
         }
 
@@ -1276,13 +1127,7 @@
 
       if (teamResumePreview) {
         teamResumePreview.addEventListener("click", function () {
-          if (
-            !teamDetailResume ||
-            !teamDetailResume.src ||
-            !teamResumeModal ||
-            !teamResumeModalImage
-          )
-            return;
+          if (!teamDetailResume || !teamDetailResume.src || !teamResumeModal || !teamResumeModalImage) return;
           teamResumeModalImage.src = teamDetailResume.src;
           teamResumeModalImage.alt = teamDetailResume.alt;
           teamResumeModal.classList.add("active");
@@ -1299,37 +1144,29 @@
 
       document.addEventListener("keydown", function (event) {
         if (
-          event.key === "Escape" &&
-          teamResumeModal &&
-          teamResumeModal.classList.contains("active")
+          event.key === "Escape" && teamResumeModal && teamResumeModal.classList.contains("active")
         ) {
           teamResumeModal.classList.remove("active");
           teamResumeModal.setAttribute("aria-hidden", "true");
         } else if (
-          event.key === "Escape" &&
-          teamDetailModal.classList.contains("active")
+          event.key === "Escape" && teamDetailModal.classList.contains("active")
         ) {
           closeTeamModal();
         }
       });
     }
-
+    
     // Sidebar Accordion Toggle
-    var sidebarToggles = document.querySelectorAll(
-      ".project-sidebar-subgroup-toggle",
-    );
+    var sidebarToggles = document.querySelectorAll('.project-sidebar-subgroup-toggle');
     sidebarToggles.forEach(function (toggleBtn) {
-      toggleBtn.addEventListener("click", function () {
+      toggleBtn.addEventListener('click', function () {
         // Toggle the active class for the arrow rotation
-        this.classList.toggle("is-active");
-
+        this.classList.toggle('is-active');
+        
         // Find the wrapper right after the button and toggle its open class
         var listWrapper = this.nextElementSibling;
-        if (
-          listWrapper &&
-          listWrapper.classList.contains("project-sidebar-list-wrapper")
-        ) {
-          listWrapper.classList.toggle("is-open");
+        if (listWrapper && listWrapper.classList.contains('project-sidebar-list-wrapper')) {
+          listWrapper.classList.toggle('is-open');
         }
       });
     });
@@ -1401,10 +1238,9 @@ document.addEventListener("DOMContentLoaded", function () {
     var firebaseConfig = {
       apiKey: "AIzaSyAq-4bK2MLw0q7a3IKsqjzUrD5_Le_hka8",
       authDomain: "temport-b2930.firebaseapp.com",
-      databaseURL:
-        "https://temport-b2930-default-rtdb.asia-southeast1.firebasedatabase.app",
+      databaseURL: "https://temport-b2930-default-rtdb.asia-southeast1.firebasedatabase.app",
       projectId: "temport-b2930",
-      appId: "1:194958710524:web:60565cbd5527f130736979",
+      appId: "1:194958710524:web:60565cbd5527f130736979"
     };
 
     function formatCount(value) {
@@ -1413,89 +1249,56 @@ document.addEventListener("DOMContentLoaded", function () {
 
     Promise.all([
       import("https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js"),
-      import("https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js"),
-    ])
-      .then(function (modules) {
-        var appModule = modules[0];
-        var databaseModule = modules[1];
-        var app = appModule.initializeApp(firebaseConfig, "temport-live-stats");
-        var database = databaseModule.getDatabase(app);
-        var totalViewsRef = databaseModule.ref(database, "stats/totalViews");
+      import("https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js")
+    ]).then(function (modules) {
+      var appModule = modules[0];
+      var databaseModule = modules[1];
+      var app = appModule.initializeApp(firebaseConfig, "temport-live-stats");
+      var database = databaseModule.getDatabase(app);
+      var totalViewsRef = databaseModule.ref(database, "stats/totalViews");
 
-        databaseModule.onValue(totalViewsRef, function (snapshot) {
-          totalCount.textContent = formatCount(snapshot.val());
-        });
-
-        if (!localStorage.getItem("temport_counted_visitor")) {
-          databaseModule
-            .runTransaction(totalViewsRef, function (currentValue) {
-              return (Number(currentValue) || 0) + 1;
-            })
-            .then(function () {
-              localStorage.setItem("temport_counted_visitor", "true");
-            });
-        }
-      })
-      .catch(function () {
-        totalCount.textContent = "—";
+      databaseModule.onValue(totalViewsRef, function (snapshot) {
+        totalCount.textContent = formatCount(snapshot.val());
       });
+
+      if (!localStorage.getItem("temport_counted_visitor")) {
+        databaseModule.runTransaction(totalViewsRef, function (currentValue) {
+          return (Number(currentValue) || 0) + 1;
+        }).then(function () {
+          localStorage.setItem("temport_counted_visitor", "true");
+        });
+      }
+    }).catch(function () {
+      totalCount.textContent = "—";
+    });
   })();
 
   var mobileDockQuery = window.matchMedia("(max-width: 860px)");
   var mobileDock = null;
 
   function dockIcon(path) {
-    return (
-      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
-      path +
-      "</svg>"
-    );
+    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + path + "</svg>";
   }
 
   function syncMobileDock(matches) {
     if (matches && !mobileDock) {
-      var currentPage =
-        window.location.pathname.split("/").pop() || "index.html";
+      var currentPage = window.location.pathname.split("/").pop() || "index.html";
       var items = [
-        [
-          "index.html",
-          "Home",
-          '<path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1Z"/>',
-        ],
-        [
-          "project.html",
-          "Work",
-          '<path d="M3 7.5A2.5 2.5 0 0 1 5.5 5H10l2 2h6.5A2.5 2.5 0 0 1 21 9.5v8a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 17.5Z"/><path d="M3 10h18"/>',
-        ],
-        [
-          "teams.html",
-          "Team",
-          '<circle cx="9" cy="8" r="3"/><path d="M3 20c.6-3.1 2.7-5 6-5s5.4 1.9 6 5M16 5.5a3 3 0 0 1 0 5M18 15c1.7.5 2.7 1.8 3 3.8"/>',
-        ],
-        [
-          "services.html",
-          "Services",
-          '<path d="M4 7h16M4 12h16M4 17h10"/><circle cx="17" cy="17" r="3"/>',
-        ],
-        [
-          "contact.html",
-          "Contact",
-          '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>',
-        ],
+        ["index.html", "Home", '<path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1Z"/>'],
+        ["project.html", "Work", '<path d="M3 7.5A2.5 2.5 0 0 1 5.5 5H10l2 2h6.5A2.5 2.5 0 0 1 21 9.5v8a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 17.5Z"/><path d="M3 10h18"/>'],
+        ["teams.html", "Team", '<circle cx="9" cy="8" r="3"/><path d="M3 20c.6-3.1 2.7-5 6-5s5.4 1.9 6 5M16 5.5a3 3 0 0 1 0 5M18 15c1.7.5 2.7 1.8 3 3.8"/>'],
+        ["services.html", "Services", '<path d="M4 7h16M4 12h16M4 17h10"/><circle cx="17" cy="17" r="3"/>'],
+        ["contact.html", "Contact", '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>'],
         ["#theme", "Theme", '<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>'],
       ];
 
       mobileDock = document.createElement("nav");
       mobileDock.className = "mobile-dock";
       mobileDock.setAttribute("aria-label", "Mobile navigation");
-      var filters = document.createElementNS(
-        "http://www.w3.org/2000/svg",
-        "svg",
-      );
+      var filters = document.createElementNS("http://www.w3.org/2000/svg", "svg");
       filters.setAttribute("aria-hidden", "true");
       filters.classList.add("mobile-dock__filters");
-      filters.innerHTML =
-        '<defs><filter id="mobile-gooey-filter"><feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur"/><feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9"/></filter></defs>';
+      filters.innerHTML = '<defs><filter id="mobile-gooey-filter"><feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur"/><feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9"/></filter></defs>';
       var panel = document.createElement("div");
       panel.className = "mobile-dock__panel";
       var strip = document.createElement("div");
@@ -1511,27 +1314,14 @@ document.addEventListener("DOMContentLoaded", function () {
         effect.classList.add("is-active");
 
         for (var particleIndex = 0; particleIndex < 12; particleIndex++) {
-          var angle =
-            (Math.PI * 2 * particleIndex) / 12 + (Math.random() - 0.5) * 0.25;
+          var angle = (Math.PI * 2 * particleIndex) / 12 + (Math.random() - 0.5) * 0.25;
           var distance = 24 + Math.random() * 16;
           var particle = document.createElement("span");
           particle.className = "mobile-dock__gooey-particle";
-          particle.style.setProperty(
-            "--goo-start-x",
-            Math.cos(angle) * distance + "px",
-          );
-          particle.style.setProperty(
-            "--goo-start-y",
-            Math.sin(angle) * distance + "px",
-          );
-          particle.style.setProperty(
-            "--goo-end-x",
-            Math.cos(angle) * (4 + Math.random() * 7) + "px",
-          );
-          particle.style.setProperty(
-            "--goo-end-y",
-            Math.sin(angle) * (4 + Math.random() * 7) + "px",
-          );
+          particle.style.setProperty("--goo-start-x", Math.cos(angle) * distance + "px");
+          particle.style.setProperty("--goo-start-y", Math.sin(angle) * distance + "px");
+          particle.style.setProperty("--goo-end-x", Math.cos(angle) * (4 + Math.random() * 7) + "px");
+          particle.style.setProperty("--goo-end-y", Math.sin(angle) * (4 + Math.random() * 7) + "px");
           particle.style.setProperty("--goo-delay", Math.random() * 90 + "ms");
           effect.appendChild(particle);
         }
@@ -1539,16 +1329,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
       items.forEach(function (item) {
         var itemIndex = items.indexOf(item);
-        var control = document.createElement(
-          item[0] === "#theme" ? "button" : "a",
-        );
+        var control = document.createElement(item[0] === "#theme" ? "button" : "a");
         control.className = "mobile-dock__item";
         if (item[0] === "#theme") {
           control.type = "button";
-          control.setAttribute(
-            "aria-pressed",
-            String(document.documentElement.classList.contains("dark-mode")),
-          );
+          control.setAttribute("aria-pressed", String(document.documentElement.classList.contains("dark-mode")));
           control.addEventListener("click", function () {
             var isDark = document.documentElement.classList.toggle("dark-mode");
             localStorage.setItem("theme", isDark ? "dark" : "light");
@@ -1556,8 +1341,7 @@ document.addEventListener("DOMContentLoaded", function () {
           });
         } else {
           control.href = item[0];
-          if (currentPage === item[0])
-            control.setAttribute("aria-current", "page");
+          if (currentPage === item[0]) control.setAttribute("aria-current", "page");
           control.addEventListener("click", function (event) {
             event.preventDefault();
             if (mobileDock.classList.contains("is-navigating")) return;
@@ -1567,10 +1351,7 @@ document.addEventListener("DOMContentLoaded", function () {
             for (var particleIndex = 0; particleIndex < 6; particleIndex++) {
               var particle = document.createElement("span");
               particle.className = "mobile-dock__particle";
-              particle.style.setProperty(
-                "--particle-angle",
-                particleIndex * 60 + "deg",
-              );
+              particle.style.setProperty("--particle-angle", particleIndex * 60 + "deg");
               control.appendChild(particle);
               particle.addEventListener("animationend", function () {
                 this.remove();
@@ -1611,7 +1392,7 @@ document.addEventListener("DOMContentLoaded", function () {
           menuControls.forEach(function (control, index) {
             window.setTimeout(function () {
               makeGooeyAppearance(control);
-            }, index * 55);
+          }, index * 55);
           });
           window.setTimeout(function () {
             mobileDock.classList.remove("is-opening");
@@ -1619,10 +1400,7 @@ document.addEventListener("DOMContentLoaded", function () {
           }, 1050);
         }
         launcher.setAttribute("aria-expanded", String(isOpen));
-        launcher.setAttribute(
-          "aria-label",
-          isOpen ? "Close navigation" : "Open navigation",
-        );
+        launcher.setAttribute("aria-label", isOpen ? "Close navigation" : "Open navigation");
         launcher.setAttribute("data-label", isOpen ? "Close" : "Menu");
       });
       panel.append(strip, launcher);
@@ -1646,7 +1424,9 @@ document.addEventListener("DOMContentLoaded", function () {
   var lightboxScrollY = 0;
 
   function isImageOnlyLightboxOpen() {
-    return Boolean(document.querySelector(".detail-view-image-only.is-active"));
+    return Boolean(
+      document.querySelector(".detail-view-image-only.is-active"),
+    );
   }
 
   function syncImageOnlyLightbox() {
