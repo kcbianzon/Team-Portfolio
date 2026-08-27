@@ -4408,8 +4408,9 @@ section.project-browser-section.reveal {
 
 /* Keep the expanded team profile fully visible without an inner scrollbar. */
 .team-detail-dialog {
-  max-height: none;
-  overflow: visible;
+  max-height: min(780px, calc(100dvh - 32px));
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 @media (max-width: 640px) {
@@ -4568,5 +4569,95 @@ section.project-browser-section.reveal {
   .team-resume-preview,
   .team-detail-modal.resume-expanded .team-resume-preview {
     min-height: 440px;
+  }
+}
+
+@media (max-width: 640px) {
+  .resume-pocket-container {
+    min-height: 0;
+  }
+
+  .resume-pocket {
+    height: auto;
+    min-height: 164px;
+    padding: 18px 16px;
+    gap: 14px;
+    align-items: stretch;
+    justify-content: flex-start;
+    overflow-x: auto;
+    overflow-y: hidden;
+    clip-path: none;
+    background: transparent;
+    box-shadow: none;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    touch-action: pan-x;
+  }
+
+  .resume-pocket::-webkit-scrollbar {
+    display: none;
+  }
+
+  .resume-pocket-front {
+    display: none;
+  }
+
+  .resume-card-wrapper,
+  .resume-pocket.is-open .resume-card-wrapper,
+  .resume-pocket:hover .resume-card-wrapper {
+    position: relative;
+    inset: auto;
+    width: auto;
+    height: 120px;
+    flex: 0 0 min(82vw, 300px);
+    transform: none;
+    scroll-snap-align: center;
+  }
+
+  .detailed-resume-viewer.mobile-carousel {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-top: 54px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    touch-action: pan-x;
+  }
+
+  .detailed-resume-viewer.mobile-carousel::-webkit-scrollbar {
+    display: none;
+  }
+
+  .mobile-carousel .back-to-pocket-btn {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    margin: 0;
+  }
+
+  .mobile-carousel .detailed-resume-content,
+  .mobile-carousel .detailed-resume-content.active {
+    display: flex !important;
+    flex: 0 0 100%;
+    width: 100%;
+    min-width: 100%;
+    height: 100%;
+    scroll-snap-align: center;
+  }
+
+  .mobile-carousel .detail-resume-image {
+    min-height: 0;
+  }
+
+  .team-detail-dialog {
+    max-height: calc(100dvh - 24px);
+    margin: 12px auto;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 }

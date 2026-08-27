@@ -682,15 +682,27 @@
       // Show viewer and specific resume
       if (detailedViewer) {
         detailedViewer.classList.add("active");
+        detailedViewer.classList.toggle(
+          "mobile-carousel",
+          isMobileResumeFolder(),
+        );
         var details = detailedViewer.querySelectorAll(
           ".detailed-resume-content",
         );
         details.forEach(function (d) {
-          d.classList.remove("active");
+          d.classList.toggle("active", isMobileResumeFolder());
         });
         var targetDetail = document.getElementById("detail-" + person);
         if (targetDetail) {
           targetDetail.classList.add("active");
+          if (isMobileResumeFolder()) {
+            window.setTimeout(function () {
+              detailedViewer.scrollTo({
+                left: targetDetail.offsetLeft,
+                behavior: "smooth",
+              });
+            }, 0);
+          }
           var targetScroller = targetDetail.querySelector(
             ".detail-resume-image",
           );
@@ -713,6 +725,7 @@
       // Hide viewer and detail contents
       if (detailedViewer) {
         detailedViewer.classList.remove("active");
+        detailedViewer.classList.remove("mobile-carousel");
         var details = detailedViewer.querySelectorAll(
           ".detailed-resume-content",
         );
