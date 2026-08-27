@@ -577,7 +577,8 @@
     var backBtn = document.querySelector(".back-to-pocket-btn");
     var modalHeading = document.querySelector("#resume-panel h2");
     var modalSub = document.querySelector("#resume-panel p.mono");
-    var printBtn = document.querySelector(".print-resume-action");
+    var downloadBtn = document.querySelector(".download-resume-action");
+    var activeResumePdf = "";
 
     if (viewResumeBtn && resumePanel) {
       viewResumeBtn.addEventListener("click", function (e) {
@@ -666,9 +667,12 @@
       if (modalHeading)
         modalHeading.textContent =
           person.charAt(0).toUpperCase() + person.slice(1) + "'s Resume";
-      if (printBtn) {
-        printBtn.style.display = "inline-block";
-        printBtn.setAttribute("onclick", "window.print()");
+      activeResumePdf =
+        ["kenneth", "jenz", "jamil"].indexOf(person) !== -1
+          ? "resumes/" + person + ".pdf"
+          : "";
+      if (downloadBtn) {
+        downloadBtn.style.display = activeResumePdf ? "inline-block" : "none";
       }
       // Contain the tall resume viewer inside the card instead of letting it
       // spill past the rounded edges (the pocket needs overflow:visible for
@@ -716,7 +720,8 @@
       if (pocketContainer) pocketContainer.classList.remove("hidden");
       if (modalSub) modalSub.style.display = "block";
       if (modalHeading) modalHeading.textContent = "Our Team Resumes";
-      if (printBtn) printBtn.style.display = "none";
+      if (downloadBtn) downloadBtn.style.display = "none";
+      activeResumePdf = "";
       if (resumePanelContent)
         resumePanelContent.classList.remove("viewing-detail");
       resetActiveResumeScroll();
@@ -733,6 +738,18 @@
           d.classList.remove("active");
         });
       }
+    }
+
+    if (downloadBtn) {
+      downloadBtn.addEventListener("click", function () {
+        if (!activeResumePdf) return;
+        var link = document.createElement("a");
+        link.href = activeResumePdf;
+        link.download = activeResumePdf.split("/").pop();
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      });
     }
     // 5c. Project browser: sidebar-driven panel switching
     var projectPanels = document.querySelectorAll("[data-panel]");

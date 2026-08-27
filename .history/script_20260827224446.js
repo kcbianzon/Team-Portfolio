@@ -667,10 +667,9 @@
       if (modalHeading)
         modalHeading.textContent =
           person.charAt(0).toUpperCase() + person.slice(1) + "'s Resume";
-      activeResumePdf =
-        ["kenneth", "jenz", "jamil"].indexOf(person) !== -1
-          ? "resumes/" + person + ".pdf"
-          : "";
+      activeResumePdf = ["kenneth", "jenz", "jamil"].indexOf(person) !== -1
+        ? "resumes/" + person + ".pdf"
+        : "";
       if (downloadBtn) {
         downloadBtn.style.display = activeResumePdf ? "inline-block" : "none";
       }
