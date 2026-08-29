@@ -1230,9 +1230,9 @@
           role: "Backend Developer",
           kicker: "Profile 04 · Backend development",
           photo: "assets/pacay.png",
-          resume: "",
+          resume: "resumes/pacay.png",
           summary:
-            "Backend developer focused on the services, data models, and integrations that make the team’s web applications dependable behind the scenes. A formal resume will be added when ready.",
+            "Backend developer focused on the services, data models, and integrations that make the team’s web applications dependable behind the scenes.",
           services: [
             "Builds backend logic for real product workflows and integrations.",
             "Connects interfaces with APIs, databases, and application behavior.",
