@@ -178,11 +178,6 @@
           href: "project.html#herosection-herosection4",
         },
         {
-          image: "assets/projects/project04-1.png",
-          title: "Inventory System",
-          href: "project.html#inventory",
-        },
-        {
           image: "assets/projects/herosection5-1.png",
           title: "Velor",
           href: "project.html#herosection-herosection5",
