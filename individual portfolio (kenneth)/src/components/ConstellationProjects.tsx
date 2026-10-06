@@ -1,9 +1,11 @@
-import { useEffect, useMemo, useState, type CSSProperties } from 'react';
+import { useEffect, useMemo, useRef, useState, type CSSProperties, type PointerEvent } from 'react';
 import { ArrowUpRight, X } from 'lucide-react';
+import gsap from 'gsap';
 
-type Work = { title: string; group: 'Sites' | 'Mobile' | 'Web design' | 'Experiments'; image: string; description: string; index?: number };
+export type Work = { title: string; group: 'Sites' | 'Mobile' | 'Web design' | 'Experiments'; image: string; description: string; index?: number; url?: string };
 
-const work: Work[] = [
+export const work: Work[] = [
+  { title: 'Next Level Gaming & Novelties', group: 'Sites', image: '', url: 'https://nextlevelgaming-events.web.app/', description: 'An event experience website for gaming, entertainment, and interactive productions. The design pairs immersive photography, bold display type, and clear paths through the company’s experiences.' },
   { title: 'Magnify Vision Media', group: 'Sites', image: 'project1-1.png', index: 0, description: "Developed a premium corporate website for Magnify Vision Media, a digital marketing agency specializing in social media strategy, paid advertising, and brand growth. The website emphasizes modern branding, responsive design, and interactive frontend experiences while following the company's official brand identity." },
   { title: 'Bun & Bite', group: 'Sites', image: 'project2-1.png', index: 1, description: 'Bun & Bite is a modern full-stack food ordering web application built to deliver a seamless online ordering experience. The platform lets customers browse menu items, customize products, choose between delivery or pickup, securely manage their accounts, and complete online payments through an intuitive, responsive interface — backed by a scalable cloud architecture that priorizes security, performance, and maintainability.' },
   { title: 'NewDay Child Coaching', group: 'Sites', image: 'project3-1.png', index: 2, description: 'Developed a professional coaching website that presents educational resources, coaching services, and the PATHWise™ framework through a clean and conversion-focused interface.' },
@@ -43,14 +45,27 @@ const coords = [
   [16, 20], [34, 13], [56, 24], [81, 17], [22, 48], [44, 42], [70, 47], [90, 38], [11, 76], [34, 71], [57, 79], [80, 69], [96, 83], [4, 40], [28, 30], [49, 60], [72, 22], [91, 56], [15, 60], [40, 31], [63, 65], [85, 29], [7, 88], [27, 85], [49, 91], [66, 9], [88, 94], [97, 12], [55, 50],
 ];
 
-interface Props { activeProjectIndex: number | null; onSelectProject: (index: number | null) => void }
-
-export function ConstellationProjects({ activeProjectIndex, onSelectProject }: Props) {
+export function ConstellationProjects() {
   const [filter, setFilter] = useState<(typeof filters)[number]>('All');
   const [hovered, setHovered] = useState<Work | null>(null);
   const [opened, setOpened] = useState<Work | null>(null);
+  const cursorPreview = useRef<HTMLDivElement>(null);
+  const movePreview = useRef<((value: number) => void)[]>([]);
   const visible = useMemo(() => filter === 'All' ? work : work.filter((project) => project.group === filter), [filter]);
-  const preview = hovered ?? work[activeProjectIndex ?? 0];
+
+  useEffect(() => {
+    const card = cursorPreview.current;
+    if (!card) return;
+    movePreview.current = [gsap.quickTo(card, 'x', { duration: 0.34, ease: 'power3.out' }), gsap.quickTo(card, 'y', { duration: 0.34, ease: 'power3.out' })];
+    return () => { gsap.killTweensOf(card); movePreview.current = []; };
+  }, []);
+
+  const trackPointer = (event: PointerEvent<HTMLDivElement>) => {
+    const offsetX = event.clientX > window.innerWidth - 310 ? -286 : 24;
+    const offsetY = event.clientY > window.innerHeight - 220 ? -202 : 22;
+    movePreview.current[0]?.(event.clientX + offsetX);
+    movePreview.current[1]?.(event.clientY + offsetY);
+  };
 
   useEffect(() => {
     if (!opened) return;
@@ -64,14 +79,22 @@ export function ConstellationProjects({ activeProjectIndex, onSelectProject }: P
     };
   }, [opened]);
 
-  const focusProject = (project: Work) => {
+  const focusProject = (project: Work, target?: HTMLButtonElement) => {
     setHovered(project);
-    onSelectProject(typeof project.index === 'number' ? project.index : null);
+    if (target) {
+      const bounds = target.getBoundingClientRect();
+      const x = bounds.left + bounds.width / 2;
+      const y = bounds.top + bounds.height / 2;
+      const offsetX = x > window.innerWidth - 310 ? -286 : 24;
+      const offsetY = y > window.innerHeight - 220 ? -202 : 22;
+      movePreview.current[0]?.(x + offsetX);
+      movePreview.current[1]?.(y + offsetY);
+    }
   };
 
   return <div className="constellation-wrap">
-    <div className="constellation-topline"><p>29 PROJECTS, ONE CURIOUS MIND.</p><span>HOVER TO FIND YOUR BEARING <i /></span></div>
-    <div className="sky-map" onMouseLeave={() => setHovered(null)}>
+    <div className="constellation-topline"><p>29 PROJECTS, ONE CURIOUS MIND.</p><span>HOVER A POINT TO PREVIEW&nbsp; / &nbsp;CLICK TO OPEN <i /></span></div>
+    <div className="sky-map" onPointerMove={trackPointer} onPointerLeave={() => setHovered(null)}>
       <div className="sky-nebula" aria-hidden="true" />
       <svg className="sky-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
         {visible.map((project, index) => {
@@ -86,16 +109,15 @@ export function ConstellationProjects({ activeProjectIndex, onSelectProject }: P
       </svg>
       {visible.map((project) => {
         const index = work.indexOf(project); const [x, y] = coords[index]; const selected = hovered?.title === project.title;
-        return <button key={project.title} type="button" className={`star-point ${selected ? 'star-point-active' : ''}`} style={{ left: `${x}%`, top: `${y}%`, '--star-delay': `${(index % 7) * -0.45}s` } as CSSProperties} onMouseEnter={() => focusProject(project)} onFocus={() => focusProject(project)} onClick={() => { focusProject(project); setOpened(project); }} aria-label={`Explore ${project.title}`}>
+        return <button key={project.title} type="button" className={`star-point ${selected ? 'star-point-active' : ''}`} style={{ left: `${x}%`, top: `${y}%`, '--star-delay': `${(index % 7) * -0.45}s` } as CSSProperties} onMouseEnter={() => focusProject(project)} onFocus={(event) => focusProject(project, event.currentTarget)} onClick={() => { focusProject(project); setOpened(project); }} aria-label={`Explore ${project.title}`}>
           <span className="star-aura" /><span className="star-core" /><span className="star-name">{project.title}</span>
         </button>;
       })}
+      <div ref={cursorPreview} className={`project-cursor-preview${hovered ? ' is-visible' : ''}`} aria-hidden="true">
+        {hovered && <><div className="cursor-preview-image"><img src={`/assets/projects/${hovered.image}`} alt="" /></div><div className="cursor-preview-meta"><span>{hovered.group}</span><ArrowUpRight size={14} /></div><strong>{hovered.title}</strong><small>CLICK TO EXPLORE</small></>}
+      </div>
       <div className="sky-coordinates">α 19h 42m &nbsp; / &nbsp; δ +12° 18′</div>
       <div className="sky-count">{String(visible.length).padStart(2, '0')} / {String(work.length).padStart(2, '0')}</div>
-    </div>
-    <div className="project-preview" aria-live="polite">
-      <div className="preview-copy"><span className="preview-type">{preview?.group} <i /> SELECTED WORK</span><h3>{preview?.title}</h3><p>{preview?.description}</p><button type="button" className="preview-action" onClick={() => preview && setOpened(preview)}>READ THE STORY <ArrowUpRight size={14} /></button></div>
-      <button type="button" className="preview-image" onClick={() => preview && setOpened(preview)} aria-label={`Read more about ${preview?.title}`}><img src={`/assets/projects/${preview?.image}`} alt="" /><span>OPEN PROJECT <ArrowUpRight size={13} /></span></button>
     </div>
     <div className="project-filters" role="group" aria-label="Filter projects">{filters.map((name) => <button type="button" key={name} onClick={() => { setFilter(name); setHovered(null); }} className={filter === name ? 'filter-active' : ''}>{name}<span>{name === 'All' ? work.length : work.filter((project) => project.group === name).length}</span></button>)}</div>
     {opened && <div className="work-dialog-backdrop" onMouseDown={(event) => { if (event.target === event.currentTarget) setOpened(null); }}>
