@@ -1,264 +1,329 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Projects</title>
+    <title>Projects — TEMport® Creative Studio</title>
     <link rel="icon" type="image/svg+xml" href="assets/WebTempLogo.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&family=Mona+Sans:ital,wght@0,500;0,600;0,700;0,800;0,900;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="style.css?v=2.5" />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css"
     />
-    <style>
-      .curtain-wipe {
-        position: fixed;
-        top: 0;
-        left: -20vw;
-        width: 140vw;
-        height: 100vh;
-        background: linear-gradient(
-          135deg,
-          #7c3aed 0%,
-          #5b21b6 50%,
-          #2e1065 100%
-        );
-        z-index: 99999;
-        pointer-events: none;
-        transform: translateX(0%) skewX(-12deg);
-        animation: curtain-wipe-out 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-      }
-      @keyframes curtain-wipe-out {
-        0% {
-          transform: translateX(0%) skewX(-12deg);
-        }
-        100% {
-          transform: translateX(-100%) skewX(-12deg);
-        }
-      }
-    </style>
+    <link rel="stylesheet" href="style.css?v=6.0" />
+    <link rel="stylesheet" href="messenger.css?v=1.1" />
     <script>
-      if (localStorage.getItem("theme") === "dark") {
-        document.documentElement.classList.add("dark-mode");
-      }
+      (function () {
+        try {
+          var t = localStorage.getItem("theme") || localStorage.getItem("temport_theme");
+          if (t === "dark") {
+            document.documentElement.classList.add("dark-mode");
+          }
+        } catch (e) {}
+      })();
     </script>
   </head>
   <body class="revealed aim-cursor">
-    <header class="navbar">
-      <div class="logo">
-        <a
-          href="index.html"
-          style="
-            color: inherit;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-          "
-        >
-          <span class="logo-mark"></span>Team Portfolio
-        </a>
+    <!-- Fixed page background: grid paper + scattered doodles stay in place while content scrolls (matching index.html) -->
+    <div class="cr-fixed-bg" aria-hidden="true">
+      <svg class="cr-doodle cr-doodle-yellow" viewBox="0 0 126 97" fill="none"><use href="#svg-472710921_1296" /></svg>
+      <svg class="cr-doodle cr-doodle-lime" viewBox="0 0 167 148" fill="none"><use href="#svg375415904_1395" /></svg>
+      <svg class="cr-doodle cr-doodle-blue" viewBox="0 0 175 175" fill="none"><use href="#svg1760472650_2542" /></svg>
+      <svg class="cr-doodle cr-doodle-confetti" viewBox="0 0 115 100" fill="none"><use href="#svg-1519324100_341" /></svg>
+      <div class="cr-scribble cr-scribble-1">asaf sdag</div>
+    </div>
+
+    <!-- Floating Home Button (Fixed Top-Left, Exact Match to Celestial Toggle) -->
+    <a href="index.html" class="cr-back-to-home" id="cr-back-to-home" aria-label="Back to Home">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M3 10.5L12 3l9 7.5V20a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 20V10.5z"/>
+        <polyline points="9 21.5 9 12.5 15 12.5 15 21.5"/>
+      </svg>
+    </a>
+
+    <!-- Floating Celestial Sun/Moon Theme Toggle (Always Fixed Top-Right) -->
+    <button class="theme-toggle celestial-toggle" id="theme-toggle" type="button" aria-label="Toggle dark mode">
+      <div class="celestial-body" aria-hidden="true">
+        <!-- Sun for Day Mode -->
+        <div class="celestial-sun">
+          <div class="sun-core"></div>
+          <div class="sun-rays">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+          </div>
+        </div>
+        <!-- Moon for Night Mode -->
+        <div class="celestial-moon">
+          <div class="moon-core">
+            <span class="moon-crater c1"></span>
+            <span class="moon-crater c2"></span>
+            <span class="moon-crater c3"></span>
+          </div>
+          <div class="moon-aura"></div>
+        </div>
       </div>
-      <nav>
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="project.html">Project</a></li>
-          <li><a href="teams.html">Teams</a></li>
-          <li><a href="services.html">Services</a></li>
-          <li><a href="contact.html" class="nav-cta">Start project</a></li>
-        </ul>
-      </nav>
+    </button>
+
+    <!-- Subpage Hero Header (Centered, balanced, zero awkward pins) -->
+    <header class="cr-subpage-hero">
+      <!-- Nocturnal Fireflies Layer (Confined strictly inside subpage hero hills) -->
+      <div class="cr-fireflies-layer cr-subpage-fireflies" aria-hidden="true">
+        <span class="cr-firefly f1"></span>
+        <span class="cr-firefly f2"></span>
+        <span class="cr-firefly f3"></span>
+        <span class="cr-firefly f4"></span>
+        <span class="cr-firefly f5"></span>
+        <span class="cr-firefly f6"></span>
+        <span class="cr-firefly f7"></span>
+        <span class="cr-firefly f8"></span>
+        <span class="cr-firefly f9"></span>
+        <span class="cr-firefly f10"></span>
+        <span class="cr-firefly f11"></span>
+        <span class="cr-firefly f12"></span>
+      </div>
+
+      <div class="cr-hero-header-inner">
+        <div class="cr-hero-badge-pill">
+          <span class="cr-badge-dot"></span>
+          <span>SELECTED WORK • 15 PRODUCTION DOSSIERS</span>
+        </div>
+        <h1 class="cr-hero-main-title">
+          PROJECTS THAT<br />TELL STORIES
+        </h1>
+        <p class="cr-hero-main-subtitle">
+          Explore our 15 client websites, production web applications, and interactive UI/UX design systems in our OS Workstation.
+        </p>
+      </div>
     </header>
 
-    <section
-      id="work"
-      class="reveal d4 project-browser-section"
-      style="margin-top: 60px"
-    >
-      <div class="section-head project-browser-head">
-        <div>
-          <div class="eyebrow mono">Selected work</div>
-          <h2 class="scramble-trigger">Projects we’ve worked on</h2>
+    <!-- ============ MAIN WORK SECTION: UNIFIED CREATIE® OS WORKSTATION ============ -->
+    <section id="work" class="reveal d4 project-browser-section" style="margin-top: 24px;">
+      <div class="cr-os-workstation project-viewer device-desktop">
+
+        <!-- 1. Master OS Window Chrome Topbar -->
+        <div class="cr-viewer-os-topbar cr-workstation-topbar">
+          <div class="cr-workstation-topbar-left">
+            <div class="cr-os-controls" aria-hidden="true">
+              <button type="button" class="cr-os-pill-pink" id="cr-os-control-pink"></button>
+              <button type="button" class="cr-os-sq-blue" id="cr-os-control-blue"></button>
+              <button type="button" class="cr-os-tri-yellow" id="cr-os-control-yellow">
+                <svg viewBox="0 0 13.832 10.64" overflow="visible"><use href="#svg-1841702569_267" /></svg>
+              </button>
+            </div>
+
+            <!-- Quick Return to Home Link -->
+            <a href="index.html" class="cr-os-home-shortcut" aria-label="Return to Home Portfolio">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                <polyline points="9 22 9 12 15 12 15 22"/>
+              </svg>
+              <span>HOME</span>
+            </a>
+
+            <div class="cr-viewer-os-address">
+              <span class="cr-viewer-os-dot"></span>
+              <span class="cr-address-root">creatie://work/</span>
+              <span id="cr-viewer-os-slug">magnify-vision-media.case</span>
+            </div>
+          </div>
+
+          <div class="cr-workstation-topbar-right">
+            <!-- Interactive Device Viewport Switcher -->
+            <div class="cr-device-viewport-bar" role="group" aria-label="Device Viewport Switcher">
+              <button type="button" class="cr-device-btn is-active" data-device="desktop">
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                <span>Desktop</span>
+              </button>
+              <button type="button" class="cr-device-btn" data-device="tablet">
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+                <span>Tablet</span>
+              </button>
+              <button type="button" class="cr-device-btn" data-device="mobile">
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+                <span>Mobile</span>
+              </button>
+            </div>
+
+            <!-- Open Live Website CTA Button -->
+            <a href="https://mvm-website-624e7.web.app/" target="_blank" rel="noopener noreferrer" class="cr-viewer-live-cta" id="cr-viewer-live-cta">
+              <span>Open Live</span>
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+            </a>
+
+            <div class="cr-viewer-os-badge">OS // WORKSTATION</div>
+          </div>
         </div>
-        <p>Pick a project from the list to see the full write-up.</p>
-      </div>
 
-      <div class="project-browser">
-        <!-- ============ SIDEBAR NAV ============ -->
-        <aside class="project-sidebar">
-          <div class="project-sidebar-group">
-            <h3 class="project-sidebar-group-title">Websites</h3>
-            <div class="project-sidebar-list">
-              <button
-                class="project-sidebar-item is-active"
-                type="button"
-                data-project="magnify"
-              >
-                <span class="project-sidebar-index mono"></span>
-                <span class="project-sidebar-name">Magnify Vision Media</span>
-              </button>
-              <button
-                class="project-sidebar-item"
-                type="button"
-                data-project="bunbite"
-              >
-                <span class="project-sidebar-index mono"></span>
-                <span class="project-sidebar-name">Bun &amp; Bite</span>
-              </button>
-              <!-- NEW SIDEBAR BUTTON ADDED HERE -->
-              <button
-                class="project-sidebar-item"
-                type="button"
-                data-project="newwebsiteproject"
-              >
-                <span class="project-sidebar-index mono"></span>
-                <span class="project-sidebar-name">Vibe//Tix</span>
-              </button>
-              <button
-                class="project-sidebar-item"
-                type="button"
-                data-project="aire-digital"
-              >
-                <span class="project-sidebar-index mono"></span>
-                <span class="project-sidebar-name">AIRE Digital</span>
-              </button>
+        <!-- 2. Integrated Folder Tab Bar (Retro File Tabs) -->
+        <div class="cr-workstation-folder-bar" role="tablist" aria-label="Project categories">
+          <button type="button" class="cr-category-pill cr-folder-tab is-active" data-cat-filter="websites">
+            <span class="pill-dot"></span>
+            <span class="folder-tab-name">Client Websites</span>
+            <span class="pill-count">8</span>
+          </button>
+          <button type="button" class="cr-category-pill cr-folder-tab" data-cat-filter="webbuilder">
+            <span class="pill-dot"></span>
+            <span class="folder-tab-name">Web Builder</span>
+            <span class="pill-count">1</span>
+          </button>
+          <button type="button" class="cr-category-pill cr-folder-tab" data-cat-filter="landing">
+            <span class="pill-dot"></span>
+            <span class="folder-tab-name">Landing Pages</span>
+            <span class="pill-count">3</span>
+          </button>
+          <button type="button" class="cr-category-pill cr-folder-tab" data-cat-filter="uiux">
+            <span class="pill-dot"></span>
+            <span class="folder-tab-name">UI / UX Systems</span>
+            <span class="pill-count">3</span>
+          </button>
+        </div>
 
-              <button
-                class="project-sidebar-item"
-                type="button"
-                data-project="e-Sweets"
-              >
-                <span class="project-sidebar-index mono"></span>
-                <span class="project-sidebar-name">e-Sweets</span>
-              </button>
-              <button
-                class="project-sidebar-item"
-                type="button"
-                data-project="novara-real-estate"
-              >
-                <span class="project-sidebar-index mono"></span>
-                <span class="project-sidebar-name">Novara Real Estate</span>
-              </button>
-            </div>
+        <!-- 3. Workstation Main Interior Grid -->
+        <div class="cr-workstation-body">
+          <!-- Left: Finder Sidebar (With categorized groups) -->
+          <aside class="project-sidebar cr-workstation-sidebar">
+            <div class="cr-sidebar-items-scroll">
+              <!-- Group: Websites (8) -->
+              <div class="project-sidebar-group" data-group="websites">
+                <h3 class="project-sidebar-group-title">
+                  <span>Websites</span>
+                  <span class="group-count">8</span>
+                </h3>
+                <div class="project-sidebar-list">
+                  <button class="project-sidebar-item is-active" type="button" data-project="magnify" data-category="websites">
+                    <span class="project-sidebar-index">01</span>
+                    <span class="project-sidebar-name">Magnify Vision Media</span>
+                    <span class="project-sidebar-badge live">Live ↗</span>
+                  </button>
+                  <button class="project-sidebar-item" type="button" data-project="bunbite" data-category="websites">
+                    <span class="project-sidebar-index">02</span>
+                    <span class="project-sidebar-name">Bun &amp; Bite</span>
+                    <span class="project-sidebar-badge dev">Dev</span>
+                  </button>
+                  <button class="project-sidebar-item" type="button" data-project="newwebsiteproject" data-category="websites">
+                    <span class="project-sidebar-index">03</span>
+                    <span class="project-sidebar-name">Vibe//Tix</span>
+                    <span class="project-sidebar-badge live">Live ↗</span>
+                  </button>
+                  <button class="project-sidebar-item" type="button" data-project="aire-digital" data-category="websites">
+                    <span class="project-sidebar-index">04</span>
+                    <span class="project-sidebar-name">AIRE Digital</span>
+                    <span class="project-sidebar-badge live">Live ↗</span>
+                  </button>
+                  <button class="project-sidebar-item" type="button" data-project="e-Sweets" data-category="websites">
+                    <span class="project-sidebar-index">05</span>
+                    <span class="project-sidebar-name">e-Sweets</span>
+                    <span class="project-sidebar-badge live">Live ↗</span>
+                  </button>
+                  <button class="project-sidebar-item" type="button" data-project="novara-real-estate" data-category="websites">
+                    <span class="project-sidebar-index">06</span>
+                    <span class="project-sidebar-name">Novara Real Estate</span>
+                    <span class="project-sidebar-badge live">Live ↗</span>
+                  </button>
+                  <button class="project-sidebar-item" type="button" data-project="beantown" data-category="websites">
+                    <span class="project-sidebar-index">07</span>
+                    <span class="project-sidebar-name">Beantown</span>
+                    <span class="project-sidebar-badge plan">WIP</span>
+                  </button>
+                  <button class="project-sidebar-item" type="button" data-project="NextLevelGaming" data-category="websites">
+                    <span class="project-sidebar-index">08</span>
+                    <span class="project-sidebar-name">NextLevelGaming</span>
+                    <span class="project-sidebar-badge plan">WIP</span>
+                  </button>
+                </div>
+              </div>
 
-            <button
-              class="project-sidebar-item"
-              type="button"
-              data-project="beantown"
-            >
-              <span class="project-sidebar-index mono"></span>
-              <span class="project-sidebar-name">Beantown</span>
-            </button>
-            <button
-              class="project-sidebar-item"
-              type="button"
-              data-project="NextLevelGaming"
-            >
-              <span class="project-sidebar-index mono"></span>
-              <span class="project-sidebar-name">NextLevelGaming</span>
-            </button>
+              <!-- Group: Web Builder (1) -->
+              <div class="project-sidebar-group" data-group="webbuilder">
+                <h3 class="project-sidebar-group-title">
+                  <span>Web Builder</span>
+                  <span class="group-count">1</span>
+                </h3>
+                <div class="project-sidebar-list">
+                  <button class="project-sidebar-item" type="button" data-project="newday" data-category="webbuilder">
+                    <span class="project-sidebar-index">09</span>
+                    <span class="project-sidebar-name">NewDay Child Coaching</span>
+                    <span class="project-sidebar-badge flow">Webflow</span>
+                  </button>
+                </div>
+              </div>
 
-            <div class="project-sidebar-subgroup">
-              <h4 class="project-sidebar-subgroup-title">Web Builder</h4>
-              <div class="project-sidebar-list">
-                <button
-                  class="project-sidebar-item"
-                  type="button"
-                  data-project="newday"
-                >
-                  <span class="project-sidebar-index mono"></span>
-                  <span class="project-sidebar-name"
-                    >NewDay Child Coaching</span
-                  >
-                </button>
+              <!-- Group: Landing Pages (3) -->
+              <div class="project-sidebar-group" data-group="landing">
+                <h3 class="project-sidebar-group-title">
+                  <span>Landing Pages</span>
+                  <span class="group-count">3</span>
+                </h3>
+                <div class="project-sidebar-list">
+                  <button class="project-sidebar-item" type="button" data-project="buy-coffe" data-category="landing">
+                    <span class="project-sidebar-index">10</span>
+                    <span class="project-sidebar-name">Buy-Coffe</span>
+                    <span class="project-sidebar-badge live">Live ↗</span>
+                  </button>
+                  <button class="project-sidebar-item" type="button" data-project="flowdesk" data-category="landing">
+                    <span class="project-sidebar-index">11</span>
+                    <span class="project-sidebar-name">FlowDesk</span>
+                    <span class="project-sidebar-badge live">Live ↗</span>
+                  </button>
+                  <button class="project-sidebar-item" type="button" data-project="signalcraft" data-category="landing">
+                    <span class="project-sidebar-index">12</span>
+                    <span class="project-sidebar-name">Signalcraft</span>
+                    <span class="project-sidebar-badge live">Live ↗</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Group: UI / UX Systems (3) -->
+              <div class="project-sidebar-group" data-group="uiux">
+                <h3 class="project-sidebar-group-title">
+                  <span>UI / UX Systems</span>
+                  <span class="group-count">3</span>
+                </h3>
+                <div class="project-sidebar-list">
+                  <button class="project-sidebar-item" type="button" data-project="webdesign" data-category="uiux">
+                    <span class="project-sidebar-index">13</span>
+                    <span class="project-sidebar-name">Web Design</span>
+                  </button>
+                  <button class="project-sidebar-item" type="button" data-project="mobileappdesign" data-category="uiux">
+                    <span class="project-sidebar-index">14</span>
+                    <span class="project-sidebar-name">Mobile App Design</span>
+                  </button>
+                  <button class="project-sidebar-item" type="button" data-project="herosection" data-category="uiux">
+                    <span class="project-sidebar-index">15</span>
+                    <span class="project-sidebar-name">Hero Section</span>
+                  </button>
+                </div>
               </div>
             </div>
+          </aside>
 
-            <div class="project-sidebar-subgroup">
-              <h4 class="project-sidebar-subgroup-title">Landing Pages</h4>
-              <div class="project-sidebar-list">
-                <button
-                  class="project-sidebar-item"
-                  type="button"
-                  data-project="buy-coffe"
-                >
-                  <span class="project-sidebar-index mono"></span>
-                  <span class="project-sidebar-name">Buy-Coffe</span>
-                </button>
-                <button
-                  class="project-sidebar-item"
-                  type="button"
-                  data-project="flowdesk"
-                >
-                  <span class="project-sidebar-index mono"></span>
-                  <span class="project-sidebar-name">FlowDesk</span>
-                </button>
-                <button
-                  class="project-sidebar-item"
-                  type="button"
-                  data-project="signalcraft"
-                >
-                  <span class="project-sidebar-index mono"></span>
-                  <span class="project-sidebar-name">Signalcraft</span>
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <div class="project-sidebar-group">
-            <h3 class="project-sidebar-group-title">UI / UX</h3>
-
-            <div class="project-sidebar-list">
-              <button
-                class="project-sidebar-item"
-                type="button"
-                data-project="webdesign"
-              >
-                <span class="project-sidebar-index mono"></span>
-                <span class="project-sidebar-name">Web Design</span>
-              </button>
-              <button
-                class="project-sidebar-item"
-                type="button"
-                data-project="mobileappdesign"
-              >
-                <span class="project-sidebar-index mono"></span>
-                <span class="project-sidebar-name">Mobile App Design</span>
-              </button>
-              <button
-                class="project-sidebar-item"
-                type="button"
-                data-project="herosection"
-              >
-                <span class="project-sidebar-index mono"></span>
-                <span class="project-sidebar-name">Hero Section</span>
-              </button>
-            </div>
-          </div>
-        </aside>
-
-        <!-- ============ VIEWER ============ -->
-        <div class="project-viewer">
-          <!-- 01 Magnify Vision -->
-          <article class="project-viewer-panel" data-panel="magnify">
+          <!-- Right Stage: Workstation Dossier Viewer Stage -->
+          <main class="cr-workstation-stage" id="cr-workstation-stage">
+            <!-- 01 Magnify Vision Media -->
+          <article class="project-viewer-panel is-active" data-panel="magnify">
             <div class="project-viewer-media">
               <div class="project-live-preview">
-                <iframe
-                  src="https://mvm-website-624e7.web.app/"
-                  title="Magnify Vision Media live website preview"
+                <iframe data-src="https://mvm-website-624e7.web.app/"
                   loading="lazy"
                 ></iframe>
               </div>
             </div>
 
             <div class="project-viewer-body">
-              <div class="project-viewer-eyebrow mono">Websites &mdash; 01</div>
+              <div class="project-viewer-eyebrow ">Websites &mdash; 01</div>
               <h3>Magnify Vision Media</h3>
               <p>
                 Developed a premium corporate website for Magnify Vision Media,
@@ -268,16 +333,15 @@
                 frontend experiences while following the company's official
                 brand identity.
               </p>
-
               <!-- STATUS BADGE -->
-              <div class="project-status-badge mono">
-                <span class="status-dot" style="background: #10b981"></span>
+              <div class="project-status-badge ">
+                <span class="status-dot"></span>
                 Completed
               </div>
 
               <!-- BUILT WITH -->
               <div class="project-features">
-                <div class="project-features-title mono">Frontend Stack</div>
+                <div class="project-features-title ">Frontend Stack</div>
                 <div class="tag-pills">
                   <span>HTML5</span><span>CSS3</span><span>JavaScript</span
                   ><span>Responsive Web Design</span>
@@ -285,7 +349,7 @@
               </div>
 
               <div class="project-features">
-                <div class="project-features-title mono">
+                <div class="project-features-title ">
                   Backend &amp; Hosting
                 </div>
                 <div class="tag-pills">
@@ -295,7 +359,7 @@
 
               <!-- DESIGN & DEV HIGHLIGHTS -->
               <div class="project-features">
-                <div class="project-features-title mono">
+                <div class="project-features-title ">
                   Design &amp; Development Highlights
                 </div>
                 <ul class="project-features-list">
@@ -321,7 +385,7 @@
 
               <!-- CODE FEATURES -->
               <div class="project-features">
-                <div class="project-features-title mono">Code Features</div>
+                <div class="project-features-title ">Code Features</div>
                 <div class="tag-pills">
                   <span>Semantic HTML</span><span>CSS Animations</span
                   ><span>Smooth Scrolling</span> <span>Form Validation</span
@@ -333,7 +397,7 @@
               <!-- PROJECT STATUS COLUMNS -->
               <div class="status-columns">
                 <div class="status-col">
-                  <div class="project-features-title mono">
+                  <div class="project-features-title ">
                     Current Implementation
                   </div>
                   <ul class="project-features-list status-list is-done">
@@ -344,7 +408,7 @@
                   </ul>
                 </div>
                 <div class="status-col">
-                  <div class="project-features-title mono">
+                  <div class="project-features-title ">
                     Planned Enhancements
                   </div>
                   <ul class="project-features-list status-list">
@@ -354,16 +418,6 @@
                   </ul>
                 </div>
               </div>
-
-              <div class="project-viewer-actions">
-                <a
-                  href="https://mvm-website-624e7.web.app"
-                  class="btn-primary project-link"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  >Visit website</a
-                >
-              </div>
             </div>
           </article>
 
@@ -371,16 +425,14 @@
           <article class="project-viewer-panel" data-panel="bunbite">
             <div class="project-viewer-media">
               <div class="project-live-preview">
-                <img
-                  src="assets/projects/project2-1.png"
+                <img src="assets/projects/project2-1.png"
                   alt="Bun and Bite website preview"
-                  class="project-media-img"
-                />
+                  class="project-media-img" loading="lazy" decoding="async">
               </div>
             </div>
 
             <div class="project-viewer-body">
-              <div class="project-viewer-eyebrow mono">Websites &mdash; 02</div>
+              <div class="project-viewer-eyebrow ">Websites &mdash; 02</div>
               <h3>Bun &amp; Bite</h3>
               <p>
                 Bun &amp; Bite is a modern full-stack food ordering web
@@ -392,15 +444,14 @@
                 cloud architecture that priorizes security, performance, and
                 maintainability.
               </p>
-
               <!-- STATUS BADGE -->
-              <div class="project-status-badge mono">
+              <div class="project-status-badge ">
                 <span class="status-dot"></span> Active Development
               </div>
 
               <!-- BUILT WITH -->
               <div class="project-features">
-                <div class="project-features-title mono">Frontend</div>
+                <div class="project-features-title ">Frontend</div>
                 <div class="tag-pills">
                   <span>React</span><span>TypeScript</span><span>Vite</span>
                   <span>Tailwind CSS</span><span>HTML5</span><span>CSS3</span
@@ -409,7 +460,7 @@
               </div>
 
               <div class="project-features">
-                <div class="project-features-title mono">
+                <div class="project-features-title ">
                   Backend &amp; Cloud Services
                 </div>
                 <div class="tag-pills">
@@ -420,7 +471,7 @@
               </div>
 
               <div class="project-features">
-                <div class="project-features-title mono">Payment Gateway</div>
+                <div class="project-features-title ">Payment Gateway</div>
                 <div class="tag-pills">
                   <span>Xendit (Test Mode)</span><span>GCash</span
                   ><span>Maya</span> <span>Credit/Debit Cards</span
@@ -429,7 +480,7 @@
               </div>
 
               <div class="project-features">
-                <div class="project-features-title mono">
+                <div class="project-features-title ">
                   Maps &amp; Location
                 </div>
                 <div class="tag-pills">
@@ -439,7 +490,7 @@
 
               <!-- DESIGN & DEV HIGHLIGHTS -->
               <div class="project-features">
-                <div class="project-features-title mono">
+                <div class="project-features-title ">
                   Design &amp; Development Highlights
                 </div>
                 <ul class="project-features-list">
@@ -487,7 +538,7 @@
 
               <!-- CODE FEATURES -->
               <div class="project-features">
-                <div class="project-features-title mono">Code Features</div>
+                <div class="project-features-title ">Code Features</div>
                 <div class="tag-pills">
                   <span>Firebase Auth</span><span>Guest Browsing</span
                   ><span>Protected Checkout</span> <span>Product Search</span
@@ -507,7 +558,7 @@
               <!-- PROJECT STATUS COLUMNS -->
               <div class="status-columns">
                 <div class="status-col">
-                  <div class="project-features-title mono">
+                  <div class="project-features-title ">
                     Current Implementation
                   </div>
                   <ul class="project-features-list status-list is-done">
@@ -522,7 +573,7 @@
                   </ul>
                 </div>
                 <div class="status-col">
-                  <div class="project-features-title mono">
+                  <div class="project-features-title ">
                     Planned Enhancements
                   </div>
                   <ul class="project-features-list status-list">
@@ -537,16 +588,6 @@
                   </ul>
                 </div>
               </div>
-
-              <div class="project-viewer-actions">
-                <a
-                  href="https://bun-and-bite-88537.web.app/"
-                  class="btn-primary project-link"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  >Visit website</a
-                >
-              </div>
             </div>
           </article>
 
@@ -554,16 +595,14 @@
           <article class="project-viewer-panel" data-panel="newday">
             <div class="project-viewer-media">
               <div class="project-live-preview">
-                <iframe
-                  src="https://www.newdaychildcoaching.com/home"
-                  title="NewDay Child Coaching live website preview"
+                <iframe data-src="https://www.newdaychildcoaching.com/home"
                   loading="lazy"
                 ></iframe>
               </div>
             </div>
 
             <div class="project-viewer-body">
-              <div class="project-viewer-eyebrow mono">Web Builder</div>
+              <div class="project-viewer-eyebrow ">Web Builder</div>
               <h3>NewDay Child Coaching</h3>
               <p>
                 Developed a professional coaching website that presents
@@ -571,16 +610,15 @@
                 PATHWise&trade; framework through a clean and conversion-focused
                 interface.
               </p>
-
               <!-- STATUS BADGE -->
-              <div class="project-status-badge mono">
-                <span class="status-dot" style="background: #10b981"></span>
+              <div class="project-status-badge ">
+                <span class="status-dot"></span>
                 Completed
               </div>
 
               <!-- BUILT WITH -->
               <div class="project-features">
-                <div class="project-features-title mono">
+                <div class="project-features-title ">
                   Platform &amp; Tools
                 </div>
                 <div class="tag-pills">
@@ -591,7 +629,7 @@
 
               <!-- DESIGN & DEV HIGHLIGHTS -->
               <div class="project-features">
-                <div class="project-features-title mono">
+                <div class="project-features-title ">
                   Design &amp; Development Highlights
                 </div>
                 <ul class="project-features-list">
@@ -610,7 +648,7 @@
 
               <!-- CODE FEATURES -->
               <div class="project-features">
-                <div class="project-features-title mono">Platform Features</div>
+                <div class="project-features-title ">Platform Features</div>
                 <div class="tag-pills">
                   <span>Form Integration</span><span>Asset Management</span
                   ><span>Content Architecture</span>
@@ -621,7 +659,7 @@
               <!-- PROJECT STATUS COLUMNS -->
               <div class="status-columns">
                 <div class="status-col">
-                  <div class="project-features-title mono">
+                  <div class="project-features-title ">
                     Current Implementation
                   </div>
                   <ul class="project-features-list status-list is-done">
@@ -632,7 +670,7 @@
                   </ul>
                 </div>
                 <div class="status-col">
-                  <div class="project-features-title mono">
+                  <div class="project-features-title ">
                     Planned Enhancements
                   </div>
                   <ul class="project-features-list status-list">
@@ -642,16 +680,6 @@
                   </ul>
                 </div>
               </div>
-
-              <div class="project-viewer-actions">
-                <a
-                  href="https://www.newdaychildcoaching.com/home"
-                  class="btn-primary project-link"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  >Visit website</a
-                >
-              </div>
             </div>
           </article>
 
@@ -659,31 +687,28 @@
           <article class="project-viewer-panel" data-panel="newwebsiteproject">
             <div class="project-viewer-media">
               <div class="project-live-preview">
-                <iframe
-                  src="https://vibetix-c74f0.web.app/"
-                  title="Vibe Tix live website preview"
+                <iframe data-src="https://vibetix-c74f0.web.app/"
                   loading="lazy"
                 ></iframe>
               </div>
             </div>
 
             <div class="project-viewer-body">
-              <div class="project-viewer-eyebrow mono">Websites &mdash; 04</div>
+              <div class="project-viewer-eyebrow ">Websites &mdash; 04</div>
               <h3>VIBE//TIX</h3>
               <p>
                 An immersive ticketing platform for curated live music. Grab
                 your passes to the best underground and alternative shows across
                 the globe.
               </p>
-
               <!-- STATUS BADGE -->
-              <div class="project-status-badge mono">
+              <div class="project-status-badge ">
                 <span class="status-dot"></span> Active Development
               </div>
 
               <!-- BUILT WITH -->
               <div class="project-features">
-                <div class="project-features-title mono">Frontend Elements</div>
+                <div class="project-features-title ">Frontend Elements</div>
                 <div class="tag-pills">
                   <span>HTML5</span><span>CSS3</span><span>JavaScript</span
                   ><span>Web Audio API</span><span>SVG Animation</span>
@@ -691,7 +716,7 @@
               </div>
 
               <div class="project-features">
-                <div class="project-features-title mono">
+                <div class="project-features-title ">
                   Backend Architecture
                 </div>
                 <div class="tag-pills">
@@ -701,7 +726,7 @@
 
               <!-- DESIGN & DEV HIGHLIGHTS -->
               <div class="project-features">
-                <div class="project-features-title mono">
+                <div class="project-features-title ">
                   Design &amp; Development Highlights
                 </div>
                 <ul class="project-features-list">
@@ -728,7 +753,7 @@
 
               <!-- CODE FEATURES -->
               <div class="project-features">
-                <div class="project-features-title mono">Code Features</div>
+                <div class="project-features-title ">Code Features</div>
                 <div class="tag-pills">
                   <span>Interactive Map DOM</span><span>Live Countdowns</span
                   ><span>Multi-step Checkout</span> <span>Audio Processing</span
@@ -739,7 +764,7 @@
               <!-- PROJECT STATUS COLUMNS -->
               <div class="status-columns">
                 <div class="status-col">
-                  <div class="project-features-title mono">
+                  <div class="project-features-title ">
                     Current Implementation
                   </div>
                   <ul class="project-features-list status-list is-done">
@@ -750,7 +775,7 @@
                   </ul>
                 </div>
                 <div class="status-col">
-                  <div class="project-features-title mono">
+                  <div class="project-features-title ">
                     Planned Enhancements
                   </div>
                   <ul class="project-features-list status-list">
@@ -761,16 +786,6 @@
                   </ul>
                 </div>
               </div>
-
-              <div class="project-viewer-actions">
-                <a
-                  href="https://vibetix-c74f0.web.app"
-                  class="btn-primary project-link"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  >Visit website</a
-                >
-              </div>
             </div>
           </article>
 
@@ -778,16 +793,14 @@
           <article class="project-viewer-panel" data-panel="aire-digital">
             <div class="project-viewer-media">
               <div class="project-live-preview">
-                <iframe
-                  src="https://airedigitalservices.co/"
-                  title="AIRE Digital live website preview"
+                <iframe data-src="https://airedigitalservices.co/"
                   loading="lazy"
                 ></iframe>
               </div>
             </div>
 
             <div class="project-viewer-body">
-              <div class="project-viewer-eyebrow mono">Websites &mdash; 05</div>
+              <div class="project-viewer-eyebrow ">Websites &mdash; 05</div>
               <h3>AIRE Digital</h3>
               <p>
                 Developed a modern B2B lead generation and digital business
@@ -797,14 +810,13 @@
                 service presentation, clear conversion paths, and a clean,
                 international business-oriented design.
               </p>
-
-              <div class="project-status-badge mono">
-                <span class="status-dot" style="background: #10b981"></span>
+              <div class="project-status-badge ">
+                <span class="status-dot"></span>
                 Completed
               </div>
 
               <div class="project-features">
-                <div class="project-features-title mono">Frontend Stack</div>
+                <div class="project-features-title ">Frontend Stack</div>
                 <div class="tag-pills">
                   <span>HTML5</span><span>CSS3</span><span>JavaScript</span
                   ><span>Responsive Web Design</span>
@@ -812,7 +824,7 @@
               </div>
 
               <div class="project-features">
-                <div class="project-features-title mono">
+                <div class="project-features-title ">
                   Backend &amp; Hosting
                 </div>
                 <div class="tag-pills">
@@ -821,7 +833,7 @@
               </div>
 
               <div class="project-features">
-                <div class="project-features-title mono">
+                <div class="project-features-title ">
                   Design &amp; Development Highlights
                 </div>
                 <ul class="project-features-list">
@@ -853,7 +865,7 @@
               </div>
 
               <div class="project-features">
-                <div class="project-features-title mono">Code Features</div>
+                <div class="project-features-title ">Code Features</div>
                 <div class="tag-pills">
                   <span>Semantic HTML</span><span>CSS Animations</span
                   ><span>Smooth Scrolling</span><span>Form Validation</span
@@ -865,7 +877,7 @@
 
               <div class="status-columns">
                 <div class="status-col">
-                  <div class="project-features-title mono">
+                  <div class="project-features-title ">
                     Current Implementation
                   </div>
                   <ul class="project-features-list status-list is-done">
@@ -876,7 +888,7 @@
                   </ul>
                 </div>
                 <div class="status-col">
-                  <div class="project-features-title mono">
+                  <div class="project-features-title ">
                     Planned Enhancements
                   </div>
                   <ul class="project-features-list status-list">
@@ -886,16 +898,6 @@
                   </ul>
                 </div>
               </div>
-
-              <div class="project-viewer-actions">
-                <a
-                  href="https://airedigitalservices.co/"
-                  class="btn-primary project-link"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  >Visit website</a
-                >
-              </div>
             </div>
           </article>
 
@@ -903,16 +905,14 @@
           <article class="project-viewer-panel" data-panel="buy-coffe">
             <div class="project-viewer-media">
               <div class="project-live-preview">
-                <iframe
-                  src="https://buycoffee181527.web.app/"
-                  title="Buy-Coffe live website preview"
+                <iframe data-src="https://buycoffee181527.web.app/"
                   loading="lazy"
                 ></iframe>
               </div>
             </div>
 
             <div class="project-viewer-body">
-              <div class="project-viewer-eyebrow mono">
+              <div class="project-viewer-eyebrow ">
                 Websites &mdash; Landing Page
               </div>
               <h3>Buy-Coffe</h3>
@@ -924,14 +924,13 @@
                 storytelling, social proof, and a low-friction path for
                 supporters to contribute.
               </p>
-
-              <div class="project-status-badge mono">
-                <span class="status-dot" style="background: #10b981"></span>
+              <div class="project-status-badge ">
+                <span class="status-dot"></span>
                 Live Website
               </div>
 
               <div class="project-features">
-                <div class="project-features-title mono">Frontend</div>
+                <div class="project-features-title ">Frontend</div>
                 <div class="tag-pills">
                   <span>HTML5</span><span>CSS3</span><span>JavaScript</span
                   ><span>Responsive Layout</span><span>Modern UX</span>
@@ -939,7 +938,7 @@
               </div>
 
               <div class="project-features">
-                <div class="project-features-title mono">
+                <div class="project-features-title ">
                   Hosting &amp; Delivery
                 </div>
                 <div class="tag-pills">
@@ -949,7 +948,7 @@
               </div>
 
               <div class="project-features">
-                <div class="project-features-title mono">
+                <div class="project-features-title ">
                   Design &amp; Development Highlights
                 </div>
                 <ul class="project-features-list">
@@ -977,7 +976,7 @@
               </div>
 
               <div class="project-features">
-                <div class="project-features-title mono">Code Features</div>
+                <div class="project-features-title ">Code Features</div>
                 <div class="tag-pills">
                   <span>Landing Page Layout</span><span>CTA-Driven Design</span
                   ><span>Responsive UI</span> <span>Conversion Sections</span
@@ -987,7 +986,7 @@
 
               <div class="status-columns">
                 <div class="status-col">
-                  <div class="project-features-title mono">
+                  <div class="project-features-title ">
                     Current Implementation
                   </div>
                   <ul class="project-features-list status-list is-done">
@@ -998,7 +997,7 @@
                   </ul>
                 </div>
                 <div class="status-col">
-                  <div class="project-features-title mono">
+                  <div class="project-features-title ">
                     Planned Enhancements
                   </div>
                   <ul class="project-features-list status-list">
@@ -1009,16 +1008,6 @@
                   </ul>
                 </div>
               </div>
-
-              <div class="project-viewer-actions">
-                <a
-                  href="https://buycoffee181527.web.app/"
-                  class="btn-primary project-link"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  >Visit website</a
-                >
-              </div>
             </div>
           </article>
 
@@ -1026,16 +1015,14 @@
           <article class="project-viewer-panel" data-panel="e-Sweets">
             <div class="project-viewer-media">
               <div class="project-live-preview">
-                <iframe
-                  src="https://e-sweets-0.web.app/"
-                  title="e-Sweets live website preview"
+                <iframe data-src="https://e-sweets-0.web.app/"
                   loading="lazy"
                 ></iframe>
               </div>
             </div>
 
             <div class="project-viewer-body">
-              <div class="project-viewer-eyebrow mono">Websites &mdash; 06</div>
+              <div class="project-viewer-eyebrow ">Websites &mdash; 06</div>
               <h3>e-Sweets</h3>
               <p>
                 An elegant e-commerce platform for a boutique bakery. Customers
@@ -1043,15 +1030,14 @@
                 cakes and pastries, or easily request custom orders for special
                 celebrations.
               </p>
-
               <!-- STATUS BADGE -->
-              <div class="project-status-badge mono">
+              <div class="project-status-badge ">
                 <span class="status-dot"></span> Active Development
               </div>
 
               <!-- BUILT WITH -->
               <div class="project-features">
-                <div class="project-features-title mono">Frontend Elements</div>
+                <div class="project-features-title ">Frontend Elements</div>
                 <div class="tag-pills">
                   <span>HTML5</span><span>CSS3</span><span>JavaScript</span
                   ><span>Responsive UI</span><span>CSS Animations</span>
@@ -1059,7 +1045,7 @@
               </div>
 
               <div class="project-features">
-                <div class="project-features-title mono">
+                <div class="project-features-title ">
                   Backend Architecture
                 </div>
                 <div class="tag-pills">
@@ -1069,7 +1055,7 @@
 
               <!-- DESIGN & DEV HIGHLIGHTS -->
               <div class="project-features">
-                <div class="project-features-title mono">
+                <div class="project-features-title ">
                   Design &amp; Development Highlights
                 </div>
                 <ul class="project-features-list">
@@ -1098,7 +1084,7 @@
 
               <!-- CODE FEATURES -->
               <div class="project-features">
-                <div class="project-features-title mono">Code Features</div>
+                <div class="project-features-title ">Code Features</div>
                 <div class="tag-pills">
                   <span>Product Grid DOM</span><span>Shopping Cart State</span
                   ><span>Custom Forms</span> <span>Smooth Scrolling</span
@@ -1109,7 +1095,7 @@
               <!-- PROJECT STATUS COLUMNS -->
               <div class="status-columns">
                 <div class="status-col">
-                  <div class="project-features-title mono">
+                  <div class="project-features-title ">
                     Current Implementation
                   </div>
                   <ul class="project-features-list status-list is-done">
@@ -1120,7 +1106,7 @@
                   </ul>
                 </div>
                 <div class="status-col">
-                  <div class="project-features-title mono">
+                  <div class="project-features-title ">
                     Planned Enhancements
                   </div>
                   <ul class="project-features-list status-list">
@@ -1131,16 +1117,6 @@
                   </ul>
                 </div>
               </div>
-
-              <div class="project-viewer-actions">
-                <a
-                  href="https://e-sweets-0.web.app"
-                  class="btn-primary project-link"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  >Visit website</a
-                >
-              </div>
             </div>
           </article>
 
@@ -1148,16 +1124,14 @@
           <article class="project-viewer-panel" data-panel="novara-real-estate">
             <div class="project-viewer-media">
               <div class="project-live-preview">
-                <iframe
-                  src="https://novara-real-estates-151827.web.app/"
-                  title="Novara Real Estate live website preview"
+                <iframe data-src="https://novara-real-estates-151827.web.app/"
                   loading="lazy"
                 ></iframe>
               </div>
             </div>
 
             <div class="project-viewer-body">
-              <div class="project-viewer-eyebrow mono">Websites &mdash; 07</div>
+              <div class="project-viewer-eyebrow ">Websites &mdash; 07</div>
               <h3>Novara Real Estate</h3>
               <p><strong>A better place to belong.</strong></p>
               <p>
@@ -1170,13 +1144,13 @@
                 responsive and intuitive interface.
               </p>
 
-              <div class="project-status-badge mono">
-                <span class="status-dot" style="background: #10b981"></span>
+              <div class="project-status-badge ">
+                <span class="status-dot"></span>
                 Completed
               </div>
 
               <div class="project-features">
-                <div class="project-features-title mono">Frontend</div>
+                <div class="project-features-title ">Frontend</div>
                 <div class="tag-pills">
                   <span>React</span><span>JavaScript</span><span>HTML5</span>
                   <span>CSS3</span><span>Tailwind CSS</span>
@@ -1184,7 +1158,7 @@
               </div>
 
               <div class="project-features">
-                <div class="project-features-title mono">
+                <div class="project-features-title ">
                   Backend &amp; Cloud Services
                 </div>
                 <div class="tag-pills">
@@ -1194,7 +1168,7 @@
               </div>
 
               <div class="project-features">
-                <div class="project-features-title mono">
+                <div class="project-features-title ">
                   Maps &amp; Location
                 </div>
                 <div class="tag-pills">
@@ -1203,7 +1177,7 @@
               </div>
 
               <div class="project-features">
-                <div class="project-features-title mono">
+                <div class="project-features-title ">
                   Design &amp; Development Highlights
                 </div>
                 <ul class="project-features-list">
@@ -1254,7 +1228,7 @@
               </div>
 
               <div class="project-features">
-                <div class="project-features-title mono">Code Features</div>
+                <div class="project-features-title ">Code Features</div>
                 <div class="tag-pills">
                   <span>JWT Authentication</span><span>Role-Based Access</span>
                   <span>Advanced Filtering</span><span>Property Details</span>
@@ -1267,7 +1241,7 @@
 
               <div class="status-columns">
                 <div class="status-col">
-                  <div class="project-features-title mono">
+                  <div class="project-features-title ">
                     Current Implementation
                   </div>
                   <ul class="project-features-list status-list is-done">
@@ -1283,7 +1257,7 @@
                   </ul>
                 </div>
                 <div class="status-col">
-                  <div class="project-features-title mono">
+                  <div class="project-features-title ">
                     Planned Enhancements
                   </div>
                   <ul class="project-features-list status-list">
@@ -1295,35 +1269,42 @@
                   </ul>
                 </div>
               </div>
-
-              <div class="project-viewer-actions">
-                <a
-                  href="https://novara-real-estates-151827.web.app/agents/c05f7354-14d4-42cc-a0b0-e6d867e807b7"
-                  class="btn-primary project-link"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  >Visit website</a
-                >
-              </div>
             </div>
           </article>
 
-          <!-- 08 Beantown -->
+                              <!-- 08 Beantown -->
           <article class="project-viewer-panel" data-panel="beantown">
             <div class="project-viewer-media">
-              <div
-                class="project-live-preview"
-                style="display: flex; align-items: center; justify-content: center"
-              >
-                <span class="mono" style="opacity: 0.6">Coming soon</span>
+              <div class="project-live-preview cr-blueprint-preview">
+                <div class="cr-blueprint-grid-overlay"></div>
+                <div class="cr-blueprint-inner">
+                  <div class="cr-blueprint-badge">
+                    <span class="cr-pulse-dot-amber"></span>
+                    <span>ACTIVE PRODUCTION // SPRINT IN PROGRESS</span>
+                  </div>
+                  <div class="cr-blueprint-title">
+                    <h4>SYSTEM ARCHITECTURE // SCHEMATIC</h4>
+                    <p>Beantown Specialty Roastery &amp; Café Platform</p>
+                  </div>
+                  <div class="cr-blueprint-terminal">
+                    <div class="cr-terminal-line"><span class="cr-t-prompt">&gt;</span> <span class="cr-t-cmd">status --target</span> <span class="cr-t-arg">production</span></div>
+                    <div class="cr-terminal-line cr-t-dim">[INIT] Compiling responsive e-commerce storefront...</div>
+                    <div class="cr-terminal-line cr-t-dim">[AUTH] Configuring member loyalty rewards system...</div>
+                    <div class="cr-terminal-line cr-t-accent">&check; Target Release: Q3 2026 Milestone</div>
+                  </div>
+                  <div class="cr-blueprint-footer">
+                    <span>ARCHIVE DOSSIER 07</span>
+                    <span>CONFIDENTIAL // PRE-LAUNCH</span>
+                  </div>
+                </div>
               </div>
             </div>
 
             <div class="project-viewer-body">
-              <div class="project-viewer-eyebrow mono">Websites &mdash; 08</div>
+              <div class="project-viewer-eyebrow ">Websites &mdash; 08</div>
               <h3>Beantown</h3>
 
-              <div class="project-status-badge mono">
+              <div class="project-status-badge ">
                 <span class="status-dot" style="background: #f59e0b"></span>
                 Ongoing Project
               </div>
@@ -1333,19 +1314,36 @@
           <!-- 09 NextLevelGaming -->
           <article class="project-viewer-panel" data-panel="NextLevelGaming">
             <div class="project-viewer-media">
-              <div
-                class="project-live-preview"
-                style="display: flex; align-items: center; justify-content: center"
-              >
-                <span class="mono" style="opacity: 0.6">Coming soon</span>
+              <div class="project-live-preview cr-blueprint-preview">
+                <div class="cr-blueprint-grid-overlay"></div>
+                <div class="cr-blueprint-inner">
+                  <div class="cr-blueprint-badge">
+                    <span class="cr-pulse-dot-amber"></span>
+                    <span>ACTIVE PRODUCTION // SPRINT IN PROGRESS</span>
+                  </div>
+                  <div class="cr-blueprint-title">
+                    <h4>SYSTEM ARCHITECTURE // SCHEMATIC</h4>
+                    <p>NextLevelGaming High-Performance Tournament Hub</p>
+              </div>
+                  <div class="cr-blueprint-terminal">
+                    <div class="cr-terminal-line"><span class="cr-t-prompt">&gt;</span> <span class="cr-t-cmd">status --target</span> <span class="cr-t-arg">gaming-hub</span></div>
+                    <div class="cr-terminal-line cr-t-dim">[INIT] Realtime matchmaking tournament lobbies...</div>
+                    <div class="cr-terminal-line cr-t-dim">[WEBSOCKET] Leaderboard sync &amp; live brackets...</div>
+                    <div class="cr-terminal-line cr-t-accent">&check; Target Release: Q3 2026 Milestone</div>
+                  </div>
+                  <div class="cr-blueprint-footer">
+                    <span>ARCHIVE DOSSIER 08</span>
+                    <span>CONFIDENTIAL // PRE-LAUNCH</span>
+                  </div>
+                </div>
               </div>
             </div>
 
             <div class="project-viewer-body">
-              <div class="project-viewer-eyebrow mono">Websites &mdash; 09</div>
+              <div class="project-viewer-eyebrow ">Websites &mdash; 09</div>
               <h3>NextLevelGaming</h3>
 
-              <div class="project-status-badge mono">
+              <div class="project-status-badge ">
                 <span class="status-dot" style="background: #f59e0b"></span>
                 Ongoing Project
               </div>
@@ -1356,15 +1354,13 @@
           <article class="project-viewer-panel" data-panel="flowdesk">
             <div class="project-viewer-media">
               <div class="project-live-preview">
-                <iframe
-                  src="https://flowdesk181527.web.app/"
-                  title="FlowDesk landing page preview"
+                <iframe data-src="https://flowdesk181527.web.app/"
                   loading="lazy"
                 ></iframe>
               </div>
             </div>
             <div class="project-viewer-body">
-              <div class="project-viewer-eyebrow mono">
+              <div class="project-viewer-eyebrow">
                 Websites &mdash; Landing Page
               </div>
               <h3>FlowDesk</h3>
@@ -1375,26 +1371,63 @@
                 by product previews, pricing, and conversion-focused calls to
                 action.
               </p>
-              <div class="project-status-badge mono">
+              <div class="project-status-badge">
                 <span class="status-dot"></span> Live Website
               </div>
+
               <div class="project-features">
-                <div class="project-features-title mono">
+                <div class="project-features-title">
                   Landing Page Focus
                 </div>
                 <div class="tag-pills">
-                  <span>SaaS Product</span><span>Small Business</span
-                  ><span>Product Showcase</span><span>Pricing</span>
+                  <span>SaaS Product</span><span>Small Business</span><span>Product Showcase</span><span>Pricing</span>
                 </div>
               </div>
-              <div class="project-viewer-actions">
-                <a
-                  href="https://flowdesk181527.web.app/"
-                  class="btn-primary project-link"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  >Visit website</a
-                >
+
+              <div class="project-features">
+                <div class="project-features-title">
+                  Tech Stack &amp; Infrastructure
+                </div>
+                <div class="tag-pills">
+                  <span>HTML5 / Semantic UI</span><span>Modern CSS3</span><span>Vanilla JavaScript</span><span>Firebase Hosting</span><span>Static CDN</span>
+                </div>
+              </div>
+
+              <div class="project-features">
+                <div class="project-features-title">
+                  Design &amp; Development Highlights
+                </div>
+                <ul class="project-features-list">
+                  <li>Structured clear visual sections for operations, analytics, and accounting.</li>
+                  <li>Designed an interactive 3-tier pricing calculator with monthly and annual toggles.</li>
+                  <li>Engineered lightweight, responsive layouts optimized for fast mobile conversions.</li>
+                </ul>
+              </div>
+
+              <!-- FlowDesk Delivery & Roadmap -->
+              <div class="status-columns">
+                <div class="status-col">
+                  <div class="project-features-title">
+                    Current Implementation
+                  </div>
+                  <ul class="project-features-list status-list is-done">
+                    <li>Modular SaaS Feature Showcase (Sales, Inventory &amp; CRM)</li>
+                    <li>Interactive Pricing Calculator &amp; Plan Selector</li>
+                    <li>Conversion-Focused CTA Funnels &amp; Sign-Up Points</li>
+                    <li>Mobile-Responsive Architecture &amp; Fast Load Speeds</li>
+                    <li>Live Production Deployment on Firebase Hosting</li>
+                  </ul>
+                </div>
+                <div class="status-col">
+                  <div class="project-features-title">
+                    Planned Enhancements
+                  </div>
+                  <ul class="project-features-list status-list">
+                    <li>Interactive In-Browser Product Sandbox Demo</li>
+                    <li>Customer Testimonial Video Carousels</li>
+                    <li>Automated Lead Intake &amp; CRM Webhook Integration</li>
+                  </ul>
+                </div>
               </div>
             </div>
           </article>
@@ -1403,15 +1436,13 @@
           <article class="project-viewer-panel" data-panel="signalcraft">
             <div class="project-viewer-media">
               <div class="project-live-preview">
-                <iframe
-                  src="https://signalcraft-landing-888.web.app/"
-                  title="Signalcraft landing page preview"
+                <iframe data-src="https://signalcraft-landing-888.web.app/"
                   loading="lazy"
                 ></iframe>
               </div>
             </div>
             <div class="project-viewer-body">
-              <div class="project-viewer-eyebrow mono">
+              <div class="project-viewer-eyebrow">
                 Websites &mdash; Landing Page
               </div>
               <h3>Signalcraft</h3>
@@ -1422,26 +1453,63 @@
                 workflow orchestration, review, security, and real-world use
                 cases.
               </p>
-              <div class="project-status-badge mono">
+              <div class="project-status-badge">
                 <span class="status-dot"></span> Live Website
               </div>
+
               <div class="project-features">
-                <div class="project-features-title mono">
+                <div class="project-features-title">
                   Landing Page Focus
                 </div>
                 <div class="tag-pills">
-                  <span>B2B SaaS</span><span>Decision Intelligence</span
-                  ><span>Product Narrative</span><span>Case Studies</span>
+                  <span>B2B SaaS</span><span>Decision Intelligence</span><span>Product Narrative</span><span>Case Studies</span>
                 </div>
               </div>
-              <div class="project-viewer-actions">
-                <a
-                  href="https://signalcraft-landing-888.web.app/"
-                  class="btn-primary project-link"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  >Visit website</a
-                >
+
+              <div class="project-features">
+                <div class="project-features-title">
+                  Tech Stack &amp; Infrastructure
+                </div>
+                <div class="tag-pills">
+                  <span>HTML5</span><span>Modern CSS3</span><span>Interactive JS</span><span>SVG Signal Graphics</span><span>Firebase Hosting</span>
+                </div>
+              </div>
+
+              <div class="project-features">
+                <div class="project-features-title">
+                  Design &amp; Development Highlights
+                </div>
+                <ul class="project-features-list">
+                  <li>Crafted a high-contrast B2B narrative converting complex data into clear actions.</li>
+                  <li>Built interactive visual steps showcasing signal ingestion, triage, and review.</li>
+                  <li>Optimized typography, spacing, and contrast for high-intent executive buyers.</li>
+                </ul>
+              </div>
+
+              <!-- Signalcraft Delivery & Roadmap -->
+              <div class="status-columns">
+                <div class="status-col">
+                  <div class="project-features-title">
+                    Current Implementation
+                  </div>
+                  <ul class="project-features-list status-list is-done">
+                    <li>Dark-Mode Decision Intelligence B2B Narrative</li>
+                    <li>Signal Discovery &amp; Workflow Orchestration Demos</li>
+                    <li>Enterprise Security &amp; Compliance Highlights</li>
+                    <li>Interactive Signal Telemetry Visualizations</li>
+                    <li>Live Production Deployment on Firebase Hosting</li>
+                  </ul>
+                </div>
+                <div class="status-col">
+                  <div class="project-features-title">
+                    Planned Enhancements
+                  </div>
+                  <ul class="project-features-list status-list">
+                    <li>Interactive ROI &amp; Intelligence Impact Calculator</li>
+                    <li>Self-Serve Interactive Product Walkthrough</li>
+                    <li>Automated Enterprise Demo Scheduling Booking</li>
+                  </ul>
+                </div>
               </div>
             </div>
           </article>
@@ -1451,7 +1519,7 @@
           <article class="project-viewer-panel" data-panel="mobileappdesign">
             <!-- Grid view: shown by default -->
             <div class="grid-view is-active" data-grid-view>
-              <div class="project-viewer-eyebrow mono">
+              <div class="project-viewer-eyebrow ">
                 UI/UX &mdash; Mobile App Design
               </div>
               <h3>Mobile App Design</h3>
@@ -1466,17 +1534,15 @@
                   data-grid-target="pathwise"
                 >
                   <span class="browse-grid-thumb">
-                    <img
-                      src="assets/projects/mobiledesign1-1.png"
+                    <img src="assets/projects/mobiledesign1-1.png"
                       alt="PathWise Mobile Project screenshot"
-                      onerror="this.style.display = 'none'"
-                    />
+                      onerror="this.style.display = 'none'" loading="lazy" decoding="async">
                   </span>
                   <span class="browse-grid-caption">
                     <span class="browse-grid-name"
                       >PathWise Mobile Project</span
                     >
-                    <span class="browse-grid-tag mono"
+                    <span class="browse-grid-tag "
                       >Mobile App Design &mdash; 01</span
                     >
                   </span>
@@ -1488,17 +1554,15 @@
                   data-grid-target="everpeak"
                 >
                   <span class="browse-grid-thumb">
-                    <img
-                      src="assets/projects/mobiledesign2-1.png"
+                    <img src="assets/projects/mobiledesign2-1.png"
                       alt="Everpeak Mobile Project screenshot"
-                      onerror="this.style.display = 'none'"
-                    />
+                      onerror="this.style.display = 'none'" loading="lazy" decoding="async">
                   </span>
                   <span class="browse-grid-caption">
                     <span class="browse-grid-name"
                       >Everpeak Mobile Project</span
                     >
-                    <span class="browse-grid-tag mono"
+                    <span class="browse-grid-tag "
                       >Mobile App Design &mdash; 02</span
                     >
                   </span>
@@ -1511,15 +1575,13 @@
                   data-grid-target="emptymobile"
                 >
                   <span class="browse-grid-thumb">
-                    <img
-                      src="assets/projects/mobiledesign3-1.png"
+                    <img src="assets/projects/mobiledesign3-1.png"
                       alt="Empty Mobile Design screenshot"
-                      onerror="this.style.display = 'none'"
-                    />
+                      onerror="this.style.display = 'none'" loading="lazy" decoding="async">
                   </span>
                   <span class="browse-grid-caption">
                     <span class="browse-grid-name">Ride</span>
-                    <span class="browse-grid-tag mono"
+                    <span class="browse-grid-tag "
                       >Mobile App Design &mdash; 03</span
                     >
                   </span>
@@ -1531,15 +1593,13 @@
                   data-grid-target="rooma"
                 >
                   <span class="browse-grid-thumb">
-                    <img
-                      src="assets/projects/rooma-ai-mobile-app.png"
+                    <img src="assets/projects/rooma-ai-mobile-app.png"
                       alt="Rooma AI interior design mobile app"
-                      onerror="this.style.display = 'none'"
-                    />
+                      onerror="this.style.display = 'none'" loading="lazy" decoding="async">
                   </span>
                   <span class="browse-grid-caption">
                     <span class="browse-grid-name">Rooma AI</span>
-                    <span class="browse-grid-tag mono"
+                    <span class="browse-grid-tag "
                       >Mobile App Design &mdash; 04</span
                     >
                   </span>
@@ -1550,7 +1610,7 @@
             <!-- Detail view: PathWise Mobile Project -->
             <div class="detail-view" data-detail-view="pathwise">
               <button
-                class="back-to-grid-btn mono"
+                class="back-to-grid-btn "
                 type="button"
                 data-grid-back
               >
@@ -1560,76 +1620,60 @@
                 <div class="project-media" data-carousel aria-hidden="true">
                   <div class="project-media-track">
                     <div class="project-media-slide">
-                      <img
-                        src="assets/projects/mobiledesign1-1.png"
+                      <img src="assets/projects/mobiledesign1-1.png"
                         alt="Onboarding 1"
                         class="project-media-img"
-                        onerror="this.style.display = 'none'"
-                      />
-                      <span class="project-media-placeholder mono"></span>
+                        onerror="this.style.display = 'none'" loading="lazy" decoding="async">
+                      <span class="project-media-placeholder "></span>
                     </div>
                     <div class="project-media-slide">
-                      <img
-                        src="assets/projects/mobiledesign1-2.png"
+                      <img src="assets/projects/mobiledesign1-2.png"
                         alt="Onboarding 2"
                         class="project-media-img"
-                        onerror="this.style.display = 'none'"
-                      />
-                      <span class="project-media-placeholder mono"></span>
+                        onerror="this.style.display = 'none'" loading="lazy" decoding="async">
+                      <span class="project-media-placeholder "></span>
                     </div>
                     <div class="project-media-slide">
-                      <img
-                        src="assets/projects/mobiledesign1-3.png"
+                      <img src="assets/projects/mobiledesign1-3.png"
                         alt="PathWise Mobile Project screenshot 3"
                         class="project-media-img"
-                        onerror="this.style.display = 'none'"
-                      />
-                      <span class="project-media-placeholder mono"></span>
+                        onerror="this.style.display = 'none'" loading="lazy" decoding="async">
+                      <span class="project-media-placeholder "></span>
                     </div>
                     <div class="project-media-slide">
-                      <img
-                        src="assets/projects/mobiledesign1-4.png"
+                      <img src="assets/projects/mobiledesign1-4.png"
                         alt="PathWise Mobile Project screenshot 3"
                         class="project-media-img"
-                        onerror="this.style.display = 'none'"
-                      />
-                      <span class="project-media-placeholder mono"></span>
+                        onerror="this.style.display = 'none'" loading="lazy" decoding="async">
+                      <span class="project-media-placeholder "></span>
                     </div>
                     <div class="project-media-slide">
-                      <img
-                        src="assets/projects/mobiledesign1-5.png"
+                      <img src="assets/projects/mobiledesign1-5.png"
                         alt="PathWise Mobile Project screenshot 3"
                         class="project-media-img"
-                        onerror="this.style.display = 'none'"
-                      />
-                      <span class="project-media-placeholder mono"></span>
+                        onerror="this.style.display = 'none'" loading="lazy" decoding="async">
+                      <span class="project-media-placeholder "></span>
                     </div>
                     <div class="project-media-slide">
-                      <img
-                        src="assets/projects/mobiledesign1-6.png"
+                      <img src="assets/projects/mobiledesign1-6.png"
                         alt="PathWise Mobile Project screenshot 3"
                         class="project-media-img"
-                        onerror="this.style.display = 'none'"
-                      />
-                      <span class="project-media-placeholder mono"></span>
+                        onerror="this.style.display = 'none'" loading="lazy" decoding="async">
+                      <span class="project-media-placeholder "></span>
                     </div>
                     <div class="project-media-slide">
-                      <img
-                        src="assets/projects/mobiledesign1-7.png"
+                      <img src="assets/projects/mobiledesign1-7.png"
                         alt="PathWise Mobile Project screenshot 3"
                         class="project-media-img"
-                        onerror="this.style.display = 'none'"
-                      />
-                      <span class="project-media-placeholder mono"></span>
+                        onerror="this.style.display = 'none'" loading="lazy" decoding="async">
+                      <span class="project-media-placeholder "></span>
                     </div>
                     <div class="project-media-slide">
-                      <img
-                        src="assets/projects/mobiledesign1-8.png"
+                      <img src="assets/projects/mobiledesign1-8.png"
                         alt="PathWise Mobile Project screenshot 3"
                         class="project-media-img"
-                        onerror="this.style.display = 'none'"
-                      />
-                      <span class="project-media-placeholder mono"></span>
+                        onerror="this.style.display = 'none'" loading="lazy" decoding="async">
+                      <span class="project-media-placeholder "></span>
                     </div>
                   </div>
                   <button
@@ -1663,7 +1707,7 @@
                 </div>
               </div>
               <div class="project-viewer-body">
-                <div class="project-viewer-eyebrow mono">
+                <div class="project-viewer-eyebrow ">
                   MOBILE APP DESIGN &mdash; 01
                 </div>
                 <h3>PathWise Mobile Project</h3>
@@ -1671,11 +1715,11 @@
                   Designed a comprehensive mobile application emphasizing
                   usability, accessibility, and scalable UI components.
                 </p>
-                <ul class="project-meta mono">
+              <ul class="project-meta ">
                   <li>Built with: Figma, Mobile UI/UX Design, Design System</li>
                 </ul>
                 <div class="project-features">
-                  <div class="project-features-title mono">
+                  <div class="project-features-title ">
                     Features &amp; Implementation
                   </div>
                   <ul class="project-features-list">
@@ -1690,7 +1734,7 @@
             <!-- Detail view: Everpeak Mobile Project -->
             <div class="detail-view" data-detail-view="everpeak">
               <button
-                class="back-to-grid-btn mono"
+                class="back-to-grid-btn "
                 type="button"
                 data-grid-back
               >
@@ -1700,40 +1744,32 @@
                 <div class="project-media" data-carousel aria-hidden="true">
                   <div class="project-media-track">
                     <div class="project-media-slide">
-                      <img
-                        src="assets/projects/mobiledesign2-1.png"
+                      <img src="assets/projects/mobiledesign2-1.png"
                         alt="Everpeak Mobile Project screenshot 1"
                         class="project-media-img"
-                        onerror="this.style.display = 'none'"
-                      />
-                      <span class="project-media-placeholder mono"></span>
+                        onerror="this.style.display = 'none'" loading="lazy" decoding="async">
+                      <span class="project-media-placeholder "></span>
                     </div>
                     <div class="project-media-slide">
-                      <img
-                        src="assets/projects/mobiledesign2-2.png"
+                      <img src="assets/projects/mobiledesign2-2.png"
                         alt="Everpeak Mobile Project screenshot 2"
                         class="project-media-img"
-                        onerror="this.style.display = 'none'"
-                      />
-                      <span class="project-media-placeholder mono"></span>
+                        onerror="this.style.display = 'none'" loading="lazy" decoding="async">
+                      <span class="project-media-placeholder "></span>
                     </div>
                     <div class="project-media-slide">
-                      <img
-                        src="assets/projects/mobiledesign2-3.png"
+                      <img src="assets/projects/mobiledesign2-3.png"
                         alt="Everpeak Mobile Project screenshot 3"
                         class="project-media-img"
-                        onerror="this.style.display = 'none'"
-                      />
-                      <span class="project-media-placeholder mono"></span>
+                        onerror="this.style.display = 'none'" loading="lazy" decoding="async">
+                      <span class="project-media-placeholder "></span>
                     </div>
                     <div class="project-media-slide">
-                      <img
-                        src="assets/projects/mobiledesign2-4.png"
+                      <img src="assets/projects/mobiledesign2-4.png"
                         alt="Everpeak Mobile Project screenshot 4"
                         class="project-media-img"
-                        onerror="this.style.display = 'none'"
-                      />
-                      <span class="project-media-placeholder mono"></span>
+                        onerror="this.style.display = 'none'" loading="lazy" decoding="async">
+                      <span class="project-media-placeholder "></span>
                     </div>
                   </div>
                   <button
@@ -1763,7 +1799,7 @@
                 </div>
               </div>
               <div class="project-viewer-body">
-                <div class="project-viewer-eyebrow mono">
+                <div class="project-viewer-eyebrow ">
                   MOBILE APP DESIGN &mdash; 02
                 </div>
                 <h3>Everpeak Mobile Project</h3>
@@ -1772,11 +1808,11 @@
                   usability, accessibility, and scalable UI components.
                 </p>
 
-                <ul class="project-meta mono">
+                <ul class="project-meta ">
                   <li>Built with: Figma, Mobile UI/UX Design, Design System</li>
                 </ul>
                 <div class="project-features">
-                  <div class="project-features-title mono">
+                  <div class="project-features-title ">
                     Features &amp; Implementation
                   </div>
                   <ul class="project-features-list">
@@ -1791,7 +1827,7 @@
             <!-- Detail view: Ride -->
             <div class="detail-view" data-detail-view="emptymobile">
               <button
-                class="back-to-grid-btn mono"
+                class="back-to-grid-btn "
                 type="button"
                 data-grid-back
               >
@@ -1801,40 +1837,32 @@
                 <div class="project-media" data-carousel aria-hidden="true">
                   <div class="project-media-track">
                     <div class="project-media-slide">
-                      <img
-                        src="assets/projects/mobiledesign3-1.png"
+                      <img src="assets/projects/mobiledesign3-1.png"
                         alt="Empty Mobile Project screenshot"
                         class="project-media-img"
-                        onerror="this.style.display = 'none'"
-                      />
-                      <span class="project-media-placeholder mono"></span>
+                        onerror="this.style.display = 'none'" loading="lazy" decoding="async">
+                      <span class="project-media-placeholder "></span>
                     </div>
                     <div class="project-media-slide">
-                      <img
-                        src="assets/projects/mobiledesign3-2.png"
+                      <img src="assets/projects/mobiledesign3-2.png"
                         alt="Empty Mobile Project screenshot"
                         class="project-media-img"
-                        onerror="this.style.display = 'none'"
-                      />
-                      <span class="project-media-placeholder mono"></span>
+                        onerror="this.style.display = 'none'" loading="lazy" decoding="async">
+                      <span class="project-media-placeholder "></span>
                     </div>
                     <div class="project-media-slide">
-                      <img
-                        src="assets/projects/mobiledesign3-3.png"
+                      <img src="assets/projects/mobiledesign3-3.png"
                         alt="Empty Mobile Project screenshot"
                         class="project-media-img"
-                        onerror="this.style.display = 'none'"
-                      />
-                      <span class="project-media-placeholder mono"></span>
+                        onerror="this.style.display = 'none'" loading="lazy" decoding="async">
+                      <span class="project-media-placeholder "></span>
                     </div>
                     <div class="project-media-slide">
-                      <img
-                        src="assets/projects/mobiledesign3-4.png"
+                      <img src="assets/projects/mobiledesign3-4.png"
                         alt="Empty Mobile Project screenshot"
                         class="project-media-img"
-                        onerror="this.style.display = 'none'"
-                      />
-                      <span class="project-media-placeholder mono"></span>
+                        onerror="this.style.display = 'none'" loading="lazy" decoding="async">
+                      <span class="project-media-placeholder "></span>
                     </div>
                   </div>
                   <button
@@ -1876,7 +1904,7 @@
                 </div>
               </div>
               <div class="project-viewer-body">
-                <div class="project-viewer-eyebrow mono">
+                <div class="project-viewer-eyebrow ">
                   MOBILE APP DESIGN &mdash; 03
                 </div>
                 <h3>Empty Mobile Project</h3>
@@ -1884,11 +1912,11 @@
                   Designed a comprehensive mobile application emphasizing
                   usability, accessibility, and scalable UI components.
                 </p>
-                <ul class="project-meta mono">
+                <ul class="project-meta ">
                   <li>Built with: Figma, Mobile UI/UX Design, Design System</li>
                 </ul>
                 <div class="project-features">
-                  <div class="project-features-title mono">
+                  <div class="project-features-title ">
                     Features &amp; Implementation
                   </div>
                   <ul class="project-features-list">
@@ -1902,7 +1930,7 @@
 
             <div class="detail-view" data-detail-view="rooma">
               <button
-                class="back-to-grid-btn mono"
+                class="back-to-grid-btn "
                 type="button"
                 data-grid-back
               >
@@ -1912,13 +1940,11 @@
                 <div class="project-media" data-carousel aria-hidden="true">
                   <div class="project-media-track">
                     <div class="project-media-slide">
-                      <img
-                        src="assets/projects/rooma-ai-mobile-app.png"
+                      <img src="assets/projects/rooma-ai-mobile-app.png"
                         alt="Rooma AI interior design mobile app screens"
                         class="project-media-img"
-                        onerror="this.style.display = 'none'"
-                      />
-                      <span class="project-media-placeholder mono"></span>
+                        onerror="this.style.display = 'none'" loading="lazy" decoding="async">
+                      <span class="project-media-placeholder "></span>
                     </div>
                   </div>
                   <div class="project-media-dots">
@@ -1931,7 +1957,7 @@
                 </div>
               </div>
               <div class="project-viewer-body">
-                <div class="project-viewer-eyebrow mono">
+                <div class="project-viewer-eyebrow ">
                   MOBILE APP DESIGN &mdash; 04
                 </div>
                 <h3>Rooma AI</h3>
@@ -1940,13 +1966,13 @@
                   people turn inspiration into livable spaces through guided
                   tools, room photography, and personalized visual ideas.
                 </p>
-                <ul class="project-meta mono">
+                <ul class="project-meta ">
                   <li>
                     Built with: Figma, Mobile UI/UX Design, AI Product Design
                   </li>
                 </ul>
                 <div class="project-features">
-                  <div class="project-features-title mono">
+                  <div class="project-features-title ">
                     Features &amp; Implementation
                   </div>
                   <ul class="project-features-list">
@@ -1976,7 +2002,7 @@
           <article class="project-viewer-panel" data-panel="webdesign">
             <!-- Grid view: shown by default -->
             <div class="grid-view is-active" data-grid-view>
-              <div class="project-viewer-eyebrow mono">
+              <div class="project-viewer-eyebrow ">
                 UI/UX &mdash; Web Design
               </div>
               <h3>Web Design</h3>
@@ -1991,15 +2017,13 @@
                   data-grid-target="wheretoknow"
                 >
                   <span class="browse-grid-thumb">
-                    <img
-                      src="assets/projects/webdesign1-1.png"
+                    <img src="assets/projects/webdesign1-1.png"
                       alt="Where to Know screenshot"
-                      onerror="this.style.display = 'none'"
-                    />
+                      onerror="this.style.display = 'none'" loading="lazy" decoding="async">
                   </span>
                   <span class="browse-grid-caption">
                     <span class="browse-grid-name">Where to Know</span>
-                    <span class="browse-grid-tag mono"
+                    <span class="browse-grid-tag "
                       >Web Design &mdash; 01</span
                     >
                   </span>
@@ -2012,15 +2036,13 @@
                   data-grid-target="emptywebdesign"
                 >
                   <span class="browse-grid-thumb">
-                    <img
-                      src="assets/projects/webdesign2-1.png"
+                    <img src="assets/projects/webdesign2-1.png"
                       alt="Empty Web Design screenshot"
-                      onerror="this.style.display = 'none'"
-                    />
+                      onerror="this.style.display = 'none'" loading="lazy" decoding="async">
                   </span>
                   <span class="browse-grid-caption">
                     <span class="browse-grid-name">Cyclo</span>
-                    <span class="browse-grid-tag mono"
+                    <span class="browse-grid-tag "
                       >Web Design &mdash; 02</span
                     >
                   </span>
@@ -2032,15 +2054,13 @@
                   data-grid-target="fusion"
                 >
                   <span class="browse-grid-thumb">
-                    <img
-                      src="assets/projects/fusion-fashion-web-design.png"
+                    <img src="assets/projects/fusion-fashion-web-design.png"
                       alt="Fusion fashion web design concept"
-                      onerror="this.style.display = 'none'"
-                    />
+                      onerror="this.style.display = 'none'" loading="lazy" decoding="async">
                   </span>
                   <span class="browse-grid-caption">
                     <span class="browse-grid-name">Fusion</span>
-                    <span class="browse-grid-tag mono"
+                    <span class="browse-grid-tag "
                       >Web Design &mdash; 03</span
                     >
                   </span>
@@ -2052,15 +2072,13 @@
                   data-grid-target="smila"
                 >
                   <span class="browse-grid-thumb">
-                    <img
-                      src="assets/projects/smila-skincare-web-design.png"
+                    <img src="assets/projects/smila-skincare-web-design.png"
                       alt="Smila skincare web design concept"
-                      onerror="this.style.display = 'none'"
-                    />
+                      onerror="this.style.display = 'none'" loading="lazy" decoding="async">
                   </span>
                   <span class="browse-grid-caption">
                     <span class="browse-grid-name">Smila</span>
-                    <span class="browse-grid-tag mono"
+                    <span class="browse-grid-tag "
                       >Web Design &mdash; 04</span
                     >
                   </span>
@@ -2072,15 +2090,13 @@
                   data-grid-target="roocn"
                 >
                   <span class="browse-grid-thumb">
-                    <img
-                      src="assets/projects/roocn-roofing-web-design.png"
+                    <img src="assets/projects/roocn-roofing-web-design.png"
                       alt="Roocn roofing web design concept"
-                      onerror="this.style.display = 'none'"
-                    />
+                      onerror="this.style.display = 'none'" loading="lazy" decoding="async">
                   </span>
                   <span class="browse-grid-caption">
                     <span class="browse-grid-name">Roocn</span>
-                    <span class="browse-grid-tag mono"
+                    <span class="browse-grid-tag "
                       >Web Design &mdash; 05</span
                     >
                   </span>
@@ -2091,7 +2107,7 @@
             <!-- Detail view: Where to Know -->
             <div class="detail-view" data-detail-view="wheretoknow">
               <button
-                class="back-to-grid-btn mono"
+                class="back-to-grid-btn "
                 type="button"
                 data-grid-back
               >
@@ -2101,40 +2117,32 @@
                 <div class="project-media" data-carousel aria-hidden="true">
                   <div class="project-media-track">
                     <div class="project-media-slide">
-                      <img
-                        src="assets/projects/webdesign1-1.png"
+                      <img src="assets/projects/webdesign1-1.png"
                         alt="Where to Know screenshot 1"
                         class="project-media-img"
-                        onerror="this.style.display = 'none'"
-                      />
-                      <span class="project-media-placeholder mono"></span>
+                        onerror="this.style.display = 'none'" loading="lazy" decoding="async">
+                      <span class="project-media-placeholder "></span>
                     </div>
                     <div class="project-media-slide">
-                      <img
-                        src="assets/projects/webdesign1-2.png"
+                      <img src="assets/projects/webdesign1-2.png"
                         alt="Where to Know screenshot 2"
                         class="project-media-img"
-                        onerror="this.style.display = 'none'"
-                      />
-                      <span class="project-media-placeholder mono"></span>
+                        onerror="this.style.display = 'none'" loading="lazy" decoding="async">
+                      <span class="project-media-placeholder "></span>
                     </div>
                     <div class="project-media-slide">
-                      <img
-                        src="assets/projects/webdesign1-3.png"
+                      <img src="assets/projects/webdesign1-3.png"
                         alt="Where to Know screenshot 3"
                         class="project-media-img"
-                        onerror="this.style.display = 'none'"
-                      />
-                      <span class="project-media-placeholder mono"></span>
+                        onerror="this.style.display = 'none'" loading="lazy" decoding="async">
+                      <span class="project-media-placeholder "></span>
                     </div>
                     <div class="project-media-slide">
-                      <img
-                        src="assets/projects/webdesign1-4.png"
+                      <img src="assets/projects/webdesign1-4.png"
                         alt="Where to Know screenshot 3"
                         class="project-media-img"
-                        onerror="this.style.display = 'none'"
-                      />
-                      <span class="project-media-placeholder mono"></span>
+                        onerror="this.style.display = 'none'" loading="lazy" decoding="async">
+                      <span class="project-media-placeholder "></span>
                     </div>
                   </div>
                   <button
@@ -2164,7 +2172,7 @@
                 </div>
               </div>
               <div class="project-viewer-body">
-                <div class="project-viewer-eyebrow mono">
+                <div class="project-viewer-eyebrow ">
                   WEB DESIGN &mdash; 01
                 </div>
                 <h3>Where to Know</h3>
@@ -2173,13 +2181,13 @@
                   reporting and competitive analysis, transforming complex data
                   into clear and actionable visual reports.
                 </p>
-                <ul class="project-meta mono">
+              <ul class="project-meta ">
                   <li>
                     Built with: Figma, Dashboard UI Design, Data Visualization
                   </li>
                 </ul>
                 <div class="project-features">
-                  <div class="project-features-title mono">
+                  <div class="project-features-title ">
                     Features &amp; Implementation
                   </div>
                   <ul class="project-features-list">
@@ -2196,7 +2204,7 @@
             <!-- Detail view: Cyclo  -->
             <div class="detail-view" data-detail-view="emptywebdesign">
               <button
-                class="back-to-grid-btn mono"
+                class="back-to-grid-btn "
                 type="button"
                 data-grid-back
               >
@@ -2206,13 +2214,11 @@
                 <div class="project-media" data-carousel aria-hidden="true">
                   <div class="project-media-track">
                     <div class="project-media-slide">
-                      <img
-                        src="assets/projects/webdesign2-1.png"
+                      <img src="assets/projects/webdesign2-1.png"
                         alt="Empty Web Design screenshot 1"
                         class="project-media-img"
-                        onerror="this.style.display = 'none'"
-                      />
-                      <span class="project-media-placeholder mono"></span>
+                        onerror="this.style.display = 'none'" loading="lazy" decoding="async">
+                      <span class="project-media-placeholder "></span>
                     </div>
                   </div>
                   <div class="project-media-dots">
@@ -2225,7 +2231,7 @@
                 </div>
               </div>
               <div class="project-viewer-body">
-                <div class="project-viewer-eyebrow mono">
+                <div class="project-viewer-eyebrow ">
                   WEB DESIGN &mdash; 02
                 </div>
                 <h3>Cyclo</h3>
@@ -2236,11 +2242,11 @@
                   to effectively highlight the bike's engineering and
                   specifications.
                 </p>
-                <ul class="project-meta mono">
+                <ul class="project-meta ">
                   <li>Built with: Figma, UI/UX Design</li>
                 </ul>
                 <div class="project-features">
-                  <div class="project-features-title mono">
+                  <div class="project-features-title ">
                     Features &amp; Implementation
                   </div>
                   <ul class="project-features-list">
@@ -2271,7 +2277,7 @@
 
             <div class="detail-view" data-detail-view="fusion">
               <button
-                class="back-to-grid-btn mono"
+                class="back-to-grid-btn "
                 type="button"
                 data-grid-back
               >
@@ -2281,13 +2287,11 @@
                 <div class="project-media" data-carousel aria-hidden="true">
                   <div class="project-media-track">
                     <div class="project-media-slide">
-                      <img
-                        src="assets/projects/fusion-fashion-web-design.png"
+                      <img src="assets/projects/fusion-fashion-web-design.png"
                         alt="Fusion fashion web design concept"
                         class="project-media-img"
-                        onerror="this.style.display = 'none'"
-                      />
-                      <span class="project-media-placeholder mono"></span>
+                        onerror="this.style.display = 'none'" loading="lazy" decoding="async">
+                      <span class="project-media-placeholder "></span>
                     </div>
                   </div>
                   <div class="project-media-dots">
@@ -2300,7 +2304,7 @@
                 </div>
               </div>
               <div class="project-viewer-body">
-                <div class="project-viewer-eyebrow mono">
+                <div class="project-viewer-eyebrow ">
                   WEB DESIGN &mdash; 03
                 </div>
                 <h3>Fusion</h3>
@@ -2309,13 +2313,13 @@
                   expressive campaign imagery with a clear path to browse
                   products, discover collections, and shop everyday essentials.
                 </p>
-                <ul class="project-meta mono">
+                <ul class="project-meta ">
                   <li>
                     Built with: Figma, E-commerce UI, Responsive Web Design
                   </li>
                 </ul>
                 <div class="project-features">
-                  <div class="project-features-title mono">
+                  <div class="project-features-title ">
                     Features &amp; Implementation
                   </div>
                   <ul class="project-features-list">
@@ -2342,7 +2346,7 @@
 
             <div class="detail-view" data-detail-view="smila">
               <button
-                class="back-to-grid-btn mono"
+                class="back-to-grid-btn "
                 type="button"
                 data-grid-back
               >
@@ -2352,13 +2356,11 @@
                 <div class="project-media" data-carousel aria-hidden="true">
                   <div class="project-media-track">
                     <div class="project-media-slide">
-                      <img
-                        src="assets/projects/smila-skincare-web-design.png"
+                      <img src="assets/projects/smila-skincare-web-design.png"
                         alt="Smila skincare web design concept"
                         class="project-media-img"
-                        onerror="this.style.display = 'none'"
-                      />
-                      <span class="project-media-placeholder mono"></span>
+                        onerror="this.style.display = 'none'" loading="lazy" decoding="async">
+                      <span class="project-media-placeholder "></span>
                     </div>
                   </div>
                   <div class="project-media-dots">
@@ -2371,7 +2373,7 @@
                 </div>
               </div>
               <div class="project-viewer-body">
-                <div class="project-viewer-eyebrow mono">
+                <div class="project-viewer-eyebrow ">
                   WEB DESIGN &mdash; 04
                 </div>
                 <h3>Smila</h3>
@@ -2380,13 +2382,13 @@
                   beauty routine into a calm, confident journey through
                   products, rituals, and ingredient-led storytelling.
                 </p>
-                <ul class="project-meta mono">
+                <ul class="project-meta ">
                   <li>
                     Built with: Figma, Beauty E-commerce UI, Art Direction
                   </li>
                 </ul>
                 <div class="project-features">
-                  <div class="project-features-title mono">
+                  <div class="project-features-title ">
                     Features &amp; Implementation
                   </div>
                   <ul class="project-features-list">
@@ -2413,7 +2415,7 @@
 
             <div class="detail-view" data-detail-view="roocn">
               <button
-                class="back-to-grid-btn mono"
+                class="back-to-grid-btn "
                 type="button"
                 data-grid-back
               >
@@ -2423,13 +2425,11 @@
                 <div class="project-media" data-carousel aria-hidden="true">
                   <div class="project-media-track">
                     <div class="project-media-slide">
-                      <img
-                        src="assets/projects/roocn-roofing-web-design.png"
+                      <img src="assets/projects/roocn-roofing-web-design.png"
                         alt="Roocn roofing web design concept"
                         class="project-media-img"
-                        onerror="this.style.display = 'none'"
-                      />
-                      <span class="project-media-placeholder mono"></span>
+                        onerror="this.style.display = 'none'" loading="lazy" decoding="async">
+                      <span class="project-media-placeholder "></span>
                     </div>
                   </div>
                   <div class="project-media-dots">
@@ -2442,7 +2442,7 @@
                 </div>
               </div>
               <div class="project-viewer-body">
-                <div class="project-viewer-eyebrow mono">
+                <div class="project-viewer-eyebrow ">
                   WEB DESIGN &mdash; 05
                 </div>
                 <h3>Roocn</h3>
@@ -2451,14 +2451,14 @@
                   combining proof-led messaging, service clarity, and strong
                   local calls to action for homeowners and commercial customers.
                 </p>
-                <ul class="project-meta mono">
+                <ul class="project-meta ">
                   <li>
                     Built with: Figma, Service Business UI, Responsive Web
                     Design
                   </li>
                 </ul>
                 <div class="project-features">
-                  <div class="project-features-title mono">
+                  <div class="project-features-title ">
                     Features &amp; Implementation
                   </div>
                   <ul class="project-features-list">
@@ -2489,7 +2489,7 @@
           <article class="project-viewer-panel" data-panel="herosection">
             <!-- Grid view: shown by default -->
             <div class="grid-view is-active" data-grid-view>
-              <div class="project-viewer-eyebrow mono">
+              <div class="project-viewer-eyebrow ">
                 UI/UX &mdash; Hero Section
               </div>
               <h3>Hero Section Concepts</h3>
@@ -2504,15 +2504,13 @@
                   data-grid-target="yourride"
                 >
                   <span class="browse-grid-thumb">
-                    <img
-                      src="assets/projects/herosection1-1.png"
+                    <img src="assets/projects/herosection1-1.png"
                       alt="Cognita AI hero section screenshot"
-                      onerror="this.style.display = 'none'"
-                    />
+                      onerror="this.style.display = 'none'" loading="lazy" decoding="async">
                   </span>
                   <span class="browse-grid-caption">
                     <span class="browse-grid-name">Cognita AI</span>
-                    <span class="browse-grid-tag mono"
+                    <span class="browse-grid-tag "
                       >Hero Section &mdash; 01</span
                     >
                   </span>
@@ -2524,15 +2522,13 @@
                   data-grid-target="herosection7"
                 >
                   <span class="browse-grid-thumb">
-                    <img
-                      src="assets/projects/herosection7.png"
+                    <img src="assets/projects/herosection7.png"
                       alt="Payora hero section screenshot"
-                      onerror="this.style.display = 'none'"
-                    />
+                      onerror="this.style.display = 'none'" loading="lazy" decoding="async">
                   </span>
                   <span class="browse-grid-caption">
                     <span class="browse-grid-name">Payora</span>
-                    <span class="browse-grid-tag mono"
+                    <span class="browse-grid-tag "
                       >Hero Section &mdash; 02</span
                     >
                   </span>
@@ -2544,15 +2540,13 @@
                   data-grid-target="herosection3"
                 >
                   <span class="browse-grid-thumb">
-                    <img
-                      src="assets/projects/herosection3-1.png"
+                    <img src="assets/projects/herosection3-1.png"
                       alt="Workli hero section screenshot"
-                      onerror="this.style.display = 'none'"
-                    />
+                      onerror="this.style.display = 'none'" loading="lazy" decoding="async">
                   </span>
                   <span class="browse-grid-caption">
                     <span class="browse-grid-name">Workli</span>
-                    <span class="browse-grid-tag mono"
+                    <span class="browse-grid-tag "
                       >Hero Section &mdash; 03</span
                     >
                   </span>
@@ -2564,15 +2558,13 @@
                   data-grid-target="herosection4"
                 >
                   <span class="browse-grid-thumb">
-                    <img
-                      src="assets/projects/herosection4-1.png"
+                    <img src="assets/projects/herosection4-1.png"
                       alt="Aerix hero section screenshot"
-                      onerror="this.style.display = 'none'"
-                    />
+                      onerror="this.style.display = 'none'" loading="lazy" decoding="async">
                   </span>
                   <span class="browse-grid-caption">
                     <span class="browse-grid-name">Aerix</span>
-                    <span class="browse-grid-tag mono"
+                    <span class="browse-grid-tag "
                       >Hero Section &mdash; 04</span
                     >
                   </span>
@@ -2584,15 +2576,13 @@
                   data-grid-target="herosection5"
                 >
                   <span class="browse-grid-thumb">
-                    <img
-                      src="assets/projects/herosection5-1.png"
+                    <img src="assets/projects/herosection5-1.png"
                       alt="Velor hero section screenshot"
-                      onerror="this.style.display = 'none'"
-                    />
+                      onerror="this.style.display = 'none'" loading="lazy" decoding="async">
                   </span>
                   <span class="browse-grid-caption">
                     <span class="browse-grid-name">Velor</span>
-                    <span class="browse-grid-tag mono"
+                    <span class="browse-grid-tag "
                       >Hero Section &mdash; 05</span
                     >
                   </span>
@@ -2604,15 +2594,13 @@
                   data-grid-target="herosection6"
                 >
                   <span class="browse-grid-thumb">
-                    <img
-                      src="assets/projects/herosection6.png"
+                    <img src="assets/projects/herosection6.png"
                       alt="Payora hero section screenshot"
-                      onerror="this.style.display = 'none'"
-                    />
+                      onerror="this.style.display = 'none'" loading="lazy" decoding="async">
                   </span>
                   <span class="browse-grid-caption">
                     <span class="browse-grid-name">Outride</span>
-                    <span class="browse-grid-tag mono"
+                    <span class="browse-grid-tag "
                       >Hero Section &mdash; 06</span
                     >
                   </span>
@@ -2624,15 +2612,13 @@
                   data-grid-target="devialet"
                 >
                   <span class="browse-grid-thumb">
-                    <img
-                      src="assets/projects/herosection2-1.png"
+                    <img src="assets/projects/herosection2-1.png"
                       alt="Sonix Audio hero section screenshot"
-                      onerror="this.style.display = 'none'"
-                    />
+                      onerror="this.style.display = 'none'" loading="lazy" decoding="async">
                   </span>
                   <span class="browse-grid-caption">
                     <span class="browse-grid-name">Sonix Audio</span>
-                    <span class="browse-grid-tag mono"
+                    <span class="browse-grid-tag "
                       >Hero Section &mdash; 07</span
                     >
                   </span>
@@ -2644,15 +2630,13 @@
                   data-grid-target="herosection8"
                 >
                   <span class="browse-grid-thumb">
-                    <img
-                      src="assets/projects/herosection8.png"
+                    <img src="assets/projects/herosection8.png"
                       alt="Untitled hero section screenshot"
-                      onerror="this.style.display = 'none'"
-                    />
+                      onerror="this.style.display = 'none'" loading="lazy" decoding="async">
                   </span>
                   <span class="browse-grid-caption">
                     <span class="browse-grid-name">Nexride</span>
-                    <span class="browse-grid-tag mono"
+                    <span class="browse-grid-tag "
                       >Hero Section &mdash; 08</span
                     >
                   </span>
@@ -2664,15 +2648,13 @@
                   data-grid-target="herosection9"
                 >
                   <span class="browse-grid-thumb">
-                    <img
-                      src="assets/projects/herosection9.png"
+                    <img src="assets/projects/herosection9.png"
                       alt="Industera hero section screenshot"
-                      onerror="this.style.display = 'none'"
-                    />
+                      onerror="this.style.display = 'none'" loading="lazy" decoding="async">
                   </span>
                   <span class="browse-grid-caption">
                     <span class="browse-grid-name">Industera</span>
-                    <span class="browse-grid-tag mono"
+                    <span class="browse-grid-tag "
                       >Hero Section &mdash; 09</span
                     >
                   </span>
@@ -2684,15 +2666,13 @@
                   data-grid-target="herosection10"
                 >
                   <span class="browse-grid-thumb">
-                    <img
-                      src="assets/projects/herosection10.png"
+                    <img src="assets/projects/herosection10.png"
                       alt="Untitled hero section screenshot"
-                      onerror="this.style.display = 'none'"
-                    />
+                      onerror="this.style.display = 'none'" loading="lazy" decoding="async">
                   </span>
                   <span class="browse-grid-caption">
                     <span class="browse-grid-name">Signet</span>
-                    <span class="browse-grid-tag mono"
+                    <span class="browse-grid-tag "
                       >Hero Section &mdash; 10</span
                     >
                   </span>
@@ -2705,24 +2685,16 @@
               class="detail-view detail-view-image-only"
               data-detail-view="yourride"
             >
-              <button
-                class="back-to-grid-btn mono"
-                type="button"
-                data-grid-back
-              >
-                &#8249; Back to grid
-              </button>
               <div class="project-viewer-media">
+                <button class="detail-os-close-btn" type="button" data-grid-back aria-label="Close Preview"><span>&#10005; CLOSE</span></button>
                 <div class="project-media" data-carousel aria-hidden="true">
                   <div class="project-media-track">
                     <div class="project-media-slide">
-                      <img
-                        src="assets/projects/herosection1-1.png"
+                      <img src="assets/projects/herosection1-1.png"
                         alt="Cognita AI hero section 1 screenshot"
                         class="project-media-img"
-                        onerror="this.style.display = 'none'"
-                      />
-                      <span class="project-media-placeholder mono"></span>
+                        onerror="this.style.display = 'none'" loading="lazy" decoding="async">
+                      <span class="project-media-placeholder "></span>
                     </div>
                   </div>
                 </div>
@@ -2734,24 +2706,16 @@
               class="detail-view detail-view-image-only"
               data-detail-view="herosection7"
             >
-              <button
-                class="back-to-grid-btn mono"
-                type="button"
-                data-grid-back
-              >
-                &#8249; Back to grid
-              </button>
               <div class="project-viewer-media">
+                <button class="detail-os-close-btn" type="button" data-grid-back aria-label="Close Preview"><span>&#10005; CLOSE</span></button>
                 <div class="project-media" data-carousel aria-hidden="true">
                   <div class="project-media-track">
                     <div class="project-media-slide">
-                      <img
-                        src="assets/projects/herosection7.png"
+                      <img src="assets/projects/herosection7.png"
                         alt="Payora hero section 2 screenshot"
                         class="project-media-img"
-                        onerror="this.style.display = 'none'"
-                      />
-                      <span class="project-media-placeholder mono"></span>
+                        onerror="this.style.display = 'none'" loading="lazy" decoding="async">
+                      <span class="project-media-placeholder "></span>
                     </div>
                   </div>
                 </div>
@@ -2763,24 +2727,16 @@
               class="detail-view detail-view-image-only"
               data-detail-view="herosection3"
             >
-              <button
-                class="back-to-grid-btn mono"
-                type="button"
-                data-grid-back
-              >
-                &#8249; Back to grid
-              </button>
               <div class="project-viewer-media">
+                <button class="detail-os-close-btn" type="button" data-grid-back aria-label="Close Preview"><span>&#10005; CLOSE</span></button>
                 <div class="project-media" data-carousel aria-hidden="true">
                   <div class="project-media-track">
                     <div class="project-media-slide">
-                      <img
-                        src="assets/projects/herosection3-1.png"
+                      <img src="assets/projects/herosection3-1.png"
                         alt="Workli hero section 3 screenshot"
                         class="project-media-img"
-                        onerror="this.style.display = 'none'"
-                      />
-                      <span class="project-media-placeholder mono"></span>
+                        onerror="this.style.display = 'none'" loading="lazy" decoding="async">
+                      <span class="project-media-placeholder "></span>
                     </div>
                   </div>
                 </div>
@@ -2792,24 +2748,16 @@
               class="detail-view detail-view-image-only"
               data-detail-view="herosection4"
             >
-              <button
-                class="back-to-grid-btn mono"
-                type="button"
-                data-grid-back
-              >
-                &#8249; Back to grid
-              </button>
               <div class="project-viewer-media">
+                <button class="detail-os-close-btn" type="button" data-grid-back aria-label="Close Preview"><span>&#10005; CLOSE</span></button>
                 <div class="project-media" data-carousel aria-hidden="true">
                   <div class="project-media-track">
                     <div class="project-media-slide">
-                      <img
-                        src="assets/projects/herosection4-1.png"
+                      <img src="assets/projects/herosection4-1.png"
                         alt="Aerix hero section 4 screenshot"
                         class="project-media-img"
-                        onerror="this.style.display = 'none'"
-                      />
-                      <span class="project-media-placeholder mono"></span>
+                        onerror="this.style.display = 'none'" loading="lazy" decoding="async">
+                      <span class="project-media-placeholder "></span>
                     </div>
                   </div>
                 </div>
@@ -2821,24 +2769,16 @@
               class="detail-view detail-view-image-only"
               data-detail-view="herosection5"
             >
-              <button
-                class="back-to-grid-btn mono"
-                type="button"
-                data-grid-back
-              >
-                &#8249; Back to grid
-              </button>
               <div class="project-viewer-media">
+                <button class="detail-os-close-btn" type="button" data-grid-back aria-label="Close Preview"><span>&#10005; CLOSE</span></button>
                 <div class="project-media" data-carousel aria-hidden="true">
                   <div class="project-media-track">
                     <div class="project-media-slide">
-                      <img
-                        src="assets/projects/herosection5-1.png"
+                      <img src="assets/projects/herosection5-1.png"
                         alt="Velor hero section 5 screenshot "
                         class="project-media-img"
-                        onerror="this.style.display = 'none'"
-                      />
-                      <span class="project-media-placeholder mono"></span>
+                        onerror="this.style.display = 'none'" loading="lazy" decoding="async">
+                      <span class="project-media-placeholder "></span>
                     </div>
                   </div>
                 </div>
@@ -2850,24 +2790,16 @@
               class="detail-view detail-view-image-only"
               data-detail-view="herosection6"
             >
-              <button
-                class="back-to-grid-btn mono"
-                type="button"
-                data-grid-back
-              >
-                &#8249; Back to grid
-              </button>
               <div class="project-viewer-media">
+                <button class="detail-os-close-btn" type="button" data-grid-back aria-label="Close Preview"><span>&#10005; CLOSE</span></button>
                 <div class="project-media" data-carousel aria-hidden="true">
                   <div class="project-media-track">
                     <div class="project-media-slide">
-                      <img
-                        src="assets/projects/herosection6.png"
+                      <img src="assets/projects/herosection6.png"
                         alt="Hero section 6 screenshot "
                         class="project-media-img"
-                        onerror="this.style.display = 'none'"
-                      />
-                      <span class="project-media-placeholder mono"></span>
+                        onerror="this.style.display = 'none'" loading="lazy" decoding="async">
+                      <span class="project-media-placeholder "></span>
                     </div>
                   </div>
                 </div>
@@ -2879,24 +2811,16 @@
               class="detail-view detail-view-image-only"
               data-detail-view="devialet"
             >
-              <button
-                class="back-to-grid-btn mono"
-                type="button"
-                data-grid-back
-              >
-                &#8249; Back to grid
-              </button>
               <div class="project-viewer-media">
+                <button class="detail-os-close-btn" type="button" data-grid-back aria-label="Close Preview"><span>&#10005; CLOSE</span></button>
                 <div class="project-media" data-carousel aria-hidden="true">
                   <div class="project-media-track">
                     <div class="project-media-slide">
-                      <img
-                        src="assets/projects/herosection2-1.png"
+                      <img src="assets/projects/herosection2-1.png"
                         alt="Sonix Audio hero section 7 screenshot"
                         class="project-media-img"
-                        onerror="this.style.display = 'none'"
-                      />
-                      <span class="project-media-placeholder mono"></span>
+                        onerror="this.style.display = 'none'" loading="lazy" decoding="async">
+                      <span class="project-media-placeholder "></span>
                     </div>
                   </div>
                 </div>
@@ -2908,24 +2832,16 @@
               class="detail-view detail-view-image-only"
               data-detail-view="herosection8"
             >
-              <button
-                class="back-to-grid-btn mono"
-                type="button"
-                data-grid-back
-              >
-                &#8249; Back to grid
-              </button>
               <div class="project-viewer-media">
+                <button class="detail-os-close-btn" type="button" data-grid-back aria-label="Close Preview"><span>&#10005; CLOSE</span></button>
                 <div class="project-media" data-carousel aria-hidden="true">
                   <div class="project-media-track">
                     <div class="project-media-slide">
-                      <img
-                        src="assets/projects/herosection8.png"
+                      <img src="assets/projects/herosection8.png"
                         alt="Hero section 8 screenshot "
                         class="project-media-img"
-                        onerror="this.style.display = 'none'"
-                      />
-                      <span class="project-media-placeholder mono"></span>
+                        onerror="this.style.display = 'none'" loading="lazy" decoding="async">
+                      <span class="project-media-placeholder "></span>
                     </div>
                   </div>
                 </div>
@@ -2937,24 +2853,16 @@
               class="detail-view detail-view-image-only"
               data-detail-view="herosection9"
             >
-              <button
-                class="back-to-grid-btn mono"
-                type="button"
-                data-grid-back
-              >
-                &#8249; Back to grid
-              </button>
               <div class="project-viewer-media">
+                <button class="detail-os-close-btn" type="button" data-grid-back aria-label="Close Preview"><span>&#10005; CLOSE</span></button>
                 <div class="project-media" data-carousel aria-hidden="true">
                   <div class="project-media-track">
                     <div class="project-media-slide">
-                      <img
-                        src="assets/projects/herosection9.png"
+                      <img src="assets/projects/herosection9.png"
                         alt="Hero section 9 screenshot "
                         class="project-media-img"
-                        onerror="this.style.display = 'none'"
-                      />
-                      <span class="project-media-placeholder mono"></span>
+                        onerror="this.style.display = 'none'" loading="lazy" decoding="async">
+                      <span class="project-media-placeholder "></span>
                     </div>
                   </div>
                 </div>
@@ -2966,116 +2874,720 @@
               class="detail-view detail-view-image-only"
               data-detail-view="herosection10"
             >
-              <button
-                class="back-to-grid-btn mono"
-                type="button"
-                data-grid-back
-              >
-                &#8249; Back to grid
-              </button>
               <div class="project-viewer-media">
+                <button class="detail-os-close-btn" type="button" data-grid-back aria-label="Close Preview"><span>&#10005; CLOSE</span></button>
                 <div class="project-media" data-carousel aria-hidden="true">
                   <div class="project-media-track">
                     <div class="project-media-slide">
-                      <img
-                        src="assets/projects/herosection10.png"
+                      <img src="assets/projects/herosection10.png"
                         alt="Hero section 10 screenshot "
                         class="project-media-img"
-                        onerror="this.style.display = 'none'"
-                      />
-                      <span class="project-media-placeholder mono"></span>
+                        onerror="this.style.display = 'none'" loading="lazy" decoding="async">
+                      <span class="project-media-placeholder "></span>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </article>
+                    </main>
+          <script>
+            /* Instant on-demand iframe activation: loads ONLY the targeted panel */
+            (function () {
+              try {
+                var rawHash = (window.location.hash || "").replace("#", "").trim();
+                var dashIdx = rawHash.indexOf("-");
+                var targetId = dashIdx > -1 ? rawHash.slice(0, dashIdx) : rawHash;
+                var activePanel = (targetId && document.querySelector('.project-viewer-panel[data-panel="' + targetId + '"]')) ||
+                                  document.querySelector('.project-viewer-panel.is-active') ||
+                                  document.querySelector('.project-viewer-panel[data-panel="magnify"]');
+                if (activePanel) {
+                  var frame = activePanel.querySelector("iframe[data-src]");
+                  if (frame && !frame.getAttribute("src")) {
+                    frame.setAttribute("src", frame.getAttribute("data-src"));
+                  }
+                }
+              } catch (e) {}
+            })();
+          </script>
         </div>
       </div>
     </section>
 
-    <footer class="footer-section">
-      <div class="footer-container">
-        <div class="footer-brand-col">
-          <p class="footer-brand-desc">
-            Bridging the gap between creative vision and technical execution.
-          </p>
-        </div>
-        <div class="footer-nav-col">
-          <div class="footer-label">Links</div>
-          <ul class="footer-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="project.html">Projects</a></li>
-            <li><a href="teams.html">Team</a></li>
-          </ul>
-        </div>
-        <div class="footer-connect-col">
-          <div class="footer-label">Connect</div>
-          <ul class="footer-links">
-            <li><a href="contact.html">Contact Us</a></li>
-            <li>
-              <a href="mailto:elaine150605@gmail.com">elaine150605@gmail.com</a>
-            </li>
-          </ul>
+<footer class="cr-footer" id="footer">
+      <!-- Outer Landscape Background -->
+      <div class="cr-footer-outer-bg" aria-hidden="true">
+        <img class="cr-footer-outer-day" src="assets/footer-outer-day.png?v=3.5" alt="" loading="lazy" decoding="async">
+        <img class="cr-footer-outer-night" src="assets/footer-outer-night.png?v=3.5" alt="" loading="lazy" decoding="async">
+      </div>
+
+      <!-- Top Content: The Paper Card Stack -->
+      <div class="cr-footer-top-wrap">
+        <div class="cr-footer-card">
+          <!-- Inner Paper Card Texture -->
+          <div class="cr-footer-inner-bg" aria-hidden="true">
+            <img class="cr-footer-inner-day" src="https://framerusercontent.com/images/Be455u4BRYelSl1NS32A0tLSZU.png?width=4140&height=1887" alt="" loading="lazy" decoding="async">
+            <img class="cr-footer-inner-night" src="assets/footer-bg-night.png?v=4.0" alt="" loading="lazy" decoding="async">
+            <div class="cr-fireflies-layer cr-footer-fireflies" aria-hidden="true">
+              <span class="cr-firefly ff1"></span>
+              <span class="cr-firefly ff2"></span>
+              <span class="cr-firefly ff3"></span>
+              <span class="cr-firefly ff4"></span>
+              <span class="cr-firefly ff5"></span>
+              <span class="cr-firefly ff6"></span>
+            </div>
+          </div>
+
+          <!-- Top-Left Social Circular Dock -->
+          <div class="cr-footer-social-dock">
+            <div class="cr-footer-social-dock-inner">
+              <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="cr-footer-social-icon">
+                <div class="cr-footer-social-icon-bg">
+                  <svg viewBox="0 0 256 256"><path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160ZM176,24H80A56.06,56.06,0,0,0,24,80v96a56.06,56.06,0,0,0,56,56h96a56.06,56.06,0,0,0,56-56V80A56.06,56.06,0,0,0,176,24Zm40,152a40,40,0,0,1-40,40H80a40,40,0,0,1-40-40V80A40,40,0,0,1,80,40h96a40,40,0,0,1,40,40ZM192,76a12,12,0,1,1-12-12A12,12,0,0,1,192,76Z"/></svg>
+                </div>
+              </a>
+              <a href="https://x.com/" target="_blank" rel="noopener noreferrer" aria-label="X" class="cr-footer-social-icon">
+                <div class="cr-footer-social-icon-bg">
+                  <svg viewBox="0 0 256 256"><path d="M214.75,211.71l-62.6-98.38,61.77-67.95a8,8,0,0,0-11.84-10.76L143.24,99.34,102.75,35.71A8,8,0,0,0,96,32H48a8,8,0,0,0-6.75,12.3l62.6,98.37-61.77,68a8,8,0,1,0,11.84,10.76l58.84-64.72,40.49,63.63A8,8,0,0,0,160,224h48a8,8,0,0,0,6.75-12.29ZM164.39,208,62.57,48h29L193.43,208Z"/></svg>
+                </div>
+              </a>
+              <a href="tel:+10000000000" target="_blank" rel="noopener noreferrer" aria-label="Phone" class="cr-footer-social-icon">
+                <div class="cr-footer-social-icon-bg">
+                  <svg viewBox="0 0 256 256"><path d="M222.37,158.46l-47.11-21.11-.13-.06a16,16,0,0,0-15.17,1.4,8.12,8.12,0,0,0-.75.56L134.87,160c-15.42-7.49-31.34-23.29-38.83-38.51l20.78-24.71c.2-.25.39-.5.57-.77a16,16,0,0,0,1.32-15.06l0-.12L97.54,33.64a16,16,0,0,0-16.62-9.52A56.26,56.26,0,0,0,32,80c0,79.4,64.6,144,144,144a56.26,56.26,0,0,0,55.88-48.92A16,16,0,0,0,222.37,158.46ZM176,208A128.14,128.14,0,0,1,48,80,40.2,40.2,0,0,1,82.87,40a.61.61,0,0,0,0,.12l21,47L83.2,111.86a6.13,6.13,0,0,0-.57.77,16,16,0,0,0-1,15.7c9.06,18.53,27.73,37.06,46.46,46.11a16,16,0,0,0,15.75-1.14,8.44,8.44,0,0,0,.74-.56L168.89,152l47,21.05h0s.08,0,.11,0A40.21,40.21,0,0,1,176,208Z"/></svg>
+                </div>
+              </a>
+              <a href="mailto:elaine150605@gmail.com" target="_blank" rel="noopener noreferrer" aria-label="Email" class="cr-footer-social-icon">
+                <div class="cr-footer-social-icon-bg">
+                  <svg viewBox="0 0 256 256"><path d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48ZM203.43,64,128,133.15,52.57,64ZM216,192H40V74.19l82.59,75.71a8,8,0,0,0,10.82,0L216,74.19V192Z"/></svg>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <!-- Top-Right Tagline Stack -->
+          <div class="cr-footer-tagline-stack">
+            <div class="cr-footer-tagline-row1">
+              <span class="cr-footer-white-bar"></span>
+              <span class="cr-footer-tagline-title">Have an idea?</span>
+            </div>
+            <div class="cr-footer-tagline-row2">
+              <p class="cr-footer-tagline-desc">Let’s turn it into a sharp digital experience.</p>
+            </div>
+          </div>
+
+          <!-- Bottom-Left Headline & 3 Sticky Chips -->
+          <div class="cr-footer-heading-wrap">
+            <!-- Sticky Chip 1: UI/UX Design (Pink / Lilac) -->
+            <div class="cr-title-chip chip-pink cr-footer-chip-uiux">
+              <div class="cr-chip-body"><span>UI/UX Design</span></div>
+              <div class="cr-chip-icon">
+                <svg role="presentation" viewBox="0 0 24 24"><use href="#636125695"/></svg>
+              </div>
+              <div class="cr-paper-clip" aria-hidden="true">
+                <svg class="clip-shadow" role="presentation" viewBox="0 0 24 24"><use href="#2641542506"/></svg>
+                <svg class="clip-main" role="presentation" viewBox="0 0 24 24"><use href="#2641542506"/></svg>
+              </div>
+            </div>
+
+            <!-- Headline -->
+            <h2 class="cr-footer-title">
+              LET’S BUILD<br />
+              SOMETHING<br />
+              MEMORABLE
+            </h2>
+
+            <!-- Sticky Chip 2: Illustration (Green) -->
+            <div class="cr-title-chip chip-green cr-footer-chip-illus">
+              <div class="cr-chip-body"><span>Illustration</span></div>
+              <div class="cr-chip-icon">
+                <svg role="presentation" viewBox="0 0 24 24"><use href="#2658193374"/></svg>
+              </div>
+              <div class="cr-paper-clip" aria-hidden="true">
+                <svg class="clip-shadow" role="presentation" viewBox="0 0 24 24"><use href="#2641542506"/></svg>
+                <svg class="clip-main" role="presentation" viewBox="0 0 24 24"><use href="#2641542506"/></svg>
+              </div>
+            </div>
+
+            <!-- Sticky Chip 3: 3D Design (Purple) -->
+            <div class="cr-title-chip chip-purple cr-footer-chip-3d">
+              <div class="cr-chip-body"><span>3D Design</span></div>
+              <div class="cr-chip-icon">
+                <svg role="presentation" viewBox="0 0 24 24"><use href="#1537972964"/></svg>
+              </div>
+              <div class="cr-paper-clip" aria-hidden="true">
+                <svg class="clip-shadow" role="presentation" viewBox="0 0 24 24"><use href="#2641542506"/></svg>
+                <svg class="clip-main" role="presentation" viewBox="0 0 24 24"><use href="#2641542506"/></svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom-Right "Let's chat" Wave Ripple Button -->
+          <div class="cr-footer-cta-container">
+            <a href="#contact" class="cr-footer-chat-btn" aria-label="Let's chat" data-open-contact="true">
+              <span class="cr-footer-chat-btn-text">Let's chat</span>
+              <span class="cr-footer-chat-btn-hover" aria-hidden="true">Let's chat</span>
+              <div class="cr-footer-ripple-outer" aria-hidden="true">
+                <div class="cr-footer-ripple-mid">
+                  <div class="cr-footer-ripple-inner"></div>
+                </div>
+              </div>
+            </a>
+          </div>
         </div>
       </div>
-      <div class="footer-bottom">
-        <div>© 2026. All rights reserved.</div>
-        <div class="footer-socials">
-          <a href="#" aria-label="Facebook">Facebook</a>
-          <a href="#" aria-label="Instagram">Instagram</a>
-          <a href="#" aria-label="LinkedIn">LinkedIn</a>
+
+      <!-- Bottom Nav Bar -->
+      <div class="cr-footer-nav-bar">
+        <a href="#hero" class="cr-logo cr-logo-dark">TEMport®</a>
+        <div class="cr-footer-links">
+          <a href="#about">ABOUT</a>
+          <a href="#services">SERVICES</a>
+          <a href="#project">PROJECTS</a>
+          <a href="#reviews">TEAMS</a>
+          <a href="#faqs">FAQS</a>
+          <a href="#footer">CONTACT</a>
         </div>
       </div>
     </footer>
 
-    <button class="theme-toggle" aria-label="Toggle dark mode">
-      <svg
-        class="sun-icon"
-        xmlns="http://www.w3.org/2000/svg"
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      >
-        <circle cx="12" cy="12" r="4"></circle>
-        <path d="M12 2v2"></path>
-        <path d="M12 20v2"></path>
-        <path d="M4.93 4.93l1.41 1.41"></path>
-        <path d="M17.66 17.66l1.41 1.41"></path>
-        <path d="M2 12h2"></path>
-        <path d="M20 12h2"></path>
-        <path d="M6.34 17.66l-1.41 1.41"></path>
-        <path d="M19.07 4.93l-1.41 1.41"></path>
-      </svg>
-      <svg
-        class="moon-icon"
-        xmlns="http://www.w3.org/2000/svg"
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      >
-        <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
-      </svg>
-    </button>
-    <div class="custom-cursor">
-      <span class="cursor-corner tl"></span>
-      <span class="cursor-corner tr"></span>
-      <span class="cursor-corner bl"></span>
-      <span class="cursor-corner br"></span>
-      <span class="cursor-dot"></span>
+    <!-- Fixed Bottom Apple Dock-Nav (5 Clean Core Links - No Chat Button) -->
+    <nav class="cr-apple-dock" aria-label="Dock Navigation">
+      <div class="cr-dock-inner">
+        <a href="index.html#about" class="cr-dock-item">
+          <img src="https://framerusercontent.com/images/fzS4akadFPHws9AEuhq2dRMEBD8.png?width=180&height=180" alt="About" loading="lazy" decoding="async">
+          <span class="cr-dock-tooltip">About</span>
+        </a>
+        <a href="project.html" class="cr-dock-item is-active">
+          <img src="https://framerusercontent.com/images/fuyFscQ2e4cEmcASIC0c9KSsI.png?width=180&height=180" alt="Projects" loading="lazy" decoding="async">
+          <span class="cr-dock-tooltip">Projects</span>
+        </a>
+        <a href="index.html#services" class="cr-dock-item">
+          <img src="https://framerusercontent.com/images/8UW4wd69DBrZGI2hFpAtJfsRLs.png?width=180&height=180" alt="Services" loading="lazy" decoding="async">
+          <span class="cr-dock-tooltip">Services</span>
+        </a>
+        <a href="index.html#reviews" class="cr-dock-item">
+          <img src="assets/dock-teams.svg" alt="Teams" loading="lazy" decoding="async">
+          <span class="cr-dock-tooltip">Teams</span>
+        </a>
+        <a href="#messages" class="cr-dock-item" data-open-messenger="kenneth" id="open-messenger-btn" aria-label="Open Team Messenger">
+          <img src="https://framerusercontent.com/images/e3MMo36Gb3GoSAC2U8QX2JiQY.png?width=180&height=180" alt="Messages" loading="lazy" decoding="async">
+          <span class="cr-dock-tooltip">Messages</span>
+        </a>
+      </div>
+    </nav>
+
+<div id="resume-panel" class="resume-panel resume-modal cr-messenger-modal" aria-hidden="true">
+      <div class="resume-panel-backdrop resume-modal-backdrop cr-messenger-backdrop"></div>
+      <div class="resume-panel-content resume-modal-content cr-resume-os-window cr-messenger-window" role="dialog" aria-modal="true" aria-label="Team Messenger Chat">
+        <!-- Decorative Top Paperclip -->
+        <div class="cr-resume-os-paperclip" aria-hidden="true">
+          <svg viewBox="0 0 30.011 48.192" overflow="visible"><use href="#svg-730533233_506" /></svg>
+        </div>
+
+        <!-- OS Window Top Chrome Bar -->
+        <div class="cr-resume-os-bar cr-messenger-chrome">
+          <div class="cr-os-controls" aria-hidden="true">
+            <span class="cr-os-pill-pink"></span>
+            <span class="cr-os-sq-blue"></span>
+            <span class="cr-os-tri-yellow">
+              <svg viewBox="0 0 13.832 10.64" overflow="visible"><use href="#svg-1841702569_267" /></svg>
+            </span>
+          </div>
+          <div class="cr-resume-os-address">
+            <span class="cr-resume-os-dot"></span>
+            <span id="cr-messenger-address">creatie://team-messenger.chat/kenneth.bianzon</span>
+          </div>
+          <button class="resume-panel-close resume-close-btn cr-messenger-close-btn" type="button" aria-label="Close messenger">&times;</button>
+        </div>
+
+        <!-- Messenger Main Body (Sidebar with 4 Contacts + Main Chat Feed) -->
+        <div class="cr-messenger-body">
+          <!-- Left Sidebar: 4 Conversation Threads -->
+          <aside class="cr-messenger-sidebar" aria-label="Team conversations">
+            <div class="cr-sidebar-header">
+              <span class="cr-sidebar-title">MESSAGES</span>
+              <span class="cr-sidebar-badge">4 ONLINE</span>
+            </div>
+            <div class="cr-threads-list" role="tablist">
+              <!-- Kenneth -->
+              <button type="button" class="cr-thread-item is-active" data-chat-person="kenneth" role="tab" aria-selected="true">
+                <div class="cr-thread-avatar">
+                  <img src="assets/kenneth.png" alt="Kenneth Cyrus Bianzon" loading="lazy" decoding="async">
+                  <span class="cr-thread-status-dot"></span>
+                </div>
+                <div class="cr-thread-info">
+                  <div class="cr-thread-top">
+                    <span class="cr-thread-name">Kenneth Bianzon</span>
+                    <span class="cr-thread-time">Active</span>
+                  </div>
+                  <span class="cr-thread-snippet">Team Lead · Full-Stack Developer</span>
+                </div>
+              </button>
+
+              <!-- Jenz -->
+              <button type="button" class="cr-thread-item" data-chat-person="jenz" role="tab" aria-selected="false">
+                <div class="cr-thread-avatar">
+                  <img src="assets/jenz.png" alt="Jenz Patrick Reguyal" loading="lazy" decoding="async">
+                  <span class="cr-thread-status-dot"></span>
+                </div>
+                <div class="cr-thread-info">
+                  <div class="cr-thread-top">
+                    <span class="cr-thread-name">Jenz Reguyal</span>
+                    <span class="cr-thread-time">Just now</span>
+                  </div>
+                  <span class="cr-thread-snippet">Design Lead · UI/UX &amp; Brand</span>
+                </div>
+              </button>
+
+              <!-- Jamil -->
+              <button type="button" class="cr-thread-item" data-chat-person="jamil" role="tab" aria-selected="false">
+                <div class="cr-thread-avatar">
+                  <img src="assets/jamil.png" alt="Jamil Kharim Abinal" loading="lazy" decoding="async">
+                  <span class="cr-thread-status-dot"></span>
+                </div>
+                <div class="cr-thread-info">
+                  <div class="cr-thread-top">
+                    <span class="cr-thread-name">Jamil Abinal</span>
+                    <span class="cr-thread-time">1m ago</span>
+                  </div>
+                  <span class="cr-thread-snippet">Frontend Engineer · Creative Dev</span>
+                </div>
+              </button>
+
+              <!-- ChrisJohn -->
+              <button type="button" class="cr-thread-item" data-chat-person="pacay" role="tab" aria-selected="false">
+                <div class="cr-thread-avatar">
+                  <img src="assets/pacay.png" alt="ChrisJohn Pacay" loading="lazy" decoding="async">
+                  <span class="cr-thread-status-dot"></span>
+                </div>
+                <div class="cr-thread-info">
+                  <div class="cr-thread-top">
+                    <span class="cr-thread-name">ChrisJohn Pacay</span>
+                    <span class="cr-thread-time">Active</span>
+                  </div>
+                  <span class="cr-thread-snippet">Backend Developer · APIs &amp; Cloud</span>
+                </div>
+              </button>
+            </div>
+
+            <!-- Sidebar Footer Studio Info -->
+            <div class="cr-sidebar-footer">
+              <div class="cr-sidebar-studio-tag">
+                <span class="cr-pulse-dot-sm"></span>
+                <span>TEMport Studio · 4 Members</span>
+              </div>
+            </div>
+          </aside>
+
+          <!-- Right Pane: Active Chat Conversation -->
+          <section class="cr-messenger-chat-pane">
+            <!-- Chat Conversation Header -->
+            <div class="cr-chat-header">
+              <div class="cr-chat-contact-meta">
+                <div class="cr-chat-avatar-lg">
+                  <img id="cr-chat-header-avatar" src="assets/kenneth.png" alt="Active team member" loading="lazy" decoding="async">
+                  <span class="cr-status-dot"></span>
+                </div>
+                <div class="cr-chat-contact-info">
+                  <div class="cr-chat-contact-title-row">
+                    <h3 id="cr-chat-header-name" class="cr-chat-name">Kenneth Cyrus Bianzon</h3>
+                    <span id="cr-chat-header-badge" class="cr-chat-role-pill">TEAM LEAD</span>
+                  </div>
+                  <p id="cr-chat-header-status" class="cr-chat-status-text">Active now</p>
+                </div>
+              </div>
+              <div class="cr-chat-header-actions">
+                <button type="button" class="cr-chat-toggle-sheet-btn" id="cr-chat-toggle-resume-btn">
+                  <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                  <span>View Resume</span>
+                </button>
+                <a href="#footer" class="cr-chat-action-link">
+                  <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                  <span>Book Call</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- Scrollable Chat Stream -->
+            <div class="cr-chat-feed" id="cr-chat-feed">
+              <!-- Date Separator -->
+              <div class="cr-chat-date-pill">
+                <span>TODAY · DIRECT STUDIO MESSAGE</span>
+              </div>
+
+              <!-- Message 1: Member Intro Bubble -->
+              <div class="cr-chat-row incoming">
+                <div class="cr-chat-bubble" id="cr-msg-intro">
+                  Hey there! 👋 Welcome to our portfolio. I'm Kenneth, Team Lead &amp; Full-Stack Developer at TEMport.
+                </div>
+              </div>
+
+              <!-- Message 2: Core Specialty Bubble -->
+              <div class="cr-chat-row incoming">
+                <div class="cr-chat-bubble" id="cr-msg-specialty">
+                  I specialize in clean full-stack architecture, relational database modeling, and shipping high-performance web applications that scale effortlessly.
+                </div>
+              </div>
+
+              <!-- Message 3: Interactive Resume Attachment Card -->
+              <div class="cr-chat-row incoming">
+                <div class="cr-chat-attachment-card" id="cr-msg-attachment">
+                  <div class="cr-attachment-thumb">
+                    <img id="cr-attachment-thumb-img" src="resumes/kenneth.png?v=2" alt="Resume thumbnail preview" loading="lazy" decoding="async">
+                    <span class="cr-attachment-badge">PDF</span>
+                  </div>
+                  <div class="cr-attachment-details">
+                    <div class="cr-attachment-title" id="cr-attachment-title">Kenneth_Bianzon_Resume_2026.pdf</div>
+                    <div class="cr-attachment-sub" id="cr-attachment-sub">Verified Vector PDF · High-DPI Crystal Clear Document</div>
+                    <div class="cr-attachment-actions">
+                      <button type="button" class="cr-attachment-btn-view" id="cr-open-sheet-from-chat">
+                        Inspect Vector PDF &nearr;
+                      </button>
+                      <a id="cr-attachment-open-tab" href="resumes/kenneth.pdf" target="_blank" rel="noopener noreferrer" class="cr-attachment-btn-tab">
+                        Fullscreen &nearr;
+                      </a>
+                      <a id="cr-attachment-download-link" href="resumes/kenneth.pdf" download class="cr-attachment-btn-download">
+                        Download &darr;
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Message 4: Invitation Bubble -->
+              <div class="cr-chat-row incoming">
+                <div class="cr-chat-bubble" id="cr-msg-invite">
+                  Have an exciting project or want to collaborate? Pick a quick topic below or type your message!
+                </div>
+              </div>
+
+              <!-- Dynamic container for user sent messages & replies -->
+              <div id="cr-chat-dynamic-messages"></div>
+            </div>
+
+            <!-- Quick Suggestion Action Chips -->
+            <div class="cr-chat-chips-bar" aria-label="Quick questions">
+              <button type="button" class="cr-chat-chip" data-chat-prompt="💼 We want to hire your team for a project!">
+                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                <span>Start a project</span>
+              </button>
+              <button type="button" class="cr-chat-chip" data-chat-prompt="📄 Can you walk me through your technical stack and experience?">
+                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+                <span>Inspect experience</span>
+              </button>
+              <button type="button" class="cr-chat-chip" data-chat-prompt="⚡ What is your typical turnaround timeline and pricing?">
+                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                <span>Turnaround &amp; pricing</span>
+              </button>
+              <button type="button" class="cr-chat-chip" data-chat-prompt="👋 Hey! Just wanted to say your portfolio design looks amazing!">
+                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                <span>Say hello</span>
+              </button>
+            </div>
+
+            <!-- Chat Bottom Input Bar -->
+            <form class="cr-chat-input-bar" id="cr-chat-form">
+              <input
+                type="text"
+                id="cr-chat-input"
+                class="cr-chat-input"
+                placeholder="Message Kenneth..."
+                autocomplete="off"
+              />
+              <button type="submit" class="cr-chat-send-btn" aria-label="Send message">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="22" y1="2" x2="11" y2="13"></line>
+                  <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                </svg>
+              </button>
+            </form>
+
+            <!-- Fullscreen Resume Sheet Overlay (Slide Over inside Messenger Window) -->
+            <div class="cr-sheet-overlay" id="cr-sheet-overlay" aria-hidden="true">
+              <div class="cr-sheet-header">
+                <button type="button" class="cr-sheet-back-btn" id="cr-sheet-back-btn">
+                  <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="13" y1="8" x2="3" y2="8"/><polyline points="7 4 3 8 7 12"/></svg>
+                  <span>Back to Messenger Chat</span>
+                </button>
+                <div class="cr-sheet-header-tools">
+                  <!-- Mode Switcher: Vector PDF (Default Crystal Clear) vs HD Image -->
+                  <div class="cr-sheet-view-toggle" role="group" aria-label="Resume View Mode">
+                    <button type="button" class="cr-sheet-mode-btn is-active" id="cr-sheet-mode-pdf">
+                      <svg class="cr-mode-icon" viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 1.5H3.5a1.5 1.5 0 0 0-1.5 1.5v10a1.5 1.5 0 0 0 1.5 1.5h9a1.5 1.5 0 0 0 1.5-1.5V6L9.5 1.5z"/><polyline points="9.5 1.5 9.5 6 14 6"/><line x1="5.5" y1="9.5" x2="10.5" y2="9.5"/><line x1="5.5" y1="12" x2="8.5" y2="12"/></svg>
+                      <span>Vector PDF (Sharp)</span>
+                    </button>
+                    <button type="button" class="cr-sheet-mode-btn" id="cr-sheet-mode-img">
+                      <svg class="cr-mode-icon" viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2.5" width="12" height="11" rx="2.5"/><circle cx="5.5" cy="6" r="1.2" fill="currentColor"/><path d="M14 10.5l-3.2-3.2a1 1 0 0 0-1.4 0L4 12"/></svg>
+                      <span>HD Image</span>
+                    </button>
+                  </div>
+                  <a id="cr-sheet-open-tab-btn" href="resumes/kenneth.pdf" target="_blank" rel="noopener noreferrer" class="cr-sheet-tab-pill">
+                    <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 2h4v4"/><path d="M6.5 9.5L14 2"/><path d="M13 8.5v4.5a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 2 13V5a1.5 1.5 0 0 1 1.5-1.5H8"/></svg>
+                    <span>Open Fullscreen</span>
+                  </a>
+                  <a id="cr-sheet-download-btn" href="resumes/kenneth.pdf" download class="cr-sheet-download-pill">
+                    <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 10.5v2.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13v-2.5"/><polyline points="5 7 8 10 11 7"/><line x1="8" y1="10" x2="8" y2="2"/></svg>
+                    <span>Download PDF</span>
+                  </a>
+                </div>
+              </div>
+              <div class="cr-sheet-scroll-body" id="cr-sheet-scroll-body">
+                <!-- 1. Native Vector PDF Frame (100% Vector Fonts, Selectable Text, Razor Sharp) -->
+                <div class="cr-sheet-pdf-pane" id="cr-sheet-pdf-pane">
+                  <iframe id="cr-sheet-pdf-frame"
+                    class="cr-sheet-pdf-frame"
+                    data-src="resumes/kenneth.pdf#toolbar=1&navpanes=0&scrollbar=1&view=FitH"
+                   
+                   loading="lazy"></iframe>
+                </div>
+
+                <!-- 2. HD Image Preview Pane (Alternative View) -->
+                <div class="cr-sheet-images-pane" id="cr-sheet-images-pane" style="display: none;">
+                  <div class="cr-sheet-image-container" id="cr-sheet-image-kenneth">
+                    <img src="resumes/kenneth.png?v=2" alt="Kenneth Cyrus Bianzon's Resume" width="2800" height="3960" loading="lazy" decoding="async">
+                  </div>
+                  <div class="cr-sheet-image-container" id="cr-sheet-image-jenz" style="display: none;">
+                    <img src="resumes/jenz.png?v=2" alt="Jenz Patrick Reguyal's Resume" width="2800" height="3960" loading="lazy" decoding="async">
+                  </div>
+                  <div class="cr-sheet-image-container" id="cr-sheet-image-jamil" style="display: none;">
+                    <img src="resumes/jamil.png?v=2" alt="Jamil Kharim Abinal's Resume" width="2800" height="3960" loading="lazy" decoding="async">
+                  </div>
+                  <div class="cr-sheet-image-container" id="cr-sheet-image-pacay" style="display: none;">
+                    <img src="resumes/pacay.png" alt="ChrisJohn Pacay's Resume" onerror="this.style.display='none'" loading="lazy" decoding="async">
+                    <div class="cr-pacay-dossier-sheet" style="text-align: left; padding: 28px 32px; color: #252525; font-family: 'Inter', sans-serif">
+                      <div style="display: flex; align-items: center; gap: 18px; padding-bottom: 20px; border-bottom: 2px dashed rgba(0,0,0,0.14); margin-bottom: 20px">
+                        <img src="assets/pacay.png" alt="ChrisJohn Pacay" style="width: 76px; height: 76px; border-radius: 16px; object-fit: cover; object-position: top; border: 2px solid #252525; background: #f5f3ea" loading="lazy" decoding="async">
+                        <div>
+                          <span style="display: inline-block; padding: 4px 12px; background: #ffde05; border: 1.5px solid #252525; border-radius: 99px; font-size: 11px; font-weight: 800; margin-bottom: 6px">DOSSIER // 04 &bull; BACKEND ENGINEERING</span>
+                          <h3 style="margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 26px; font-weight: 800">ChrisJohn Pacay</h3>
+                          <p style="margin: 4px 0 0; font-size: 14px; font-weight: 600; color: #1668c7">Backend Developer &amp; Systems Architect</p>
+                        </div>
+                      </div>
+                      <p style="font-size: 15px; line-height: 1.7; color: #383838; margin: 0 0 20px">
+                        Backend developer focused on the services, data models, and cloud integrations that make the studio's web applications dependable, secure, and scalable behind the scenes.
+                      </p>
+                      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-bottom: 20px">
+                        <div style="background: #fdf6f0; border: 1.5px solid #252525; border-radius: 14px; padding: 16px">
+                          <strong style="display: block; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; color: #1668c7">Core Responsibilities</strong>
+                          <ul style="margin: 0; padding-left: 18px; font-size: 13.5px; line-height: 1.65; color: #383838">
+                            <li>Builds backend logic for real product workflows and cloud integrations.</li>
+                            <li>Connects frontend interfaces with REST APIs, Cloud Firestore, and databases.</li>
+                            <li>Keeps data flows structured, maintainable, and ready to scale.</li>
+                          </ul>
+                        </div>
+                        <div style="background: #fdf6f0; border: 1.5px solid #252525; border-radius: 14px; padding: 16px">
+                          <strong style="display: block; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; color: #1668c7">Security &amp; Infrastructure</strong>
+                          <ul style="margin: 0; padding-left: 18px; font-size: 13.5px; line-height: 1.65; color: #383838">
+                            <li>Supports authentication, input validation, and resilient error handling.</li>
+                            <li>Ensures reliable communication between client UI and server-side services.</li>
+                            <li>Turns product requirements into secure technical foundations.</li>
+                          </ul>
+                        </div>
+                      </div>
+                      <div style="display: flex; flex-wrap: wrap; gap: 8px">
+                        <span class="cr-os-tag" style="border: 1.5px solid #252525; font-weight: 700">Node.js &amp; APIs</span>
+                        <span class="cr-os-tag" style="border: 1.5px solid #252525; font-weight: 700">Firebase &amp; Firestore</span>
+                        <span class="cr-os-tag" style="border: 1.5px solid #252525; font-weight: 700">Authentication</span>
+                        <span class="cr-os-tag" style="border: 1.5px solid #252525; font-weight: 700">Database Modeling</span>
+                        <span class="cr-os-tag" style="border: 1.5px solid #252525; font-weight: 700">Cloud Functions</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
     </div>
+
+    <div class="custom-cursor"></div>
     <div class="curtain-wipe"></div>
 
-    <script src="script.js?v=2.5"></script>
+<!-- Exact Creatie® SVG Sprite Templates -->
+    <div id="svg-templates" style="position: absolute; overflow: hidden; bottom: 0; left: 0; width: 0; height: 0; z-index: 0; contain: strict" aria-hidden="true">
+      <svg width="126" height="97" viewBox="0 0 126 97" fill="none" id="svg-472710921_1296">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M13.4422 24.6352C22.6878 4.97065 54.2977 -1.06996 65.4178 14.6776C67.2942 17.3232 67.4322 17.4493 69.3751 17.3814C80.673 17.0528 93.2811 28.2815 95.419 40.5949C95.8203 42.8046 95.9584 42.9307 98.7286 44.0649C123.78 54.2463 114.825 88.1449 85.9923 92.3962C77.4047 93.6491 77.0408 85.4979 86.7199 83.5157C109.892 78.8068 116.313 59.782 97.2332 52.3992L95.8903 51.8899L94.408 56.6081C90.5612 68.8469 77.0671 74.6965 72.5296 66.0304C67.2249 55.926 76.6672 42.3971 89.0504 42.4781C91.1972 42.4994 91.1972 42.4994 89.351 39.0666C85.425 31.5605 69.5177 21.7219 69.9722 27.065C71.5449 45.6135 51.0391 60.1115 46.2216 43.856C43.9687 36.2295 48.5221 27.0033 57.3926 21.2945C61.0511 18.9333 60.9494 18.6657 55.9667 16.2085C42.3797 9.49842 20.3098 17.8921 14.7715 31.8836C12.3534 38.0554 10.3764 31.127 13.4422 24.6352ZM50.4321 40.6603C52.1758 46.0561 64.9264 38.2276 65.5937 31.3679C66.0986 26.2612 65.4571 25.8884 60.3833 28.4698C54.068 31.7017 49.3834 37.4323 50.4321 40.6603ZM75.8596 59.8377C77.6217 63.6012 86.2277 60.27 89.6772 54.4973C91.7589 50.9864 91.6447 50.7659 88.1965 51.1852C81.396 52.092 74.445 56.9351 75.8596 59.8377Z" fill="#FFDE05" />
+      </svg>
+      <svg width="167" height="148" viewBox="0 0 167 148" fill="none" id="svg375415904_1395">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M108.248 8.18548C97.6275 13.2719 37.9955 36.7827 14.4407 51.5597C5.44027 57.2019 7.36955 56.9442 13.7735 65.5167C20.4902 74.566 22.0562 76.1868 27.3495 79.8366C45.0949 92.0645 59.0287 89.6612 60.5631 89.879C58.3474 91.2986 55.0799 93.6534 47.9577 97.814C41.6771 101.485 41.7916 101.173 45.5711 107.242C59.5181 129.423 92.0498 141.102 115.971 130.079C118.333 128.987 115.189 124.164 106.448 127.006C93.0734 131.371 75.6793 127.945 62.9383 118.476C59.772 116.12 48.1849 103.058 48.6608 102.393C52.6676 97.1002 139.576 57.4986 139.984 57.8423C143.867 60.4913 147.662 77.3543 146.695 87.3118C145.613 98.3443 134.058 114.791 122.367 121.755C118.112 124.272 121.091 127.421 126.898 126.468C135.176 125.111 151.134 106.475 154.517 94.3609C157.136 84.8365 154.983 69.6405 149.97 62.2481C141.674 49.9959 141.537 49.9598 129.343 55.9497C120.819 60.1642 120.215 60.3219 121.805 57.9488C129.577 46.4057 129.387 22.9079 123.547 11.7198C119.072 2.88939 114.39 5.24179 108.248 8.18548ZM118.062 17.783C122.531 35.5329 120.229 61.1412 101.556 69.2498C69.8355 83.0192 66.7939 87.8015 47.5878 81.27C36.465 77.4614 19.7288 64.1292 18.0973 57.6491C16.9573 53.3767 96.5264 20.141 110.032 13.9946C116.839 10.8831 116.26 10.6266 118.062 17.783Z" fill="#C4E727" />
+      </svg>
+      <svg width="175" height="175" viewBox="0 0 175 175" fill="none" id="svg1760472650_2542">
+        <path d="M78.9379 62.2008C76.7504 60.2758 75.1318 57.0382 74.5193 54.457C73.6881 50.782 78.6755 45.7948 82.7443 54.5886C85.8505 61.3261 89.1754 62.157 91.8442 56.8632C94.5129 51.5257 99.5879 51.6573 97.9692 56.9948C96.0004 63.6448 84.2754 66.8383 78.9379 62.2008Z" fill="#7CC2F6" />
+        <path d="M126.887 64.7819C119.756 70.1194 111.137 66.3569 109.912 57.3444C109.125 51.6131 115.687 51.6567 118.05 57.3879C121.025 64.6067 123.737 63.9504 125.225 55.6379C125.706 52.8817 128.637 51.3945 130.3 53.0569C132.531 55.2882 130.606 61.9819 126.887 64.7819Z" fill="#7CC2F6" />
+        <path d="M107.549 82.7624C102.124 88.4061 90.4431 84.7749 88.4744 76.8561C87.3806 72.5249 94.2056 72.9623 97.5743 77.4248C99.3243 79.7873 100.637 80.8814 100.593 80.8376C101.074 81.2751 101.862 81.231 102.256 80.706C102.649 80.181 103.481 78.5624 104.049 77.0749C105.318 73.8811 108.774 71.9123 110.349 73.4873C111.487 74.6248 109.737 80.4874 107.549 82.7624Z" fill="#7CC2F6" />
+        <path d="M109.344 96.5004C107.288 92.4317 110.176 89.369 114.113 91.5128C115.076 92.0378 116.257 93.3942 117.351 95.1879C121.244 101.532 122.119 101.707 124.525 96.588C125.794 93.8755 126.407 93.3068 128.2 93.3068C131.788 93.3068 130.082 100.482 125.838 103.151C119.669 107.088 113.457 104.594 109.344 96.5004Z" fill="#7CC2F6" />
+        <path d="M99.0204 117.807C101.733 117.544 102.389 117.85 105.058 120.65C108.514 124.282 111.533 122.007 112.102 115.313C112.277 113.125 113.939 112.775 115.383 114.569C120.895 121.569 108.47 131.194 100.639 125.988C96.6578 123.319 95.6079 118.113 99.0204 117.807Z" fill="#7CC2F6" />
+        <path d="M49.4061 48.8132C50.1061 49.6007 51.375 51.3944 52.2063 52.8819C55.75 59.2694 56.8 59.2256 60.7375 52.6631C64.2375 46.8006 68.2625 47.6321 66.1187 53.7133C63.3187 61.6758 52.25 64.6505 47.1312 58.8317C40 50.738 45.6436 44.657 49.4061 48.8132Z" fill="#7CC2F6" />
+        <path d="M63.1001 72.7879C63.9751 73.5754 65.3313 75.1066 66.075 76.2003C70.0125 82.0191 71.4127 81.8443 74.3002 75.2818C76.0939 71.1693 81.3437 69.7691 80.25 75.9816C78.1937 87.3566 59.1625 87.2693 57.1063 74.6255C56.5813 71.4318 60.2564 70.2504 63.1001 72.7879Z" fill="#7CC2F6" />
+        <path d="M78.4569 92.6937C79.1569 93.0437 81.2569 94.8376 83.0506 96.5876C88.7819 102.188 91.2756 102.188 93.5506 96.3688C94.6006 93.7001 94.9942 93.3499 96.7005 93.3499C100.2 93.3499 99.2818 99.9123 95.4318 102.45C87.5568 107.612 73.3818 102.362 73.3818 94.2685C73.4256 92.5185 76.3569 91.5999 78.4569 92.6937Z" fill="#7CC2F6" />
+      </svg>
+      <svg width="115" height="100" viewBox="0 0 115 100" fill="none" id="svg-1519324100_341">
+        <path d="M59 47.5L42 38L61 13L86.5 25L89.5 7L114.5 14.5L92 43L65.5 32.5L59 47.5Z" fill="#FEC0C1" />
+        <path d="M3.5 27L0 7.5L20 0L26.5 21.5L3.5 27Z" fill="#65E996" />
+        <path d="M52.5 100L42 85L55.5 72.5L66.5 85L52.5 100Z" fill="#469BFF" />
+      </svg>
+      <svg width="27" height="31" viewBox="0 0 27 31" fill="none" id="svg-1008584715_789">
+        <path d="M6.17578 25.7051L8.78454 26.9337L6.7354 29.5898L5.21013 28.9334L6.17578 25.7051Z" fill="black" fill-opacity="0.2" />
+        <circle cx="11.9863" cy="17.4824" r="10.5858" transform="rotate(-5.03855 11.9863 17.4824)" fill="#DC2626" />
+        <path d="M8.08594 9.39653L20.3676 15.5006L15.5557 19.6125C12.4836 19.2286 11.0653 18.5246 8.9735 16.5052L8.08594 9.39653Z" fill="#B91C1C" />
+        <circle cx="16.0309" cy="9.00036" r="8.3026" transform="rotate(-5.03855 16.0309 9.00036)" fill="#EF4444" />
+      </svg>
+      <svg width="18" height="22" viewBox="0 0 18 22" fill="none" id="svg936387369_785">
+        <path d="M3.70703 17.9176L5.5419 18.8795L3.98965 20.7232L2.91495 20.2053L3.70703 17.9176Z" fill="black" fill-opacity="0.39" />
+        <circle cx="8.12909" cy="12.1944" r="7.60526" transform="rotate(-2.59339 8.12909 12.1944)" fill="#DC2626" />
+        <path d="M5.57812 6.26921L14.2066 11.0271L10.6267 13.831C8.43331 13.4613 7.43689 12.9125 5.99732 11.3989L5.57812 6.26921Z" fill="#B91C1C" />
+        <circle cx="11.2951" cy="6.2296" r="5.96491" transform="rotate(-2.59339 11.2951 6.2296)" fill="#EF4444" />
+      </svg>
+      <svg viewBox="0 0 7.2 6" overflow="visible" id="svg-588886625_399">
+        <path d="M 4.5 0 L 7.2 3 M 7.2 3 L 4.5 6 M 7.2 3 L 0 3" fill="transparent" stroke="#ffffff" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+      <svg viewBox="0 0 13.832 10.64" overflow="visible" id="svg-1841702569_267">
+        <path d="M 6.384 0 L 0 10.64 L 13.832 10.64 Z" fill="rgb(214, 205, 124)" stroke="rgb(214, 205, 124)" stroke-linejoin="round" />
+      </svg>
+      <svg viewBox="0 0 30.011 48.192" overflow="visible" id="svg-730533233_506">
+        <path d="M 0 16.005 L 14.5 43.775 C 16.602 47.799 21.568 49.358 25.593 47.257 C 29.618 45.155 31.177 40.189 29.075 36.164 L 11.495 2.496 C 10.308 0.222 7.502 -0.659 5.227 0.528 C 2.991 1.696 2.096 4.436 3.211 6.699 L 5.27 10.878" fill="transparent" stroke-width="3" stroke="rgb(90, 146, 236)" stroke-linecap="round" />
+      </svg>
+      <svg viewBox="0 0 30.011 48.192" overflow="visible" id="svg696411819_602">
+        <path d="M 0 16.005 L 14.5 43.775 C 16.602 47.799 21.568 49.358 25.593 47.257 C 29.618 45.155 31.177 40.189 29.075 36.164 L 11.495 2.496 C 10.308 0.222 7.502 -0.659 5.227 0.528 C 2.991 1.696 2.096 4.436 3.211 6.699 L 5.27 10.878" fill="transparent" stroke-width="3" stroke="rgb(253, 93, 92)" stroke-linecap="round" />
+      </svg>
+      <svg viewBox="0 0 30.011 48.192" overflow="visible" id="svg719222425_603">
+        <path d="M 0 16.005 L 14.5 43.775 C 16.602 47.799 21.568 49.358 25.593 47.257 C 29.618 45.155 31.177 40.189 29.075 36.164 L 11.495 2.496 C 10.308 0.222 7.502 -0.659 5.227 0.528 C 2.991 1.696 2.096 4.436 3.211 6.699 L 5.27 10.878" fill="transparent" stroke-width="3" stroke="rgb(250, 201, 0)" stroke-linecap="round" />
+      </svg>
+      <svg viewBox="0 0 30.011 48.192" overflow="visible" id="svg234572231_508">
+        <path d="M 0 16.005 L 14.5 43.775 C 16.602 47.799 21.568 49.358 25.593 47.257 C 29.618 45.155 31.177 40.189 29.075 36.164 L 11.495 2.496 C 10.308 0.222 7.502 -0.659 5.227 0.528 C 2.991 1.696 2.096 4.436 3.211 6.699 L 5.27 10.878" fill="transparent" stroke-width="3" stroke="rgb(37, 205, 34)" stroke-linecap="round" />
+      </svg>
+      <svg id="2641542506" viewBox="0 0 24 24">
+        <path d="M 15.0 7.5 L 7.19 15.44 C 6.62 16.03 6.63 16.97 7.21 17.55 C 7.79 18.13 8.72 18.13 9.31 17.56 L 18.62 8.12 C 19.79 6.95 19.79 5.05 18.62 3.88 C 17.45 2.71 15.55 2.71 14.38 3.88 L 5.07 13.32 C 3.34 15.08 3.35 17.91 5.09 19.66 C 6.84 21.4 9.67 21.42 11.43 19.68 L 19.12 12" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+      <svg id="1537972964" viewBox="0 0 24 24">
+        <path d="M 12.36 2.34 L 20.61 6.86 C 20.85 6.99 21 7.24 21 7.52 L 21 16.48 C 21 16.76 20.85 17.01 20.61 17.14 L 12.36 21.66 C 12.14 21.78 11.86 21.78 11.64 21.66 L 3.39 17.14 C 3.15 17.01 3 16.76 3 16.48 L 3 7.52 C 3 7.24 3.15 6.99 3.39 6.86 L 11.64 2.34 C 11.86 2.22 12.14 2.22 12.36 2.34 Z M 12 12 L 12 21.75 M 3.11 7.13 L 12 12 L 20.89 7.13" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+      </svg>
+      <svg id="2658193374" viewBox="0 0 24 24">
+        <path d="M 3.75 20.25 L 16.82 18.07 L 19.5 12 L 12 4.5 L 6.4 6.6 Z M 3.75 20.25 L 10.3 13.7 M 11.62 14.25 A 1.875 1.875 0 1 0 11.62 10.5 A 1.875 1.875 0 1 0 11.62 14.25 Z" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+      </svg>
+      <svg id="636125695" viewBox="0 0 24 24">
+        <path d="M 15.22 12.97 L 19.8 11.3 L 4.73 3.79 L 8.69 19.74 L 11.75 15.45 L 16.56 20.26 L 19.03 17.78 Z" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+      </svg>
+      <svg id="1247626696" viewBox="0 0 24 24">
+        <path d="M 15 20.25 L 15 11.46 L 12.97 7.86 L 6.53 7.86 L 4.5 11.46 L 4.5 20.25 Z M 9.75 7.86 L 9.75 4.5 C 9.75 2.84 11.09 1.5 12.75 1.5 C 14.41 1.5 15.75 2.84 15.75 4.5 L 15.75 12" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+      </svg>
+      <svg id="3282134952" viewBox="0 0 24 24">
+        <path d="M 3 7.5 L 3 5.25 C 3 4.84 3.34 4.5 3.75 4.5 L 8.69 4.5 L 12 7.5 M 11.3 19.5 L 3.69 19.5 L 3 7.5 L 20.25 7.5 L 20.25 11.25 M 17.25 12 L 18.5 14.9 L 21.75 15.15 L 19.28 17.2 L 20.03 20.25 L 17.25 18.61 L 14.47 20.25 L 15.23 17.2 L 12.75 15.15 L 16 14.9 Z" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+      </svg>
+      <svg id="3139824213" viewBox="0 0 24 24">
+        <path d="M 12 10.5 C 12 8.84 13.34 7.5 15 7.5 L 21.75 7.5 L 21.75 18.75 L 15 18.75 C 13.34 18.75 12 20.09 12 21.75 M 2.25 18.75 L 9 18.75 C 10.66 18.75 12 20.09 12 21.75 L 12 10.5 C 12 8.84 10.66 7.5 9 7.5 L 2.25 7.5 Z" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+      </svg>
+      <svg id="3656879250" viewBox="0 0 24 24">
+        <path d="M 3 9.75 L 21 9.75 M 9.75 9.75 L 9.75 19.5 M 3.75 19.5 L 20.25 19.5 C 20.66 19.5 21 19.16 21 18.75 L 21 5.25 C 21 4.84 20.66 4.5 20.25 4.5 L 3.75 4.5 C 3.34 4.5 3 4.84 3 5.25 L 3 18.75 C 3 19.16 3.34 19.5 3.75 19.5 Z" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+      </svg>
+      <svg id="1403532491" viewBox="0 0 24 24">
+        <path d="M 5.25 9.75 L 5.25 15.75 L 12 22.5 L 12 15.75 L 18.75 15.75 L 5.25 3.75 L 18.75 3.75 L 18.75 9.75 Z" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+      </svg>
+      <svg id="1652061477" viewBox="0 0 24 24">
+        <path d="M 5.25 20.25 L 18.75 20.25 C 19.99 20.25 21 19.24 21 18 L 21 7.5 C 21 6.26 19.99 5.25 18.75 5.25 L 5.25 5.25 C 4.01 5.25 3 6.26 3 7.5 L 3 18 C 3 19.24 4.01 20.25 5.25 20.25 Z M 12 5.25 L 12 1.5 M 8.6 13.5 L 15.4 13.5" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+      </svg>
+      <svg id="1018870535" viewBox="0 0 24 24">
+        <path d="M 4.5 20.25 L 19.5 20.25 L 19.5 4.5 L 4.5 4.5 Z M 7.5 2.25 L 7.5 5.25 M 16.5 2.25 L 16.5 5.25 M 12 8.25 L 13.25 11.15 L 16.5 11.4 L 14.03 13.45 L 14.78 16.5 L 12 14.86 L 9.22 16.5 L 9.98 13.45 L 7.5 11.4 L 10.75 11.15 Z" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+      </svg>
+      <svg id="2206852335" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="9" stroke="#ffffff" stroke-width="1.6" fill="none" />
+        <path d="M 9.5 9.5 C 9.5 8.1 10.6 7 12 7 C 13.4 7 14.5 8.1 14.5 9.5 C 14.5 10.9 12 11.5 12 13.5 M 12 16.5 L 12.01 16.5" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" fill="none" />
+      </svg>
+      <svg id="3450492020" viewBox="0 0 24 24">
+        <path d="M 12 5.75 L 12 18.25 M 5.75 12 L 18.25 12" stroke="#252525" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+      </svg>
+    </div>
+
+    
+    <!-- ====================================================================
+         CREATIE® OS CONTACT MODAL WINDOW (REFERENCE DESIGN)
+         ==================================================================== -->
+    <div class="cr-contact-modal-backdrop" id="cr-contact-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="cr-contact-title">
+      <div class="cr-contact-modal-container">
+        <!-- Animated Googly Eyes sitting above the window -->
+        <div class="cr-contact-modal-eyes" id="cr-contact-googly-eyes" aria-hidden="true">
+          <div class="cr-googly-eye"><div class="cr-googly-pupil"></div></div>
+          <div class="cr-googly-eye"><div class="cr-googly-pupil"></div></div>
+        </div>
+
+        <!-- The Window Chassis -->
+        <div class="cr-contact-modal-window">
+          <!-- Window Chrome Topbar -->
+          <div class="cr-contact-modal-topbar">
+            <div class="cr-os-controls" aria-hidden="true">
+              <button type="button" class="cr-os-pill-pink" id="cr-contact-close-pink" aria-label="Close modal"></button>
+              <button type="button" class="cr-os-sq-blue" id="cr-contact-close-blue" aria-label="Close modal"></button>
+              <button type="button" class="cr-os-tri-yellow" id="cr-contact-close-yellow" aria-label="Close modal">
+                <svg viewBox="0 0 13.832 10.64" overflow="visible"><use href="#svg-1841702569_267" /></svg>
+              </button>
+            </div>
+
+            <div class="cr-contact-address-bar">
+              <svg class="cr-contact-search-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <span class="cr-contact-address-text">Contact</span>
+              <svg class="cr-contact-refresh-icon" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="23 4 23 10 17 10"></polyline>
+                <polyline points="1 20 1 14 7 14"></polyline>
+                <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+              </svg>
+            </div>
+
+            <button type="button" class="cr-contact-chat-icon-btn" id="cr-contact-close-btn" aria-label="Close contact window">
+              <img src="https://framerusercontent.com/images/e3MMo36Gb3GoSAC2U8QX2JiQY.png?width=180&height=180" alt="Contact" class="cr-contact-titlebar-img" loading="lazy" decoding="async" />
+            </button>
+          </div>
+
+          <!-- Window Body -->
+          <div class="cr-contact-modal-body">
+            <h2 id="cr-contact-title" class="cr-contact-heading">Contact</h2>
+            <p class="cr-contact-subheading">Open to projects, collabs, or concepts - let’s bring ideas alive.</p>
+
+            <div class="cr-contact-info-grid">
+              <div class="cr-contact-info-item">
+                <span class="cr-contact-info-label">Email:</span>
+                <a href="mailto:creatie@designer.co" class="cr-contact-info-val">creatie@designer.co</a>
+              </div>
+              <div class="cr-contact-info-item">
+                <span class="cr-contact-info-label">Phone Number</span>
+                <span class="cr-contact-info-val">+84(123) 456-789</span>
+              </div>
+            </div>
+
+            <div class="cr-contact-form-section">
+              <h3 class="cr-contact-section-label">Get In Touch:</h3>
+
+              <form id="cr-contact-form" class="cr-contact-form">
+                <div class="cr-form-group">
+                  <label for="cr-input-name" class="cr-form-label">Name *</label>
+                  <input type="text" id="cr-input-name" name="name" class="cr-form-input" placeholder="Enter your name" required />
+                </div>
+
+                <div class="cr-form-group">
+                  <label for="cr-input-email" class="cr-form-label">Email *</label>
+                  <input type="email" id="cr-input-email" name="email" class="cr-form-input" placeholder="Enter you email" required />
+                </div>
+
+                <div class="cr-form-group">
+                  <label for="cr-input-msg" class="cr-form-label">Message</label>
+                  <textarea id="cr-input-msg" name="message" class="cr-form-textarea" placeholder="Enter your message" rows="3"></textarea>
+                </div>
+
+                <button type="submit" class="cr-contact-submit-btn" id="cr-contact-submit-btn">
+                  <span>Submit</span>
+                </button>
+
+                <div class="cr-contact-feedback" id="cr-contact-feedback" style="display: none;"></div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js?v=5.1"></script>
   </body>
 </html>

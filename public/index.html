@@ -1,771 +1,2148 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <link rel="icon" type="image/png" href="assets/projects/herosection1-1.png" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta property="og:url" content="https://temport-b2930.web.app/" />
-    <meta property="og:title" content="Team Portfolio" />
-    <meta property="og:description" content="Digital design and development studio" />
-    <meta property="og:image" content="https://temport-b2930.web.app/assets/projects/herosection1-1.png" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <link rel="icon" type="image/svg+xml" href="assets/WebTempLogo.svg"
+    <title>TEMport® — Creative Design &amp; Full-Stack Studio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&family=Mona+Sans:ital,wght@0,500;0,600;0,700;0,800;0,900;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Redacted+Script&family=Syne:wght@700;800&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="style.css?v=2.9" />
     <link
       rel="stylesheet"
+      type="text/css"
       href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css"
     />
-    <style>
-      /* Instant, zero-JS curtain wipe animation on page load */
-      .curtain-wipe {
-        position: fixed;
-        top: 0;
-        left: -20vw;
-        width: 140vw;
-        height: 100vh;
-        background: linear-gradient(
-          135deg,
-          #7c3aed 0%,
-          #5b21b6 50%,
-          #2e1065 100%
-        );
-        z-index: 99999;
-        pointer-events: none;
-        transform: translateX(0%) skewX(-12deg);
-        animation: curtain-wipe-out 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    <link rel="stylesheet" href="style.css?v=8.0" />
+    <link rel="stylesheet" href="loader.css?v=7.0" />
+    <link rel="stylesheet" href="messenger.css?v=1.1" />
+    <link rel="prefetch" href="project.html" as="document" />
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem("theme") || localStorage.getItem("temport_theme");
+          if (t === "dark") {
+            document.documentElement.classList.add("dark-mode");
+          }
+        } catch (e) {}
+      })();
+    </script>
+      <script>
+      /* Look-Twice loader: once per session (add ?loader to replay) */
+      (function () {
+        var r = document.documentElement;
+        try {
+          var force = /[?&]loader\b/.test(location.search);
+          if (!force && sessionStorage.getItem("temport_loader_seen") === "1") return;
+        } catch (e) {}
+        r.classList.add("tp-loading");
+        setTimeout(function () { r.classList.remove("tp-loading"); }, 12000); /* failsafe */
+      })();
+    </script>
+      <style id="cr-mobile-critical-overrides">
+      :root {
+        --hero-scale: 0.58;
+        --hero-shift-x: -28px;
       }
-      @keyframes curtain-wipe-out {
-        0% {
-          transform: translateX(0%) skewX(-12deg);
+      @media (max-width: 365px) {
+        :root {
+          --hero-scale: 0.52;
+          --hero-shift-x: -28px;
         }
-        100% {
-          transform: translateX(-100%) skewX(-12deg);
+      }
+      @media (min-width: 366px) and (max-width: 410px) {
+        :root {
+          --hero-scale: 0.58;
+          --hero-shift-x: -28px;
+        }
+      }
+      @media (min-width: 411px) and (max-width: 480px) {
+        :root {
+          --hero-scale: 0.63;
+          --hero-shift-x: -28px;
+        }
+      }
+      @media (min-width: 481px) and (max-width: 640px) {
+        :root {
+          --hero-scale: 0.72;
+          --hero-shift-x: -28px;
+        }
+      }
+      @media (min-width: 641px) and (max-width: 860px) {
+        :root {
+          --hero-scale: 0.85;
+          --hero-shift-x: -28px;
         }
       }
 
-      html.skip-home-intro .curtain-wipe {
-        display: none;
+      @media (max-width: 860px) {
+        /* 1. HIDE THE 3 PROJECT CARDS & 3 WEB WIDGETS ON MOBILE */
+        .cr-project-stack,
+        .cr-hero-chip-1,
+        .cr-hero-chip-2,
+        .cr-hero-chip-3,
+        .cr-title-chip {
+          display: none !important;
+          visibility: hidden !important;
+          opacity: 0 !important;
+          pointer-events: none !important;
+          height: 0 !important;
+          width: 0 !important;
+          margin: 0 !important;
+          padding: 0 !important;
+        }
+
+        /* 2. CENTER HERO STAGE & HEADINGS ON MOBILE */
+        .cr-hero-center {
+          display: flex !important;
+          flex-direction: column !important;
+          align-items: center !important;
+          justify-content: center !important;
+          text-align: center !important;
+          width: 100% !important;
+          max-width: 100% !important;
+          padding: 18px 16px 8px !important;
+          margin: 0 auto !important;
+          overflow: visible !important;
+        }
+
+        .cr-profile-card {
+          position: relative !important;
+          top: auto !important;
+          left: auto !important;
+          margin: 0 auto 18px !important;
+          width: min(100%, 360px) !important;
+        }
+
+        .cr-main-heading-wrap {
+          width: 100% !important;
+          max-width: 480px !important;
+          height: auto !important;
+          min-height: 0 !important;
+          position: relative !important;
+          display: flex !important;
+          flex-direction: column !important;
+          align-items: center !important;
+          justify-content: center !important;
+          transform: none !important;
+          margin: 10px auto 18px !important;
+          text-align: center !important;
+        }
+
+        .cr-hero-display {
+          position: relative !important;
+          top: auto !important;
+          left: auto !important;
+          transform: none !important;
+          width: 100% !important;
+          font-family: 'Mona Sans', 'Plus Jakarta Sans', sans-serif !important;
+          font-size: clamp(34px, 10vw, 52px) !important;
+          font-weight: 800 !important;
+          letter-spacing: -1.2px !important;
+          line-height: 1.05 !important;
+          text-align: center !important;
+          text-transform: uppercase !important;
+          color: #ffffff !important;
+          margin: 0 auto !important;
+          display: flex !important;
+          flex-direction: column !important;
+          align-items: center !important;
+        }
+
+        .cr-hero-display .cr-hero-line {
+          display: block !important;
+          white-space: normal !important;
+          text-align: center !important;
+          margin: 0 auto !important;
+          width: 100% !important;
+        }
+
+        .cr-hero-display .cr-indent-line {
+          display: block !important;
+          padding-left: 0 !important;
+          white-space: normal !important;
+          text-align: center !important;
+          margin: 0 auto !important;
+          width: 100% !important;
+        }
+
+        /* 3. Subcopy Centered Cleanly Above Dock */
+        .cr-hero-bottom {
+          display: flex !important;
+          flex-direction: column !important;
+          align-items: center !important;
+          justify-content: center !important;
+          text-align: center !important;
+          padding: 8px 16px 90px !important;
+          gap: 0 !important;
+          width: 100% !important;
+        }
+
+        .cr-hero-bottom-left {
+          display: flex !important;
+          flex-direction: column !important;
+          align-items: center !important;
+          justify-content: center !important;
+          text-align: center !important;
+          width: 100% !important;
+          max-width: 400px !important;
+          margin: 0 auto !important;
+          gap: 8px !important;
+        }
+
+        .cr-hero-tagline-row {
+          display: inline-flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          text-align: center !important;
+          margin: 0 auto !important;
+          gap: 8px !important;
+          font-size: 13.5px !important;
+        }
+
+        .cr-hero-tagline-bar {
+          display: none !important;
+        }
+
+        .cr-hero-subcopy {
+          text-align: center !important;
+          font-size: clamp(14px, 4vw, 16px) !important;
+          letter-spacing: 0.5px !important;
+          line-height: 1.35 !important;
+          margin: 0 auto !important;
+          max-width: 360px !important;
+        }
       }
     </style>
-    <script>
-      // Apply theme instantly on page parse to prevent layout flashes
-      if (localStorage.getItem("theme") === "dark") {
-        document.documentElement.classList.add("dark-mode");
-      }
-      // The homepage opening runs once per browser tab, not on every return to Home.
-      try {
-        if (sessionStorage.getItem("temport_home_intro_seen") === "true") {
-          document.documentElement.classList.add("skip-home-intro");
+      <script>
+      (function () {
+        function fitHero() {
+          if (window.innerWidth <= 860) {
+            var w = window.innerWidth || document.documentElement.clientWidth;
+            var scale = Math.min(0.85, Math.max(0.48, (w - 24) / 635));
+            document.documentElement.style.setProperty('--hero-scale', scale.toFixed(3));
+          } else {
+            document.documentElement.style.removeProperty('--hero-scale');
+          }
         }
-      } catch (error) {}
+        fitHero();
+        window.addEventListener('resize', fitHero, { passive: true });
+      })();
     </script>
   </head>
   <body>
-    <!-- ============ NAV ============ -->
-    <header class="navbar">
-      <div class="logo">
-        <a
-          href="index.html"
-          style="
-            color: inherit;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-          "
-        >
-          <span class="logo-mark"></span>Team Portfolio
-        </a>
-      </div>
-      <nav>
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="project.html">Project</a></li>
-          <li><a href="teams.html">Teams</a></li>
-          <li><a href="services.html">Services</a></li>
-          <li><a href="contact.html" class="nav-cta">Start project</a></li>
-        </ul>
-      </nav>
-    </header>
+    <!-- ===== LOOK-TWICE LOADER ===== -->
+    <div class="tp-loader" id="tp-loader" role="status" aria-label="Loading TEMport">
+      <div class="tp-paper">
+        <span class="tp-ff" style="--x: 14%; --y: 30%; --d: -1s"></span>
+        <span class="tp-ff" style="--x: 82%; --y: 24%; --d: -3s"></span>
+        <span class="tp-ff" style="--x: 68%; --y: 70%; --d: -2s"></span>
+        <span class="tp-ff" style="--x: 30%; --y: 78%; --d: -4s"></span>
+        <span class="tp-ff" style="--x: 50%; --y: 16%; --d: -0.5s"></span>
+        <span class="tp-ff" style="--x: 90%; --y: 52%; --d: -2.5s"></span>
 
-    <!-- ============ HERO ============ -->
-    <section class="hero">
-      <div class="hero-copy">
-        <div class="eyebrow mono">Digital design &amp; development studio</div>
-        <h1>
-          <span id="typewriter-prefix"></span><br /><span
-            class="accent"
-            id="typewriter"
-          ></span
-          ><span class="caret" id="caret"></span>
-        </h1>
-        <p class="reveal d1">
-          We're a small studio that designs and builds products, brands, and
-          interfaces for teams who care about the details. Nine years,
-          forty-plus launches, one obsession: craft.
-        </p>
-        <div class="btn-row reveal d2">
-          <a href="project.html" class="btn-primary">See our work</a>
-          <a href="#resume" class="btn-ghost view-resume-trigger"
-            >View our resume
-          </a>
-        </div>
-        <aside class="live-site-stats reveal d2" aria-live="polite" aria-label="Website activity">
-          <span class="live-site-stats__item">
-            <strong id="total-view-count">—</strong> total views
-          </span>
-        </aside>
-      </div>
-      <div id="hero-drift-wall" class="hero-drift-wall reveal d2" aria-label="Featured work"></div>
-    </section>
+        <svg class="tp-doodle tp-dd1" viewBox="0 0 126 97" fill="none" aria-hidden="true"><use href="#svg-472710921_1296" /></svg>
+        <svg class="tp-doodle tp-dd2" viewBox="0 0 175 175" fill="none" aria-hidden="true"><use href="#svg1760472650_2542" /></svg>
+        <svg class="tp-doodle tp-dd3" viewBox="0 0 167 148" fill="none" aria-hidden="true"><use href="#svg375415904_1395" /></svg>
+        <svg class="tp-doodle tp-dd4" viewBox="0 0 115 100" fill="none" aria-hidden="true"><use href="#svg-1519324100_341" /></svg>
 
-    <!-- ============ MARQUEE SECTION ============ -->
-    <div class="marquee-container reveal d3">
-      <div class="marquee-track">
-        <div class="marquee-content">
-          <span><i class="devicon-html5-plain colored"></i> html5</span>
-          <span><i class="devicon-css3-plain colored"></i> css3</span>
-          <span
-            ><i class="devicon-javascript-plain colored"></i> javascript</span
-          >
-          <span
-            ><i class="devicon-typescript-plain colored"></i> typescript</span
-          >
-          <span><i class="devicon-react-original colored"></i> react</span>
-          <span><i class="devicon-nodejs-plain colored"></i> node.js</span>
-          <span><i class="devicon-express-original"></i> express</span>
-          <span><i class="devicon-mongodb-plain colored"></i> mongodb</span>
-          <span><i class="devicon-firebase-plain colored"></i> firebase</span>
-          <span><i class="devicon-git-plain colored"></i> git</span>
-          <span><i class="devicon-figma-plain colored"></i> figma</span>
-          <span
-            ><i class="devicon-tailwindcss-original colored"></i> tailwind</span
-          >
+        <div class="tp-brand">TEMport®</div>
+
+        <div class="tp-stage">
+          <div class="tp-win">
+            <div class="tp-win-bar">
+              <span class="tp-ctl tp-ctl-pill"></span>
+              <span class="tp-ctl tp-ctl-sq"></span>
+              <span class="tp-ctl tp-ctl-tri"></span>
+              <span class="tp-win-title">temport.exe</span>
+            </div>
+            <div class="tp-win-body">
+              <div class="tp-eyes">
+                <div class="tp-eye-wrap"><div class="tp-eye"><div class="tp-pupil"></div></div></div>
+                <div class="tp-eye-wrap"><div class="tp-eye"><div class="tp-pupil"></div></div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tp-chip-wrap">
+            <div class="cr-title-chip chip-purple tp-chip">
+              <div class="cr-chip-body">
+                <span class="tp-chip-text">Design that…</span>
+                <div class="cr-chip-flip">
+                  <svg viewBox="0 0 18.109 18.301" overflow="visible">
+                    <path d="M 2.03 2.5 L 18.109 13.94 L 3.804 14.25 C 1.323 14.304 -0.515 11.96 0.13 9.564 Z" fill="rgb(0,0,0)" opacity="0.3" />
+                    <path class="tp-flip-fill" d="M 2 2.501 L 18.079 13.941 L 7.104 18.06 C 4.68 18.97 2.092 17.188 2.075 14.6 L 2 2.5 Z" />
+                    <path d="M 18.08 13.76 L 2 2.32 L 15.76 0 Z" fill="rgb(33, 33, 33)" />
+                  </svg>
+                </div>
+              </div>
+              <div class="cr-chip-icon">
+                <svg viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" /><circle cx="12" cy="12" r="3" stroke-width="1.7" /></svg>
+              </div>
+              <div class="cr-paper-clip">
+                <svg class="clip-shadow" viewBox="0 0 24 24" stroke="rgba(0,0,0,0.28)" stroke-width="2.4" fill="none"><use href="#2641542506" /></svg>
+                <svg class="clip-main" viewBox="0 0 24 24" stroke-width="1.5" fill="none"><use href="#2641542506" /></svg>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="marquee-content" aria-hidden="true">
-          <span><i class="devicon-html5-plain colored"></i> html5</span>
-          <span><i class="devicon-css3-plain colored"></i> css3</span>
-          <span
-            ><i class="devicon-javascript-plain colored"></i> javascript</span
-          >
-          <span
-            ><i class="devicon-typescript-plain colored"></i> typescript</span
-          >
-          <span><i class="devicon-react-original colored"></i> react</span>
-          <span><i class="devicon-nodejs-plain colored"></i> node.js</span>
-          <span><i class="devicon-express-original"></i> express</span>
-          <span><i class="devicon-mongodb-plain colored"></i> mongodb</span>
-          <span><i class="devicon-firebase-plain colored"></i> firebase</span>
-          <span><i class="devicon-git-plain colored"></i> git</span>
-          <span><i class="devicon-figma-plain colored"></i> figma</span>
-          <span><i class="devicon-laravel-plain colored"></i> laravel</span> 
-          <span
-            ><i class="devicon-tailwindcss-original colored"></i> tailwind</span
-          >
-        </div>
+
+        <div class="tp-caption">Creative Design &amp; Full-Stack Studio</div>
       </div>
+
+      <!-- the folded / peeling corner is drawn here by loader.js -->
+      <svg class="tp-flap" aria-hidden="true">
+        <defs>
+          <linearGradient id="tp-flap-grad" gradientUnits="userSpaceOnUse">
+            <stop offset="0" style="stop-color: var(--tp-back-a)" />
+            <stop offset="0.22" style="stop-color: var(--tp-back-b)" />
+            <stop offset="1" style="stop-color: var(--tp-back-c)" />
+          </linearGradient>
+        </defs>
+        <g id="tp-flap-g" style="display: none">
+          <polygon id="tp-sh2" class="tp-sh2" />
+          <polygon id="tp-sh1" class="tp-sh1" />
+          <polygon id="tp-flap-poly" fill="url(#tp-flap-grad)" />
+          <line id="tp-edge" class="tp-edge" />
+        </g>
+      </svg>
     </div>
 
-    <!-- ============ SKILLS SECTION ============ -->
-    <section
-      id="skills"
-      class="reveal d4"
-      style="margin-top: 90px; padding: 0 24px"
-    >
-      <div class="section-head" style="text-align: center; margin-bottom: 40px">
-        <div>
-          <div
-            class="eyebrow mono"
-            style="justify-content: center; display: flex"
-          >
-            Technologies
-          </div>
-          <h2 style="margin-top: 10px">Our Skills</h2>
-        </div>
-      </div>
-      <div class="skills-badges-container">
-        <div class="skill-badge">
-          <i class="devicon-html5-plain colored"></i> HTML5
-        </div>
-        <div class="skill-badge">
-          <i class="devicon-css3-plain colored"></i> CSS3
-        </div>
-        <div class="skill-badge">
-          <i class="devicon-javascript-plain colored"></i> JavaScript
-        </div>
-        <div class="skill-badge">
-          <i class="devicon-typescript-plain colored"></i> TypeScript
-        </div>
-        <div class="skill-badge">
-          <i class="devicon-react-original colored"></i> React
-        </div>
-        <div class="skill-badge">
-          <i class="devicon-nodejs-plain colored"></i> Node.js
-        </div>
-        <div class="skill-badge">
-          <i class="devicon-express-original"></i> Express
-        </div>
-        <div class="skill-badge">
-          <i class="devicon-mongodb-plain colored"></i> MongoDB
-        </div>
-        <div class="skill-badge">
-          <i class="devicon-firebase-plain colored"></i> Firebase
-        </div>
-        <div class="skill-badge">
-          <i class="devicon-git-plain colored"></i> Git
-        </div>
-        <div class="skill-badge">
-          <i class="devicon-figma-plain colored"></i> Figma
-        </div>
-        <div class="skill-badge">
-          <i class="devicon-tailwindcss-original colored"></i> Tailwind CSS
-        </div>
-        <div class="skill-badge">
-          <i class="devicon-canva-original colored"></i> Canva
-        </div>
-        <div class="skill-badge">
-          <i class="devicon-laravel-original colored"></i> Laravel
-        </div>
-        <div class="skill-badge">
-          <i class="devicon-json-original colored"></i> Json
-        </div>
-        <div class="skill-badge">
-          <i class="devicon-vuejs-plain colored"></i> Vue.js
-        </div>
-        <div class="skill-badge">
-          <i class="devicon-webflow-original colored"></i> Webflow
-        </div>
-        <div class="skill-badge">
-          <i class="devicon-notion-plain"></i> Notion
-        </div>
-        <div class="skill-badge">
-          <i class="devicon-vercel-original"></i> Vercel
-        </div>
-        <div class="skill-badge">
-          <i class="devicon-wordpress-plain colored"></i> WordPress
-        </div>
-      </div>
-    </section>
 
-    <!-- ============ ABOUT US ============ -->
-    <section
-      id="about-preview"
-      class="reveal d4"
-      style="margin-top: 90px; padding: 0 24px"
-    >
-      <div class="section-head">
-        <div>
-          <div class="eyebrow mono">About us</div>
-          <h2>Who we are</h2>
+    <!-- Fixed page background: grid paper + scattered doodles stay in place while content scrolls (reference behaviour) -->
+    <div class="cr-fixed-bg" aria-hidden="true">
+      <svg class="cr-doodle cr-doodle-yellow" viewBox="0 0 126 97" fill="none"><use href="#svg-472710921_1296" /></svg>
+      <svg class="cr-doodle cr-doodle-lime" viewBox="0 0 167 148" fill="none"><use href="#svg375415904_1395" /></svg>
+      <svg class="cr-doodle cr-doodle-blue" viewBox="0 0 175 175" fill="none"><use href="#svg1760472650_2542" /></svg>
+      <svg class="cr-doodle cr-doodle-confetti" viewBox="0 0 115 100" fill="none"><use href="#svg-1519324100_341" /></svg>
+      <div class="cr-scribble cr-scribble-1">asaf sdag</div>
+      <div class="cr-scribble cr-scribble-2">asaf sdag</div>
+      <div class="cr-scribble cr-scribble-3">asaf sdag</div>
+    </div>
+    <!-- ====================================================================
+         1. HERO SECTION (100VH SKY CANVAS + STICKERS + GOOGLY EYES + STACK)
+         ==================================================================== -->
+    <header class="cr-hero" id="hero" data-eyes-cursor="default">
+      <div class="cr-hero-bg" aria-hidden="true">
+        <img class="cr-hero-bg-day"
+          src="assets/hero-bg-day.png"
+          alt="Scenic green hills daytime background"
+        decoding="async">
+        <img class="cr-hero-bg-night"
+          src="assets/hero-bg-night.png?v=4.0"
+          alt="Scenic green hills nighttime background with fireflies"
+        decoding="async">
+        <div class="cr-fireflies-layer" aria-hidden="true">
+          <span class="cr-firefly f1"></span>
+          <span class="cr-firefly f2"></span>
+          <span class="cr-firefly f3"></span>
+          <span class="cr-firefly f4"></span>
+          <span class="cr-firefly f5"></span>
+          <span class="cr-firefly f6"></span>
+          <span class="cr-firefly f7"></span>
+          <span class="cr-firefly f8"></span>
+          <span class="cr-firefly f9"></span>
+          <span class="cr-firefly f10"></span>
+          <span class="cr-firefly f11"></span>
+          <span class="cr-firefly f12"></span>
         </div>
       </div>
-      <div class="home-about-grid">
-        <p class="home-about-desc">
-          We're a four-person studio — one team leader and fullstack developer,
-          one design lead, one frontend developer, and one backend developer —
-          working together on every project from first sketch to shipped code.
-          We don't separate design from engineering, we work with only a few
-          partners at a time, and you always talk directly to the people
-          actually building your product.
-        </p>
-        <div class="home-about-rotator-group">
-          <div
-            class="home-about-photo-rotator"
-            data-home-rotator
-            aria-hidden="true"
-          >
-            <img
-              src="assets/kenneth.png"
-              alt=""
-              class="rotator-img is-active"
-              data-rotator-name="Kenneth Cyrus Bianzon"
-              data-rotator-role="Team Leader · Fullstack Developer"
-            />
-            <img
-              src="assets/jenz.png"
-              alt=""
-              class="rotator-img"
-              data-rotator-name="Jenz Patrick Reguyal"
-              data-rotator-role="Design Lead · UI/UX"
-            />
-            <img
-              src="assets/jamil.png"
-              alt=""
-              class="rotator-img"
-              data-rotator-name="Jamil Kharim Abinal"
-              data-rotator-role="Frontend Developer"
-            />
-            <img
-              src="assets/pacay.png"
-              alt=""
-              class="rotator-img"
-              data-rotator-name="Chirsjohn Pacay"
-              data-rotator-role="Backend Developer"
-            />
+
+      <!-- Top Navigation (Centered Logo Like Reference Top-Nav) -->
+      <nav class="cr-top-nav cr-hero-top-nav" aria-label="Primary Navigation">
+        <a href="#hero" class="cr-logo">TEMport®</a>
+      </nav>
+
+      <!-- Center Hero Content (Exact Reference 5xtlaj Row) -->
+      <div class="cr-hero-center">
+        <!-- Expandable Glassmorphic Profile Card (Left Side: top -50px, left 32px) -->
+        <div class="cr-profile-card" id="cr-profile-card" tabindex="0" role="region" aria-label="Studio team profile card">
+          <!-- Team Switcher Header: 4 Segment Progress Bars (Like iMessage / Stories) -->
+          <div class="cr-profile-segments" aria-label="Team members (4)">
+            <button type="button" class="cr-segment-bar is-active" data-member-seg="0"></button>
+            <button type="button" class="cr-segment-bar" data-member-seg="1"></button>
+            <button type="button" class="cr-segment-bar" data-member-seg="2"></button>
+            <button type="button" class="cr-segment-bar" data-member-seg="3"></button>
           </div>
-          <div class="home-rotator-caption" aria-live="polite">
-            <div class="home-rotator-label mono">Current focus</div>
-            <div class="home-rotator-name" id="home-rotator-name">
-              Kenneth Cyrus Bianzon
+
+          <div class="cr-profile-top">
+            <div class="cr-profile-avatar-wrap">
+              <div class="cr-profile-avatar">
+                <img id="hero-rotator-avatar" src="assets/kenneth.png" alt="Kenneth" decoding="async">
+              </div>
+              <span class="cr-avatar-badge">4</span>
             </div>
-            <div class="home-rotator-role" id="home-rotator-role">
-              Team Leader · Fullstack Developer
+            <div class="cr-profile-meta">
+              <div class="cr-profile-status-row">
+                <div class="cr-profile-status">
+                  <span class="cr-status-dot"></span>
+                  <span id="hero-rotator-status">Available for work</span>
+                </div>
+                <span class="cr-message-time" id="hero-rotator-time">Active now</span>
+              </div>
+              <div class="cr-profile-name-wrap">
+                <div class="cr-profile-name-msg" id="hero-rotator-name-msg">
+                  <span class="cr-member-fname" id="hero-rotator-fname">KENNETH</span>
+                  <span class="cr-member-role-badge" id="hero-rotator-role">TEAM LEAD &amp; FULL-STACK</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Message-Bubble Bio Section (Smooth message transition, zero height shifts) -->
+          <div class="cr-profile-details">
+            <div class="cr-profile-msg-bubble" id="hero-rotator-msg-bubble">
+              <p class="cr-profile-bio" id="hero-rotator-bio">
+                "Engineering clean system architecture, full-stack web applications, and leading the team to launch."
+              </p>
+            </div>
+            <div class="cr-profile-tags">
+              <span id="hero-rotator-skills">Full-Stack · Architecture · Lead</span>
+              <button type="button" class="cr-profile-chat-pill" id="hero-open-chat-btn" aria-label="Send message">
+                <span>Message</span>
+              </button>
             </div>
           </div>
         </div>
-      </div>
-      <div style="display: flex; justify-content: center; margin-top: 32px">
-        <a href="teams.html" class="btn-ghost">More about us</a>
-      </div>
-    </section>
 
-    <!-- ============ PROJECTS PREVIEW ============ -->
-    <section
-      id="home-projects"
-      class="reveal d4"
-      style="margin-top: 90px; margin-bottom: 90px"
-    >
-      <div class="home-projects-head">
-        <div class="eyebrow mono">Selected work</div>
-        <h2>Projects we've worked on</h2>
-        <p>
-          A quick look at recent team work across client websites and product
-          design.
-        </p>
-      </div>
+        <!-- Main Stacked Display Heading (556x324) + 3 Paper-Clipped Sticky-Note Chips -->
+        <div class="cr-main-heading-wrap">
+          <h1 class="cr-hero-display">
+            <span class="cr-hero-line">Design that</span>
+            <span class="cr-hero-line">makes</span>
+            <span class="cr-hero-line cr-indent-line">people</span>
+            <span class="cr-hero-line">look twice</span>
+          </h1>
 
-      <div class="home-project-groups">
-        <div class="home-project-group">
-          <h3 class="home-project-group-title">Websites</h3>
-          <div class="home-project-grid">
-            <a href="project.html#magnify" class="home-project-card">
-              <div class="home-project-media" aria-hidden="true">
-                <img
-                  src="assets/projects/project1-1.png"
-                  alt=""
-                  class="home-project-img"
-                  onerror="this.style.display = 'none'"
-                />
-                <span class="project-media-placeholder mono"></span>
+          <!-- Chip 3: Bottom-Left Purple Sticky Note (bottom: 95px, left: -12px, rotate(-10deg)) -->
+          <div class="cr-title-chip chip-purple cr-hero-chip-3">
+            <div class="cr-chip-body">
+              <span>Web &amp; 3D UI</span>
+              <div class="cr-chip-flip">
+                <svg viewBox="0 0 18.109 18.301" overflow="visible">
+                  <path d="M 2.03 2.5 L 18.109 13.94 L 3.804 14.25 C 1.323 14.304 -0.515 11.96 0.13 9.564 Z" fill="rgb(0,0,0)" opacity="0.3" />
+                  <path d="M 2 2.501 L 18.079 13.941 L 7.104 18.06 C 4.68 18.97 2.092 17.188 2.075 14.6 L 2 2.5 Z" fill="rgb(129,104,253)" />
+                  <path d="M 18.08 13.76 L 2 2.32 L 15.76 0 Z" fill="rgb(33, 33, 33)" />
+                </svg>
               </div>
-              <div class="home-project-card-body">
-                <h4>Magnify Vision Media</h4>
-                <p>
-                  A premium marketing agency website with reusable UI
-                  components, smooth interactions, and consistent branding.
-                </p>
-              </div>
-            </a>
-
-            <a href="project.html#bunbite" class="home-project-card">
-              <div class="home-project-media" aria-hidden="true">
-                <img
-                  src="assets/projects/project2-1.png"
-                  alt=""
-                  class="home-project-img"
-                  onerror="this.style.display = 'none'"
-                />
-                <span class="project-media-placeholder mono"></span>
-              </div>
-              <div class="home-project-card-body">
-                <h4>Bun &amp; Bite</h4>
-                <p>
-                  A modern restaurant website with a promotional hero, organized
-                  menu sections, and smooth navigation.
-                </p>
-              </div>
-            </a>
-
-            <a href="project.html#newday" class="home-project-card">
-              <div class="home-project-media" aria-hidden="true">
-                <img
-                  src="assets/projects/project3-1.png"
-                  alt=""
-                  class="home-project-img"
-                  onerror="this.style.display = 'none'"
-                />
-                <span class="project-media-placeholder mono"></span>
-              </div>
-              <div class="home-project-card-body">
-                <h4>NewDay Child Coaching</h4>
-                <p>
-                  A coaching website presenting resources and the
-                  PATHWise&trade; framework through a clean, conversion-focused
-                  layout.
-                </p>
-              </div>
-            </a>
+            </div>
+            <div class="cr-chip-icon">
+              <svg viewBox="0 0 24 24"><use href="#1537972964" /></svg>
+            </div>
+            <div class="cr-paper-clip">
+              <svg class="clip-shadow" viewBox="0 0 24 24" stroke="rgba(0,0,0,0.28)" stroke-width="2.4" fill="none"><use href="#2641542506" /></svg>
+              <svg class="clip-main" viewBox="0 0 24 24" stroke="rgb(129,104,253)" stroke-width="1.5" fill="none"><use href="#2641542506" /></svg>
+            </div>
           </div>
-        </div>
 
-        <div class="home-project-group">
-          <h3 class="home-project-group-title">UI / UX</h3>
-          <div class="home-project-grid">
-            <a href="project.html#mobileappdesign-pathwise" class="home-project-card">
-              <div class="home-project-media" aria-hidden="true">
-                <img
-                  src="assets/projects/mobiledesign1-1.png"
-                  alt=""
-                  class="home-project-img"
-                  onerror="this.style.display = 'none'"
-                />
-                <span class="project-media-placeholder mono"></span>
+          <!-- Chip 2: Mid-Right Pink Sticky Note (top: 87px, left: 320px, rotate(6deg)) -->
+          <div class="cr-title-chip chip-pink cr-hero-chip-2">
+            <div class="cr-chip-body">
+              <span>Full-Stack Dev</span>
+              <div class="cr-chip-flip">
+                <svg viewBox="0 0 18.109 18.301" overflow="visible">
+                  <path d="M 2.03 2.5 L 18.109 13.94 L 3.804 14.25 C 1.323 14.304 -0.515 11.96 0.13 9.564 Z" fill="rgb(0,0,0)" opacity="0.3" />
+                  <path d="M 2 2.501 L 18.079 13.941 L 7.104 18.06 C 4.68 18.97 2.092 17.188 2.075 14.6 L 2 2.5 Z" fill="rgb(236, 104, 253)" />
+                  <path d="M 18.08 13.76 L 2 2.32 L 15.76 0 Z" fill="rgb(33, 33, 33)" />
+                </svg>
               </div>
-              <div class="home-project-card-body">
-                <h4>PathWise Mobile Project</h4>
-                <p>
-                  A mobile app prototype built around complete user flows,
-                  reusable components, and mobile-first UX.
-                </p>
-              </div>
-            </a>
+            </div>
+            <div class="cr-chip-icon">
+              <svg viewBox="0 0 24 24"><use href="#2658193374" /></svg>
+            </div>
+            <div class="cr-paper-clip">
+              <svg class="clip-shadow" viewBox="0 0 24 24" stroke="rgba(0,0,0,0.28)" stroke-width="2.4" fill="none"><use href="#2641542506" /></svg>
+              <svg class="clip-main" viewBox="0 0 24 24" stroke="rgb(236, 104, 253)" stroke-width="1.5" fill="none"><use href="#2641542506" /></svg>
+            </div>
+          </div>
 
-            <a href="project.html#webdesign-wheretoknow" class="home-project-card">
-              <div class="home-project-media" aria-hidden="true">
-                <img
-                  src="assets/projects/webdesign1-1.png"
-                  class="home-project-img"
-                  onerror="this.style.display = 'none'"
-                />
-                <span class="project-media-placeholder mono"></span>
+          <!-- Chip 1: Top-Right Green Sticky Note (top: -25px, right: -67px, rotate(10deg)) -->
+          <div class="cr-title-chip chip-green cr-hero-chip-1">
+            <div class="cr-chip-body">
+              <span>UI/UX Design</span>
+              <div class="cr-chip-flip">
+                <svg viewBox="0 0 18.109 18.301" overflow="visible">
+                  <path d="M 2.03 2.5 L 18.109 13.94 L 3.804 14.25 C 1.323 14.304 -0.515 11.96 0.13 9.564 Z" fill="rgb(0,0,0)" opacity="0.3" />
+                  <path d="M 2 2.501 L 18.079 13.941 L 7.104 18.06 C 4.68 18.97 2.092 17.188 2.075 14.6 L 2 2.5 Z" fill="rgb(147, 186, 6)" />
+                  <path d="M 18.08 13.76 L 2 2.32 L 15.76 0 Z" fill="rgb(33, 33, 33)" />
+                </svg>
               </div>
-              <div class="home-project-card-body">
-                <h4>Where to Know</h4>
-                <p>
-                  A business intelligence dashboard that turns hotel reporting
-                  data into clear, actionable visuals.
-                </p>
-              </div>
-            </a>
-
-            <a href="project.html#herosection-herosection6" class="home-project-card">
-              <div class="home-project-media" aria-hidden="true">
-                <img
-                  src="assets/projects/herosection6.png"
-                  alt=""
-                  class="home-project-img"
-                  onerror="this.style.display = 'none'"
-                />
-                <span class="project-media-placeholder mono"></span>
-              </div>
-              <div class="home-project-card-body">
-                <h4>Outride Landing Page</h4>
-                <p>
-                  A premium electric-vehicle landing page concept with a
-                  minimalist hero and strong visual hierarchy.
-                </p>
-              </div>
-            </a>
-
-            <a href="project.html#herosection-devialet" class="home-project-card">
-              <div class="home-project-media" aria-hidden="true">
-                <img
-                  src="assets/projects/herosection2-1.png"
-                  alt=""
-                  class="home-project-img"
-                  onerror="this.style.display = 'none'"
-                />
-                <span class="project-media-placeholder mono"></span>
-              </div>
-              <div class="home-project-card-body">
-                <h4>Sonix Audio Landing Page</h4>
-                <p>
-                  A cinematic, luxury product landing page designed around the
-                  Sonix Audio Headsets.
-                </p>
-              </div>
-            </a>
+            </div>
+            <div class="cr-chip-icon">
+              <svg viewBox="0 0 24 24"><use href="#636125695" /></svg>
+            </div>
+            <div class="cr-paper-clip">
+              <svg class="clip-shadow" viewBox="0 0 24 24" stroke="rgba(0,0,0,0.28)" stroke-width="2.4" fill="none"><use href="#2641542506" /></svg>
+              <svg class="clip-main" viewBox="0 0 24 24" stroke="rgb(147, 186, 6)" stroke-width="1.5" fill="none"><use href="#2641542506" /></svg>
+            </div>
           </div>
         </div>
       </div>
 
-      <div class="home-project-cta">
-        <a href="project.html" class="btn-primary">View all projects</a>
-      </div>
-    </section>
-
-    <!-- ============ START A PROJECT CTA ============ -->
-    <section
-      id="home-cta"
-      class="reveal d4"
-      style="margin-top: 90px; margin-bottom: 90px; padding: 0 24px"
-    >
-      <div class="home-cta-box">
-        <div
-          class="eyebrow mono"
-          style="justify-content: center; display: flex"
-        >
-          Let's talk
+      <!-- Bottom Bar: Tagline + Resume CTA + Fanning 3-Card Project Stack -->
+      <div class="cr-hero-bottom">
+        <div class="cr-hero-bottom-left">
+          <div class="cr-hero-tagline-row">
+            <span class="cr-hero-tagline-bar"></span>
+            <span>Not just visuals.</span>
+          </div>
+          <p class="cr-hero-subcopy">WE MAKE DIGITAL THINGS LOOK ALIVE</p>
         </div>
-        <h2>
-          Have a project in mind?<br /><span class="accent"
-            >Let's build it together.</span
-          >
-        </h2>
-        <a href="contact.html" class="btn-primary home-cta-btn"
-          >Start a project</a
-        >
-      </div>
-    </section>
 
-    <!-- ============ FOOTER ============ -->
-    <!-- ============ FOOTER ============ -->
-    <footer class="footer-section">
-      <div class="footer-container">
-        <div class="footer-brand-col">
-          <p class="footer-brand-desc">
-            Bridging the gap between creative vision and technical execution.
+        <!-- Interactive Fanning 3-Card Project Stack -->
+        <div class="cr-project-stack" id="cr-project-stack" aria-label="Featured Case Studies">
+          <!-- Card 3 -->
+          <a href="project.html#newday" class="cr-stack-card card-3">
+            <div class="cr-stack-thumb">
+              <img src="assets/projects/project3-1.png" alt="NewDay Child Coaching" loading="lazy" decoding="async">
+            </div>
+            <div class="cr-stack-info">
+              <div>
+                <div class="cr-stack-meta">
+                  <span>WordPress</span>
+                  <span>2026</span>
+                </div>
+                <div class="cr-stack-title">NewDay Coaching</div>
+              </div>
+              <div class="cr-stack-cta">
+                <span>View Case Study</span>
+                <span class="cr-stack-arrow">
+                  <svg width="8" height="7" viewBox="0 0 7.2 6"><use href="#svg-588886625_399" /></svg>
+                </span>
+              </div>
+            </div>
+          </a>
+
+          <!-- Card 2 -->
+          <a href="project.html#bunbite" class="cr-stack-card card-2">
+            <div class="cr-stack-thumb">
+              <img src="assets/projects/project2-1.png" alt="Bun &amp; Bite" loading="lazy" decoding="async">
+            </div>
+            <div class="cr-stack-info">
+              <div>
+                <div class="cr-stack-meta">
+                  <span>Web App</span>
+                  <span>2026</span>
+                </div>
+                <div class="cr-stack-title">Bun &amp; Bite</div>
+              </div>
+              <div class="cr-stack-cta">
+                <span>View Case Study</span>
+                <span class="cr-stack-arrow">
+                  <svg width="8" height="7" viewBox="0 0 7.2 6"><use href="#svg-588886625_399" /></svg>
+                </span>
+              </div>
+            </div>
+          </a>
+
+          <!-- Card 1 (Front) -->
+          <a href="project.html#magnify" class="cr-stack-card card-1">
+            <div class="cr-stack-thumb">
+              <img src="assets/projects/project1-1.png" alt="Magnify Vision Media" loading="lazy" decoding="async">
+            </div>
+            <div class="cr-stack-info">
+              <div>
+                <div class="cr-stack-meta">
+                  <span>Webflow · UI/UX</span>
+                  <span>2026</span>
+                </div>
+                <div class="cr-stack-title">Magnify Vision Media</div>
+              </div>
+              <div class="cr-stack-cta">
+                <span>View Case Study</span>
+                <span class="cr-stack-arrow">
+                  <svg width="8" height="7" viewBox="0 0 7.2 6"><use href="#svg-588886625_399" /></svg>
+                </span>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <!-- ====================================================================
+           2. ABOUT SECTION & 4-CARD HORIZONTAL CORKBOARD STATS (EXACT CREATIE® LAYOUT)
+           ==================================================================== -->
+      <section class="cr-about-section" id="about">
+        <!-- Main-Heading Block (framer-f8ufg9: width 820px, gap 16px, centered) -->
+        <div class="cr-about-heading-block">
+          <div class="cr-about-title-row">
+            <div class="cr-title-chip chip-blue cr-about-chip" style="transform: rotate(-18deg)">
+              <div class="cr-chip-body">
+                <span>About</span>
+                <div class="cr-chip-flip">
+                  <svg viewBox="0 0 18.109 18.301" overflow="visible">
+                    <path d="M 2.03 2.5 L 18.109 13.94 L 3.804 14.25 C 1.323 14.304 -0.515 11.96 0.13 9.564 Z" fill="rgb(0,0,0)" opacity="0.3" />
+                    <path d="M 2 2.501 L 18.079 13.941 L 7.104 18.06 C 4.68 18.97 2.092 17.188 2.075 14.6 L 2 2.5 Z" fill="rgb(3, 156, 251)" />
+                    <path d="M 18.08 13.76 L 2 2.32 L 15.76 0 Z" fill="rgb(33, 33, 33)" />
+                  </svg>
+                </div>
+              </div>
+              <div class="cr-chip-icon">
+                <svg viewBox="0 0 24 24"><use href="#1247626696" /></svg>
+              </div>
+              <div class="cr-paper-clip">
+                <svg class="clip-shadow" viewBox="0 0 24 24" stroke="rgba(0,0,0,0.28)" stroke-width="2.4" fill="none"><use href="#2641542506" /></svg>
+                <svg class="clip-main" viewBox="0 0 24 24" stroke="rgb(3, 156, 251)" stroke-width="1.5" fill="none"><use href="#2641542506" /></svg>
+              </div>
+            </div>
+
+            <div class="cr-about-display-lines">
+              <h2 class="cr-section-title">WE MAKE DESIGNS</h2>
+              <h2 class="cr-section-title">PEOPLE REMEMBER</h2>
+            </div>
+          </div>
+
+          <div class="cr-about-subtext">
+            <p class="cr-about-sub-p">
+              We design clean websites, apps, and brand systems<br />
+              that help ideas look sharper, feel trusted
+            </p>
+            <div class="cr-about-purpose-row">
+              <span class="cr-about-rect-bar" aria-hidden="true"></span>
+              <p class="cr-about-sub-p">and work with purpose.</p>
+            </div>
+          </div>
+
+          <!-- Button-Stack (framer-1ypcru4: tilted -6deg + red 3D push-pin at top-right) -->
+          <div class="cr-about-btn-stack">
+            <div class="cr-wave-btn-wrap">
+              <a href="#footer" class="cr-wave-btn" style="transform: rotate(-6deg)">
+                <span class="cr-wave-text">Start a project</span>
+                <span class="cr-wave-text-hover">Start a project</span>
+                <span class="cr-ripple-1"><span class="cr-ripple-2"><span class="cr-ripple-3"></span></span></span>
+              </a>
+              <svg class="cr-btn-pin cr-about-pin" viewBox="0 0 27 31" fill="none">
+                <use href="#svg-1008584715_789" />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 Pinned Corkboard Stats Cards in Exact Single Horizontal Staggered Stage (framer-1ay9h4e: 1335x301) -->
+        <div class="cr-stats-board" aria-label="Studio Statistics">
+          <!-- Stat 1 (left: 5px, top: 71px, rotate(-3deg)) -->
+          <div class="cr-stat-slot cr-stat-slot-1" data-eyes-cursor="cream">
+            <article class="cr-stat-card">
+              <svg class="cr-stat-pin" viewBox="0 0 18 22" fill="none"><use href="#svg936387369_785" /></svg>
+              <div class="cr-stat-inner">
+                <div class="cr-stat-num">42+</div>
+                <div class="cr-stat-text">
+                  <div class="cr-stat-label">Projects Shipped</div>
+                  <p class="cr-stat-desc">
+                    Websites, web apps, and UI/UX systems launched for ambitious teams.
+                  </p>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <!-- Stat 2 (left: 336px, bottom: 11px, rotate(5deg)) -->
+          <div class="cr-stat-slot cr-stat-slot-2" data-eyes-cursor="cream">
+            <article class="cr-stat-card">
+              <svg class="cr-stat-pin" viewBox="0 0 18 22" fill="none"><use href="#svg936387369_785" /></svg>
+              <div class="cr-stat-inner">
+                <div class="cr-stat-num">9+</div>
+                <div class="cr-stat-text">
+                  <div class="cr-stat-label">Years of Experience</div>
+                  <p class="cr-stat-desc">
+                    Designing websites, apps, and digital products with a clear focus on usability.
+                  </p>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <!-- Stat 3 (left: 673px, top: 27px, rotate(-8deg)) -->
+          <div class="cr-stat-slot cr-stat-slot-3" data-eyes-cursor="cream">
+            <article class="cr-stat-card">
+              <svg class="cr-stat-pin" viewBox="0 0 18 22" fill="none"><use href="#svg936387369_785" /></svg>
+              <div class="cr-stat-inner">
+                <div class="cr-stat-num">18+</div>
+                <div class="cr-stat-text">
+                  <div class="cr-stat-label">Happy Clients</div>
+                  <p class="cr-stat-desc">
+                    Worked with startups, creators, and growing brands across industries.
+                  </p>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <!-- Stat 4 (left: 993px, bottom: 11px, rotate(-2deg)) -->
+          <div class="cr-stat-slot cr-stat-slot-4" data-eyes-cursor="cream">
+            <article class="cr-stat-card">
+              <svg class="cr-stat-pin" viewBox="0 0 18 22" fill="none"><use href="#svg936387369_785" /></svg>
+              <div class="cr-stat-inner">
+                <div class="cr-stat-num">100%</div>
+                <div class="cr-stat-text">
+                  <div class="cr-stat-label">Full-Stack &amp; Native</div>
+                  <p class="cr-stat-desc">
+                    Responsive websites and full-stack apps designed, built, and published.
+                  </p>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           3. BESPOKE CREATIE® SECTION: SKILLS & TECH TOOLKIT STICKER WALL
+           ==================================================================== -->
+      <section class="cr-skills-section" id="skills">
+        <div class="cr-section-header" style="margin: 0 auto 36px;">
+          <div class="cr-title-chip chip-purple cr-header-chip" style="transform: rotate(-16deg)">
+            <div class="cr-chip-body">
+              <span>Toolkit</span>
+              <div class="cr-chip-flip">
+                <svg viewBox="0 0 18.109 18.301" overflow="visible">
+                  <path d="M 2.03 2.5 L 18.109 13.94 L 3.804 14.25 C 1.323 14.304 -0.515 11.96 0.13 9.564 Z" fill="rgb(0,0,0)" opacity="0.3" />
+                  <path d="M 2 2.501 L 18.079 13.941 L 7.104 18.06 C 4.68 18.97 2.092 17.188 2.075 14.6 L 2 2.5 Z" fill="rgb(129,104,253)" />
+                  <path d="M 18.08 13.76 L 2 2.32 L 15.76 0 Z" fill="rgb(33, 33, 33)" />
+                </svg>
+              </div>
+            </div>
+            <div class="cr-chip-icon">
+              <svg viewBox="0 0 24 24"><use href="#1403532491" /></svg>
+            </div>
+            <div class="cr-paper-clip">
+              <svg class="clip-shadow" viewBox="0 0 24 24" stroke="rgba(0,0,0,0.35)" stroke-width="2.4" fill="none"><use href="#2641542506" /></svg>
+              <svg class="clip-main" viewBox="0 0 24 24" stroke="rgb(129,104,253)" stroke-width="1.6" fill="none"><use href="#2641542506" /></svg>
+            </div>
+          </div>
+
+          <h2 class="cr-section-title">
+            TOOLS BEHIND<br />
+            THE CRAFT
+          </h2>
+          <p class="cr-section-sub">
+            20+ modern frameworks, design tools, and full-stack technologies our team ships with every day.
           </p>
         </div>
-        <div class="footer-nav-col">
-          <div class="footer-label">Links</div>
-          <ul class="footer-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="project.html">Projects</a></li>
-            <li><a href="teams.html">Team</a></li>
-          </ul>
+
+
+        <!-- 20 Tactile Sticker Skill Badges -->
+        <div class="cr-skills-grid">
+          <span class="cr-skill-sticker"><i class="devicon-html5-plain colored"></i> HTML5</span>
+          <span class="cr-skill-sticker"><i class="devicon-css3-plain colored"></i> CSS3</span>
+          <span class="cr-skill-sticker"><i class="devicon-javascript-plain colored"></i> JavaScript</span>
+          <span class="cr-skill-sticker"><i class="devicon-typescript-plain colored"></i> TypeScript</span>
+          <span class="cr-skill-sticker"><i class="devicon-react-original colored"></i> React</span>
+          <span class="cr-skill-sticker"><i class="devicon-nodejs-plain colored"></i> Node.js</span>
+          <span class="cr-skill-sticker"><i class="devicon-express-original"></i> Express</span>
+          <span class="cr-skill-sticker"><i class="devicon-mongodb-plain colored"></i> MongoDB</span>
+          <span class="cr-skill-sticker"><i class="devicon-firebase-plain colored"></i> Firebase</span>
+          <span class="cr-skill-sticker"><i class="devicon-git-plain colored"></i> Git</span>
+          <span class="cr-skill-sticker"><i class="devicon-figma-plain colored"></i> Figma</span>
+          <span class="cr-skill-sticker"><i class="devicon-tailwindcss-original colored"></i> Tailwind CSS</span>
+          <span class="cr-skill-sticker"><i class="devicon-canva-original colored"></i> Canva</span>
+          <span class="cr-skill-sticker"><i class="devicon-laravel-original colored"></i> Laravel</span>
+          <span class="cr-skill-sticker"><i class="devicon-json-plain"></i> Json</span>
+          <span class="cr-skill-sticker"><i class="devicon-vuejs-plain colored"></i> Vue.js</span>
+          <span class="cr-skill-sticker"><i class="devicon-webflow-original colored"></i> Webflow</span>
+          <span class="cr-skill-sticker"><i class="devicon-notion-plain"></i> Notion</span>
+          <span class="cr-skill-sticker"><i class="devicon-vercel-original"></i> Vercel</span>
+          <span class="cr-skill-sticker"><i class="devicon-wordpress-plain colored"></i> WordPress</span>
         </div>
-        <div class="footer-connect-col">
-          <div class="footer-label">Connect</div>
-          <ul class="footer-links">
-            <li><a href="contact.html">Contact Us</a></li>
-            <li>
-              <a href="mailto:elaine150605@gmail.com">elaine150605@gmail.com</a>
-            </li>
-          </ul>
+      </section>
+
+      <!-- ====================================================================
+           4. SKY-CANVAS SELECTED PROJECTS SECTION (TILTED OS-WINDOW CARDS)
+           ==================================================================== -->
+      <section class="cr-projects-section" id="project">
+        <div class="cr-projects-bg" aria-hidden="true">
+          <img class="cr-projects-bg-day"
+            src="assets/projects-bg-day.png"
+            alt="Scenic day landscape" loading="lazy" decoding="async">
+          <img class="cr-projects-bg-night"
+            src="assets/projects-bg-night.png?v=4.0"
+            alt="Scenic night landscape" loading="lazy" decoding="async">
+        </div>
+
+        <!-- Glowing Fireflies Layer across Projects Section -->
+        <div class="cr-fireflies-layer cr-projects-fireflies" aria-hidden="true">
+          <span class="cr-firefly pf1"></span>
+          <span class="cr-firefly pf2"></span>
+          <span class="cr-firefly pf3"></span>
+          <span class="cr-firefly pf4"></span>
+          <span class="cr-firefly pf5"></span>
+          <span class="cr-firefly pf6"></span>
+          <span class="cr-firefly pf7"></span>
+          <span class="cr-firefly pf8"></span>
+          <span class="cr-firefly pf9"></span>
+          <span class="cr-firefly pf10"></span>
+          <span class="cr-firefly pf11"></span>
+          <span class="cr-firefly pf12"></span>
+          <span class="cr-firefly pf13"></span>
+          <span class="cr-firefly pf14"></span>
+          <span class="cr-firefly pf15"></span>
+          <span class="cr-firefly pf16"></span>
+        </div>
+
+        
+
+        <div class="cr-section-header">
+          <div class="cr-title-chip chip-blue cr-header-chip" style="transform: rotate(-19deg)">
+            <div class="cr-chip-body">
+              <span>Projects</span>
+              <div class="cr-chip-flip">
+                <svg viewBox="0 0 18.109 18.301" overflow="visible">
+                  <path d="M 2.03 2.5 L 18.109 13.94 L 3.804 14.25 C 1.323 14.304 -0.515 11.96 0.13 9.564 Z" fill="rgb(0,0,0)" opacity="0.3" />
+                  <path d="M 2 2.501 L 18.079 13.941 L 7.104 18.06 C 4.68 18.97 2.092 17.188 2.075 14.6 L 2 2.5 Z" fill="rgb(3, 156, 251)" />
+                  <path d="M 18.08 13.76 L 2 2.32 L 15.76 0 Z" fill="rgb(33, 33, 33)" />
+                </svg>
+              </div>
+            </div>
+            <div class="cr-chip-icon">
+              <svg viewBox="0 0 24 24"><use href="#3282134952" /></svg>
+            </div>
+            <div class="cr-paper-clip">
+              <svg class="clip-shadow" viewBox="0 0 24 24" stroke="rgba(0,0,0,0.35)" stroke-width="2.4" fill="none"><use href="#2641542506" /></svg>
+              <svg class="clip-main" viewBox="0 0 24 24" stroke="rgb(3, 156, 251)" stroke-width="1.6" fill="none"><use href="#2641542506" /></svg>
+            </div>
+          </div>
+
+          <h2 class="cr-section-title">
+            PROJECTS THAT<br />
+            TELL STORIES
+          </h2>
+          <p class="cr-section-sub">
+            Click any OS window to preview our premier projects and live case study showcases.
+          </p>
+        </div>
+
+        <!-- Tilted OS-Window Project Cards Grid (5 Premier Websites Formation) -->
+        <div class="cr-os-projects-grid" id="cr-os-projects-grid">
+          <!-- 1. Magnify Vision Media -->
+          <div role="button" tabindex="0" class="cr-os-card cr-os-tilt-1" data-eyes-cursor="default" data-showcase-id="magnify" aria-label="Open Magnify Vision showcase">
+            <svg class="cr-os-paperclip" viewBox="0 0 30.011 48.192" overflow="visible" aria-hidden="true">
+              <use href="#svg-730533233_506" />
+            </svg>
+            <div class="cr-os-topbar">
+              <div class="cr-os-controls" aria-hidden="true">
+                <span class="cr-os-pill-pink"></span>
+                <span class="cr-os-sq-blue"></span>
+                <svg class="cr-os-tri-yellow" viewBox="0 0 13.832 10.64" overflow="visible"><use href="#svg-1841702569_267" /></svg>
+              </div>
+            </div>
+            <div class="cr-os-screen">
+              <img src="assets/projects/project1-1.png" alt="Magnify Vision Media" loading="lazy" decoding="async">
+            </div>
+            <div class="cr-os-bottom">
+              <h3 class="cr-os-project-name">Magnify Vision</h3>
+              <div class="cr-os-tags">
+                <span class="cr-os-tag">Web Design</span>
+                <span class="cr-os-tag">UI/UX</span>
+                <span class="cr-os-tag">2026</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. Bun & Bite -->
+          <div role="button" tabindex="0" class="cr-os-card cr-os-tilt-2" data-eyes-cursor="default" data-showcase-id="bunbite" aria-label="Open Bun &amp; Bite showcase">
+            <svg class="cr-os-paperclip" viewBox="0 0 30.011 48.192" overflow="visible" aria-hidden="true">
+              <use href="#svg696411819_602" />
+            </svg>
+            <div class="cr-os-topbar">
+              <div class="cr-os-controls" aria-hidden="true">
+                <span class="cr-os-pill-pink"></span>
+                <span class="cr-os-sq-blue"></span>
+                <svg class="cr-os-tri-yellow" viewBox="0 0 13.832 10.64" overflow="visible"><use href="#svg-1841702569_267" /></svg>
+              </div>
+            </div>
+            <div class="cr-os-screen">
+              <img src="assets/projects/project2-1.png" alt="Bun &amp; Bite" loading="lazy" decoding="async">
+            </div>
+            <div class="cr-os-bottom">
+              <h3 class="cr-os-project-name">Bun &amp; Bite</h3>
+              <div class="cr-os-tags">
+                <span class="cr-os-tag">Web App</span>
+                <span class="cr-os-tag">Full-Stack</span>
+                <span class="cr-os-tag">2026</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. NewDay Child Coaching -->
+          <div role="button" tabindex="0" class="cr-os-card cr-os-tilt-3" data-eyes-cursor="default" data-showcase-id="newday" aria-label="Open NewDay Coaching showcase">
+            <svg class="cr-os-paperclip" viewBox="0 0 30.011 48.192" overflow="visible" aria-hidden="true">
+              <use href="#svg719222425_603" />
+            </svg>
+            <div class="cr-os-topbar">
+              <div class="cr-os-controls" aria-hidden="true">
+                <span class="cr-os-pill-pink"></span>
+                <span class="cr-os-sq-blue"></span>
+                <svg class="cr-os-tri-yellow" viewBox="0 0 13.832 10.64" overflow="visible"><use href="#svg-1841702569_267" /></svg>
+              </div>
+            </div>
+            <div class="cr-os-screen">
+              <img src="assets/projects/project3-1.png" alt="NewDay Child Coaching" loading="lazy" decoding="async">
+            </div>
+            <div class="cr-os-bottom">
+              <h3 class="cr-os-project-name">NewDay Coaching</h3>
+              <div class="cr-os-tags">
+                <span class="cr-os-tag">Branding</span>
+                <span class="cr-os-tag">WordPress</span>
+                <span class="cr-os-tag">2026</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. Vibe//Tix Live Event Platform -->
+          <div role="button" tabindex="0" class="cr-os-card cr-os-tilt-4" data-eyes-cursor="default" data-showcase-id="vibetix" aria-label="Open Vibe//Tix Live showcase">
+            <svg class="cr-os-paperclip" viewBox="0 0 30.011 48.192" overflow="visible" aria-hidden="true">
+              <use href="#svg234572231_508" />
+            </svg>
+            <div class="cr-os-topbar">
+              <div class="cr-os-controls" aria-hidden="true">
+                <span class="cr-os-pill-pink"></span>
+                <span class="cr-os-sq-blue"></span>
+                <svg class="cr-os-tri-yellow" viewBox="0 0 13.832 10.64" overflow="visible"><use href="#svg-1841702569_267" /></svg>
+              </div>
+            </div>
+            <div class="cr-os-screen">
+              <img src="assets/projects/vibetix-1.png" alt="Vibe//Tix Live Event Platform" loading="lazy" decoding="async">
+            </div>
+            <div class="cr-os-bottom">
+              <h3 class="cr-os-project-name">Vibe//Tix Live</h3>
+              <div class="cr-os-tags">
+                <span class="cr-os-tag">Ticketing</span>
+                <span class="cr-os-tag">Web App</span>
+                <span class="cr-os-tag">2026</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 5. AIRE Digital Agency -->
+          <div role="button" tabindex="0" class="cr-os-card cr-os-tilt-5" data-eyes-cursor="default" data-showcase-id="airedigital" aria-label="Open AIRE Digital showcase">
+            <svg class="cr-os-paperclip" viewBox="0 0 30.011 48.192" overflow="visible" aria-hidden="true">
+              <use href="#svg-730533233_506" />
+            </svg>
+            <div class="cr-os-topbar">
+              <div class="cr-os-controls" aria-hidden="true">
+                <span class="cr-os-pill-pink"></span>
+                <span class="cr-os-sq-blue"></span>
+                <svg class="cr-os-tri-yellow" viewBox="0 0 13.832 10.64" overflow="visible"><use href="#svg-1841702569_267" /></svg>
+              </div>
+            </div>
+            <div class="cr-os-screen">
+              <img src="assets/projects/airedigital-1.png" alt="AIRE Digital Agency" loading="lazy" decoding="async">
+            </div>
+            <div class="cr-os-bottom">
+              <h3 class="cr-os-project-name">AIRE Digital</h3>
+              <div class="cr-os-tags">
+                <span class="cr-os-tag">Agency Web</span>
+                <span class="cr-os-tag">React</span>
+                <span class="cr-os-tag">2026</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- View All 15+ Projects CTA (Exact Creatie® Pinned Wave Button) -->
+        <div class="cr-about-cta-wrap" style="margin-top: 28px;">
+          <a href="project.html" class="cr-wave-btn">
+            <span class="cr-wave-fill" aria-hidden="true">
+              <span class="cr-wave-r1"></span>
+              <span class="cr-wave-r2"></span>
+              <span class="cr-wave-r3"></span>
+            </span>
+            <span class="cr-wave-label">Explore All 15+ Projects</span>
+            <span class="cr-wave-arrow" aria-hidden="true">
+              <svg viewBox="0 0 23.439 17.469" overflow="visible"><use href="#svg-588886625_399" /></svg>
+            </span>
+          </a>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           5. SERVICES SECTION (PASTEL STACKED ROWS + FLOATING IMAGE CURSOR + GRAPHICS)
+           ==================================================================== -->
+      <section class="cr-section cr-services-section" id="services">
+        <!-- 7 Interactive 3D Draggable Stickers & Googly Eyes (doodles/scribbles now live in the fixed .cr-fixed-bg layer) -->
+        <div class="cr-graphics-layer">
+          <!-- 7 Interactive 3D Draggable Stickers -->
+          <div class="cr-sticker cr-sticker-1" data-draggable-sticker>
+            <img src="https://framerusercontent.com/images/cq5QJAT41B3uEalepXxZ1xzIFmU.png?width=840&height=795" alt="3D Sticker" loading="lazy" decoding="async">
+          </div>
+          <div class="cr-sticker cr-sticker-2" data-draggable-sticker>
+            <img src="https://framerusercontent.com/images/4FBbf4WZcrn8dK3FlA2Mzd21XSU.png?width=930&height=921" alt="3D Sticker" loading="lazy" decoding="async">
+          </div>
+          <div class="cr-sticker cr-sticker-3" data-draggable-sticker>
+            <img src="https://framerusercontent.com/images/qS3oEPOyjasx1PFSn1iz2kRT7w.png?width=344&height=300" alt="3D Sticker" loading="lazy" decoding="async">
+          </div>
+          <div class="cr-sticker cr-sticker-4" data-draggable-sticker>
+            <img src="https://framerusercontent.com/images/RwKHVR3FyIMRIxdPMY5G15IYs.png?width=930&height=732" alt="3D Sticker" loading="lazy" decoding="async">
+          </div>
+          <div class="cr-sticker cr-sticker-5" data-draggable-sticker>
+            <img src="https://framerusercontent.com/images/rSV8scREB8oa33rmCe6aKwYvNA.png?width=930&height=920" alt="3D Sticker" loading="lazy" decoding="async">
+          </div>
+          <div class="cr-sticker cr-sticker-6" data-draggable-sticker>
+            <img src="https://framerusercontent.com/images/Th3QEx0L91no7qCoJwVGnsQ4A.png?width=861&height=930" alt="3D Sticker" loading="lazy" decoding="async">
+          </div>
+          <div class="cr-sticker cr-sticker-7" data-draggable-sticker>
+            <img src="https://framerusercontent.com/images/zLP5ArGJ7hRzp9j67em5xLB9lk.png?width=512&height=512" alt="3D Sticker" loading="lazy" decoding="async">
+          </div>
+
+          <!-- Interactive Mouse-Tracking Blinking Googly Eyes -->
+          <div class="cr-googly-eyes" id="cr-googly-eyes" aria-hidden="true">
+            <div class="cr-googly-eye">
+              <div class="cr-googly-pupil"></div>
+            </div>
+            <div class="cr-googly-eye">
+              <div class="cr-googly-pupil"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cr-section-header">
+          <div class="cr-title-chip chip-blue cr-header-chip" style="transform: rotate(-23deg)">
+            <div class="cr-chip-body">
+              <span>Services</span>
+              <div class="cr-chip-flip">
+                <svg viewBox="0 0 18.109 18.301" overflow="visible">
+                  <path d="M 2.03 2.5 L 18.109 13.94 L 3.804 14.25 C 1.323 14.304 -0.515 11.96 0.13 9.564 Z" fill="rgb(0,0,0)" opacity="0.3" />
+                  <path d="M 2 2.501 L 18.079 13.941 L 7.104 18.06 C 4.68 18.97 2.092 17.188 2.075 14.6 L 2 2.5 Z" fill="rgb(3, 156, 251)" />
+                  <path d="M 18.08 13.76 L 2 2.32 L 15.76 0 Z" fill="rgb(33, 33, 33)" />
+                </svg>
+              </div>
+            </div>
+            <div class="cr-chip-icon">
+              <svg viewBox="0 0 24 24"><use href="#3139824213" /></svg>
+            </div>
+            <div class="cr-paper-clip">
+              <svg class="clip-shadow" viewBox="0 0 24 24" stroke="rgba(0,0,0,0.35)" stroke-width="2.4" fill="none"><use href="#2641542506" /></svg>
+              <svg class="clip-main" viewBox="0 0 24 24" stroke="rgb(3, 156, 251)" stroke-width="1.6" fill="none"><use href="#2641542506" /></svg>
+            </div>
+          </div>
+
+          <h2 class="cr-section-title">
+            WHERE WE CAN<br />
+            HELP YOU
+          </h2>
+          <p class="cr-section-sub">
+            From early product discovery to full-stack production deployment, our team handles the whole craft.
+          </p>
+        </div>
+
+        <div class="cr-services-list">
+          <!-- Service 1 -->
+          <a href="#services" class="cr-service-item" data-cursor-img="assets/projects/project1-1.png">
+            <div class="cr-service-left">
+              <h3 class="cr-service-title">Website Design &amp; Webflow / WordPress</h3>
+              <p class="cr-service-desc">Marketing sites, storytelling landing pages, and CMS builds that convert.</p>
+            </div>
+            <div class="cr-service-badge" style="background: rgb(250, 111, 87)">
+              <svg viewBox="0 0 24 24"><use href="#3656879250" /></svg>
+            </div>
+          </a>
+
+          <!-- Service 2 -->
+          <a href="#services" class="cr-service-item" data-cursor-img="assets/projects/project04-1.png">
+            <div class="cr-service-left">
+              <h3 class="cr-service-title">Full-Stack Web App Development</h3>
+              <p class="cr-service-desc">React, Vue.js, Node.js, Express, Laravel, MongoDB &amp; Firebase production apps.</p>
+            </div>
+            <div class="cr-service-badge" style="background: rgb(58, 169, 255)">
+              <svg viewBox="0 0 24 24"><use href="#1403532491" /></svg>
+            </div>
+          </a>
+
+          <!-- Service 3 -->
+          <a href="#services" class="cr-service-item" data-cursor-img="assets/projects/webdesign1-1.png">
+            <div class="cr-service-left">
+              <h3 class="cr-service-title">Product &amp; UI/UX Design Systems</h3>
+              <p class="cr-service-desc">User research, wireframes, Figma component libraries, and interactive prototypes.</p>
+            </div>
+            <div class="cr-service-badge" style="background: rgb(224, 200, 16)">
+              <svg viewBox="0 0 24 24"><use href="#636125695" /></svg>
+            </div>
+          </a>
+
+          <!-- Service 4 -->
+          <a href="#services" class="cr-service-item" data-cursor-img="assets/projects/mobiledesign2-1.png">
+            <div class="cr-service-left">
+              <h3 class="cr-service-title">Mobile App Design &amp; Prototyping</h3>
+              <p class="cr-service-desc">Intuitive iOS and Android interfaces crafted for retention and delight.</p>
+            </div>
+            <div class="cr-service-badge" style="background: rgb(11, 209, 44)">
+              <svg viewBox="0 0 24 24"><use href="#1652061477" /></svg>
+            </div>
+          </a>
+
+          <!-- Service 5 -->
+          <a href="#services" class="cr-service-item" data-cursor-img="assets/projects/project2-1.png">
+            <div class="cr-service-left">
+              <h3 class="cr-service-title">Brand Identity &amp; Visual Direction</h3>
+              <p class="cr-service-desc">Logos, typography, color palettes, and cohesive launch graphics.</p>
+            </div>
+            <div class="cr-service-badge" style="background: rgb(129, 104, 253)">
+              <svg viewBox="0 0 24 24"><use href="#2658193374" /></svg>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           6. MEET THE TEAM & CLIENT REVIEWS (PINNED CORKBOARD CARDS)
+           ==================================================================== -->
+      <section class="cr-section" id="reviews">
+        <div class="cr-section-header">
+          <div class="cr-title-chip chip-pink cr-header-chip" style="transform: rotate(-17deg)">
+            <div class="cr-chip-body">
+              <span>Our People</span>
+              <div class="cr-chip-flip">
+                <svg viewBox="0 0 18.109 18.301" overflow="visible">
+                  <path d="M 2.03 2.5 L 18.109 13.94 L 3.804 14.25 C 1.323 14.304 -0.515 11.96 0.13 9.564 Z" fill="rgb(0,0,0)" opacity="0.3" />
+                  <path d="M 2 2.501 L 18.079 13.941 L 7.104 18.06 C 4.68 18.97 2.092 17.188 2.075 14.6 L 2 2.5 Z" fill="rgb(236, 104, 253)" />
+                  <path d="M 18.08 13.76 L 2 2.32 L 15.76 0 Z" fill="rgb(33, 33, 33)" />
+                </svg>
+              </div>
+            </div>
+            <div class="cr-chip-icon">
+              <svg viewBox="0 0 24 24"><use href="#1018870535" /></svg>
+            </div>
+            <div class="cr-paper-clip">
+              <svg class="clip-shadow" viewBox="0 0 24 24" stroke="rgba(0,0,0,0.35)" stroke-width="2.4" fill="none"><use href="#2641542506" /></svg>
+              <svg class="clip-main" viewBox="0 0 24 24" stroke="rgb(236, 104, 253)" stroke-width="1.6" fill="none"><use href="#2641542506" /></svg>
+            </div>
+          </div>
+
+          <h2 class="cr-section-title">
+            THE PEOPLE BEHIND<br />
+            THE PIXELS
+          </h2>
+          <p class="cr-section-sub">
+            Meet our 4-person studio. Click any team card to inspect their resume or visit our dedicated Teams page.
+          </p>
+        </div>
+
+        <!-- 4 Pinned Team Member Cards -->
+        <div class="cr-pinned-grid">
+          <!-- 1. Kenneth Cyrus Bianzon -->
+          <article class="cr-pinned-card" data-open-messenger="kenneth" data-eyes-cursor="cream">
+            <svg class="cr-card-pin" viewBox="0 0 18 22" fill="none"><use href="#svg936387369_785" /></svg>
+            <div>
+              <div class="cr-team-photo-wrap">
+                <img src="assets/kenneth.png" alt="Kenneth Cyrus Bianzon" loading="lazy" decoding="async">
+              </div>
+              <div style="margin-top: 14px;">
+                <span class="cr-team-role-pill">Team Leader · Fullstack Developer</span>
+                <h3 class="cr-team-member-name">Kenneth Cyrus Bianzon</h3>
+                <p class="cr-team-member-bio">
+                  Leads full-stack architecture, database design, and end-to-end delivery across web and cloud platforms.
+                </p>
+              </div>
+            </div>
+            <div class="cr-team-card-actions">
+              <span>Open Message Chat</span>
+              <span>💬 &rarr;</span>
+            </div>
+            </article>
+
+          <!-- 2. Jenz Patrick Reguyal -->
+          <article class="cr-pinned-card" data-open-messenger="jenz" data-eyes-cursor="cream">
+            <svg class="cr-card-pin" viewBox="0 0 18 22" fill="none"><use href="#svg936387369_785" /></svg>
+            <div>
+              <div class="cr-team-photo-wrap">
+                <img src="assets/jenz.png" alt="Jenz Patrick Reguyal" loading="lazy" decoding="async">
+              </div>
+              <div style="margin-top: 14px;">
+                <span class="cr-team-role-pill" style="background: #f4eaf5; color: #9c19b5;">Design Lead · UI/UX &amp; Web</span>
+                <h3 class="cr-team-member-name">Jenz Patrick Reguyal</h3>
+                <p class="cr-team-member-bio">
+                  Crafts expressive brand systems, interactive prototypes, and high-converting Webflow &amp; WordPress experiences.
+                </p>
+              </div>
+            </div>
+            <div class="cr-team-card-actions">
+              <span>Open Message Chat</span>
+              <span>💬 &rarr;</span>
+            </div>
+            </article>
+
+          <!-- 3. Jamil Kharim Abinal -->
+          <article class="cr-pinned-card" data-open-messenger="jamil" data-eyes-cursor="cream">
+            <svg class="cr-card-pin" viewBox="0 0 18 22" fill="none"><use href="#svg936387369_785" /></svg>
+            <div>
+              <div class="cr-team-photo-wrap">
+                <img src="assets/jamil.png" alt="Jamil Kharim Abinal" loading="lazy" decoding="async">
+              </div>
+              <div style="margin-top: 14px;">
+                <span class="cr-team-role-pill" style="background: #dcf5e0; color: #137a2a;">Frontend Developer · Engineer</span>
+                <h3 class="cr-team-member-name">Jamil Kharim Abinal</h3>
+                <p class="cr-team-member-bio">
+                  Specializes in responsive frontend engineering, smooth motion systems, and component-driven interfaces.
+                </p>
+              </div>
+            </div>
+            <div class="cr-team-card-actions">
+              <span>Open Message Chat</span>
+              <span>💬 &rarr;</span>
+            </div>
+            </article>
+
+          <!-- 4. ChrisJohn Pacay -->
+          <article class="cr-pinned-card" data-open-messenger="pacay" data-eyes-cursor="cream">
+            <svg class="cr-card-pin" viewBox="0 0 18 22" fill="none"><use href="#svg936387369_785" /></svg>
+            <div>
+              <div class="cr-team-photo-wrap">
+                <img src="assets/pacay.png" alt="ChrisJohn Pacay" loading="lazy" decoding="async">
+              </div>
+              <div style="margin-top: 14px;">
+                <span class="cr-team-role-pill" style="background: #f1eefc; color: #5c3cfa;">Backend Developer · APIs</span>
+                <h3 class="cr-team-member-name">ChrisJohn Pacay</h3>
+                <p class="cr-team-member-bio">
+                  Builds reliable server-side logic, RESTful APIs, authentication workflows, and scalable data models.
+                </p>
+              </div>
+            </div>
+            <div class="cr-team-card-actions">
+              <span>Open Message Chat</span>
+              <span>💬 &rarr;</span>
+            </div>
+            </article>
+        </div>
+
+        <div class="cr-reviews-header-block">
+          <div class="cr-reviews-badge">
+            <span class="cr-reviews-dot"></span>
+            <span>Client Reviews &amp; Studio Values</span>
+          </div>
+          <h3 class="cr-reviews-heading">
+            WHAT PARTNERS SAY ABOUT WORKING WITH US
+          </h3>
+        </div>
+
+        <!-- 3 Pinned Client Review Cards (Exact Creatie® Review-Card Layout) -->
+        <div class="cr-pinned-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
+          <article class="cr-pinned-card" data-eyes-cursor="cream">
+            <svg class="cr-card-pin" viewBox="0 0 18 22" fill="none"><use href="#svg936387369_785" /></svg>
+            <div>
+              <span class="cr-team-role-pill" style="background: #fbe7e3; color: #b91c1c;">01 · Craft Over Speed</span>
+              <p class="cr-review-quote">
+                “TEMport transformed our vision for Magnify Vision Media into an unforgettable digital experience. Their designers and engineers work as one unit — every micro-interaction feels intentional.”
+              </p>
+            </div>
+            <div class="cr-review-author">
+              <div class="cr-review-avatar" style="background: #fedcdd;">MV</div>
+              <div>
+                <div style="font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 15px;">Magnify Vision Media</div>
+                <div style="font-size: 12.5px; color: var(--ink-soft);">Web Design · UI/UX · Webflow</div>
+              </div>
+            </div>
+            </article>
+
+          <article class="cr-pinned-card" data-eyes-cursor="cream">
+            <svg class="cr-card-pin" viewBox="0 0 18 22" fill="none"><use href="#svg936387369_785" /></svg>
+            <div>
+              <span class="cr-team-role-pill" style="background: #d9e7f5; color: #1668c7;">02 · Design &amp; Code, Together</span>
+              <p class="cr-review-quote">
+                “Having UI/UX design and full-stack development under one roof saved us months. From the Bun &amp; Bite ordering flow to our backend architecture, nothing got lost in handoff.”
+              </p>
+            </div>
+            <div class="cr-review-author">
+              <div class="cr-review-avatar" style="background: #bbdafe;">BB</div>
+              <div>
+                <div style="font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 15px;">Bun &amp; Bite Hospitality</div>
+                <div style="font-size: 12.5px; color: var(--ink-soft);">Web Design · Full-Stack Development</div>
+              </div>
+            </div>
+            </article>
+
+          <article class="cr-pinned-card" data-eyes-cursor="cream">
+            <svg class="cr-card-pin" viewBox="0 0 18 22" fill="none"><use href="#svg936387369_785" /></svg>
+            <div>
+              <span class="cr-team-role-pill" style="background: #dcf5e0; color: #137a2a;">03 · Honest Communication</span>
+              <p class="cr-review-quote">
+                “Warm, responsive, and deeply thoughtful. They turned NewDay Child Coaching into an approachable, high-trust platform that parents and families immediately connect with.”
+              </p>
+            </div>
+            <div class="cr-review-author">
+              <div class="cr-review-avatar" style="background: #c7f8d9;">ND</div>
+              <div>
+                <div style="font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 15px;">NewDay Child Coaching</div>
+                <div style="font-size: 12.5px; color: var(--ink-soft);">Brand Story · WordPress · UI/UX</div>
+              </div>
+            </div>
+            </article>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           7. FAQS SECTION (SCATTERED PASTEL ACCORDIONS)
+           ==================================================================== -->
+      <section class="cr-faq-section" id="faqs">
+        <div class="cr-faq-stage">
+          <div class="cr-faq-center-title">
+            <div class="cr-title-chip chip-blue" style="transform: rotate(-10deg); margin-bottom: 18px;">
+              <div class="cr-chip-body">
+                <span>FAQs</span>
+              </div>
+              <div class="cr-chip-icon">
+                <svg viewBox="0 0 24 24"><use href="#2206852335" /></svg>
+              </div>
+              <div class="cr-paper-clip">
+                <svg class="clip-shadow" viewBox="0 0 24 24" stroke="rgba(0,0,0,0.35)" stroke-width="2.4" fill="none"><use href="#2641542506" /></svg>
+                <svg class="clip-main" viewBox="0 0 24 24" stroke="rgb(3, 156, 251)" stroke-width="1.6" fill="none"><use href="#2641542506" /></svg>
+              </div>
+            </div>
+
+            <h2 class="cr-section-title">
+              ANSWERS BEFORE<br />
+              WE START
+            </h2>
+          </div>
+
+          <!-- FAQ 1 (Pink) - Top Left (Inward) -->
+          <div class="cr-faq-card faq-1" data-faq-card>
+            <div class="cr-faq-q">
+              <span>What can you design?</span>
+              <span class="cr-faq-plus">+</span>
+            </div>
+            <div class="cr-faq-a">
+              We design end-to-end digital experiences: modern web applications, high-converting marketing websites, brand identities, UI/UX design systems, interactive prototypes, and custom motion graphics in Figma and Framer.
+            </div>
+          </div>
+
+          <!-- FAQ 2 (Lime) - Top Right (Inward) -->
+          <div class="cr-faq-card faq-2" data-faq-card>
+            <div class="cr-faq-q">
+              <span>Do you build in framer?</span>
+              <span class="cr-faq-plus">+</span>
+            </div>
+            <div class="cr-faq-a">
+              Yes! We build production-ready, highly animated websites directly in Framer and Webflow for rapid launches, and develop scalable full-stack web applications in React, Next.js, TypeScript, and Firebase.
+            </div>
+          </div>
+
+          <!-- FAQ 3 (Blue) - Mid Left -->
+          <div class="cr-faq-card faq-3" data-faq-card>
+            <div class="cr-faq-q">
+              <span>How fast can we start?</span>
+              <span class="cr-faq-plus">+</span>
+            </div>
+            <div class="cr-faq-a">
+              We can kick off within 48 to 72 hours. Once we align on your goals, requirements, and deliverables in our discovery chat, our 4-person design and development team jumps straight into action.
+            </div>
+          </div>
+
+          <!-- FAQ 4 (Yellow) - Mid Right -->
+          <div class="cr-faq-card faq-4" data-faq-card>
+            <div class="cr-faq-q">
+              <span>What do you need from me?</span>
+              <span class="cr-faq-plus">+</span>
+            </div>
+            <div class="cr-faq-a">
+              Just your vision, any reference websites or visual aesthetics you love, and prompt feedback during our collaborative sprints. We handle all UI/UX design, architecture, and coding from start to finish.
+            </div>
+          </div>
+
+          <!-- FAQ 5 (Mint) - Bottom Center -->
+          <div class="cr-faq-card faq-5" data-faq-card>
+            <div class="cr-faq-q">
+              <span>Do you only design visuals?</span>
+              <span class="cr-faq-plus">+</span>
+            </div>
+            <div class="cr-faq-a">
+              Not at all. We are a full-service creative and engineering studio. Kenneth, Jenz, Jamil, and ChrisJohn handle everything from visual design and 3D interactions to robust APIs, database infrastructure, and deployment.
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ====================================================================
+         8. CREATIE® SKY-CLOUD FOOTER & FIXED APPLE DOCK-NAV
+         ==================================================================== -->
+    <footer class="cr-footer" id="footer">
+      <!-- Outer Landscape Background -->
+      <div class="cr-footer-outer-bg" aria-hidden="true">
+        <img class="cr-footer-outer-day" src="assets/footer-outer-day.png?v=3.5" alt="" loading="lazy" decoding="async">
+        <img class="cr-footer-outer-night" src="assets/footer-outer-night.png?v=3.5" alt="" loading="lazy" decoding="async">
+      </div>
+
+      <!-- Top Content: The Paper Card Stack -->
+      <div class="cr-footer-top-wrap">
+        <div class="cr-footer-card">
+          <!-- Inner Paper Card Texture -->
+          <div class="cr-footer-inner-bg" aria-hidden="true">
+            <img class="cr-footer-inner-day" src="https://framerusercontent.com/images/Be455u4BRYelSl1NS32A0tLSZU.png?width=4140&height=1887" alt="" loading="lazy" decoding="async">
+            <img class="cr-footer-inner-night" src="assets/footer-bg-night.png?v=4.0" alt="" loading="lazy" decoding="async">
+            
+          </div>
+
+          <!-- Top-Left Social Circular Dock -->
+          <div class="cr-footer-social-dock">
+            <div class="cr-footer-social-dock-inner">
+              <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="cr-footer-social-icon">
+                <div class="cr-footer-social-icon-bg">
+                  <svg viewBox="0 0 256 256"><path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160ZM176,24H80A56.06,56.06,0,0,0,24,80v96a56.06,56.06,0,0,0,56,56h96a56.06,56.06,0,0,0,56-56V80A56.06,56.06,0,0,0,176,24Zm40,152a40,40,0,0,1-40,40H80a40,40,0,0,1-40-40V80A40,40,0,0,1,80,40h96a40,40,0,0,1,40,40ZM192,76a12,12,0,1,1-12-12A12,12,0,0,1,192,76Z"/></svg>
+                </div>
+              </a>
+              <a href="https://x.com/" target="_blank" rel="noopener noreferrer" aria-label="X" class="cr-footer-social-icon">
+                <div class="cr-footer-social-icon-bg">
+                  <svg viewBox="0 0 256 256"><path d="M214.75,211.71l-62.6-98.38,61.77-67.95a8,8,0,0,0-11.84-10.76L143.24,99.34,102.75,35.71A8,8,0,0,0,96,32H48a8,8,0,0,0-6.75,12.3l62.6,98.37-61.77,68a8,8,0,1,0,11.84,10.76l58.84-64.72,40.49,63.63A8,8,0,0,0,160,224h48a8,8,0,0,0,6.75-12.29ZM164.39,208,62.57,48h29L193.43,208Z"/></svg>
+                </div>
+              </a>
+              <a href="tel:+10000000000" target="_blank" rel="noopener noreferrer" aria-label="Phone" class="cr-footer-social-icon">
+                <div class="cr-footer-social-icon-bg">
+                  <svg viewBox="0 0 256 256"><path d="M222.37,158.46l-47.11-21.11-.13-.06a16,16,0,0,0-15.17,1.4,8.12,8.12,0,0,0-.75.56L134.87,160c-15.42-7.49-31.34-23.29-38.83-38.51l20.78-24.71c.2-.25.39-.5.57-.77a16,16,0,0,0,1.32-15.06l0-.12L97.54,33.64a16,16,0,0,0-16.62-9.52A56.26,56.26,0,0,0,32,80c0,79.4,64.6,144,144,144a56.26,56.26,0,0,0,55.88-48.92A16,16,0,0,0,222.37,158.46ZM176,208A128.14,128.14,0,0,1,48,80,40.2,40.2,0,0,1,82.87,40a.61.61,0,0,0,0,.12l21,47L83.2,111.86a6.13,6.13,0,0,0-.57.77,16,16,0,0,0-1,15.7c9.06,18.53,27.73,37.06,46.46,46.11a16,16,0,0,0,15.75-1.14,8.44,8.44,0,0,0,.74-.56L168.89,152l47,21.05h0s.08,0,.11,0A40.21,40.21,0,0,1,176,208Z"/></svg>
+                </div>
+              </a>
+              <a href="mailto:elaine150605@gmail.com" target="_blank" rel="noopener noreferrer" aria-label="Email" class="cr-footer-social-icon">
+                <div class="cr-footer-social-icon-bg">
+                  <svg viewBox="0 0 256 256"><path d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48ZM203.43,64,128,133.15,52.57,64ZM216,192H40V74.19l82.59,75.71a8,8,0,0,0,10.82,0L216,74.19V192Z"/></svg>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <!-- Top-Right Tagline Stack -->
+          <div class="cr-footer-tagline-stack">
+            <div class="cr-footer-tagline-row1">
+              <span class="cr-footer-white-bar"></span>
+              <span class="cr-footer-tagline-title">Have an idea?</span>
+            </div>
+            <div class="cr-footer-tagline-row2">
+              <p class="cr-footer-tagline-desc">Let’s turn it into a sharp digital experience.</p>
+            </div>
+          </div>
+
+          <!-- Bottom-Left Headline & 3 Sticky Chips -->
+          <div class="cr-footer-heading-wrap">
+            <!-- Sticky Chip 1: UI/UX Design (Pink / Lilac) -->
+            <div class="cr-title-chip chip-pink cr-footer-chip-uiux">
+              <div class="cr-chip-body"><span>UI/UX Design</span></div>
+              <div class="cr-chip-icon">
+                <svg role="presentation" viewBox="0 0 24 24"><use href="#636125695"/></svg>
+              </div>
+              <div class="cr-paper-clip" aria-hidden="true">
+                <svg class="clip-shadow" role="presentation" viewBox="0 0 24 24"><use href="#2641542506"/></svg>
+                <svg class="clip-main" role="presentation" viewBox="0 0 24 24"><use href="#2641542506"/></svg>
+              </div>
+            </div>
+
+            <!-- Headline -->
+            <h2 class="cr-footer-title">
+              LET’S BUILD<br />
+              SOMETHING<br />
+              MEMORABLE
+            </h2>
+
+            <!-- Sticky Chip 2: Illustration (Green) -->
+            <div class="cr-title-chip chip-green cr-footer-chip-illus">
+              <div class="cr-chip-body"><span>Illustration</span></div>
+              <div class="cr-chip-icon">
+                <svg role="presentation" viewBox="0 0 24 24"><use href="#2658193374"/></svg>
+              </div>
+              <div class="cr-paper-clip" aria-hidden="true">
+                <svg class="clip-shadow" role="presentation" viewBox="0 0 24 24"><use href="#2641542506"/></svg>
+                <svg class="clip-main" role="presentation" viewBox="0 0 24 24"><use href="#2641542506"/></svg>
+              </div>
+            </div>
+
+            <!-- Sticky Chip 3: 3D Design (Purple) -->
+            <div class="cr-title-chip chip-purple cr-footer-chip-3d">
+              <div class="cr-chip-body"><span>3D Design</span></div>
+              <div class="cr-chip-icon">
+                <svg role="presentation" viewBox="0 0 24 24"><use href="#1537972964"/></svg>
+              </div>
+              <div class="cr-paper-clip" aria-hidden="true">
+                <svg class="clip-shadow" role="presentation" viewBox="0 0 24 24"><use href="#2641542506"/></svg>
+                <svg class="clip-main" role="presentation" viewBox="0 0 24 24"><use href="#2641542506"/></svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom-Right "Let's chat" Wave Ripple Button -->
+          <div class="cr-footer-cta-container">
+            <a href="#contact" class="cr-footer-chat-btn" aria-label="Let's chat" data-open-contact="true">
+              <span class="cr-footer-chat-btn-text">Let's chat</span>
+              <span class="cr-footer-chat-btn-hover" aria-hidden="true">Let's chat</span>
+              <div class="cr-footer-ripple-outer" aria-hidden="true">
+                <div class="cr-footer-ripple-mid">
+                  <div class="cr-footer-ripple-inner"></div>
+                </div>
+              </div>
+            </a>
+          </div>
         </div>
       </div>
-      <div class="footer-bottom">
-        <div>© 2026. All rights reserved.</div>
-        <div class="footer-socials">
-          <a href="#" aria-label="Facebook">Facebook</a>
-          <a href="#" aria-label="Instagram">Instagram</a>
-          <a href="#" aria-label="LinkedIn">LinkedIn</a>
+
+      <!-- Bottom Nav Bar -->
+      <div class="cr-footer-nav-bar">
+        <a href="#hero" class="cr-logo cr-logo-dark">TEMport®</a>
+        <div class="cr-footer-links">
+          <a href="#about">ABOUT</a>
+          <a href="#services">SERVICES</a>
+          <a href="#project">PROJECTS</a>
+          <a href="#reviews">TEAMS</a>
+          <a href="#faqs">FAQS</a>
+          <a href="#contact" data-open-contact="true">CONTACT</a>
         </div>
       </div>
     </footer>
 
-    <!-- ============ RESUME PANEL OVERLAY (CENTERED MODAL) ============ -->
-    <div id="resume-panel" class="resume-panel">
-      <div class="resume-panel-backdrop"></div>
-      <div class="resume-panel-content">
-        <button class="resume-panel-close" aria-label="Close panel">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
-          </svg>
-        </button>
+    <!-- Fixed Bottom Apple Dock-Nav -->
+    <nav class="cr-apple-dock" aria-label="Dock Navigation">
+      <div class="cr-dock-inner">
+        <a href="#about" class="cr-dock-item">
+          <img src="https://framerusercontent.com/images/fzS4akadFPHws9AEuhq2dRMEBD8.png?width=180&height=180" alt="About" loading="lazy" decoding="async">
+          <span class="cr-dock-tooltip">About</span>
+        </a>
+        <a href="#project" class="cr-dock-item">
+          <img src="https://framerusercontent.com/images/fuyFscQ2e4cEmcASIC0c9KSsI.png?width=180&height=180" alt="Projects" loading="lazy" decoding="async">
+          <span class="cr-dock-tooltip">Projects</span>
+        </a>
+        <a href="#services" class="cr-dock-item">
+          <img src="https://framerusercontent.com/images/8UW4wd69DBrZGI2hFpAtJfsRLs.png?width=180&height=180" alt="Services" loading="lazy" decoding="async">
+          <span class="cr-dock-tooltip">Services</span>
+        </a>
+        <a href="#reviews" class="cr-dock-item">
+          <img src="assets/dock-teams.svg" alt="Teams" loading="lazy" decoding="async">
+          <span class="cr-dock-tooltip">Teams</span>
+        </a>
+        <a href="#messages" class="cr-dock-item" data-open-messenger="kenneth" id="open-messenger-btn" aria-label="Open Team Messenger">
+          <img src="https://framerusercontent.com/images/e3MMo36Gb3GoSAC2U8QX2JiQY.png?width=180&height=180" alt="Messages" loading="lazy" decoding="async">
+          <span class="cr-dock-tooltip">Messages</span>
+        </a>
+      </div>
+    </nav>
 
-        <h2
-          style="
-            font-family: &quot;Syne&quot;, sans-serif;
-            font-weight: 700;
-            color: var(--ink);
-            margin: 0 0 8px 0;
-            font-size: 26px;
-          "
-        >
-          Our Team Resumes
-        </h2>
-        <button type="button" class="back-to-pocket-btn mono">&larr; Back to resumes</button>
-        <p
-          class="mono"
-          style="
-            color: var(--purple-600);
-            font-size: 12px;
-            margin: 0 0 24px 0;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            font-weight: 700;
-          "
-        >
-          Hover the pocket to fan out. Click a card to open it.
-        </p>
-
-        <!-- Stacked fanning pocket -->
-        <div class="resume-pocket-container">
-          <div class="resume-pocket" role="button" tabindex="0" aria-expanded="false" aria-label="Open team resumes folder">
-            <!-- Jamil's Resume Card -->
-            <div class="resume-card-wrapper card-jamil" data-person="jamil">
-              <div class="resume-card">
-                <div class="resume-card-header">
-                  <div class="resume-card-avatar avatar-jamil"></div>
-                  <div>
-                    <div class="resume-card-name">Jamil</div>
-                    <div class="resume-card-title">Full-Stack Engineer</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Jenz's Resume Card -->
-            <div class="resume-card-wrapper card-jenz" data-person="jenz">
-              <div class="resume-card">
-                <div class="resume-card-header">
-                  <div class="resume-card-avatar avatar-jenz"></div>
-                  <div>
-                    <div class="resume-card-name">Jenz</div>
-                    <div class="resume-card-title">Creative Director</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Kenneth's Resume Card -->
-            <div class="resume-card-wrapper card-kenneth" data-person="kenneth">
-              <div class="resume-card">
-                <div class="resume-card-header">
-                  <div class="resume-card-avatar avatar-kenneth"></div>
-                  <div>
-                    <div class="resume-card-name">Kenneth</div>
-                    <div class="resume-card-title">Product Designer</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Chirsjohn's Resume Card -->
-            <div class="resume-card-wrapper card-pacay" data-person="pacay">
-              <div class="resume-card">
-                <div class="resume-card-header">
-                  <div class="resume-card-avatar avatar-pacay"></div>
-                  <div>
-                    <div class="resume-card-name">Chirsjohn</div>
-                    <div class="resume-card-title">Backend Engineer</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Pocket front lip covering bottom half -->
-            <div class="resume-pocket-front">
-              <div class="pocket-label">&lt;/ Our Team &gt;</div>
-              <div class="pocket-hint">Click to open</div>
-            </div>
-          </div>
+    <!-- ====================================================================
+         CREATIE® OS-WINDOW TEAM MESSENGER MODAL (#resume-panel / #messenger-modal)
+         Interactive Team Chat with direct contact threads, automated typing,
+         resume attachments, and verified dossier inspector.
+         ==================================================================== -->
+    <div id="resume-panel" class="resume-panel resume-modal cr-messenger-modal" aria-hidden="true">
+      <div class="resume-panel-backdrop resume-modal-backdrop cr-messenger-backdrop"></div>
+      <div class="resume-panel-content resume-modal-content cr-resume-os-window cr-messenger-window" role="dialog" aria-modal="true" aria-label="Team Messenger Chat">
+        <!-- Decorative Top Paperclip -->
+        <div class="cr-resume-os-paperclip" aria-hidden="true">
+          <svg viewBox="0 0 30.011 48.192" overflow="visible"><use href="#svg-730533233_506" /></svg>
         </div>
 
-        <!-- Detailed Resume View Area -->
-        <div id="detailed-resume-viewer" class="detailed-resume-viewer">
-          <!-- Kenneth's full resume — replace src with the uploaded PDF/PNG -->
-          <div class="detailed-resume-content" id="detail-kenneth">
-            <div class="detail-resume-image">
-              <img
-                src="resumes/kenneth.png"
-                alt="Kenneth's resume"
-                onerror="this.style.display = 'none'"
-              />
-            </div>
+        <!-- OS Window Top Chrome Bar -->
+        <div class="cr-resume-os-bar cr-messenger-chrome">
+          <div class="cr-os-controls" aria-hidden="true">
+            <span class="cr-os-pill-pink"></span>
+            <span class="cr-os-sq-blue"></span>
+            <span class="cr-os-tri-yellow">
+              <svg viewBox="0 0 13.832 10.64" overflow="visible"><use href="#svg-1841702569_267" /></svg>
+            </span>
           </div>
-
-          <!-- Jenz's full resume — replace src with the uploaded PDF/PNG -->
-          <div class="detailed-resume-content" id="detail-jenz">
-            <div class="detail-resume-image">
-              <img
-                src="resumes/jenz.png"
-                alt="Jenz's resume"
-                onerror="this.style.display = 'none'"
-              />
-            </div>
+          <div class="cr-resume-os-address">
+            <span class="cr-resume-os-dot"></span>
+            <span id="cr-messenger-address">creatie://team-messenger.chat/kenneth.bianzon</span>
           </div>
-
-          <!-- Jamil's full resume — replace src with the uploaded PDF/PNG -->
-          <div class="detailed-resume-content" id="detail-jamil">
-            <div class="detail-resume-image">
-              <img
-                src="resumes/jamil.png"
-                alt="Jamil's resume"
-                onerror="this.style.display = 'none'"
-              />
-            </div>
-          </div>
-
-          <!-- Chirsjohn's full resume — replace src with the uploaded PDF/PNG -->
-          <div class="detailed-resume-content" id="detail-pacay">
-            <div class="detail-resume-image">
-              <img
-                src="resumes/pacay.png"
-                alt="Chirsjohn's resume"
-                onerror="this.style.display = 'none'"
-              />
-            </div>
-          </div>
+          <button class="resume-panel-close resume-close-btn cr-messenger-close-btn" type="button" aria-label="Close messenger">&times;</button>
         </div>
 
-        <button
-          class="btn-primary download-resume-action"
-          type="button"
-          style="
-            margin-top: 24px;
-            padding: 10px 22px;
-            font-size: 13px;
-            z-index: 15;
-            display: none;
-          "
-        >
-          Download Resume
-        </button>
+        <!-- Messenger Main Body (Sidebar with 4 Contacts + Main Chat Feed) -->
+        <div class="cr-messenger-body">
+          <!-- Left Sidebar: 4 Conversation Threads -->
+          <aside class="cr-messenger-sidebar" aria-label="Team conversations">
+            <div class="cr-sidebar-header">
+              <span class="cr-sidebar-title">MESSAGES</span>
+              <span class="cr-sidebar-badge">4 ONLINE</span>
+            </div>
+            <div class="cr-threads-list" role="tablist">
+              <!-- Kenneth -->
+              <button type="button" class="cr-thread-item is-active" data-chat-person="kenneth" role="tab" aria-selected="true">
+                <div class="cr-thread-avatar">
+                  <img src="assets/kenneth.png" alt="Kenneth Cyrus Bianzon" loading="lazy" decoding="async">
+                  <span class="cr-thread-status-dot"></span>
+                </div>
+                <div class="cr-thread-info">
+                  <div class="cr-thread-top">
+                    <span class="cr-thread-name">Kenneth Bianzon</span>
+                    <span class="cr-thread-time">Active</span>
+                  </div>
+                  <span class="cr-thread-snippet">Team Lead · Full-Stack Developer</span>
+                </div>
+              </button>
+
+              <!-- Jenz -->
+              <button type="button" class="cr-thread-item" data-chat-person="jenz" role="tab" aria-selected="false">
+                <div class="cr-thread-avatar">
+                  <img src="assets/jenz.png" alt="Jenz Patrick Reguyal" loading="lazy" decoding="async">
+                  <span class="cr-thread-status-dot"></span>
+                </div>
+                <div class="cr-thread-info">
+                  <div class="cr-thread-top">
+                    <span class="cr-thread-name">Jenz Reguyal</span>
+                    <span class="cr-thread-time">Just now</span>
+                  </div>
+                  <span class="cr-thread-snippet">Design Lead · UI/UX &amp; Brand</span>
+                </div>
+              </button>
+
+              <!-- Jamil -->
+              <button type="button" class="cr-thread-item" data-chat-person="jamil" role="tab" aria-selected="false">
+                <div class="cr-thread-avatar">
+                  <img src="assets/jamil.png" alt="Jamil Kharim Abinal" loading="lazy" decoding="async">
+                  <span class="cr-thread-status-dot"></span>
+                </div>
+                <div class="cr-thread-info">
+                  <div class="cr-thread-top">
+                    <span class="cr-thread-name">Jamil Abinal</span>
+                    <span class="cr-thread-time">1m ago</span>
+                  </div>
+                  <span class="cr-thread-snippet">Frontend Engineer · Creative Dev</span>
+                </div>
+              </button>
+
+              <!-- ChrisJohn -->
+              <button type="button" class="cr-thread-item" data-chat-person="pacay" role="tab" aria-selected="false">
+                <div class="cr-thread-avatar">
+                  <img src="assets/pacay.png" alt="ChrisJohn Pacay" loading="lazy" decoding="async">
+                  <span class="cr-thread-status-dot"></span>
+                </div>
+                <div class="cr-thread-info">
+                  <div class="cr-thread-top">
+                    <span class="cr-thread-name">ChrisJohn Pacay</span>
+                    <span class="cr-thread-time">Active</span>
+                  </div>
+                  <span class="cr-thread-snippet">Backend Developer · APIs &amp; Cloud</span>
+                </div>
+              </button>
+            </div>
+
+            <!-- Sidebar Footer Studio Info -->
+            <div class="cr-sidebar-footer">
+              <div class="cr-sidebar-studio-tag">
+                <span class="cr-pulse-dot-sm"></span>
+                <span>TEMport Studio · 4 Members</span>
+              </div>
+            </div>
+          </aside>
+
+          <!-- Right Pane: Active Chat Conversation -->
+          <section class="cr-messenger-chat-pane">
+            <!-- Chat Conversation Header -->
+            <div class="cr-chat-header">
+              <div class="cr-chat-contact-meta">
+                <div class="cr-chat-avatar-lg">
+                  <img id="cr-chat-header-avatar" src="assets/kenneth.png" alt="Active team member" loading="lazy" decoding="async">
+                  <span class="cr-status-dot"></span>
+                </div>
+                <div class="cr-chat-contact-info">
+                  <div class="cr-chat-contact-title-row">
+                    <h3 id="cr-chat-header-name" class="cr-chat-name">Kenneth Cyrus Bianzon</h3>
+                    <span id="cr-chat-header-badge" class="cr-chat-role-pill">TEAM LEAD</span>
+                  </div>
+                  <p id="cr-chat-header-status" class="cr-chat-status-text">Active now</p>
+                </div>
+              </div>
+              <div class="cr-chat-header-actions">
+                <button type="button" class="cr-chat-toggle-sheet-btn" id="cr-chat-toggle-resume-btn">
+                  <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 1.5H3.5a1.5 1.5 0 0 0-1.5 1.5v10a1.5 1.5 0 0 0 1.5 1.5h9a1.5 1.5 0 0 0 1.5-1.5V6L9 1.5z"/><polyline points="9 1.5 9 6 13.5 6"/></svg> View Resume
+                </button>
+                <a href="#footer" class="cr-chat-action-link">
+                  <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 11.2v2.3a1.5 1.5 0 0 1-1.6 1.5A13.4 13.4 0 0 1 1 2.9 1.5 1.5 0 0 1 2.5 1.3h2.3a1.5 1.5 0 0 1 1.5 1.3 8.7 8.7 0 0 0 .5 2.1 1.5 1.5 0 0 1-.3 1.5l-1 1a10.7 10.7 0 0 0 4.6 4.6l1-1a1.5 1.5 0 0 1 1.5-.3c.7.2 1.4.4 2.1.5a1.5 1.5 0 0 1 1.3 1.5z"/></svg> Book Call
+                </a>
+              </div>
+            </div>
+
+            <!-- Scrollable Chat Stream -->
+            <div class="cr-chat-feed" id="cr-chat-feed">
+              <!-- Date Separator -->
+              <div class="cr-chat-date-pill">
+                <span>TODAY · DIRECT STUDIO MESSAGE</span>
+              </div>
+
+              <!-- Message 1: Member Intro Bubble -->
+              <div class="cr-chat-row incoming">
+                <div class="cr-chat-bubble" id="cr-msg-intro">
+                  Hey there! 👋 Welcome to our portfolio. I'm Kenneth, Team Lead &amp; Full-Stack Developer at TEMport.
+                </div>
+              </div>
+
+              <!-- Message 2: Core Specialty Bubble -->
+              <div class="cr-chat-row incoming">
+                <div class="cr-chat-bubble" id="cr-msg-specialty">
+                  I specialize in clean full-stack architecture, relational database modeling, and shipping high-performance web applications that scale effortlessly.
+                </div>
+              </div>
+
+              <!-- Message 3: Interactive Resume Attachment Card -->
+              <div class="cr-chat-row incoming">
+                <div class="cr-chat-attachment-card" id="cr-msg-attachment">
+                  <div class="cr-attachment-thumb">
+                    <img id="cr-attachment-thumb-img" src="resumes/kenneth.png?v=2" alt="Resume thumbnail preview" loading="lazy" decoding="async">
+                    <span class="cr-attachment-badge">PDF</span>
+                  </div>
+                  <div class="cr-attachment-details">
+                    <div class="cr-attachment-title" id="cr-attachment-title">Kenneth_Bianzon_Resume_2026.pdf</div>
+                    <div class="cr-attachment-sub" id="cr-attachment-sub">Verified Vector PDF · High-DPI Crystal Clear Document</div>
+                    <div class="cr-attachment-actions">
+                      <button type="button" class="cr-attachment-btn-view" id="cr-open-sheet-from-chat">
+                        Inspect Vector PDF &nearr;
+                      </button>
+                      <a id="cr-attachment-open-tab" href="resumes/kenneth.pdf" target="_blank" rel="noopener noreferrer" class="cr-attachment-btn-tab">
+                        Fullscreen &nearr;
+                      </a>
+                      <a id="cr-attachment-download-link" href="resumes/kenneth.pdf" download class="cr-attachment-btn-download">
+                        Download &darr;
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Message 4: Invitation Bubble -->
+              <div class="cr-chat-row incoming">
+                <div class="cr-chat-bubble" id="cr-msg-invite">
+                  Have an exciting project or want to collaborate? Pick a quick topic below or type your message!
+                </div>
+              </div>
+
+              <!-- Dynamic container for user sent messages & replies -->
+              <div id="cr-chat-dynamic-messages"></div>
+            </div>
+
+            <!-- Quick Suggestion Action Chips -->
+            <div class="cr-chat-chips-bar" aria-label="Quick questions">
+              <button type="button" class="cr-chat-chip" data-chat-prompt="💼 We want to hire your team for a project!">
+                <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4.5" width="12" height="9" rx="2"/><path d="M5.5 4.5V3a1.5 1.5 0 0 1 1.5-1.5h2A1.5 1.5 0 0 1 10.5 3v1.5"/><line x1="2" y1="8.5" x2="14" y2="8.5"/></svg> <span>Start a project</span>
+              </button>
+              <button type="button" class="cr-chat-chip" data-chat-prompt="📄 Can you walk me through your technical stack and experience?">
+                <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 1.5H3.5a1.5 1.5 0 0 0-1.5 1.5v10a1.5 1.5 0 0 0 1.5 1.5h9a1.5 1.5 0 0 0 1.5-1.5V6L9 1.5z"/><polyline points="9 1.5 9 6 13.5 6"/><line x1="5.5" y1="9.5" x2="10.5" y2="9.5"/></svg> <span>Inspect experience</span>
+              </button>
+              <button type="button" class="cr-chat-chip" data-chat-prompt="⚡ What is your typical turnaround timeline and pricing?">
+                <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="8.5 1.5 2.5 9 7.5 9 6.5 14.5 13.5 7 8.5 7 8.5 1.5"/></svg> <span>Turnaround &amp; pricing</span>
+              </button>
+              <button type="button" class="cr-chat-chip" data-chat-prompt="👋 Hey! Just wanted to say your portfolio design looks amazing!">
+                <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 10a4 4 0 0 1-4 4H4l-2 2V4a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v6z"/><circle cx="5.5" cy="6" r="0.75" fill="currentColor"/><circle cx="8" cy="6" r="0.75" fill="currentColor"/><circle cx="10.5" cy="6" r="0.75" fill="currentColor"/></svg> <span>Say hello!</span>
+              </button>
+            </div>
+
+            <!-- Chat Bottom Input Bar -->
+            <form class="cr-chat-input-bar" id="cr-chat-form">
+              <input
+                type="text"
+                id="cr-chat-input"
+                class="cr-chat-input"
+                placeholder="Message Kenneth..."
+                autocomplete="off"
+              />
+              <button type="submit" class="cr-chat-send-btn" aria-label="Send message">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="22" y1="2" x2="11" y2="13"></line>
+                  <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                </svg>
+              </button>
+            </form>
+
+            <!-- Fullscreen Resume Sheet Overlay (Slide Over inside Messenger Window) -->
+            <div class="cr-sheet-overlay" id="cr-sheet-overlay" aria-hidden="true">
+              <div class="cr-sheet-header">
+                <button type="button" class="cr-sheet-back-btn" id="cr-sheet-back-btn">
+                  <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="13" y1="8" x2="3" y2="8"/><polyline points="7 4 3 8 7 12"/></svg>
+                  <span>Back to Messenger Chat</span>
+                </button>
+                <div class="cr-sheet-header-tools">
+                  <!-- Mode Switcher: Vector PDF (Default Crystal Clear) vs HD Image -->
+                  <div class="cr-sheet-view-toggle" role="group" aria-label="Resume View Mode">
+                    <button type="button" class="cr-sheet-mode-btn is-active" id="cr-sheet-mode-pdf">
+                      <svg class="cr-mode-icon" viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 1.5H3.5a1.5 1.5 0 0 0-1.5 1.5v10a1.5 1.5 0 0 0 1.5 1.5h9a1.5 1.5 0 0 0 1.5-1.5V6L9.5 1.5z"/><polyline points="9.5 1.5 9.5 6 14 6"/><line x1="5.5" y1="9.5" x2="10.5" y2="9.5"/><line x1="5.5" y1="12" x2="8.5" y2="12"/></svg>
+                      <span>Vector PDF (Sharp)</span>
+                    </button>
+                    <button type="button" class="cr-sheet-mode-btn" id="cr-sheet-mode-img">
+                      <svg class="cr-mode-icon" viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2.5" width="12" height="11" rx="2.5"/><circle cx="5.5" cy="6" r="1.2" fill="currentColor"/><path d="M14 10.5l-3.2-3.2a1 1 0 0 0-1.4 0L4 12"/></svg>
+                      <span>HD Image</span>
+                    </button>
+                  </div>
+                  <a id="cr-sheet-open-tab-btn" href="resumes/kenneth.pdf" target="_blank" rel="noopener noreferrer" class="cr-sheet-tab-pill">
+                    <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 2h4v4"/><path d="M6.5 9.5L14 2"/><path d="M13 8.5v4.5a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 2 13V5a1.5 1.5 0 0 1 1.5-1.5H8"/></svg>
+                    <span>Open Fullscreen</span>
+                  </a>
+                  <a id="cr-sheet-download-btn" href="resumes/kenneth.pdf" download class="cr-sheet-download-pill">
+                    <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 10.5v2.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13v-2.5"/><polyline points="5 7 8 10 11 7"/><line x1="8" y1="10" x2="8" y2="2"/></svg>
+                    <span>Download PDF</span>
+                  </a>
+                </div>
+              </div>
+              <div class="cr-sheet-scroll-body" id="cr-sheet-scroll-body">
+                <!-- 1. Native Vector PDF Frame (100% Vector Fonts, Selectable Text, Razor Sharp) -->
+                <div class="cr-sheet-pdf-pane" id="cr-sheet-pdf-pane">
+                  <iframe
+                    id="cr-sheet-pdf-frame"
+                    class="cr-sheet-pdf-frame"
+                    data-src="resumes/kenneth.pdf#toolbar=1&navpanes=0&scrollbar=1&view=FitH"
+                   
+                  ></iframe>
+                </div>
+
+                <!-- 2. HD Image Preview Pane (Alternative View) -->
+                <div class="cr-sheet-images-pane" id="cr-sheet-images-pane" style="display: none;">
+                  <div class="cr-sheet-image-container" id="cr-sheet-image-kenneth">
+                    <img src="resumes/kenneth.png?v=2" alt="Kenneth Cyrus Bianzon's Resume" width="2800" height="3960" loading="lazy" decoding="async">
+                  </div>
+                  <div class="cr-sheet-image-container" id="cr-sheet-image-jenz" style="display: none;">
+                    <img src="resumes/jenz.png?v=2" alt="Jenz Patrick Reguyal's Resume" width="2800" height="3960" loading="lazy" decoding="async">
+                  </div>
+                  <div class="cr-sheet-image-container" id="cr-sheet-image-jamil" style="display: none;">
+                    <img src="resumes/jamil.png?v=2" alt="Jamil Kharim Abinal's Resume" width="2800" height="3960" loading="lazy" decoding="async">
+                  </div>
+                  <div class="cr-sheet-image-container" id="cr-sheet-image-pacay" style="display: none;">
+                    <img src="resumes/pacay.png" alt="ChrisJohn Pacay's Resume" onerror="this.style.display='none'" loading="lazy" decoding="async">
+                    <div class="cr-pacay-dossier-sheet" style="text-align: left; padding: 28px 32px; color: #252525; font-family: 'Inter', sans-serif">
+                      <div style="display: flex; align-items: center; gap: 18px; padding-bottom: 20px; border-bottom: 2px dashed rgba(0,0,0,0.14); margin-bottom: 20px">
+                        <img src="assets/pacay.png" alt="ChrisJohn Pacay" style="width: 76px; height: 76px; border-radius: 16px; object-fit: cover; object-position: top; border: 2px solid #252525; background: #f5f3ea" loading="lazy" decoding="async">
+                        <div>
+                          <span style="display: inline-block; padding: 4px 12px; background: #ffde05; border: 1.5px solid #252525; border-radius: 99px; font-size: 11px; font-weight: 800; margin-bottom: 6px">DOSSIER // 04 &bull; BACKEND ENGINEERING</span>
+                          <h3 style="margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 26px; font-weight: 800">ChrisJohn Pacay</h3>
+                          <p style="margin: 4px 0 0; font-size: 14px; font-weight: 600; color: #1668c7">Backend Developer &amp; Systems Architect</p>
+                        </div>
+                      </div>
+                      <p style="font-size: 15px; line-height: 1.7; color: #383838; margin: 0 0 20px">
+                        Backend developer focused on the services, data models, and cloud integrations that make the studio's web applications dependable, secure, and scalable behind the scenes.
+                      </p>
+                      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-bottom: 20px">
+                        <div style="background: #fdf6f0; border: 1.5px solid #252525; border-radius: 14px; padding: 16px">
+                          <strong style="display: block; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; color: #1668c7">Core Responsibilities</strong>
+                          <ul style="margin: 0; padding-left: 18px; font-size: 13.5px; line-height: 1.65; color: #383838">
+                            <li>Builds backend logic for real product workflows and cloud integrations.</li>
+                            <li>Connects frontend interfaces with REST APIs, Cloud Firestore, and databases.</li>
+                            <li>Keeps data flows structured, maintainable, and ready to scale.</li>
+                          </ul>
+                        </div>
+                        <div style="background: #fdf6f0; border: 1.5px solid #252525; border-radius: 14px; padding: 16px">
+                          <strong style="display: block; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; color: #1668c7">Security &amp; Infrastructure</strong>
+                          <ul style="margin: 0; padding-left: 18px; font-size: 13.5px; line-height: 1.65; color: #383838">
+                            <li>Supports authentication, input validation, and resilient error handling.</li>
+                            <li>Ensures reliable communication between client UI and server-side services.</li>
+                            <li>Turns product requirements into secure technical foundations.</li>
+                          </ul>
+                        </div>
+                      </div>
+                      <div style="display: flex; flex-wrap: wrap; gap: 8px">
+                        <span class="cr-os-tag" style="border: 1.5px solid #252525; font-weight: 700">Node.js &amp; APIs</span>
+                        <span class="cr-os-tag" style="border: 1.5px solid #252525; font-weight: 700">Firebase &amp; Firestore</span>
+                        <span class="cr-os-tag" style="border: 1.5px solid #252525; font-weight: 700">Authentication</span>
+                        <span class="cr-os-tag" style="border: 1.5px solid #252525; font-weight: 700">Database Modeling</span>
+                        <span class="cr-os-tag" style="border: 1.5px solid #252525; font-weight: 700">Cloud Functions</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
       </div>
     </div>
 
-    <button class="theme-toggle" aria-label="Toggle dark mode">
-      <svg
-        class="sun-icon"
-        xmlns="http://www.w3.org/2000/svg"
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      >
-        <circle cx="12" cy="12" r="4"></circle>
-        <path d="M12 2v2"></path>
-        <path d="M12 20v2"></path>
-        <path d="M4.93 4.93l1.41 1.41"></path>
-        <path d="M17.66 17.66l1.41 1.41"></path>
-        <path d="M2 12h2"></path>
-        <path d="M20 12h2"></path>
-        <path d="M6.34 17.66l-1.41 1.41"></path>
-        <path d="M19.07 4.93l-1.41 1.41"></path>
-      </svg>
-      <svg
-        class="moon-icon"
-        xmlns="http://www.w3.org/2000/svg"
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      >
-        <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
-      </svg>
+    <!-- Custom Creatie® Cursors -->
+    <div class="cr-eyes-cursor" id="cr-eyes-cursor" aria-hidden="true">
+      <div class="cr-cursor-eye">
+        <div class="cr-cursor-pupil"><span class="cr-cursor-glint"></span></div>
+      </div>
+      <div class="cr-cursor-eye">
+        <div class="cr-cursor-pupil"><span class="cr-cursor-glint"></span></div>
+      </div>
+    </div>
+    <div class="cr-image-cursor" id="cr-image-cursor" aria-hidden="true">
+      <img id="cr-image-cursor-img" src="assets/projects/project1-1.png" alt="" loading="lazy" decoding="async">
+    </div>
+
+    <button class="theme-toggle celestial-toggle" id="theme-toggle" type="button" aria-label="Toggle dark mode">
+      <div class="celestial-body" aria-hidden="true">
+        <!-- Sun for Day Mode -->
+        <div class="celestial-sun">
+          <div class="sun-core"></div>
+          <div class="sun-rays">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+          </div>
+        </div>
+        <!-- Moon for Night Mode -->
+        <div class="celestial-moon">
+          <div class="moon-core">
+            <span class="moon-crater c1"></span>
+            <span class="moon-crater c2"></span>
+            <span class="moon-crater c3"></span>
+          </div>
+          <div class="moon-aura"></div>
+        </div>
+      </div>
     </button>
     <div class="custom-cursor"></div>
     <div class="curtain-wipe"></div>
 
-    <script src="script.js?v=2.9"></script>
+    <!-- Exact Creatie® SVG Sprite Templates -->
+    <div id="svg-templates" style="position: absolute; overflow: hidden; bottom: 0; left: 0; width: 0; height: 0; z-index: 0; contain: strict" aria-hidden="true">
+      <svg width="126" height="97" viewBox="0 0 126 97" fill="none" id="svg-472710921_1296">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M13.4422 24.6352C22.6878 4.97065 54.2977 -1.06996 65.4178 14.6776C67.2942 17.3232 67.4322 17.4493 69.3751 17.3814C80.673 17.0528 93.2811 28.2815 95.419 40.5949C95.8203 42.8046 95.9584 42.9307 98.7286 44.0649C123.78 54.2463 114.825 88.1449 85.9923 92.3962C77.4047 93.6491 77.0408 85.4979 86.7199 83.5157C109.892 78.8068 116.313 59.782 97.2332 52.3992L95.8903 51.8899L94.408 56.6081C90.5612 68.8469 77.0671 74.6965 72.5296 66.0304C67.2249 55.926 76.6672 42.3971 89.0504 42.4781C91.1972 42.4994 91.1972 42.4994 89.351 39.0666C85.425 31.5605 69.5177 21.7219 69.9722 27.065C71.5449 45.6135 51.0391 60.1115 46.2216 43.856C43.9687 36.2295 48.5221 27.0033 57.3926 21.2945C61.0511 18.9333 60.9494 18.6657 55.9667 16.2085C42.3797 9.49842 20.3098 17.8921 14.7715 31.8836C12.3534 38.0554 10.3764 31.127 13.4422 24.6352ZM50.4321 40.6603C52.1758 46.0561 64.9264 38.2276 65.5937 31.3679C66.0986 26.2612 65.4571 25.8884 60.3833 28.4698C54.068 31.7017 49.3834 37.4323 50.4321 40.6603ZM75.8596 59.8377C77.6217 63.6012 86.2277 60.27 89.6772 54.4973C91.7589 50.9864 91.6447 50.7659 88.1965 51.1852C81.396 52.092 74.445 56.9351 75.8596 59.8377Z" fill="#FFDE05" />
+      </svg>
+      <svg width="167" height="148" viewBox="0 0 167 148" fill="none" id="svg375415904_1395">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M108.248 8.18548C97.6275 13.2719 37.9955 36.7827 14.4407 51.5597C5.44027 57.2019 7.36955 56.9442 13.7735 65.5167C20.4902 74.566 22.0562 76.1868 27.3495 79.8366C45.0949 92.0645 59.0287 89.6612 60.5631 89.879C58.3474 91.2986 55.0799 93.6534 47.9577 97.814C41.6771 101.485 41.7916 101.173 45.5711 107.242C59.5181 129.423 92.0498 141.102 115.971 130.079C118.333 128.987 115.189 124.164 106.448 127.006C93.0734 131.371 75.6793 127.945 62.9383 118.476C59.772 116.12 48.1849 103.058 48.6608 102.393C52.6676 97.1002 139.576 57.4986 139.984 57.8423C143.867 60.4913 147.662 77.3543 146.695 87.3118C145.613 98.3443 134.058 114.791 122.367 121.755C118.112 124.272 121.091 127.421 126.898 126.468C135.176 125.111 151.134 106.475 154.517 94.3609C157.136 84.8365 154.983 69.6405 149.97 62.2481C141.674 49.9959 141.537 49.9598 129.343 55.9497C120.819 60.1642 120.215 60.3219 121.805 57.9488C129.577 46.4057 129.387 22.9079 123.547 11.7198C119.072 2.88939 114.39 5.24179 108.248 8.18548ZM118.062 17.783C122.531 35.5329 120.229 61.1412 101.556 69.2498C69.8355 83.0192 66.7939 87.8015 47.5878 81.27C36.465 77.4614 19.7288 64.1292 18.0973 57.6491C16.9573 53.3767 96.5264 20.141 110.032 13.9946C116.839 10.8831 116.26 10.6266 118.062 17.783Z" fill="#C4E727" />
+      </svg>
+      <svg width="175" height="175" viewBox="0 0 175 175" fill="none" id="svg1760472650_2542">
+        <path d="M78.9379 62.2008C76.7504 60.2758 75.1318 57.0382 74.5193 54.457C73.6881 50.782 78.6755 45.7948 82.7443 54.5886C85.8505 61.3261 89.1754 62.157 91.8442 56.8632C94.5129 51.5257 99.5879 51.6573 97.9692 56.9948C96.0004 63.6448 84.2754 66.8383 78.9379 62.2008Z" fill="#7CC2F6" />
+        <path d="M126.887 64.7819C119.756 70.1194 111.137 66.3569 109.912 57.3444C109.125 51.6131 115.687 51.6567 118.05 57.3879C121.025 64.6067 123.737 63.9504 125.225 55.6379C125.706 52.8817 128.637 51.3945 130.3 53.0569C132.531 55.2882 130.606 61.9819 126.887 64.7819Z" fill="#7CC2F6" />
+        <path d="M107.549 82.7624C102.124 88.4061 90.4431 84.7749 88.4744 76.8561C87.3806 72.5249 94.2056 72.9623 97.5743 77.4248C99.3243 79.7873 100.637 80.8814 100.593 80.8376C101.074 81.2751 101.862 81.231 102.256 80.706C102.649 80.181 103.481 78.5624 104.049 77.0749C105.318 73.8811 108.774 71.9123 110.349 73.4873C111.487 74.6248 109.737 80.4874 107.549 82.7624Z" fill="#7CC2F6" />
+        <path d="M109.344 96.5004C107.288 92.4317 110.176 89.369 114.113 91.5128C115.076 92.0378 116.257 93.3942 117.351 95.1879C121.244 101.532 122.119 101.707 124.525 96.588C125.794 93.8755 126.407 93.3068 128.2 93.3068C131.788 93.3068 130.082 100.482 125.838 103.151C119.669 107.088 113.457 104.594 109.344 96.5004Z" fill="#7CC2F6" />
+        <path d="M99.0204 117.807C101.733 117.544 102.389 117.85 105.058 120.65C108.514 124.282 111.533 122.007 112.102 115.313C112.277 113.125 113.939 112.775 115.383 114.569C120.895 121.569 108.47 131.194 100.639 125.988C96.6578 123.319 95.6079 118.113 99.0204 117.807Z" fill="#7CC2F6" />
+        <path d="M49.4061 48.8132C50.1061 49.6007 51.375 51.3944 52.2063 52.8819C55.75 59.2694 56.8 59.2256 60.7375 52.6631C64.2375 46.8006 68.2625 47.6321 66.1187 53.7133C63.3187 61.6758 52.25 64.6505 47.1312 58.8317C40 50.738 45.6436 44.657 49.4061 48.8132Z" fill="#7CC2F6" />
+        <path d="M63.1001 72.7879C63.9751 73.5754 65.3313 75.1066 66.075 76.2003C70.0125 82.0191 71.4127 81.8443 74.3002 75.2818C76.0939 71.1693 81.3437 69.7691 80.25 75.9816C78.1937 87.3566 59.1625 87.2693 57.1063 74.6255C56.5813 71.4318 60.2564 70.2504 63.1001 72.7879Z" fill="#7CC2F6" />
+        <path d="M78.4569 92.6937C79.1569 93.0437 81.2569 94.8376 83.0506 96.5876C88.7819 102.188 91.2756 102.188 93.5506 96.3688C94.6006 93.7001 94.9942 93.3499 96.7005 93.3499C100.2 93.3499 99.2818 99.9123 95.4318 102.45C87.5568 107.612 73.3818 102.362 73.3818 94.2685C73.4256 92.5185 76.3569 91.5999 78.4569 92.6937Z" fill="#7CC2F6" />
+      </svg>
+      <svg width="115" height="100" viewBox="0 0 115 100" fill="none" id="svg-1519324100_341">
+        <path d="M59 47.5L42 38L61 13L86.5 25L89.5 7L114.5 14.5L92 43L65.5 32.5L59 47.5Z" fill="#FEC0C1" />
+        <path d="M3.5 27L0 7.5L20 0L26.5 21.5L3.5 27Z" fill="#65E996" />
+        <path d="M52.5 100L42 85L55.5 72.5L66.5 85L52.5 100Z" fill="#469BFF" />
+      </svg>
+      <svg width="27" height="31" viewBox="0 0 27 31" fill="none" id="svg-1008584715_789">
+        <path d="M6.17578 25.7051L8.78454 26.9337L6.7354 29.5898L5.21013 28.9334L6.17578 25.7051Z" fill="black" fill-opacity="0.2" />
+        <circle cx="11.9863" cy="17.4824" r="10.5858" transform="rotate(-5.03855 11.9863 17.4824)" fill="#DC2626" />
+        <path d="M8.08594 9.39653L20.3676 15.5006L15.5557 19.6125C12.4836 19.2286 11.0653 18.5246 8.9735 16.5052L8.08594 9.39653Z" fill="#B91C1C" />
+        <circle cx="16.0309" cy="9.00036" r="8.3026" transform="rotate(-5.03855 16.0309 9.00036)" fill="#EF4444" />
+      </svg>
+      <svg width="18" height="22" viewBox="0 0 18 22" fill="none" id="svg936387369_785">
+        <path d="M3.70703 17.9176L5.5419 18.8795L3.98965 20.7232L2.91495 20.2053L3.70703 17.9176Z" fill="black" fill-opacity="0.39" />
+        <circle cx="8.12909" cy="12.1944" r="7.60526" transform="rotate(-2.59339 8.12909 12.1944)" fill="#DC2626" />
+        <path d="M5.57812 6.26921L14.2066 11.0271L10.6267 13.831C8.43331 13.4613 7.43689 12.9125 5.99732 11.3989L5.57812 6.26921Z" fill="#B91C1C" />
+        <circle cx="11.2951" cy="6.2296" r="5.96491" transform="rotate(-2.59339 11.2951 6.2296)" fill="#EF4444" />
+      </svg>
+      <svg viewBox="0 0 7.2 6" overflow="visible" id="svg-588886625_399">
+        <path d="M 4.5 0 L 7.2 3 M 7.2 3 L 4.5 6 M 7.2 3 L 0 3" fill="transparent" stroke="#ffffff" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+      <svg viewBox="0 0 13.832 10.64" overflow="visible" id="svg-1841702569_267">
+        <path d="M 6.384 0 L 0 10.64 L 13.832 10.64 Z" fill="rgb(214, 205, 124)" stroke="rgb(214, 205, 124)" stroke-linejoin="round" />
+      </svg>
+      <svg viewBox="0 0 30.011 48.192" overflow="visible" id="svg-730533233_506">
+        <path d="M 0 16.005 L 14.5 43.775 C 16.602 47.799 21.568 49.358 25.593 47.257 C 29.618 45.155 31.177 40.189 29.075 36.164 L 11.495 2.496 C 10.308 0.222 7.502 -0.659 5.227 0.528 C 2.991 1.696 2.096 4.436 3.211 6.699 L 5.27 10.878" fill="transparent" stroke-width="3" stroke="rgb(90, 146, 236)" stroke-linecap="round" />
+      </svg>
+      <svg viewBox="0 0 30.011 48.192" overflow="visible" id="svg696411819_602">
+        <path d="M 0 16.005 L 14.5 43.775 C 16.602 47.799 21.568 49.358 25.593 47.257 C 29.618 45.155 31.177 40.189 29.075 36.164 L 11.495 2.496 C 10.308 0.222 7.502 -0.659 5.227 0.528 C 2.991 1.696 2.096 4.436 3.211 6.699 L 5.27 10.878" fill="transparent" stroke-width="3" stroke="rgb(253, 93, 92)" stroke-linecap="round" />
+      </svg>
+      <svg viewBox="0 0 30.011 48.192" overflow="visible" id="svg719222425_603">
+        <path d="M 0 16.005 L 14.5 43.775 C 16.602 47.799 21.568 49.358 25.593 47.257 C 29.618 45.155 31.177 40.189 29.075 36.164 L 11.495 2.496 C 10.308 0.222 7.502 -0.659 5.227 0.528 C 2.991 1.696 2.096 4.436 3.211 6.699 L 5.27 10.878" fill="transparent" stroke-width="3" stroke="rgb(250, 201, 0)" stroke-linecap="round" />
+      </svg>
+      <svg viewBox="0 0 30.011 48.192" overflow="visible" id="svg234572231_508">
+        <path d="M 0 16.005 L 14.5 43.775 C 16.602 47.799 21.568 49.358 25.593 47.257 C 29.618 45.155 31.177 40.189 29.075 36.164 L 11.495 2.496 C 10.308 0.222 7.502 -0.659 5.227 0.528 C 2.991 1.696 2.096 4.436 3.211 6.699 L 5.27 10.878" fill="transparent" stroke-width="3" stroke="rgb(37, 205, 34)" stroke-linecap="round" />
+      </svg>
+      <svg id="2641542506" viewBox="0 0 24 24">
+        <path d="M 15.0 7.5 L 7.19 15.44 C 6.62 16.03 6.63 16.97 7.21 17.55 C 7.79 18.13 8.72 18.13 9.31 17.56 L 18.62 8.12 C 19.79 6.95 19.79 5.05 18.62 3.88 C 17.45 2.71 15.55 2.71 14.38 3.88 L 5.07 13.32 C 3.34 15.08 3.35 17.91 5.09 19.66 C 6.84 21.4 9.67 21.42 11.43 19.68 L 19.12 12" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+      <svg id="1537972964" viewBox="0 0 24 24">
+        <path d="M 12.36 2.34 L 20.61 6.86 C 20.85 6.99 21 7.24 21 7.52 L 21 16.48 C 21 16.76 20.85 17.01 20.61 17.14 L 12.36 21.66 C 12.14 21.78 11.86 21.78 11.64 21.66 L 3.39 17.14 C 3.15 17.01 3 16.76 3 16.48 L 3 7.52 C 3 7.24 3.15 6.99 3.39 6.86 L 11.64 2.34 C 11.86 2.22 12.14 2.22 12.36 2.34 Z M 12 12 L 12 21.75 M 3.11 7.13 L 12 12 L 20.89 7.13" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+      </svg>
+      <svg id="2658193374" viewBox="0 0 24 24">
+        <path d="M 3.75 20.25 L 16.82 18.07 L 19.5 12 L 12 4.5 L 6.4 6.6 Z M 3.75 20.25 L 10.3 13.7 M 11.62 14.25 A 1.875 1.875 0 1 0 11.62 10.5 A 1.875 1.875 0 1 0 11.62 14.25 Z" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+      </svg>
+      <svg id="636125695" viewBox="0 0 24 24">
+        <path d="M 15.22 12.97 L 19.8 11.3 L 4.73 3.79 L 8.69 19.74 L 11.75 15.45 L 16.56 20.26 L 19.03 17.78 Z" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+      </svg>
+      <svg id="1247626696" viewBox="0 0 24 24">
+        <path d="M 15 20.25 L 15 11.46 L 12.97 7.86 L 6.53 7.86 L 4.5 11.46 L 4.5 20.25 Z M 9.75 7.86 L 9.75 4.5 C 9.75 2.84 11.09 1.5 12.75 1.5 C 14.41 1.5 15.75 2.84 15.75 4.5 L 15.75 12" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+      </svg>
+      <svg id="3282134952" viewBox="0 0 24 24">
+        <path d="M 3 7.5 L 3 5.25 C 3 4.84 3.34 4.5 3.75 4.5 L 8.69 4.5 L 12 7.5 M 11.3 19.5 L 3.69 19.5 L 3 7.5 L 20.25 7.5 L 20.25 11.25 M 17.25 12 L 18.5 14.9 L 21.75 15.15 L 19.28 17.2 L 20.03 20.25 L 17.25 18.61 L 14.47 20.25 L 15.23 17.2 L 12.75 15.15 L 16 14.9 Z" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+      </svg>
+      <svg id="3139824213" viewBox="0 0 24 24">
+        <path d="M 12 10.5 C 12 8.84 13.34 7.5 15 7.5 L 21.75 7.5 L 21.75 18.75 L 15 18.75 C 13.34 18.75 12 20.09 12 21.75 M 2.25 18.75 L 9 18.75 C 10.66 18.75 12 20.09 12 21.75 L 12 10.5 C 12 8.84 10.66 7.5 9 7.5 L 2.25 7.5 Z" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+      </svg>
+      <svg id="3656879250" viewBox="0 0 24 24">
+        <path d="M 3 9.75 L 21 9.75 M 9.75 9.75 L 9.75 19.5 M 3.75 19.5 L 20.25 19.5 C 20.66 19.5 21 19.16 21 18.75 L 21 5.25 C 21 4.84 20.66 4.5 20.25 4.5 L 3.75 4.5 C 3.34 4.5 3 4.84 3 5.25 L 3 18.75 C 3 19.16 3.34 19.5 3.75 19.5 Z" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+      </svg>
+      <svg id="1403532491" viewBox="0 0 24 24">
+        <path d="M 5.25 9.75 L 5.25 15.75 L 12 22.5 L 12 15.75 L 18.75 15.75 L 5.25 3.75 L 18.75 3.75 L 18.75 9.75 Z" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+      </svg>
+      <svg id="1652061477" viewBox="0 0 24 24">
+        <path d="M 5.25 20.25 L 18.75 20.25 C 19.99 20.25 21 19.24 21 18 L 21 7.5 C 21 6.26 19.99 5.25 18.75 5.25 L 5.25 5.25 C 4.01 5.25 3 6.26 3 7.5 L 3 18 C 3 19.24 4.01 20.25 5.25 20.25 Z M 12 5.25 L 12 1.5 M 8.6 13.5 L 15.4 13.5" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+      </svg>
+      <svg id="1018870535" viewBox="0 0 24 24">
+        <path d="M 4.5 20.25 L 19.5 20.25 L 19.5 4.5 L 4.5 4.5 Z M 7.5 2.25 L 7.5 5.25 M 16.5 2.25 L 16.5 5.25 M 12 8.25 L 13.25 11.15 L 16.5 11.4 L 14.03 13.45 L 14.78 16.5 L 12 14.86 L 9.22 16.5 L 9.98 13.45 L 7.5 11.4 L 10.75 11.15 Z" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+      </svg>
+      <svg id="2206852335" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="9" stroke="#ffffff" stroke-width="1.6" fill="none" />
+        <path d="M 9.5 9.5 C 9.5 8.1 10.6 7 12 7 C 13.4 7 14.5 8.1 14.5 9.5 C 14.5 10.9 12 11.5 12 13.5 M 12 16.5 L 12.01 16.5" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" fill="none" />
+      </svg>
+      <svg id="3450492020" viewBox="0 0 24 24">
+        <path d="M 12 5.75 L 12 18.25 M 5.75 12 L 18.25 12" stroke="#252525" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+      </svg>
+    </div>
+
+    <!-- ====================================================================
+         CREATIE® AESTHETIC CASE STUDY SHOWCASE MODAL
+         Matches original reference aesthetic showcase popup
+         ==================================================================== -->
+    <div id="cr-showcase-backdrop" class="cr-showcase-backdrop" aria-hidden="true">
+      <div class="cr-showcase-modal" role="dialog" aria-modal="true" aria-label="Project Case Study Showcase">
+        <!-- OS Chrome Topbar -->
+        <div class="cr-showcase-topbar">
+          <div class="cr-os-controls" aria-hidden="true">
+            <span class="cr-os-pill-pink"></span>
+            <span class="cr-os-sq-blue"></span>
+            <span class="cr-os-tri-yellow">
+              <svg viewBox="0 0 13.832 10.64" overflow="visible"><use href="#svg-1841702569_267" /></svg>
+            </span>
+          </div>
+          <div class="cr-showcase-address-bar">
+            <span class="cr-showcase-search-icon" aria-hidden="true">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </span>
+            <span class="cr-showcase-address-text" id="cr-showcase-address-text">Portfolio / Case Study</span>
+            <span class="cr-showcase-refresh-icon" aria-hidden="true">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"></path><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+            </span>
+          </div>
+          <button type="button" class="cr-showcase-close-btn" id="cr-showcase-close-btn" aria-label="Close case study showcase">&times;</button>
+        </div>
+
+        <!-- Scrollable Modal Content -->
+        <div class="cr-showcase-content">
+          <!-- Hero Image -->
+          <div class="cr-showcase-hero-wrap">
+            <img id="cr-showcase-hero-img" src="assets/projects/project1-1.png" alt="Project Showcase Hero" class="cr-showcase-hero-img" loading="lazy" decoding="async">
+          </div>
+
+          <!-- Header Row: Title + Preview Link -->
+          <div class="cr-showcase-header-row">
+            <h2 class="cr-showcase-title" id="cr-showcase-title">Magnify Vision</h2>
+            <a href="https://mvm-website-624e7.web.app/" target="_blank" rel="noopener noreferrer" class="cr-showcase-preview-link" id="cr-showcase-preview-link">
+              <span>Preview Link</span>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+            </a>
+          </div>
+
+          <!-- Description -->
+          <p class="cr-showcase-desc" id="cr-showcase-desc">
+            Developed a premium corporate website for Magnify Vision Media, a digital marketing agency specializing in social media strategy, paid advertising, and brand growth.
+          </p>
+
+          <!-- 2x2 Meta Grid -->
+          <div class="cr-showcase-meta-grid">
+            <div class="cr-showcase-meta-item">
+              <span class="cr-showcase-meta-label">Client :</span>
+              <span class="cr-showcase-meta-value" id="cr-showcase-client">Skin Care Brand</span>
+            </div>
+            <div class="cr-showcase-meta-item">
+              <span class="cr-showcase-meta-label">Years :</span>
+              <span class="cr-showcase-meta-value" id="cr-showcase-years">2026</span>
+            </div>
+            <div class="cr-showcase-meta-item">
+              <span class="cr-showcase-meta-label">Project Type :</span>
+              <span class="cr-showcase-meta-value" id="cr-showcase-type">Website Design</span>
+            </div>
+            <div class="cr-showcase-meta-item">
+              <span class="cr-showcase-meta-label">Tool Used :</span>
+              <span class="cr-showcase-meta-value" id="cr-showcase-tools">Figma</span>
+            </div>
+          </div>
+
+          <!-- Secondary Gallery Images -->
+          <div class="cr-showcase-gallery" id="cr-showcase-gallery"></div>
+        </div>
+      </div>
+    </div>
+
+    
+    <!-- ====================================================================
+         CREATIE® OS CONTACT MODAL WINDOW (REFERENCE DESIGN)
+         ==================================================================== -->
+    <div class="cr-contact-modal-backdrop" id="cr-contact-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="cr-contact-title">
+      <div class="cr-contact-modal-container">
+        <!-- Animated Googly Eyes sitting above the window -->
+        <div class="cr-contact-modal-eyes" id="cr-contact-googly-eyes" aria-hidden="true">
+          <div class="cr-googly-eye"><div class="cr-googly-pupil"></div></div>
+          <div class="cr-googly-eye"><div class="cr-googly-pupil"></div></div>
+        </div>
+
+        <!-- The Window Chassis -->
+        <div class="cr-contact-modal-window">
+          <!-- Window Chrome Topbar -->
+          <div class="cr-contact-modal-topbar">
+            <div class="cr-os-controls" aria-hidden="true">
+              <button type="button" class="cr-os-pill-pink" id="cr-contact-close-pink" aria-label="Close modal"></button>
+              <button type="button" class="cr-os-sq-blue" id="cr-contact-close-blue" aria-label="Close modal"></button>
+              <button type="button" class="cr-os-tri-yellow" id="cr-contact-close-yellow" aria-label="Close modal">
+                <svg viewBox="0 0 13.832 10.64" overflow="visible"><use href="#svg-1841702569_267" /></svg>
+              </button>
+            </div>
+
+            <div class="cr-contact-address-bar">
+              <svg class="cr-contact-search-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <span class="cr-contact-address-text">Contact</span>
+              <svg class="cr-contact-refresh-icon" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="23 4 23 10 17 10"></polyline>
+                <polyline points="1 20 1 14 7 14"></polyline>
+                <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+              </svg>
+            </div>
+
+            <button type="button" class="cr-contact-chat-icon-btn" id="cr-contact-close-btn" aria-label="Close contact window">
+              <img src="https://framerusercontent.com/images/e3MMo36Gb3GoSAC2U8QX2JiQY.png?width=180&height=180" alt="Contact" class="cr-contact-titlebar-img" loading="lazy" decoding="async" />
+            </button>
+          </div>
+
+          <!-- Window Body -->
+          <div class="cr-contact-modal-body">
+            <h2 id="cr-contact-title" class="cr-contact-heading">Contact</h2>
+            <p class="cr-contact-subheading">Open to projects, collabs, or concepts - let’s bring ideas alive.</p>
+
+            <div class="cr-contact-info-grid">
+              <div class="cr-contact-info-item">
+                <span class="cr-contact-info-label">Email:</span>
+                <a href="mailto:creatie@designer.co" class="cr-contact-info-val">creatie@designer.co</a>
+              </div>
+              <div class="cr-contact-info-item">
+                <span class="cr-contact-info-label">Phone Number</span>
+                <span class="cr-contact-info-val">+84(123) 456-789</span>
+              </div>
+            </div>
+
+            <div class="cr-contact-form-section">
+              <h3 class="cr-contact-section-label">Get In Touch:</h3>
+
+              <form id="cr-contact-form" class="cr-contact-form">
+                <div class="cr-form-group">
+                  <label for="cr-input-name" class="cr-form-label">Name *</label>
+                  <input type="text" id="cr-input-name" name="name" class="cr-form-input" placeholder="Enter your name" required />
+                </div>
+
+                <div class="cr-form-group">
+                  <label for="cr-input-email" class="cr-form-label">Email *</label>
+                  <input type="email" id="cr-input-email" name="email" class="cr-form-input" placeholder="Enter you email" required />
+                </div>
+
+                <div class="cr-form-group">
+                  <label for="cr-input-msg" class="cr-form-label">Message</label>
+                  <textarea id="cr-input-msg" name="message" class="cr-form-textarea" placeholder="Enter your message" rows="3"></textarea>
+                </div>
+
+                <button type="submit" class="cr-contact-submit-btn" id="cr-contact-submit-btn">
+                  <span>Submit</span>
+                </button>
+
+                <div class="cr-contact-feedback" id="cr-contact-feedback" style="display: none;"></div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="loader.js?v=1.0"></script>
+    <script src="script.js?v=8.0"></script>
   </body>
 </html>

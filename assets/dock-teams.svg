@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" width="180" height="180" fill="none">
+  <defs>
+    <!-- Glossy White Squircle Tile Background (Matches Framer Dock Icons) -->
+    <linearGradient id="tileBg" x1="90" y1="0" x2="90" y2="180" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="65%" stop-color="#F8FAFC" />
+      <stop offset="100%" stop-color="#E9EEF5" />
+    </linearGradient>
+
+    <!-- Main 3D Circle Badge Gradient (Vibrant Emerald-Teal-Mint 3D) -->
+    <radialGradient id="badgeMain" cx="35%" cy="25%" r="75%">
+      <stop offset="0%" stop-color="#6EE7B7" />
+      <stop offset="45%" stop-color="#10B981" />
+      <stop offset="100%" stop-color="#047857" />
+    </radialGradient>
+
+    <!-- Soft Outer Glow / Shadow under the 3D Circle -->
+    <filter id="softShadow" x="-20%" y="-15%" width="140%" height="145%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#059669" flood-opacity="0.32" />
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#064E3B" flood-opacity="0.18" />
+    </filter>
+
+    <!-- Secondary Person Frosted Gradient -->
+    <linearGradient id="personBack" x1="112" y1="54" x2="112" y2="132" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#ECFDF5" stop-opacity="0.92" />
+      <stop offset="100%" stop-color="#6EE7B7" stop-opacity="0.72" />
+    </linearGradient>
+
+    <!-- Primary Person Frosted 3D White-Mint Gradient -->
+    <linearGradient id="personFront" x1="78" y1="50" x2="78" y2="140" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="60%" stop-color="#ECFDF5" />
+      <stop offset="100%" stop-color="#A7F3D0" />
+    </linearGradient>
+
+    <!-- Specular Top Highlight -->
+    <linearGradient id="topGloss" x1="90" y1="26" x2="90" y2="96" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.62" />
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0" />
+    </linearGradient>
+
+    <clipPath id="circleClip">
+      <circle cx="90" cy="92" r="62" />
+    </clipPath>
+  </defs>
+
+  <!-- Full 180x180 Glossy White App Icon Tile -->
+  <rect width="180" height="180" rx="38" fill="url(#tileBg)" />
+  <rect x="2" y="2" width="176" height="176" rx="36" stroke="#FFFFFF" stroke-width="3" stroke-opacity="0.9" />
+
+  <!-- 3D Glossy Team Sphere (Matches About Icon's 3D Sphere Proportions) -->
+  <g filter="url(#softShadow)">
+    <circle cx="90" cy="92" r="62" fill="url(#badgeMain)" />
+  </g>
+
+  <!-- Clipped 3D Team Silhouettes Inside Sphere -->
+  <g clip-path="url(#circleClip)">
+    <!--Top Rim Specular Shine -->
+    <ellipse cx="90" cy="54" rx="48" ry="26" fill="url(#topGloss)" />
+
+    <!-- Back/Right Team Member (Head + Shoulders) -->
+    <circle cx="113" cy="76" r="15.5" fill="url(#personBack)" stroke="#FFFFFF" stroke-opacity="0.55" stroke-width="1.5" />
+    <path d="M84 142C84 121.5 96.8 106 113 106C129.2 106 142 121.5 142 142H84Z" fill="url(#personBack)" stroke="#FFFFFF" stroke-opacity="0.45" stroke-width="1.5" />
+
+    <!-- Front/Left Team Member (Head + Shoulders) -->
+    <circle cx="75" cy="72" r="19" fill="url(#personFront)" stroke="#FFFFFF" stroke-opacity="0.85" stroke-width="2" />
+    <path d="M36 148C36 122 53.2 103 75 103C96.8 103 114 122 114 148H36Z" fill="url(#personFront)" stroke="#FFFFFF" stroke-opacity="0.8" stroke-width="2" />
+  </g>
+
+  <!-- Crisp Inner Rim on Sphere -->
+  <circle cx="90" cy="92" r="61" stroke="#FFFFFF" stroke-opacity="0.48" stroke-width="2" />
+</svg>

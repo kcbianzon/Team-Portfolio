@@ -1,0 +1,237 @@
+/* ==========================================================================
+   TEMport® — "Look Twice" loader
+   Googly eyes in an OS window + tagline sticky note + paper-peel exit.
+   Shown once per session. Add ?loader to the URL to replay it.
+   ========================================================================== */
+
+html.tp-loading { overflow: hidden !important; }
+
+.tp-loader { display: none; }
+html.tp-loading .tp-loader { display: block; }
+
+.tp-loader {
+  --tp-paper: #f5f3ea;
+  --tp-grid: rgba(37, 37, 37, 0.07);
+  --tp-ink: #252525;
+  --tp-soft: #6b685c;
+  --tp-back-a: #cdc9b7;
+  --tp-back-b: #f7f5ec;
+  --tp-back-c: #e8e4d4;
+  --tp-edge: rgba(255, 255, 255, 0.7);
+  --eye: clamp(80px, 14vw, 156px);
+  position: fixed;
+  inset: 0;
+  z-index: 9999990; /* above the page + curtain, below the custom cursor */
+  overflow: hidden;
+  cursor: progress;
+}
+
+html.dark-mode .tp-loader {
+  --tp-paper: #141619;
+  --tp-grid: rgba(245, 243, 234, 0.07);
+  --tp-ink: #f5f3ea;
+  --tp-soft: #a7a498;
+  --tp-back-a: #0b0c0e;
+  --tp-back-b: #2c3038;
+  --tp-back-c: #1b1e23;
+  --tp-edge: rgba(255, 255, 255, 0.18);
+}
+
+/* ---------- the sheet of paper (this is what peels away) ---------- */
+.tp-paper {
+  position: absolute;
+  inset: 0;
+  background-color: var(--tp-paper);
+  background-image:
+    linear-gradient(var(--tp-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--tp-grid) 1px, transparent 1px);
+  background-size: 36px 36px;
+  background-position: center;
+}
+.tp-paper::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(0, 0, 0, 0.07) 100%);
+}
+
+.tp-brand {
+  position: absolute;
+  top: clamp(16px, 3.4vh, 34px);
+  left: 50%;
+  transform: translateX(-50%);
+  font: 800 clamp(18px, 2vw, 24px) / 1 "Mona Sans", "Plus Jakarta Sans", sans-serif;
+  letter-spacing: -0.03em;
+  color: var(--tp-ink);
+  animation: tp-fade 0.6s ease 0.1s both;
+}
+
+/* ---------- eyes ---------- */
+.tp-stage {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -52%);
+}
+
+/* ---------- OS window (same card language as your project cards) ---------- */
+.tp-win {
+  position: relative;
+  padding: 12px 14px 18px;
+  border-radius: 20px;
+  background: #fdf6f0;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 22px 48px -14px rgba(8, 42, 88, 0.36), 8px 8px 0 rgba(0, 0, 0, 0.14);
+  transform: rotate(-2deg);
+  animation: tp-win-in 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+html.dark-mode .tp-win { background: #23262c; border-color: rgba(255, 255, 255, 0.12); box-shadow: 0 22px 48px -14px rgba(0, 0, 0, 0.7), 8px 8px 0 rgba(0, 0, 0, 0.35); }
+.tp-win-bar { display: flex; align-items: center; gap: 8px; padding: 0 4px 12px; }
+.tp-ctl { display: block; flex: none; }
+.tp-ctl-pill { width: 24px; height: 11px; border-radius: 99px; background: rgb(236, 104, 253); }
+.tp-ctl-sq { width: 12px; height: 12px; border-radius: 3px; background: rgb(3, 156, 251); }
+.tp-ctl-tri { width: 13px; height: 12px; background: rgb(245, 158, 11); clip-path: polygon(50% 0, 100% 100%, 0 100%); }
+.tp-win-title { margin-left: auto; font: 600 11px / 1 "JetBrains Mono", monospace; letter-spacing: 0.04em; color: var(--tp-soft); }
+.tp-win-body {
+  padding: calc(var(--eye) * 0.2) calc(var(--eye) * 0.28);
+  border-radius: 12px;
+  background: rgb(241, 238, 252);
+  box-shadow: inset 0 2px 6px rgba(129, 104, 253, 0.18);
+}
+html.dark-mode .tp-win-body { background: #2c2a3d; }
+.tp-eyes {
+  position: relative;
+  display: flex;
+  gap: calc(var(--eye) * 0.14);
+  transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.tp-eyes.is-surprised { transform: scale(1.09); }
+
+.tp-eye-wrap { animation: tp-pop 0.75s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+.tp-eye-wrap:nth-child(1) { animation-delay: 0.05s; }
+.tp-eye-wrap:nth-child(2) { animation-delay: 0.16s; }
+
+.tp-eye {
+  position: relative;
+  width: var(--eye);
+  height: var(--eye);
+  border-radius: 50%;
+  background: radial-gradient(circle at 36% 30%, #ffffff 0%, #ffffff 55%, #ebe9e0 100%);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.18), inset 0 -8px 14px rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: transform 0.09s ease-out;
+}
+html.dark-mode .tp-eye { box-shadow: 0 0 40px rgba(245, 243, 234, 0.1), 0 14px 34px rgba(0, 0, 0, 0.5), inset 0 -8px 14px rgba(0, 0, 0, 0.08); }
+.tp-eye.is-blink { transform: scaleY(0.07); }
+
+.tp-pupil {
+  position: relative;
+  width: 42%;
+  height: 42%;
+  border-radius: 50%;
+  background: #0c0c0c;
+  will-change: transform;
+}
+.tp-pupil::after {
+  content: "";
+  position: absolute;
+  top: 15%;
+  left: 17%;
+  width: 26%;
+  height: 26%;
+  border-radius: 50%;
+  background: #ffffff;
+}
+
+/* ---------- sticky-note status chip (reuses the site's chip) ---------- */
+.tp-chip-wrap {
+  position: absolute;
+  right: calc(var(--eye) * -0.78);
+  top: calc(var(--eye) * -0.62);
+  transform: rotate(-9deg);
+  transform-origin: 20% 80%;
+  animation: tp-slap 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.55s both;
+  pointer-events: none;
+  z-index: 3;
+}
+.tp-chip { pointer-events: none; }
+.tp-chip .cr-chip-body { padding-left: 52px; padding-right: 14px; }
+.tp-chip-text { display: inline-block; }
+.tp-chip-text.tp-swap { animation: tp-swap 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+.tp-chip .tp-flip-fill { fill: rgb(129, 104, 253); }
+.tp-chip.chip-pink .tp-flip-fill { fill: rgb(236, 104, 253); }
+.tp-chip.chip-green .tp-flip-fill { fill: rgb(147, 186, 6); }
+
+.tp-caption {
+  position: absolute;
+  left: clamp(20px, 3.2vw, 48px);
+  bottom: clamp(18px, 3.4vh, 36px);
+  font: 600 12px / 1.3 "Inter", sans-serif;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--tp-soft);
+  animation: tp-fade 0.6s ease 0.5s both;
+}
+
+/* ---------- pins + doodles ---------- */
+.tp-pin, .tp-pin-l, .tp-pin-r {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+.tp-pin-l { left: 20px; transform: rotate(-12deg); animation-delay: 0.1s; }
+.tp-pin-r { right: 20px; transform: rotate(10deg); animation-delay: 0.2s; }
+
+.tp-doodle { position: absolute; height: auto; opacity: 0; animation: tp-doodle-in 0.7s ease both, tp-float 6s ease-in-out infinite alternate; }
+.tp-dd1 { width: clamp(70px, 8vw, 118px); top: 17%; left: 10%; animation-delay: 0.3s, 0s; }
+.tp-dd2 { width: clamp(76px, 8.5vw, 124px); top: 19%; right: 9%; animation-delay: 0.4s, -2s; }
+.tp-dd3 { width: clamp(84px, 9vw, 138px); bottom: 24%; right: 15%; animation-delay: 0.5s, -4s; }
+.tp-dd4 { width: clamp(60px, 7vw, 100px); top: 52%; left: 7%; animation-delay: 0.6s, -1s; }
+
+/* ---------- fireflies (night only) ---------- */
+.tp-ff { display: none; position: absolute; width: 6px; height: 6px; border-radius: 50%; background: #e6ff7a; box-shadow: 0 0 12px 4px rgba(214, 255, 90, 0.55); left: var(--x); top: var(--y); animation: tp-ff 5s ease-in-out infinite alternate; animation-delay: var(--d); }
+html.dark-mode .tp-ff { display: block; }
+
+/* ---------- the peeled flap (drawn by JS) ---------- */
+.tp-flap { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+.tp-flap .tp-sh2 { fill: rgba(0, 0, 0, 0.07); }
+.tp-flap .tp-sh1 { fill: rgba(0, 0, 0, 0.13); }
+.tp-flap .tp-edge { stroke: var(--tp-edge); stroke-width: 1.5; stroke-linecap: round; }
+
+/* ---------- keyframes ---------- */
+@keyframes tp-pop { from { transform: scale(0) rotate(-14deg); } to { transform: scale(1) rotate(0); } }
+@keyframes tp-slap {
+  from { opacity: 0; transform: translateY(-36px) scale(1.8) rotate(-28deg); }
+  to { opacity: 1; transform: translateY(0) scale(1) rotate(-9deg); }
+}
+@keyframes tp-swap { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes tp-win-in { from { opacity: 0; transform: translateY(40px) scale(0.7) rotate(6deg); } to { opacity: 1; transform: translateY(0) scale(1) rotate(-2deg); } }
+@keyframes tp-rise { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes tp-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes tp-pin-drop { from { opacity: 0; margin-top: -30px; } to { opacity: 1; margin-top: 0; } }
+@keyframes tp-doodle-in { from { opacity: 0; scale: 0.6; } to { opacity: 0.95; scale: 1; } }
+@keyframes tp-float { from { translate: 0 0; rotate: -3deg; } to { translate: 0 -12px; rotate: 4deg; } }
+@keyframes tp-ff { from { transform: translate(0, 0); opacity: 0.25; } to { transform: translate(22px, -26px); opacity: 1; } }
+
+/* ---------- small screens ---------- */
+@media (max-width: 640px) {
+  .tp-chip-wrap { transform: rotate(-9deg) scale(0.78); right: calc(var(--eye) * -0.5); top: calc(var(--eye) * -0.55); }
+  @keyframes tp-slap {
+    from { opacity: 0; transform: translateY(-36px) scale(1.5) rotate(-28deg); }
+    to { opacity: 1; transform: translateY(0) scale(0.78) rotate(-9deg); }
+  }
+  .tp-caption { display: none; }
+  .tp-doodle { opacity: 0.8; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tp-loader * { animation-duration: 0.01s !important; animation-delay: 0s !important; transition-duration: 0.01s !important; }
+  .tp-doodle, .tp-ff { animation: none !important; opacity: 0.9; }
+}
