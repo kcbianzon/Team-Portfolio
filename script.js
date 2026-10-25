@@ -3228,11 +3228,395 @@ document.addEventListener("DOMContentLoaded", function () {
   var smoothY = -200;
 
   if (eyesCursor || imageCursor) {
-    window.addEventListener("pointermove", function (e) {
-      cursorX = e.clientX;
-      cursorY = e.clientY;
+    var lastPointerTarget = null;
+    var pointerInside = true;
+    var hoverEl = null; // button/link under the pointer (eyes look at it)
+    var hoverKind = "";
+    var eyeScale = 1;
+    var lastMoveAt = performance.now();
+    var pupilScale = 1;
+    var onImage = false; // pointer is over a services row (floating image)
+    var perch = 0; // 0 = beside pointer, 1 = perched on the image card
+    var lastServiceItem = null;
+    var lastServiceTop = 0;
+    // nav-click journey (dock / top nav links)
+    var navActive = false;
+    var navDir = 1;
+    var navStart = 0;
+    var navLabel = "";
+    var navTarget = null;
+    var lastSY = window.scrollY || 0;
+    var scrollVel = 0;
+    var lastScrollAt = 0;
+    var hopY = 0;
+    var hopVy = 0;
+    var bubbleTimer = null;
+    var typeTimer = null;
+    var bubbleEl = null;
+    var bubbleKick = null;
+    var bubbleText = null;
+    var bubbleSub = null;
+    var hoveredSayEl = null;
+    var forceSleepyUntil = 0;
+    var draggingSticker = false;
+    var navInfo = null;
 
-      var target = e.target;
+    // what each nav button is, in the site's voice (+ its sticky-note colour)
+    function pick(list) {
+      return list[Math.floor(Math.random() * list.length)];
+    }
+    var NAV_INFO = {
+      "#about": { k: "About", tone: "purple", go: "Heading to the story", done: "Say hi to the maker",
+        hover: [["Meet the maker", "The face behind the pixels"], ["Curious who's behind this?", "Warning: contains puns"]] },
+      "#project": { k: "Projects", tone: "pink", go: "Fetching the good stuff", done: "Fresh work. Look twice!",
+        hover: [["See the work", "Spoiler: it's good"], ["The good stuff lives here", "Pixels with personality"]] },
+      "#services": { k: "Services", tone: "yellow", go: "Let me show you", done: "Here's what I do",
+        hover: [["What I make", "Pixels, code & brand love"], ["Need something built?", "You've come to the right place"]] },
+      "#reviews": { k: "Teams", tone: "green", go: "Finding the crew", done: "The crew's all here",
+        hover: [["Meet the crew", "Small team, big ideas"], ["The humans behind it", "Coffee-powered, mostly"]] },
+      "#faqs": { k: "FAQs", tone: "green", go: "Digging up answers", done: "Ask away",
+        hover: [["Got questions?", "Probably answered below"], ["Wondering something?", "Curiosity is welcome here"]] },
+      "#contact": { k: "Contact", tone: "pink", go: "Opening contact", done: "Say hello",
+        hover: [["Let's make something", "Bring your wildest idea"], ["Got a project in mind?", "I'm all ears. And eyes."]] },
+      "#messages": { k: "Messages", tone: "purple", go: "Opening chat", done: "Hello!",
+        hover: [["Say hi \u2014 chat with the team", "Our inbox loves company"], ["Slide into the chat", "No awkward small talk"]] },
+      "#hero": { k: "Home", tone: "yellow", go: "Taking you home", done: "Home sweet home",
+        hover: [["Back to the top", "Express elevator, going up"], ["Take me home", "Wheee!"]] },
+    };
+    var TONE_COLOR = { purple: "#8168fd", pink: "#ec68fd", yellow: "#ffde05", green: "#93ba06" };
+
+    function navInfoFor(link) {
+      var h = link.getAttribute("href") || "";
+      var info = NAV_INFO[h];
+      if (!info) {
+        var tip = link.querySelector(".cr-dock-tooltip");
+        var name = tip ? tip.textContent.trim() : (link.textContent || "").trim();
+        info = { k: name || "Go", tone: "purple", hover: [[name || "Go", "Take me there"]], go: "On my way", done: "Here!" };
+      }
+      return info;
+    }
+
+    if (eyesCursor) {
+      bubbleEl = document.createElement("span");
+      bubbleEl.className = "cr-eyes-bubble";
+      bubbleEl.setAttribute("aria-hidden", "true");
+      bubbleKick = document.createElement("b");
+      bubbleKick.className = "cr-eyes-bubble-k";
+      bubbleText = document.createElement("span");
+      bubbleText.className = "cr-eyes-bubble-t";
+      bubbleEl.appendChild(bubbleKick);
+      bubbleSub = document.createElement("span");
+      bubbleSub.className = "cr-eyes-bubble-s";
+      bubbleEl.appendChild(bubbleText);
+      bubbleEl.appendChild(bubbleSub);
+      eyesCursor.appendChild(bubbleEl);
+      // the eyes' bubble replaces the dock's own tooltip on desktop
+      if (window.matchMedia && window.matchMedia("(min-width: 901px) and (hover: hover)").matches) {
+        document.documentElement.classList.add("eyes-bubbles-on");
+      }
+    }
+
+    // opts: { k: small label, t: text, tone, ms (0 = stay), type }
+    function showBubble(opts) {
+      if (!bubbleEl || !eyesCursor) return;
+      clearTimeout(bubbleTimer);
+      clearInterval(typeTimer);
+      bubbleEl.setAttribute("data-tone", opts.tone || "yellow");
+      bubbleKick.textContent = opts.k || "";
+      bubbleText.textContent = "";
+      bubbleSub.textContent = "";
+      eyesCursor.classList.remove("has-bubble");
+      void eyesCursor.offsetWidth;
+      eyesCursor.classList.add("has-bubble");
+      // typewriter: main line, then the smaller line underneath
+      var main = opts.t || "";
+      var sub = opts.s || "";
+      var i = 0;
+      // the not-yet-typed rest stays invisible but still takes up space,
+      // so the bubble never jumps around while typing
+      function setTyped(el, full, n) {
+        el.textContent = "";
+        if (!full) return; // keep empty so the CSS can hide it
+        var shown = document.createElement("span");
+        shown.textContent = full.slice(0, n);
+        var rest = document.createElement("span");
+        rest.className = "cr-eyes-bubble-rest";
+        rest.textContent = full.slice(n);
+        el.appendChild(shown);
+        el.appendChild(rest);
+      }
+      setTyped(bubbleText, main, 0);
+      setTyped(bubbleSub, sub, 0);
+      typeTimer = setInterval(function () {
+        i++;
+        setTyped(bubbleText, main, Math.min(i, main.length));
+        if (i > main.length) setTyped(bubbleSub, sub, Math.min(i - main.length, sub.length));
+        if (i >= main.length + sub.length) clearInterval(typeTimer);
+      }, 20);
+      if (opts.ms) {
+        bubbleTimer = setTimeout(hideBubble, opts.ms);
+      }
+    }
+    function hideBubble() {
+      clearTimeout(bubbleTimer);
+      clearInterval(typeTimer);
+      if (eyesCursor) eyesCursor.classList.remove("has-bubble");
+    }
+
+    // Case studies: lines with personality (not just the printed name)
+    var PROJECT_SAYS = {
+      magnify: {
+        hover: [["Zoom in. Details are my love language.", "Click for the full picture"], ["Big picture, tiny pixels, zero blur", "Media this good deserves a front-row site"]],
+        click: [["Focusing in\u2026", "Say cheese!"], ["Lens cap off\u2026", "Here comes the close-up"]],
+      },
+      bunbite: {
+        hover: [["Smells like a really good order flow", "Hungry for the case study?"], ["Order up! Full-stack, extra crispy", "No soggy UX here"]],
+        click: [["Fresh out of the kitchen\u2026", "Careful, it's hot"], ["Plating it up\u2026", "Bon app\u00e9tit"]],
+      },
+      newday: {
+        hover: [["A fresh start with a friendlier brand", "Peek at the glow-up"], ["Warm colours, calm site, big hugs", "Tap for the story"]],
+        click: [["Sunrise loading\u2026", "Good morning, case study"], ["Opening gently\u2026", "No sudden moves"]],
+      },
+      vibetix: {
+        hover: [["Front row, no queue. Promise.", "Grab your seat"], ["Tickets in, tension out", "The show must go on"]],
+        click: [["Scanning your ticket\u2026", "Beep. You're in!"], ["Lights down\u2026", "Curtain going up"]],
+      },
+      airedigital: {
+        hover: [["An agency site with some fresh air", "React, minus the stress"], ["Breathes easy, loads fast", "Take a look inside"]],
+        click: [["Deep breath\u2026", "Opening up"], ["Taking off\u2026", "Fasten your seatbelt"]],
+      },
+    };
+    var GENERIC_PROJECT = {
+      hover: [["Peek behind the curtain", "Case study inside"], ["I worked hard on this one", "Tap to see how"]],
+      click: [["Opening the case study\u2026", "Good choice"]],
+    };
+    var SERVICE_SAYS = [
+      { k: "Websites", tone: "pink", hover: [["Sites that convert, not just look pretty", "Webflow, WordPress, your call"], ["Landing pages with a story to tell", "Visitors in, customers out"]] },
+      { k: "Web apps", tone: "purple", hover: [["Frontend, backend & everything backstage", "Production-ready, caffeine included"], ["Where the clever stuff happens", "Under the hood, it's tidy"]] },
+      { k: "Design systems", tone: "yellow", hover: [["Research first, pixels second", "Every component in its place"], ["Tidy tokens, happy teams", "Design that scales"]] },
+      { k: "Mobile", tone: "green", hover: [["Thumb-friendly, delight-approved", "Apps people come back to"], ["Pocket-sized, big personality", "Taps that feel good"]] },
+      { k: "Branding", tone: "pink", hover: [["Make 'em remember you", "Logo, type, colour \u2014 the full vibe"], ["A look people point at", "Identity with attitude"]] },
+    ];
+
+    var NAV_SEL = "a.cr-dock-item, .cr-top-nav a, .cr-footer-links a, .cr-footer-nav-bar a.cr-logo, #cr-back-to-home, .cr-back-to-home";
+    var SERVICE_TONES = ["pink", "purple", "yellow", "green", "pink"];
+
+    function pageIsDark() {
+      return document.documentElement.classList.contains("dark-mode");
+    }
+
+    // What should the eyes say about this element? (hover + click lines)
+    // Add data-eyes-say="Label|Hover text|tone|Click text" to any element to customise.
+    function sayFor(el) {
+      if (!el || !el.closest) return null;
+
+      var custom = el.closest("[data-eyes-say]");
+      if (custom) {
+        var p = custom.getAttribute("data-eyes-say").split("|");
+        return { k: p[0], t: p[1] || p[0], s: p[4] || "", tone: p[2] || "purple", click: p[3] || null };
+      }
+
+      // Workstation controls on project.html
+      if (el.closest("#cr-back-to-home, .cr-back-to-home")) {
+        return {
+          k: "Home",
+          t: pick(["Return to Home?", "Back to the studio"]),
+          s: "Take me back to the main stage",
+          tone: "yellow",
+          click: ["Heading home…", "Bye for now!"]
+        };
+      }
+      var dossierTab = el.closest(".cr-dossier-tab, .project-dossier-tab-btn");
+      if (dossierTab) {
+        var tName = dossierTab.textContent.replace(/[\r\n\t]+/g, " ").trim();
+        return {
+          k: "Dossier",
+          t: "View " + tName,
+          s: "Project specifications & breakdown",
+          tone: "purple",
+          click: ["Switching to " + tName + "…", "Specs loaded"]
+        };
+      }
+      var pSidebarItem = el.closest(".project-sidebar-item");
+      if (pSidebarItem) {
+        var pTitleEl = pSidebarItem.querySelector("h4, .project-sidebar-title, .project-item-title");
+        var pTitle = pTitleEl ? pTitleEl.textContent.trim() : pSidebarItem.textContent.trim();
+        return {
+          k: "Case Study",
+          t: "Inspect " + pTitle,
+          s: "Load full dossier & live site preview",
+          tone: "pink",
+          click: ["Opening " + pTitle + "…", "Here it is!"]
+        };
+      }
+      var catPill = el.closest(".cr-category-pill, .cr-folder-tab, [data-cat-filter], .project-cat-pill, .project-cat-link");
+      if (catPill) {
+        var cName = catPill.textContent.trim();
+        return {
+          k: "Filter",
+          t: "Filter: " + cName,
+          s: "Show projects in this category",
+          tone: "green",
+          click: ["Filtering by " + cName + "…", "Updated!"]
+        };
+      }
+      var devBtn = el.closest("[data-device-btn], .project-device-btn");
+      if (devBtn) {
+        var dev = devBtn.getAttribute("data-device-btn") || devBtn.textContent.trim();
+        return {
+          k: "Device",
+          t: "Switch to " + dev,
+          s: "Test responsive viewport live",
+          tone: "yellow",
+          click: ["Resizing to " + dev + "…", dev + " view active"]
+        };
+      }
+      if (el.closest("#project-live-btn, .project-live-cta, .project-live-btn")) {
+        return {
+          k: "Live Site",
+          t: "Launch live website ↗",
+          s: "Opens in a new browser tab",
+          tone: "green",
+          click: ["Launching live site ↗", "Have fun exploring!"]
+        };
+      }
+      var pNavBtn = el.closest(".project-viewer-nav-btn");
+      if (pNavBtn) {
+        var isNxt = pNavBtn.classList.contains("next") || pNavBtn.textContent.includes("Next");
+        return {
+          k: isNxt ? "Next" : "Prev",
+          t: isNxt ? "Next Project →" : "← Previous Project",
+          s: "Browse through the archive",
+          tone: "purple",
+          click: [isNxt ? "Next project incoming…" : "Previous project incoming…", "Loaded!"]
+        };
+      }
+
+      var nav = el.closest(NAV_SEL);
+      if (nav && (nav.getAttribute("href") || "").indexOf("#") !== -1) {
+        var ni = navInfoFor(nav);
+        var np = pick(ni.hover);
+        return { k: ni.k, t: np[0], s: np[1] || "", tone: ni.tone, nav: true, click: ni.go + "\u2026" };
+      }
+
+      if (el.closest("#theme-toggle")) {
+        var dk = pageIsDark();
+        return {
+          k: "Theme",
+          t: dk ? pick(["Sun's up?", "Bring back the sun"]) : pick(["Lights out?", "Ready for night mode?"]),
+          s: dk ? "Daylight looks good on me" : "Night mode suits me",
+          tone: "yellow",
+          theme: true,
+          click: function () { return pageIsDark() ? ["Night mode on", "Shhh\u2026 night shift"] : ["Good morning!", "Rise and shine"]; },
+        };
+      }
+      if (el.closest(".cr-segment-bar"))
+        return { k: "Team", t: pick(["Next teammate, please!", "Who's up next?"]), s: "Four humans, one studio", tone: "purple", click: ["Next up!", "Say hi to them"] };
+      if (el.closest("#hero-open-chat-btn, .cr-profile-chat-pill"))
+        return { k: "Chat", t: pick(["Slide into the DMs", "Don't be shy, say hi"]), s: "Nobody bites. Promise.", tone: "purple", click: ["Opening chat\u2026", "Type something nice"] };
+
+      var osc = el.closest(".cr-os-card");
+      var stack = el.closest(".cr-stack-card");
+      if (osc || stack) {
+        var pid = osc
+          ? osc.getAttribute("data-showcase-id")
+          : ((stack.getAttribute("href") || "").split("#")[1] || "");
+        var ps = PROJECT_SAYS[pid] || GENERIC_PROJECT;
+        var hp = pick(ps.hover);
+        return { k: osc ? "Case study" : "Project", t: hp[0], s: hp[1] || "", tone: "pink", click: pick(ps.click) };
+      }
+      var wave = el.closest(".cr-wave-btn");
+      if (wave) {
+        var wh = wave.getAttribute("href") || "";
+        return wh.indexOf("project.html") === 0
+          ? { k: "Portfolio", t: pick(["Want the whole collection?", "There's even more"]), s: "Every project, one click", tone: "pink", click: ["Here we go!", "Hold on tight"] }
+          : { k: "Say hi", t: pick(["Let's talk", "Got an idea?"]), s: "I'm all ears. And eyes.", tone: "pink", click: ["Let's go!", "Idea time"] };
+      }
+      if (el.closest("[data-draggable-sticker]"))
+        return { k: "Sticker", t: pick(["Drag me around!", "Pick me up!"]), s: "I'm very sticky, very stylish", tone: "yellow", click: null, sticker: true };
+      var faq = el.closest("[data-faq-card]");
+      if (faq) {
+        var open = faq.classList.contains("is-open");
+        return {
+          k: "FAQ",
+          t: open ? "Tap to close" : pick(["Tap to peek inside", "Curious? Tap me"]),
+          s: open ? "Secrets stay safe with me" : "Curiosity is welcome here",
+          tone: "green",
+          click: function () { return faq.classList.contains("is-open") ? ["Here's the answer", "Told you it was good"] : ["All tucked away", "Secrets safe again"]; },
+        };
+      }
+      var soc = el.closest(".cr-footer-social-icon");
+      if (soc) {
+        var sl = (soc.getAttribute("aria-label") || "Link").trim();
+        var SOC = {
+          Instagram: ["Follow along", "Behind-the-scenes & pixel crimes"],
+          X: ["Say hi on X", "Hot takes, mostly design"],
+          Phone: ["Give me a ring", "Old school. Still works."],
+          Email: ["Drop me a line", "I actually read these"],
+        };
+        var sp = SOC[sl] || ["Say hello", "Come on over"];
+        return { k: sl, t: sp[0], s: sp[1], tone: sl === "Email" || sl === "Phone" ? "green" : "purple", click: ["Opening " + sl + " \u2197", "See you there"] };
+      }
+      if (el.closest(".cr-footer-chat-btn, [data-open-contact]"))
+        return { k: "Contact", t: pick(["Let's make something", "Got a wild idea?"]), s: "Bring snacks. And ideas.", tone: "pink", click: ["Opening contact\u2026", "Spill the idea"] };
+      if (el.closest(".cr-showcase-close-btn, .resume-panel-close, .cr-contact-chat-icon-btn"))
+        return { k: "Close", t: "Back to the page", s: "Come back soon!", tone: "yellow", click: ["See you around!", "Bye for now"] };
+      if (el.closest(".cr-contact-submit-btn"))
+        return { k: "Send", t: "Fire it off!", s: "No take-backs. Be bold.", tone: "green", click: ["Sent with love", "Talk soon!"] };
+      if (el.closest("a[target='_blank']"))
+        return { k: "Link", t: "Opens in a new tab \u2197", s: "Don't worry, I'll wait here", tone: "purple", click: ["Off you go \u2197", "Come back soon"] };
+
+      var ctl = el.closest(CONTROL_SEL);
+      var label = ctl ? (ctl.getAttribute("aria-label") || ctl.textContent || "").replace(/\s+/g, " ").trim() : "";
+      if (label.length >= 2 && label.length <= 28) return { k: "Click", t: label, s: "", tone: "purple", click: null };
+      return null;
+    }
+
+    // confetti-ish sparkles around the eyes
+    function sparkBurst(tone, count) {
+      if (!eyesCursor) return;
+      var color = TONE_COLOR[tone] || "#8168fd";
+      var palette = [color, "#ffde05", "#ec68fd", "#ffffff"];
+      var total = count || 9;
+      for (var n = 0; n < total; n++) {
+        var sp = document.createElement("i");
+        sp.className = "cr-eyes-spark";
+        var ang = (n / total) * Math.PI * 2 + Math.random() * 0.5;
+        var dist = 34 + Math.random() * 26;
+        sp.style.setProperty("--dx", Math.cos(ang) * dist * 1.3 + "px");
+        sp.style.setProperty("--dy", Math.sin(ang) * dist + "px");
+        sp.style.setProperty("--sz", 6 + Math.random() * 6 + "px");
+        sp.style.background = palette[n % palette.length];
+        eyesCursor.appendChild(sp);
+        (function (el) {
+          setTimeout(function () {
+            if (el.parentNode) el.parentNode.removeChild(el);
+          }, 800);
+        })(sp);
+      }
+    }
+    var imgRX = 0; // 3D tilt of the image card
+    var imgRY = 0;
+    var imgPress = 0; // click squash of the image card
+    var imgPressT = 0;
+    var offX = 24;
+    var ex = -200;
+    var ey = -200;
+    var idleLook = { x: 0, y: 0 };
+    var nextIdleAt = 0;
+    var tilt = 0;
+    // springy ("googly") pupils, one per eye, each slightly different
+    var springs = [
+      { x: 0, y: 0, vx: 0, vy: 0, k: 0.16, d: 0.72 },
+      { x: 0, y: 0, vx: 0, vy: 0, k: 0.12, d: 0.78 },
+    ];
+    var CONTROL_SEL =
+      "a, button, [role='button'], input, textarea, select, summary, label, [data-draggable-sticker], [data-faq-card], .cr-dossier-tab, .project-sidebar-item, .cr-category-pill, .cr-folder-tab, .project-cat-pill, .project-device-btn, .project-viewer-nav-btn, .cr-back-to-home";
+
+    // One place decides what the cursor looks like, so it behaves the same
+    // everywhere: eyes are the default; only the messenger (system cursor)
+    // and the services rows (floating image) replace them.
+    function updateCursorState(target) {
       if (!target || !(target instanceof Element)) return;
 
       if (
@@ -3240,12 +3624,17 @@ document.addEventListener("DOMContentLoaded", function () {
         (messengerPanel && messengerPanel.classList.contains("active")) ||
         target.closest("#resume-panel, .cr-messenger-modal, .resume-panel")
       ) {
-        if (eyesCursor) eyesCursor.classList.remove("is-visible");
+        if (eyesCursor) eyesCursor.classList.remove("is-visible", "is-on-control", "is-pressed", "kind-image");
         if (imageCursor) imageCursor.classList.remove("is-visible");
+        hoverEl = null;
+        hoveredSayEl = null;
+        hideBubble();
+        onImage = false;
+        lastServiceItem = null;
         return;
       }
 
-      // Check Service Row Image Cursor first
+      // Services row -> floating image cursor
       var serviceItem = target.closest("[data-cursor-img]");
       if (serviceItem && imageCursor && imageCursorImg) {
         var imgSrc = serviceItem.getAttribute("data-cursor-img");
@@ -3253,29 +3642,260 @@ document.addEventListener("DOMContentLoaded", function () {
           imageCursorImg.setAttribute("src", imgSrc);
         }
         imageCursor.classList.add("is-visible");
-        if (eyesCursor) eyesCursor.classList.remove("is-visible");
+        onImage = true;
+        hoverEl = null;
+        hoverKind = "";
+        if (eyesCursor) {
+          // the eyes stay and perch on the image card, looking at it
+          eyesCursor.classList.add("is-visible", "kind-image");
+          eyesCursor.classList.remove("variant-cream", "is-on-control", "is-pressed", "kind-text", "kind-sticker");
+        }
+        if (serviceItem !== lastServiceItem) {
+          // tint the card with the row's badge colour; slide in from the
+          // direction you came from (down the list = from below)
+          var badge = serviceItem.querySelector(".cr-service-badge");
+          var accent = badge && badge.style.background ? badge.style.background : "";
+          if (accent) imageCursor.style.setProperty("--card-accent", accent);
+          var rowTop = serviceItem.getBoundingClientRect().top;
+          var dirY = lastServiceItem ? (rowTop >= lastServiceTop ? 1 : -1) : 0;
+          lastServiceTop = rowTop;
+          var rows = Array.prototype.slice.call(serviceItem.parentNode.children);
+          var si = Math.max(0, rows.indexOf(serviceItem));
+          var sv = SERVICE_SAYS[si % SERVICE_SAYS.length];
+          var sl = pick(sv.hover);
+          showBubble({ k: sv.k, t: sl[0], s: sl[1], tone: sv.tone, ms: 0 });
+          imageCursorImg.style.setProperty("--pop-y", dirY * 22 + "px");
+          lastServiceItem = serviceItem;
+          // new row -> image pops in, eyes do a quick "ooh!"
+          imageCursorImg.classList.remove("is-pop");
+          void imageCursorImg.offsetWidth;
+          imageCursorImg.classList.add("is-pop");
+          if (eyesCursor) {
+            eyesCursor.classList.remove("is-surprised");
+            void eyesCursor.offsetWidth;
+            eyesCursor.classList.add("is-surprised");
+            setTimeout(function () {
+              eyesCursor.classList.remove("is-surprised");
+            }, 420);
+          }
+        }
         return;
-      } else if (imageCursor) {
-        imageCursor.classList.remove("is-visible");
       }
+      if (onImage) hideBubble();
+      onImage = false;
+      lastServiceItem = null;
+      if (eyesCursor) eyesCursor.classList.remove("kind-image");
+      if (imageCursor) imageCursor.classList.remove("is-visible");
 
-      // Check Eyes Cursor zone
-      var eyesZone = target.closest("[data-eyes-cursor]");
-      var isInteractiveControl = target.closest(
-        "a, button, input, textarea, select, [data-draggable-sticker]",
-      );
-      if (eyesZone && eyesCursor && !isInteractiveControl) {
-        var variant = eyesZone.getAttribute("data-eyes-cursor");
+      // Everywhere else -> eyes (links, buttons, inputs, stickers included)
+      if (eyesCursor) {
+        var eyesZone = target.closest("[data-eyes-cursor]");
+        var variant = eyesZone ? eyesZone.getAttribute("data-eyes-cursor") : "default";
         eyesCursor.classList.toggle("variant-cream", variant === "cream");
-        eyesCursor.classList.add("is-visible");
-      } else if (eyesZone && eyesCursor && target.closest(".cr-stat-card, .cr-pinned-card, .cr-os-card, .approach-card, .team-card")) {
-        var cardVariant = eyesZone.getAttribute("data-eyes-cursor");
-        eyesCursor.classList.toggle("variant-cream", cardVariant === "cream");
-        eyesCursor.classList.add("is-visible");
-      } else if (eyesCursor) {
-        eyesCursor.classList.remove("is-visible");
+        eyesCursor.classList.toggle("is-visible", pointerInside);
+        hoverEl = target.closest(CONTROL_SEL);
+        eyesCursor.classList.toggle("is-on-control", !!hoverEl);
+        // every interactive thing: the eyes tell you what it is
+        if (hoverEl !== hoveredSayEl) {
+          hoveredSayEl = hoverEl;
+          if (!navActive && !draggingSticker) {
+            var say = hoverEl ? sayFor(hoverEl) : null;
+            if (say) showBubble({ k: say.k, t: say.t, s: say.s, tone: say.tone, ms: 0 });
+            else hideBubble();
+          }
+        }
+        var isText = !!(hoverEl && hoverEl.matches("input, textarea, select"));
+        var isSticker = !!(hoverEl && hoverEl.matches("[data-draggable-sticker]"));
+        eyesCursor.classList.toggle("kind-text", isText);
+        eyesCursor.classList.toggle("kind-sticker", isSticker);
+        hoverKind = isText ? "text" : isSticker ? "sticker" : hoverEl ? "link" : "";
+      }
+    }
+
+    window.addEventListener(
+      "pointermove",
+      function (e) {
+        cursorX = e.clientX;
+        cursorY = e.clientY;
+        pointerInside = true;
+        lastMoveAt = performance.now();
+        lastPointerTarget = e.target;
+        updateCursorState(e.target);
+      },
+      { passive: true },
+    );
+
+    // Click = the eyes squint, release = they open again
+    window.addEventListener("pointerdown", function () {
+      if (eyesCursor && (hoverEl || onImage)) eyesCursor.classList.add("is-pressed");
+      if (onImage) imgPressT = 1;
+      if (hoverEl && hoverEl.closest("[data-draggable-sticker]")) {
+        draggingSticker = true;
+        showBubble({ k: "Sticker", t: "Wheee!", tone: "yellow", ms: 0 });
+        sparkBurst("yellow", 5);
       }
     });
+    window.addEventListener("pointerup", function () {
+      if (eyesCursor) eyesCursor.classList.remove("is-pressed");
+      imgPressT = 0;
+      if (draggingSticker) {
+        draggingSticker = false;
+        hopVy = -6;
+        showBubble({ k: "Sticker", t: "Plop! Nice spot", tone: "yellow", ms: 1100 });
+      }
+    });
+
+    // ---- Nav click: eyes launch with the page, then celebrate on arrival ----
+    function navArrive() {
+      if (!navActive) return;
+      navActive = false;
+      eyesCursor.classList.remove("is-zooming");
+      eyesCursor.classList.remove("is-happy");
+      void eyesCursor.offsetWidth;
+      eyesCursor.classList.add("is-happy");
+      setTimeout(function () {
+        eyesCursor.classList.remove("is-happy");
+      }, 950);
+      hopVy = -9; // little jump of joy
+      var inf = navInfo || { k: navLabel, tone: "purple", done: "Here!" };
+      showBubble({ k: inf.k, t: inf.done, tone: inf.tone, ms: 1900 });
+      sparkBurst(inf.tone);
+      if (navTarget) {
+        var head = navTarget.querySelector("h1, h2, .cr-title-chip");
+        if (head) {
+          head.classList.remove("cr-nav-landed");
+          void head.offsetWidth;
+          head.classList.add("cr-nav-landed");
+          setTimeout(function () {
+            head.classList.remove("cr-nav-landed");
+          }, 900);
+        }
+      }
+    }
+
+    document.addEventListener("click", function (e) {
+      if (!eyesCursor || !e.target || !e.target.closest) return;
+      var link = e.target.closest(NAV_SEL);
+      if (!link || link.hasAttribute("data-open-messenger")) return;
+      var h = link.getAttribute("href") || "";
+      if (h.charAt(0) !== "#" || h.length < 2) return;
+      if (h === "#footer" || h === "#contact" || h === "#messages") return;
+      var t = null;
+      try {
+        t = document.querySelector(h);
+      } catch (err) {
+        return;
+      }
+      if (!t) return;
+
+      navInfo = navInfoFor(link);
+      navLabel = navInfo.k;
+      navTarget = t;
+      navDir = t.getBoundingClientRect().top > 2 ? 1 : -1;
+      navActive = true;
+      navStart = performance.now();
+      lastScrollAt = navStart;
+
+      // dock icon bounces like macOS
+      link.classList.remove("is-launching");
+      void link.offsetWidth;
+      link.classList.add("is-launching");
+      setTimeout(function () {
+        link.classList.remove("is-launching");
+      }, 800);
+
+      // eyes: anticipation squat -> "whoosh"
+      hopY = 6;
+      hopVy = 0;
+      eyesCursor.classList.remove("is-happy");
+      showBubble({
+        k: navInfo.k + (navDir > 0 ? " \u2193" : " \u2191"),
+        t: navInfo.go + "\u2026",
+        tone: navInfo.tone,
+        ms: 0,
+      });
+    });
+
+    // ---- Every other click: little celebration + a themed line ----
+    document.addEventListener("click", function (e) {
+      if (!eyesCursor || !e.target || !e.target.closest) return;
+      var ctl = e.target.closest(CONTROL_SEL);
+      if (!ctl) return;
+      var say = sayFor(ctl);
+      if (!say || say.sticker) return;
+      if (say.nav && navActive) return; // the nav journey already handled it
+
+      var tone = say.tone;
+      var delay = typeof say.click === "function" ? 80 : 0; // let the page update first
+      setTimeout(function () {
+        var line = typeof say.click === "function" ? say.click() : say.click;
+        if (line) {
+          var lm = Array.isArray(line) ? line[0] : line;
+          var ls = Array.isArray(line) ? line[1] : "";
+          showBubble({ k: say.k, t: lm, s: ls, tone: tone, ms: 1700 });
+        }
+        sparkBurst(tone, 7);
+        hopVy = -7;
+        eyesCursor.classList.remove("is-happy");
+        void eyesCursor.offsetWidth;
+        eyesCursor.classList.add("is-happy");
+        setTimeout(function () {
+          eyesCursor.classList.remove("is-happy");
+        }, 950);
+        // theme switch: eyes fall asleep at night, perk up in the morning
+        if (say.theme && pageIsDark()) forceSleepyUntil = performance.now() + 1800;
+      }, delay);
+    });
+
+    // Page scrolls under a still mouse -> re-check what is under the pointer
+    window.addEventListener(
+      "scroll",
+      function () {
+        if (!pointerInside) return;
+        var el = document.elementFromPoint(cursorX, cursorY);
+        if (el) {
+          lastPointerTarget = el;
+          updateCursorState(el);
+        }
+      },
+      { passive: true },
+    );
+
+    // Hide only when the mouse really leaves the window, show again on return
+    document.documentElement.addEventListener("mouseleave", function () {
+      pointerInside = false;
+      onImage = false;
+      lastServiceItem = null;
+      if (eyesCursor) eyesCursor.classList.remove("is-visible", "kind-image");
+      if (imageCursor) imageCursor.classList.remove("is-visible");
+    });
+    document.documentElement.addEventListener("mouseenter", function () {
+      pointerInside = true;
+      if (lastPointerTarget) updateCursorState(lastPointerTarget);
+    });
+
+    // Messenger opening/closing without a mouse move
+    if (messengerPanel && window.MutationObserver) {
+      new MutationObserver(function () {
+        updateCursorState(lastPointerTarget || document.body);
+      }).observe(messengerPanel, { attributes: true, attributeFilter: ["class"] });
+    }
+
+    // natural blinking (sometimes a double blink)
+    function eyeBlink() {
+      if (!eyesCursor) return;
+      eyesCursor.classList.add("is-blink");
+      setTimeout(function () {
+        eyesCursor.classList.remove("is-blink");
+      }, 120);
+    }
+    (function blinkLoop() {
+      setTimeout(function () {
+        eyeBlink();
+        if (Math.random() < 0.25) setTimeout(eyeBlink, 260);
+        blinkLoop();
+      }, 2200 + Math.random() * 3200);
+    })();
 
     function animateCustomCursors() {
       var vx = cursorX - smoothX;
@@ -3284,34 +3904,182 @@ document.addEventListener("DOMContentLoaded", function () {
       smoothY += vy * 0.22;
 
       if (eyesCursor) {
+        var now = performance.now();
+        var kind = hoverEl ? hoverKind : "";
+
+        // track page scroll speed (used while a nav click is travelling)
+        var sy = window.scrollY || 0;
+        var dsy = sy - lastSY;
+        lastSY = sy;
+        scrollVel += (dsy - scrollVel) * 0.25;
+        if (dsy !== 0) lastScrollAt = now;
+        if (navActive) {
+          eyesCursor.classList.toggle("is-zooming", Math.abs(scrollVel) > 6);
+          if (
+            (now - navStart > 300 && now - lastScrollAt > 160) ||
+            now - navStart > 4500
+          ) {
+            navArrive();
+          }
+        }
+        var speed = Math.hypot(vx, vy);
+
+        // size: bigger on buttons/links, a bit smaller on text fields,
+        // pops wide when you whip the mouse around
+        var wantScale =
+          kind === "text" ? 1.1 : kind === "sticker" ? 1.25 : hoverEl ? 1.3 : 1;
+        if (onImage) wantScale = 1.15;
+        if (navActive) wantScale = 1.2;
+        wantScale += Math.min(speed, 80) * 0.0012;
+        eyeScale += (wantScale - eyeScale) * 0.2;
+
+        // lean into the direction of travel
+        var imgTiltNow = Math.max(-12, Math.min(12, vx * 0.25 - 5));
+        var wantTilt = onImage ? imgTiltNow : Math.max(-10, Math.min(10, vx * 0.12));
+        tilt += (wantTilt - tilt) * 0.2;
+
+        // The pointer arrow / hand extends down-right from its tip, so the
+        // eyes sit to the RIGHT of it, vertically centred on the tip. They
+        // trail a little behind (pet-like) and swap to the left side near
+        // the right edge of the window.
+        ex += (cursorX - ex) * 0.16;
+        ey += (cursorY - ey) * 0.16;
+        var gapX = 24;
+        var eyeW = 56 * eyeScale;
+        var eyeH = 36 * eyeScale;
+        var wantOffX = ex + gapX + eyeW > window.innerWidth - 8 ? -(gapX + eyeW - 6) : gapX;
+        offX += (wantOffX - offX) * 0.18;
+        var px = ex + offX;
+        var py = ey - eyeH / 2 - 2;
+        py = Math.max(8, Math.min(window.innerHeight - eyeH - 8, py));
+
+        // over a services row: hop onto the top edge of the image card
+        perch += ((onImage ? 1 : 0) - perch) * 0.2;
+        var imgX = smoothX + 24;
+        var imgY = smoothY - 75;
+        if (perch > 0.002) {
+          var perchX = imgX + 18;
+          var perchY = Math.max(4, imgY - eyeH + 14);
+          // gentle idle bob while sitting on the card
+          perchY += Math.sin(now / 340) * 2 * (speed < 6 ? 1 : 0.3);
+          px += (perchX - px) * perch;
+          py += (perchY - py) * perch;
+        }
+
+        // keep the speech bubble on screen
+        eyesCursor.classList.toggle("bubble-below", py < 96);
+        eyesCursor.classList.toggle("bubble-left", px > window.innerWidth - 250);
+
+        // jump physics (anticipation squat + hop of joy)
+        hopVy += (0 - hopY) * 0.22;
+        hopVy *= 0.72;
+        hopY += hopVy;
+        py += hopY;
+
         eyesCursor.style.transform =
           "translate3d(" +
-          (smoothX - 28).toFixed(1) +
+          px.toFixed(1) +
           "px, " +
-          (smoothY - 18).toFixed(1) +
-          "px, 0) scale(1)";
-        var pupilOffsetX = Math.max(-4, Math.min(4, vx * 0.18));
-        var pupilOffsetY = Math.max(-5, Math.min(5, vy * 0.18));
-        cursorPupils.forEach(function (p) {
+          py.toFixed(1) +
+          "px, 0) rotate(" +
+          tilt.toFixed(2) +
+          "deg) scale(" +
+          eyeScale.toFixed(3) +
+          ")";
+
+        // where the pupils want to look
+        var tgtX = Math.max(-1, Math.min(1, vx * 0.05));
+        var tgtY = Math.max(-1, Math.min(1, vy * 0.05));
+        if (!hoverEl && now - lastMoveAt > 1400) {
+          // mouse is resting: eyes wander around curiously
+          if (now > nextIdleAt) {
+            var ang = Math.random() * Math.PI * 2;
+            var rad = 0.35 + Math.random() * 0.65;
+            idleLook = { x: Math.cos(ang) * rad, y: Math.sin(ang) * rad };
+            nextIdleAt = now + 700 + Math.random() * 1500;
+          }
+          tgtX = idleLook.x;
+          tgtY = idleLook.y;
+        }
+        if (onImage) {
+          // look down at the image card (with a lively wobble from the springs)
+          var gx = imgX + 110 - (px + 28 * eyeScale);
+          var gy = imgY + 75 - (py + 18 * eyeScale);
+          var gd = Math.hypot(gx, gy) || 1;
+          tgtX = (gx / gd) * 0.75 + Math.max(-0.4, Math.min(0.4, vx * 0.03));
+          tgtY = (gy / gd) * 0.75 + Math.max(-0.3, Math.min(0.3, vy * 0.03));
+        }
+        if (hoverEl && hoverEl.isConnected) {
+          var hr = hoverEl.getBoundingClientRect();
+          var tx = hr.left + hr.width / 2 - smoothX;
+          var ty = hr.top + hr.height / 2 - smoothY;
+          var td = Math.hypot(tx, ty) || 1;
+          var tk = Math.min(1, td / 40);
+          tgtX = (tx / td) * tk;
+          tgtY = (ty / td) * tk;
+        }
+
+        if (navActive) {
+          // eyes follow the page: look up/down with the scroll
+          var look = Math.abs(scrollVel) > 3 ? Math.sign(scrollVel) : navDir * 0.6;
+          tgtX = 0;
+          tgtY = Math.max(-1, Math.min(1, look));
+        }
+
+        // pupil size: dilate on hover, wide-eyed on stickers, tiny on press
+        var wantPupil = eyesCursor.classList.contains("is-pressed")
+          ? 0.6
+          : onImage
+            ? 0.88
+            : kind === "sticker"
+            ? 0.72
+            : hoverEl
+              ? 1.12
+              : 1;
+        pupilScale += (wantPupil - pupilScale) * 0.25;
+
+        cursorPupils.forEach(function (p, i) {
+          var sp = springs[i % springs.length];
+          sp.vx = (sp.vx + (tgtX - sp.x) * sp.k) * sp.d;
+          sp.vy = (sp.vy + (tgtY - sp.y) * sp.k) * sp.d;
+          sp.x += sp.vx;
+          sp.y += sp.vy;
           p.style.transform =
             "translate3d(" +
-            pupilOffsetX.toFixed(1) +
+            (sp.x * 4).toFixed(2) +
             "px, " +
-            pupilOffsetY.toFixed(1) +
-            "px, 0)";
+            (sp.y * 5).toFixed(2) +
+            "px, 0) scale(" +
+            pupilScale.toFixed(3) +
+            ")";
         });
+
+        // sleepy after a few seconds without moving
+        eyesCursor.classList.toggle("is-sleepy", (now - lastMoveAt > 5000 && !hoverEl && !onImage) || now < forceSleepyUntil);
       }
 
       if (imageCursor) {
-        var tilt = Math.max(-12, Math.min(12, vx * 0.25 - 5));
+        var imgTilt = Math.max(-12, Math.min(12, vx * 0.25 - 5));
+        // 3D lean + click squash + moving glare
+        imgRX += (Math.max(-10, Math.min(10, -vy * 0.18)) - imgRX) * 0.18;
+        imgRY += (Math.max(-12, Math.min(12, vx * 0.18)) - imgRY) * 0.18;
+        imgPress += (imgPressT - imgPress) * 0.3;
+        var imgS = 1 - imgPress * 0.07;
+        imageCursor.style.setProperty("--glare", (50 + imgRY * 4).toFixed(1));
         imageCursor.style.transform =
           "translate3d(" +
           (smoothX + 24).toFixed(1) +
           "px, " +
           (smoothY - 75).toFixed(1) +
-          "px, 0) rotate(" +
-          tilt.toFixed(1) +
-          "deg)";
+          "px, 0) perspective(700px) rotateX(" +
+          imgRX.toFixed(2) +
+          "deg) rotateY(" +
+          imgRY.toFixed(2) +
+          "deg) rotate(" +
+          imgTilt.toFixed(1) +
+          "deg) scale(" +
+          imgS.toFixed(3) +
+          ")";
       }
 
       requestAnimationFrame(animateCustomCursors);
