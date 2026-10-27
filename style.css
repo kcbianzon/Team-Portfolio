@@ -3190,6 +3190,10 @@ html.dark-mode .celestial-moon {
   background: linear-gradient(135deg, #F7B733 0%, #FC4A1A 100%);
 }
 
+.avatar-khian {
+  background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+}
+
 .resume-card-name {
   font-family: 'Syne', sans-serif;
   font-weight: 700;
@@ -7526,10 +7530,11 @@ html.dark-mode .cr-projects-fireflies {
   cursor: pointer;
 }
 
-.cr-pinned-card:nth-child(4n + 1) { transform: rotate(-3deg); }
-.cr-pinned-card:nth-child(4n + 2) { transform: rotate(2.5deg) translateY(12px); }
-.cr-pinned-card:nth-child(4n + 3) { transform: rotate(-2deg) translateY(6px); }
-.cr-pinned-card:nth-child(4n + 4) { transform: rotate(3deg) translateY(14px); }
+.cr-pinned-card:nth-child(5n + 1) { transform: rotate(-3deg); }
+.cr-pinned-card:nth-child(5n + 2) { transform: rotate(2.5deg) translateY(12px); }
+.cr-pinned-card:nth-child(5n + 3) { transform: rotate(-2deg) translateY(6px); }
+.cr-pinned-card:nth-child(5n + 4) { transform: rotate(3deg) translateY(14px); }
+.cr-pinned-card:nth-child(5n + 5) { transform: rotate(-2.5deg) translateY(8px); }
 
 .cr-pinned-card:hover {
   transform: rotate(0deg) translateY(-8px) scale(1.02) !important;
@@ -9983,7 +9988,7 @@ body.messenger-open #cr-image-cursor,
   background: #ffffff;
 }
 
-/* Sidebar with 4 Member Threads */
+/* Sidebar with 5 Member Threads */
 .cr-messenger-sidebar {
   width: 310px;
   background: #f8f6f0;

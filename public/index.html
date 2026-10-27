@@ -360,11 +360,12 @@
         <!-- Expandable Glassmorphic Profile Card (Left Side: top -50px, left 32px) -->
         <div class="cr-profile-card" id="cr-profile-card" tabindex="0" role="region" aria-label="Studio team profile card">
           <!-- Team Switcher Header: 4 Segment Progress Bars (Like iMessage / Stories) -->
-          <div class="cr-profile-segments" aria-label="Team members (4)">
+          <div class="cr-profile-segments" aria-label="Team members (5)">
             <button type="button" class="cr-segment-bar is-active" data-member-seg="0"></button>
             <button type="button" class="cr-segment-bar" data-member-seg="1"></button>
             <button type="button" class="cr-segment-bar" data-member-seg="2"></button>
             <button type="button" class="cr-segment-bar" data-member-seg="3"></button>
+            <button type="button" class="cr-segment-bar" data-member-seg="4"></button>
           </div>
 
           <div class="cr-profile-top">
@@ -372,7 +373,7 @@
               <div class="cr-profile-avatar">
                 <img id="hero-rotator-avatar" src="assets/kenneth.png" alt="Kenneth" decoding="async">
               </div>
-              <span class="cr-avatar-badge">4</span>
+              <span class="cr-avatar-badge">5</span>
             </div>
             <div class="cr-profile-meta">
               <div class="cr-profile-status-row">
@@ -1117,7 +1118,7 @@
             THE PIXELS
           </h2>
           <p class="cr-section-sub">
-            Meet our 4-person studio. Click any team card to inspect their resume or visit our dedicated Teams page.
+            Meet our 5-person studio. Click any team card to inspect their resume or visit our dedicated Teams page.
           </p>
         </div>
 
@@ -1186,7 +1187,7 @@
             </div>
             </article>
 
-          <!-- 4. ChrisJohn Pacay -->
+<!-- 4. ChrisJohn Pacay -->
           <article class="cr-pinned-card" data-open-messenger="pacay" data-eyes-cursor="cream">
             <svg class="cr-card-pin" viewBox="0 0 18 22" fill="none"><use href="#svg936387369_785" /></svg>
             <div>
@@ -1205,7 +1206,28 @@
               <span>Open Message Chat</span>
               <span>💬 &rarr;</span>
             </div>
-            </article>
+          </article>
+
+          <!-- 5. Khian D. Bustamante -->
+          <article class="cr-pinned-card" data-open-messenger="khian" data-eyes-cursor="cream">
+            <svg class="cr-card-pin" viewBox="0 0 18 22" fill="none"><use href="#svg936387369_785" /></svg>
+            <div>
+              <div class="cr-team-photo-wrap">
+                <img src="assets/khian.webp" alt="Khian D. Bustamante" loading="lazy" decoding="async">
+              </div>
+              <div style="margin-top: 14px;">
+                <span class="cr-team-role-pill" style="background: #fef4dc; color: #b46b02;">Web Builder · Front-End</span>
+                <h3 class="cr-team-member-name">Khian D. Bustamante</h3>
+                <p class="cr-team-member-bio">
+                  Builds responsive websites, e-commerce platforms, and component-driven web interfaces with modern development tools.
+                </p>
+              </div>
+            </div>
+            <div class="cr-team-card-actions">
+              <span>Open Message Chat</span>
+              <span>💬 &rarr;</span>
+            </div>
+          </article>
         </div>
 
         <div class="cr-reviews-header-block">
@@ -1349,7 +1371,7 @@
               <span class="cr-faq-plus">+</span>
             </div>
             <div class="cr-faq-a">
-              Not at all. We are a full-service creative and engineering studio. Kenneth, Jenz, Jamil, and ChrisJohn handle everything from visual design and 3D interactions to robust APIs, database infrastructure, and deployment.
+              Not at all. We are a full-service creative and engineering studio. Kenneth, Jenz, Jamil, ChrisJohn, and Khian handle everything from visual design and 3D interactions to robust APIs, database infrastructure, and deployment.
             </div>
           </div>
         </div>
@@ -1611,13 +1633,28 @@
                   <span class="cr-thread-snippet">Backend Developer · APIs &amp; Cloud</span>
                 </div>
               </button>
+
+              <!-- Khian -->
+              <button type="button" class="cr-thread-item" data-chat-person="khian" role="tab" aria-selected="false">
+                <div class="cr-thread-avatar">
+                  <img src="assets/khian.webp" alt="Khian D. Bustamante" loading="lazy" decoding="async">
+                  <span class="cr-thread-status-dot"></span>
+                </div>
+                <div class="cr-thread-info">
+                  <div class="cr-thread-top">
+                    <span class="cr-thread-name">Khian Bustamante</span>
+                    <span class="cr-thread-time">Active</span>
+                  </div>
+                  <span class="cr-thread-snippet">Web Builder · Front-End</span>
+                </div>
+              </button>
             </div>
 
             <!-- Sidebar Footer Studio Info -->
             <div class="cr-sidebar-footer">
               <div class="cr-sidebar-studio-tag">
                 <span class="cr-pulse-dot-sm"></span>
-                <span>TEMport Studio · 4 Members</span>
+                <span>TEMport Studio · 5 Members</span>
               </div>
             </div>
           </aside>
@@ -1828,6 +1865,48 @@
                         <span class="cr-os-tag" style="border: 1.5px solid #252525; font-weight: 700">Authentication</span>
                         <span class="cr-os-tag" style="border: 1.5px solid #252525; font-weight: 700">Database Modeling</span>
                         <span class="cr-os-tag" style="border: 1.5px solid #252525; font-weight: 700">Cloud Functions</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="cr-sheet-image-container" id="cr-sheet-image-khian" style="display: none;">
+                    <img src="resumes/khian.png" alt="Khian D. Bustamante's Resume" onerror="this.style.display='none'" loading="lazy" decoding="async">
+                    <div class="cr-khian-dossier-sheet" style="text-align: left; padding: 28px 32px; color: #252525; font-family: 'Inter', sans-serif">
+                      <div style="display: flex; align-items: center; gap: 18px; padding-bottom: 20px; border-bottom: 2px dashed rgba(0,0,0,0.14); margin-bottom: 20px">
+                        <img src="assets/khian.webp" alt="Khian D. Bustamante" style="width: 76px; height: 76px; border-radius: 16px; object-fit: cover; object-position: top; border: 2px solid #252525; background: #f5f3ea" loading="lazy" decoding="async">
+                        <div>
+                          <span style="display: inline-block; padding: 4px 12px; background: #ffde05; border: 1.5px solid #252525; border-radius: 99px; font-size: 11px; font-weight: 800; margin-bottom: 6px">DOSSIER // 05 &bull; WEB BUILDER &amp; FRONT-END</span>
+                          <h3 style="margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 26px; font-weight: 800">Khian D. Bustamante</h3>
+                          <p style="margin: 4px 0 0; font-size: 14px; font-weight: 600; color: #b46b02">Web Builder &amp; Front-End Developer</p>
+                        </div>
+                      </div>
+                      <p style="font-size: 15px; line-height: 1.7; color: #383838; margin: 0 0 20px">
+                        Third-year Computer Engineering Technology student with hands-on experience building websites, e-commerce storefronts, and responsive interfaces with clean code and modern tooling.
+                      </p>
+                      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-bottom: 20px">
+                        <div style="background: #fdf6f0; border: 1.5px solid #252525; border-radius: 14px; padding: 16px">
+                          <strong style="display: block; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; color: #b46b02">Core Development &amp; Tools</strong>
+                          <ul style="margin: 0; padding-left: 18px; font-size: 13.5px; line-height: 1.65; color: #383838">
+                            <li>Builds responsive web layouts using HTML5, CSS3, and JavaScript.</li>
+                            <li>Constructs full-stack workflows using Node.js, Express.js, and MySQL.</li>
+                            <li>Manages version control, releases, and codebase collaboration via Git &amp; GitHub.</li>
+                          </ul>
+                        </div>
+                        <div style="background: #fdf6f0; border: 1.5px solid #252525; border-radius: 14px; padding: 16px">
+                          <strong style="display: block; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; color: #b46b02">Project Experience &amp; Education</strong>
+                          <ul style="margin: 0; padding-left: 18px; font-size: 13.5px; line-height: 1.65; color: #383838">
+                            <li><strong>YKB Clothing:</strong> Full-stack e-commerce project with product catalog, cart, checkout, and account auth.</li>
+                            <li><strong>PUP Biñan Campus:</strong> Diploma in Computer Engineering Technology (2024–Present).</li>
+                            <li><strong>Strengths:</strong> Fast learning, teamwork, clear communication, and adaptable problem solving.</li>
+                          </ul>
+                        </div>
+                      </div>
+                      <div style="display: flex; flex-wrap: wrap; gap: 8px">
+                        <span class="cr-os-tag" style="border: 1.5px solid #252525; font-weight: 700">HTML5 / CSS3</span>
+                        <span class="cr-os-tag" style="border: 1.5px solid #252525; font-weight: 700">JavaScript</span>
+                        <span class="cr-os-tag" style="border: 1.5px solid #252525; font-weight: 700">Responsive Web</span>
+                        <span class="cr-os-tag" style="border: 1.5px solid #252525; font-weight: 700">Node.js &amp; Express</span>
+                        <span class="cr-os-tag" style="border: 1.5px solid #252525; font-weight: 700">MySQL Database</span>
+                        <span class="cr-os-tag" style="border: 1.5px solid #252525; font-weight: 700">Git &amp; GitHub</span>
                       </div>
                     </div>
                   </div>

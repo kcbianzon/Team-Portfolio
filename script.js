@@ -766,7 +766,7 @@
         modalHeading.textContent =
           person.charAt(0).toUpperCase() + person.slice(1) + "'s Resume";
       activeResumePdf =
-        ["kenneth", "jenz", "jamil"].indexOf(person) !== -1
+        ["kenneth", "jenz", "jamil", "khian", "pacay"].indexOf(person) !== -1
           ? "resumes/" + person + ".pdf"
           : "";
       if (downloadBtn) {
@@ -1353,6 +1353,22 @@
             "Keeps data flows structured, maintainable, and ready to scale.",
             "Supports authentication, validation, error handling, and reliable communication between frontend and server-side services.",
             "Collaborates with the team to turn product requirements into secure, maintainable technical foundations.",
+          ],
+        },
+        khian: {
+          name: "Khian D. Bustamante",
+          role: "Web Builder & Front-End Developer",
+          kicker: "Profile 05 · Web builder & front-end",
+          photo: "assets/khian.webp",
+          resume: "resumes/khian.pdf",
+          summary:
+            "Computer Engineering Technology student and Web Builder with hands-on experience crafting responsive websites, e-commerce storefronts, and component-driven interfaces.",
+          services: [
+            "Web Development: HTML5, CSS3, JavaScript, responsive web design, and UI layout architecture.",
+            "Backend & Database: Node.js, Express.js, REST API fundamentals, MySQL, and SQL database management.",
+            "Tools & Workflow: Git, GitHub, VS Code, XAMPP, and npm for clean version control and project delivery.",
+            "Project Experience: Built and maintained the YKB Clothing e-commerce web platform (product pages, user accounts, shopping cart, checkout).",
+            "Education: Diploma in Computer Engineering Technology at Polytechnic University of the Philippines (PUP) Biñan Campus.",
           ],
         },
       };
@@ -2059,6 +2075,16 @@ document.addEventListener("DOMContentLoaded", function () {
         skills: "Backend · APIs · Databases · Security",
         resume: "pacay",
       },
+      {
+        firstName: "KHIAN",
+        role: "WEB BUILDER",
+        avatar: "assets/khian.webp",
+        status: "Building web layouts",
+        time: "Active now",
+        bio: "\"Constructing responsive, production-ready web experiences, e-commerce flows, and modern web interfaces.\"",
+        skills: "Web Building · Responsive · Front-End",
+        resume: "khian",
+      },
     ];
 
     var currentMemberIdx = 0;
@@ -2298,8 +2324,44 @@ document.addEventListener("DOMContentLoaded", function () {
       years: "2026",
       type: "B2B Lead Generation & Web Design",
       tools: "Webflow, Custom CSS, JavaScript"
+    },
+    "ykb-clothing": {
+      title: "YKB Clothing",
+      address: "ykb-ecommerce.onrender.com",
+      heroImg: "assets/projects/ykb-01.webp",
+      gallery: [
+        "assets/projects/ykb-shop.png",
+        "assets/projects/ykb-product.png",
+        "assets/projects/ykb-cart.png",
+        "assets/projects/ykb-admin.png"
+      ],
+      previewLink: "https://ykb-ecommerce.onrender.com",
+      desc: "A full-stack clothing e-commerce platform with authentication, catalog filtering, real-time cart, checkout, order management, wishlist, customer reviews, and administrative tooling.",
+      client: "Apparel & E-Commerce",
+      years: "2026",
+      type: "Full-Stack E-Commerce",
+      tools: "HTML5, CSS3, JavaScript, Node.js, Express, MySQL, JWT, Render"
+    },
+    "yankii-barber": {
+      title: "Yankiii Barber Co.",
+      address: "yankiii-barber-co.vercel.app",
+      heroImg: "assets/projects/yankiii-01.webp",
+      gallery: [
+        "assets/projects/yankiii-booking.png",
+        "assets/projects/yankiii-dashboard.png",
+        "assets/projects/yankiii-admin.png",
+        "assets/projects/yankiii-mobile.png"
+      ],
+      previewLink: "https://yankiii-barber-co.vercel.app/",
+      desc: "A modern full-stack barbershop booking platform featuring service browsing, barber selection, schedule availability, customer authentication, appointment scheduling, and admin management.",
+      client: "Grooming & Lifestyle Services",
+      years: "2026",
+      type: "Full-Stack Web Application",
+      tools: "HTML5, CSS3, JavaScript, Node.js, Express, MySQL, JWT, Vercel"
     }
   };
+  showcaseProjectsData.ykb = showcaseProjectsData["ykb-clothing"];
+  showcaseProjectsData.yankiii = showcaseProjectsData["yankii-barber"];
 
   var showcaseBackdrop = document.getElementById("cr-showcase-backdrop");
   var showcaseCloseBtn = document.getElementById("cr-showcase-close-btn");
@@ -2503,7 +2565,34 @@ document.addEventListener("DOMContentLoaded", function () {
         timeline: "Backend API architecture and database schema setups usually take 2 to 4 weeks depending on the number of endpoints, third-party integrations, and security requirements. We provide upfront fixed-milestone pricing with no surprises. Drop your scope in the contact section and we'll calculate a turnaround estimate!",
         hello: "Appreciate the love! 🙌 We built this portfolio to showcase both our visual creativity and engineering craft. Thanks for checking out our work and stopping by to say hi!"
       }
-    }
+    },
+    khian: {
+      name: "Khian D. Bustamante",
+      role: "WEB BUILDER",
+      avatar: "assets/khian.webp",
+      status: "Active now",
+      addressSlug: "creatie://team-messenger.chat/khian.bustamante",
+      intro: "Hello! 💻 I'm Khian, Web Builder & Front-End Developer at TEMport. Great to connect with you!",
+      specialty: "I build fast, responsive websites, e-commerce storefronts, and structured frontend components using clean HTML, CSS, JavaScript, and modern web tooling.",
+      fileName: "Khian_Bustamante_Resume_2026.pdf",
+      subTitle: "Verified Vector PDF · High-DPI Crystal Clear Document",
+      pdfUrl: "resumes/khian.pdf",
+      thumbImg: "assets/khian.webp",
+      sheetId: "cr-sheet-image-khian",
+      roleBg: "#fef4dc",
+      roleColor: "#b46b02",
+      replies: [
+        "Thanks for reaching out! I'm ready to help build your next responsive website or web layout.",
+        "Whether you need an e-commerce platform like YKB Clothing or a booking system like Yankii Barber Co., let's bring it to life!",
+        "Feel free to check out my verified resume sheet attached above for my complete skill set and background."
+      ],
+      presetReplies: {
+        hire: "That's fantastic! I'd love to help build and launch your website. From responsive landing pages to functional e-commerce flows and custom layouts, we can get started right away. Drop a note in the contact section or schedule a call so we can discuss your project details!",
+        stack: "Glad you asked! My core toolkit includes semantic HTML5, modern CSS3, responsive layout engineering, JavaScript, Node.js, Express.js, and MySQL. I also build full-stack web platforms like YKB Clothing and Yankii Barber Co. featured in our Client Websites section! Check out my verified PDF sheet attached above to see my technical skills and project experience!",
+        timeline: "For web builds, landing pages and standard portfolio sites typically take 1 to 2 weeks, while full e-commerce websites with product pages, cart flows, and backend database integrations usually take 3 to 5 weeks. Let us know what you need in the contact form below and we'll map out a clear timeline!",
+        hello: "Thank you so much! 😊 We worked hard to make this studio experience interactive, playful, and responsive across all screen sizes. Hope you enjoy exploring our work!"
+      }
+    },
   };
 
   var messengerPanel = document.getElementById("resume-panel");
@@ -2862,9 +2951,13 @@ document.addEventListener("DOMContentLoaded", function () {
       }
       if (liveCtaEl) {
         var activePanel = document.querySelector('.project-viewer-panel[data-panel="' + projId + '"]');
-        var iframe = activePanel ? activePanel.querySelector("iframe[src]") : null;
-        if (iframe && iframe.src) {
-          liveCtaEl.href = iframe.src;
+        var liveUrl = activePanel ? (
+          activePanel.getAttribute("data-live-url") ||
+          (activePanel.querySelector("iframe[src]") ? activePanel.querySelector("iframe[src]").src : null) ||
+          (activePanel.querySelector("iframe[data-src]") ? activePanel.querySelector("iframe[data-src]").getAttribute("data-src") : null)
+        ) : null;
+        if (liveUrl) {
+          liveCtaEl.href = liveUrl;
           liveCtaEl.classList.remove("is-hidden");
           liveCtaEl.classList.add("is-visible");
         } else {
@@ -3122,7 +3215,7 @@ document.addEventListener("DOMContentLoaded", function () {
           '<span>← Prev Dossier</span>' +
         '</button>' +
         '<div class="cr-pag-counter mono">' +
-          '<span class="cr-cur-num">01</span> / <span class="cr-total-num">15</span>' +
+          '<span class="cr-cur-num">01</span> / <span class="cr-total-num">17</span>' +
         '</div>' +
         '<button type="button" class="cr-pag-btn next-btn" data-nav-dir="1">' +
           '<span>Next Dossier →</span>' +
@@ -3385,7 +3478,17 @@ document.addEventListener("DOMContentLoaded", function () {
         hover: [["An agency site with some fresh air", "React, minus the stress"], ["Breathes easy, loads fast", "Take a look inside"]],
         click: [["Deep breath\u2026", "Opening up"], ["Taking off\u2026", "Fasten your seatbelt"]],
       },
+      "ykb-clothing": {
+        hover: [["Streetwear with serious backend muscle", "Cart, auth & MySQL inside"], ["Fresh threads, cleaner code", "Tap for the e-commerce breakdown"]],
+        click: [["Checking inventory\u2026", "Adding to cart!"], ["Opening the storefront\u2026", "Fits just right"]],
+      },
+      "yankii-barber": {
+        hover: [["Sharp fades, zero scheduling conflicts", "Book the full-stack case study"], ["Fresh cut, seamless booking", "MySQL & Node under the hood"]],
+        click: [["Checking barber chair\u2026", "Next in line!"], ["Styling the case study\u2026", "Looking sharp"]],
+      },
     };
+    PROJECT_SAYS.ykb = PROJECT_SAYS["ykb-clothing"];
+    PROJECT_SAYS.yankiii = PROJECT_SAYS["yankii-barber"];
     var GENERIC_PROJECT = {
       hover: [["Peek behind the curtain", "Case study inside"], ["I worked hard on this one", "Tap to see how"]],
       click: [["Opening the case study\u2026", "Good choice"]],
@@ -3511,7 +3614,7 @@ document.addEventListener("DOMContentLoaded", function () {
         };
       }
       if (el.closest(".cr-segment-bar"))
-        return { k: "Team", t: pick(["Next teammate, please!", "Who's up next?"]), s: "Four humans, one studio", tone: "purple", click: ["Next up!", "Say hi to them"] };
+        return { k: "Team", t: pick(["Next teammate, please!", "Who's up next?"]), s: "Five humans, one studio", tone: "purple", click: ["Next up!", "Say hi to them"] };
       if (el.closest("#hero-open-chat-btn, .cr-profile-chat-pill"))
         return { k: "Chat", t: pick(["Slide into the DMs", "Don't be shy, say hi"]), s: "Nobody bites. Promise.", tone: "purple", click: ["Opening chat\u2026", "Type something nice"] };
 
