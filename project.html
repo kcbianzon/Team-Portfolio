@@ -15,7 +15,7 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css"
     />
-    <link rel="stylesheet" href="style.css?v=6.0" />
+    <link rel="stylesheet" href="style.css?v=8.6" />
     <link rel="stylesheet" href="messenger.css?v=1.1" />
     <script>
       (function () {
@@ -3156,21 +3156,100 @@
       <!-- Top Content: The Paper Card Stack -->
       <div class="cr-footer-top-wrap">
         <div class="cr-footer-card">
-          <!-- Inner Paper Card Texture -->
+          <!-- Inner Paper Card Texture + Atmospheric Cloud & Contrast Layer -->
           <div class="cr-footer-inner-bg" aria-hidden="true">
-            <img class="cr-footer-inner-day" src="https://framerusercontent.com/images/Be455u4BRYelSl1NS32A0tLSZU.png?width=4140&height=1887" alt="" loading="lazy" decoding="async">
+            <img class="cr-footer-inner-day" src="https://framerusercontent.com/images/Be455u4BRYelSl1NS32A0tLSZU.png?scale-down-to=2048" alt="" decoding="async">
             <img class="cr-footer-inner-night" src="assets/footer-bg-night.png?v=4.0" alt="" loading="lazy" decoding="async">
-            <div class="cr-fireflies-layer cr-footer-fireflies" aria-hidden="true">
-              <span class="cr-firefly ff1"></span>
-              <span class="cr-firefly ff2"></span>
-              <span class="cr-firefly ff3"></span>
-              <span class="cr-firefly ff4"></span>
-              <span class="cr-firefly ff5"></span>
-              <span class="cr-firefly ff6"></span>
+            <div class="cr-footer-sky-atmosphere">
+              <span class="cr-sky-cloud cr-sky-cloud-1"></span>
+              <span class="cr-sky-cloud cr-sky-cloud-2"></span>
             </div>
           </div>
 
-          <!-- Top-Left Social Circular Dock -->
+          <!-- Interactive Paper-Plane Sky Playground (drag & throw it / tap the sky / throw it at "Let's chat") -->
+          <div class="cr-sky-play" aria-hidden="true">
+            <svg class="cr-sky-play-svg">
+              <path class="cr-sky-guide" d="M0 0" />
+              <path class="cr-sky-trail-glow" d="" />
+              <path class="cr-sky-trail-dashes" d="" />
+            </svg>
+          </div>
+          <button type="button" class="cr-sky-plane is-hidden" aria-label="Paper plane letter: click to unfold and write a message, or drag and throw at Let's chat or Socials" data-eyes-say="Paper Plane Letter|Click to unfold &amp; write a note|yellow|Unfolding letter...|Throw at Let&#39;s chat or Socials!">
+            <svg viewBox="-22 -14 40 28" fill="none" aria-hidden="true">
+              <g class="cr-sky-plane-wind">
+                <line x1="-15" y1="-4.2" x2="-21" y2="-4.2" stroke="rgba(255,255,255,0.8)" stroke-width="1.4" stroke-linecap="round" />
+                <line x1="-13.5" y1="3.8" x2="-18.5" y2="3.8" stroke="rgba(255,255,255,0.6)" stroke-width="1.3" stroke-linecap="round" />
+              </g>
+              <path d="M 16 0 L -13 -10.8 L -6 -1.6 Z" fill="#ffffff" stroke="rgba(15, 38, 78, 0.28)" stroke-width="0.8" stroke-linejoin="round" />
+              <path d="M 16 0 L -6 -1.6 L -7.4 6.2 Z" fill="#93c5fd" stroke="rgba(15, 38, 78, 0.22)" stroke-width="0.7" stroke-linejoin="round" />
+              <path d="M 16 0 L -7.4 6.2 L -4.8 2.4 Z" fill="#cbd5e1" />
+              <path d="M 16 0 L -4.8 2.4 L -10.8 11.2 Z" fill="#f8fafc" stroke="rgba(15, 38, 78, 0.28)" stroke-width="0.8" stroke-linejoin="round" />
+              <g class="cr-sky-plane-seal" aria-hidden="true">
+                <line x1="-6.8" y1="-5.5" x2="1.4" y2="-2.8" stroke="rgba(37,37,37,0.5)" stroke-width="0.85" stroke-linecap="round" stroke-dasharray="1.7 1.5" />
+                <line x1="-5.2" y1="5.6" x2="1.6" y2="2.6" stroke="rgba(37,37,37,0.45)" stroke-width="0.85" stroke-linecap="round" stroke-dasharray="1.7 1.5" />
+                <circle cx="-2.4" cy="-4.2" r="2.6" fill="#ef4444" stroke="#ffffff" stroke-width="0.9" />
+              </g>
+            </svg>
+          </button>
+          <button type="button" class="cr-sky-hint" aria-label="Unfold paper plane to write a note">
+            <strong>psst&hellip; click to write a note &#9998;</strong>
+            <span>fold &amp; throw at &ldquo;Let&rsquo;s chat&rdquo; or socials</span>
+          </button>
+
+          <!-- Unfolded Air-Mail Paper-Plane Letter Sheet -->
+          <div class="cr-sky-letter" role="dialog" aria-label="Write a paper-plane note" aria-hidden="true">
+            <div class="cr-sky-letter-airmail" aria-hidden="true"></div>
+            <svg class="cr-sky-letter-creases" viewBox="0 0 320 240" preserveAspectRatio="none" aria-hidden="true">
+              <line x1="0" y1="240" x2="320" y2="0" />
+              <line x1="0" y1="115" x2="320" y2="0" />
+              <line x1="165" y1="240" x2="320" y2="0" />
+            </svg>
+            <div class="cr-sky-letter-head">
+              <div class="cr-sky-letter-stamp">
+                <span class="cr-sky-letter-dot" aria-hidden="true"></span>
+                <span class="cr-sky-letter-to">AIR-MAIL NOTE</span>
+              </div>
+              <div class="cr-sky-letter-head-actions">
+                <button type="button" class="cr-sky-letter-mini" data-letter-loop title="Fold &amp; do a 360 loop stunt">&#8635; Loop</button>
+                <button type="button" class="cr-sky-letter-mini cr-sky-letter-clear" data-letter-clear title="Erase note" hidden>Clear</button>
+                <button type="button" class="cr-sky-letter-close" data-letter-close aria-label="Fold letter">&#10005;</button>
+              </div>
+            </div>
+            <div class="cr-sky-letter-paper">
+              <textarea class="cr-sky-letter-input" rows="3" maxlength="360" placeholder="Write a message, project idea, or quick hello&hellip;"></textarea>
+            </div>
+            <div class="cr-sky-letter-chips" aria-label="Quick note starters">
+              <button type="button" class="cr-sky-letter-chip" data-letter-preset="Hey TEMport! Loved exploring your portfolio - let's connect!">&#128075; Say hi</button>
+              <button type="button" class="cr-sky-letter-chip" data-letter-preset="Hey team! I have a web project idea I'd love to build with you.">&#128640; Project idea</button>
+              <button type="button" class="cr-sky-letter-chip" data-letter-preset="Love the design craft here! Are you open for a new collaboration?">&#10024; Collab</button>
+            </div>
+            <div class="cr-sky-letter-from-row">
+              <label class="cr-sky-letter-from-lbl">From:</label>
+              <input type="text" class="cr-sky-letter-from" maxlength="64" placeholder="Your name or email (optional)" />
+            </div>
+            <div class="cr-sky-letter-foot">
+              <button type="button" class="cr-sky-letter-fold-btn" data-letter-fold>
+                <span>Fold &amp; Throw</span>
+                <span aria-hidden="true">&#9992;</span>
+              </button>
+              <div class="cr-sky-letter-stamps" role="group" aria-label="Auto-fly folded letter to destination">
+                <span class="cr-sky-letter-stamps-lbl">or fly to:</span>
+                <button type="button" class="cr-sky-stamp-btn cr-sky-stamp-chat" data-letter-fly="chat" title="Fold &amp; fly to Let's chat">Chat</button>
+                <button type="button" class="cr-sky-stamp-btn" data-letter-fly="Instagram" title="Fold &amp; fly to Instagram">IG</button>
+                <button type="button" class="cr-sky-stamp-btn" data-letter-fly="X" title="Fold &amp; fly to X">X</button>
+                <button type="button" class="cr-sky-stamp-btn" data-letter-fly="GitHub" title="Fold &amp; fly to GitHub">GH</button>
+                <button type="button" class="cr-sky-stamp-btn" data-letter-fly="Phone" title="Fold &amp; fly to Phone">&#9742;</button>
+                <button type="button" class="cr-sky-stamp-btn" data-letter-fly="Email" title="Fold &amp; fly to Email">&#9993;</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Social Air-Mail Delivery Popover -->
+          <div class="cr-sky-social-card" role="dialog" aria-label="Social air-mail delivery" aria-hidden="true"></div>
+
+          <div class="cr-sky-toast" role="status" aria-live="polite"></div>
+
+          <!-- Top-Left Social Circular Dock + Live Studio Status Pill -->
           <div class="cr-footer-social-dock">
             <div class="cr-footer-social-dock-inner">
               <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="cr-footer-social-icon">
@@ -3181,6 +3260,11 @@
               <a href="https://x.com/" target="_blank" rel="noopener noreferrer" aria-label="X" class="cr-footer-social-icon">
                 <div class="cr-footer-social-icon-bg">
                   <svg viewBox="0 0 256 256"><path d="M214.75,211.71l-62.6-98.38,61.77-67.95a8,8,0,0,0-11.84-10.76L143.24,99.34,102.75,35.71A8,8,0,0,0,96,32H48a8,8,0,0,0-6.75,12.3l62.6,98.37-61.77,68a8,8,0,1,0,11.84,10.76l58.84-64.72,40.49,63.63A8,8,0,0,0,160,224h48a8,8,0,0,0,6.75-12.29ZM164.39,208,62.57,48h29L193.43,208Z"/></svg>
+                </div>
+              </a>
+              <a href="https://github.com/" target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="cr-footer-social-icon">
+                <div class="cr-footer-social-icon-bg">
+                  <svg viewBox="0 0 24 24"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.11.79-.25.79-.56v-2c-3.2.7-3.88-1.39-3.88-1.39-.52-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.71.08-.71 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.56-.29-5.25-1.28-5.25-5.69 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.16-1.18 3.16-1.18.63 1.59.24 2.76.12 3.05.74.81 1.18 1.83 1.18 3.09 0 4.42-2.7 5.39-5.27 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>
                 </div>
               </a>
               <a href="tel:+10000000000" target="_blank" rel="noopener noreferrer" aria-label="Phone" class="cr-footer-social-icon">
@@ -3194,9 +3278,16 @@
                 </div>
               </a>
             </div>
+
+            <button type="button" class="cr-footer-status-pill" data-open-contact="true" data-eyes-say="Studio Status|All 5 builders active &amp; taking projects|green|Opening contact…|Manila Studio · GMT+8">
+              <span class="cr-footer-status-dot" aria-hidden="true"></span>
+              <span class="cr-footer-status-label">Available for projects</span>
+              <span class="cr-footer-status-sep" aria-hidden="true">·</span>
+              <span class="cr-footer-clock" data-studio-clock>MNL GMT+8</span>
+            </button>
           </div>
 
-          <!-- Top-Right Tagline Stack -->
+          <!-- Top-Right Tagline Stack (the interactive paper plane perches beside it) -->
           <div class="cr-footer-tagline-stack">
             <div class="cr-footer-tagline-row1">
               <span class="cr-footer-white-bar"></span>
@@ -3207,63 +3298,173 @@
             </div>
           </div>
 
-          <!-- Bottom-Left Headline & 3 Sticky Chips -->
+          <!-- Bottom-Left Headline, 3 Folded-Corner Sticky Chips & Studio Proof Bar -->
           <div class="cr-footer-heading-wrap">
-            <!-- Sticky Chip 1: UI/UX Design (Pink / Lilac) -->
-            <div class="cr-title-chip chip-pink cr-footer-chip-uiux">
-              <div class="cr-chip-body"><span>UI/UX Design</span></div>
+            <!-- Sticky Chip 1: UI/UX Design (Pink) -->
+            <a href="index.html#services" class="cr-title-chip chip-pink cr-footer-chip-uiux" data-eyes-say="UI/UX Design|Pixel-crafted interfaces &amp; design systems|pink|Jumping to Services…|Figma to production">
+              <div class="cr-chip-body">
+                <span>UI/UX Design</span>
+                <div class="cr-chip-flip">
+                  <svg viewBox="0 0 18.109 18.301" overflow="visible">
+                    <path d="M 2.03 2.5 L 18.109 13.94 L 3.804 14.25 C 1.323 14.304 -0.515 11.96 0.13 9.564 Z" fill="rgb(0,0,0)" opacity="0.3" />
+                    <path d="M 2 2.501 L 18.079 13.941 L 7.104 18.06 C 4.68 18.97 2.092 17.188 2.075 14.6 L 2 2.5 Z" fill="rgb(236, 104, 253)" />
+                    <path d="M 18.08 13.76 L 2 2.32 L 15.76 0 Z" fill="rgb(33, 33, 33)" />
+                  </svg>
+                </div>
+              </div>
               <div class="cr-chip-icon">
                 <svg role="presentation" viewBox="0 0 24 24"><use href="#636125695"/></svg>
               </div>
               <div class="cr-paper-clip" aria-hidden="true">
-                <svg class="clip-shadow" role="presentation" viewBox="0 0 24 24"><use href="#2641542506"/></svg>
-                <svg class="clip-main" role="presentation" viewBox="0 0 24 24"><use href="#2641542506"/></svg>
+                <svg class="clip-shadow" viewBox="0 0 24 24" stroke="rgba(0,0,0,0.28)" stroke-width="2.4" fill="none"><use href="#2641542506"/></svg>
+                <svg class="clip-main" viewBox="0 0 24 24" stroke="rgb(236, 104, 253)" stroke-width="1.5" fill="none"><use href="#2641542506"/></svg>
               </div>
-            </div>
+            </a>
 
-            <!-- Headline -->
+            <!-- 3-Line Monumental Display Headline -->
             <h2 class="cr-footer-title">
-              LET’S BUILD<br />
-              SOMETHING<br />
-              MEMORABLE
+              <span class="cr-footer-line">LET’S BUILD</span>
+              <span class="cr-footer-line cr-footer-line-indent">SOMETHING</span>
+              <span class="cr-footer-line">MEMORABLE.</span>
             </h2>
 
-            <!-- Sticky Chip 2: Illustration (Green) -->
-            <div class="cr-title-chip chip-green cr-footer-chip-illus">
-              <div class="cr-chip-body"><span>Illustration</span></div>
+            <!-- Sticky Chip 2: Full-Stack Web (Green) -->
+            <a href="#cr-workstation-stage" class="cr-title-chip chip-green cr-footer-chip-illus" data-eyes-say="Full-Stack Web|APIs, databases &amp; snappy frontends|green|Back to Workstation…|17 shipped projects">
+              <div class="cr-chip-body">
+                <span>Full-Stack Web</span>
+                <div class="cr-chip-flip">
+                  <svg viewBox="0 0 18.109 18.301" overflow="visible">
+                    <path d="M 2.03 2.5 L 18.109 13.94 L 3.804 14.25 C 1.323 14.304 -0.515 11.96 0.13 9.564 Z" fill="rgb(0,0,0)" opacity="0.3" />
+                    <path d="M 2 2.501 L 18.079 13.941 L 7.104 18.06 C 4.68 18.97 2.092 17.188 2.075 14.6 L 2 2.5 Z" fill="rgb(147, 186, 6)" />
+                    <path d="M 18.08 13.76 L 2 2.32 L 15.76 0 Z" fill="rgb(33, 33, 33)" />
+                  </svg>
+                </div>
+              </div>
               <div class="cr-chip-icon">
                 <svg role="presentation" viewBox="0 0 24 24"><use href="#2658193374"/></svg>
               </div>
               <div class="cr-paper-clip" aria-hidden="true">
-                <svg class="clip-shadow" role="presentation" viewBox="0 0 24 24"><use href="#2641542506"/></svg>
-                <svg class="clip-main" role="presentation" viewBox="0 0 24 24"><use href="#2641542506"/></svg>
+                <svg class="clip-shadow" viewBox="0 0 24 24" stroke="rgba(0,0,0,0.28)" stroke-width="2.4" fill="none"><use href="#2641542506"/></svg>
+                <svg class="clip-main" viewBox="0 0 24 24" stroke="rgb(147, 186, 6)" stroke-width="1.5" fill="none"><use href="#2641542506"/></svg>
               </div>
-            </div>
+            </a>
 
-            <!-- Sticky Chip 3: 3D Design (Purple) -->
-            <div class="cr-title-chip chip-purple cr-footer-chip-3d">
-              <div class="cr-chip-body"><span>3D Design</span></div>
+            <!-- Sticky Chip 3: Web Builder (Purple) -->
+            <a href="index.html#reviews" class="cr-title-chip chip-purple cr-footer-chip-3d" data-eyes-say="Web Builder|Fast storefronts &amp; responsive builds|purple|Meet the builders…|5-person creative studio">
+              <div class="cr-chip-body">
+                <span>Web Builder</span>
+                <div class="cr-chip-flip">
+                  <svg viewBox="0 0 18.109 18.301" overflow="visible">
+                    <path d="M 2.03 2.5 L 18.109 13.94 L 3.804 14.25 C 1.323 14.304 -0.515 11.96 0.13 9.564 Z" fill="rgb(0,0,0)" opacity="0.3" />
+                    <path d="M 2 2.501 L 18.079 13.941 L 7.104 18.06 C 4.68 18.97 2.092 17.188 2.075 14.6 L 2 2.5 Z" fill="rgb(129,104,253)" />
+                    <path d="M 18.08 13.76 L 2 2.32 L 15.76 0 Z" fill="rgb(33, 33, 33)" />
+                  </svg>
+                </div>
+              </div>
               <div class="cr-chip-icon">
                 <svg role="presentation" viewBox="0 0 24 24"><use href="#1537972964"/></svg>
               </div>
               <div class="cr-paper-clip" aria-hidden="true">
-                <svg class="clip-shadow" role="presentation" viewBox="0 0 24 24"><use href="#2641542506"/></svg>
-                <svg class="clip-main" role="presentation" viewBox="0 0 24 24"><use href="#2641542506"/></svg>
+                <svg class="clip-shadow" viewBox="0 0 24 24" stroke="rgba(0,0,0,0.28)" stroke-width="2.4" fill="none"><use href="#2641542506"/></svg>
+                <svg class="clip-main" viewBox="0 0 24 24" stroke="rgb(129,104,253)" stroke-width="1.5" fill="none"><use href="#2641542506"/></svg>
               </div>
+            </a>
+
+            <!-- Subtle Studio Proof Micro-Bar -->
+            <div class="cr-footer-proof-row">
+              <span>17+ Shipped Works</span>
+              <span class="cr-proof-dot" aria-hidden="true"></span>
+              <span>5-Person Studio</span>
+              <span class="cr-proof-dot" aria-hidden="true"></span>
+              <span>Design &amp; Full-Stack Engineering</span>
             </div>
           </div>
 
-          <!-- Bottom-Right "Let's chat" Wave Ripple Button -->
-          <div class="cr-footer-cta-container">
-            <a href="#contact" class="cr-footer-chat-btn" aria-label="Let's chat" data-open-contact="true">
-              <span class="cr-footer-chat-btn-text">Let's chat</span>
-              <span class="cr-footer-chat-btn-hover" aria-hidden="true">Let's chat</span>
-              <div class="cr-footer-ripple-outer" aria-hidden="true">
-                <div class="cr-footer-ripple-mid">
-                  <div class="cr-footer-ripple-inner"></div>
+          <!-- Right Column: Pinned Glassmorphic OS Studio Kickoff Card + Dual CTA Row -->
+          <div class="cr-footer-right-dock">
+            <div class="cr-footer-kickoff-card">
+              <svg class="cr-kickoff-paperclip" viewBox="0 0 30.011 48.192" overflow="visible" aria-hidden="true">
+                <use href="#svg719222425_603" />
+              </svg>
+
+              <!-- Mini OS Window Chrome -->
+              <div class="cr-kickoff-topbar">
+                <div class="cr-os-controls" aria-hidden="true">
+                  <span class="cr-os-pill-pink"></span>
+                  <span class="cr-os-sq-blue"></span>
+                  <svg class="cr-os-tri-yellow" viewBox="0 0 13.832 10.64" overflow="visible"><use href="#svg-1841702569_267" /></svg>
+                </div>
+                <span class="cr-kickoff-slug">creatie://project.kickoff</span>
+                <span class="cr-kickoff-reply-badge">~24h reply</span>
+              </div>
+
+              <!-- 5-Member Interactive Avatar Cluster -->
+              <div class="cr-kickoff-team-row">
+                <div class="cr-kickoff-avatars" role="group" aria-label="Message a team member">
+                  <button type="button" class="cr-kickoff-avatar" data-open-messenger="kenneth" aria-label="Chat with Kenneth" data-eyes-say="Kenneth|Team Lead &amp; Full-Stack Dev|purple|Opening Kenneth's chat…|Click to message">
+                    <img src="assets/kenneth.png" alt="Kenneth" loading="lazy" decoding="async">
+                  </button>
+                  <button type="button" class="cr-kickoff-avatar" data-open-messenger="jenz" aria-label="Chat with Jenz" data-eyes-say="Jenz|Design Lead · UI/UX &amp; Brand|pink|Opening Jenz's chat…|Click to message">
+                    <img src="assets/jenz.png" alt="Jenz" loading="lazy" decoding="async">
+                  </button>
+                  <button type="button" class="cr-kickoff-avatar" data-open-messenger="jamil" aria-label="Chat with Jamil" data-eyes-say="Jamil|Frontend &amp; Creative Engineer|green|Opening Jamil's chat…|Click to message">
+                    <img src="assets/jamil.png" alt="Jamil" loading="lazy" decoding="async">
+                  </button>
+                  <button type="button" class="cr-kickoff-avatar" data-open-messenger="pacay" aria-label="Chat with ChrisJohn" data-eyes-say="ChrisJohn|Backend &amp; Cloud Architect|purple|Opening ChrisJohn's chat…|Click to message">
+                    <img src="assets/pacay.png" alt="ChrisJohn" loading="lazy" decoding="async">
+                  </button>
+                  <button type="button" class="cr-kickoff-avatar" data-open-messenger="khian" aria-label="Chat with Khian" data-eyes-say="Khian|Web Builder &amp; Front-End|yellow|Opening Khian's chat…|Click to message">
+                    <img src="assets/khian.webp" alt="Khian" loading="lazy" decoding="async">
+                  </button>
+                </div>
+                <div class="cr-kickoff-team-copy">
+                  <strong>5 builders ready to ship</strong>
+                  <span>Tap any portrait to chat directly</span>
                 </div>
               </div>
-            </a>
+
+              <!-- Quick-Scope Project Brief Starters -->
+              <div class="cr-kickoff-scopes">
+                <span class="cr-kickoff-scopes-label">Pick a scope to pre-fill your brief:</span>
+                <div class="cr-kickoff-scope-pills">
+                  <button type="button" class="cr-kickoff-scope-pill" data-kickoff-scope="Client Website" data-eyes-say="Client Website|Start a custom website brief|yellow|Pre-filling website brief…|Opens contact window">Client Website</button>
+                  <button type="button" class="cr-kickoff-scope-pill" data-kickoff-scope="E-Commerce Store" data-eyes-say="E-Commerce|Catalog, cart &amp; checkout flow|green|Pre-filling store brief…|Opens contact window">E-Commerce</button>
+                  <button type="button" class="cr-kickoff-scope-pill" data-kickoff-scope="Full-Stack Web App" data-eyes-say="Full-Stack App|Frontend, APIs &amp; database|purple|Pre-filling web app brief…|Opens contact window">Full-Stack App</button>
+                  <button type="button" class="cr-kickoff-scope-pill" data-kickoff-scope="UI/UX Design System" data-eyes-say="UI/UX System|Wireframes, tokens &amp; prototypes|pink|Pre-filling UI/UX brief…|Opens contact window">UI/UX System</button>
+                </div>
+              </div>
+
+              <!-- 1-Click Copy Email Row -->
+              <div class="cr-kickoff-email-bar">
+                <div class="cr-kickoff-email-left">
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="2" y="4" width="20" height="16" rx="3"></rect>
+                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                  </svg>
+                  <span class="cr-kickoff-email-text">elaine150605@gmail.com</span>
+                </div>
+                <button type="button" class="cr-kickoff-copy-btn" data-copy-email="elaine150605@gmail.com" data-eyes-say="Direct Email|Copy studio email in 1 click|yellow|Copied to clipboard!|elaine150605@gmail.com">
+                  <span>Copy</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Bottom-Right Dual CTA Row: Team Messenger + Signature "Let's chat" Wave Ripple Button -->
+            <div class="cr-footer-cta-container">
+              <button type="button" class="cr-footer-messenger-btn" data-open-messenger="kenneth" data-eyes-say="Team Messenger|Chat live with our 5 builders|purple|Opening Team Messenger…|View resumes &amp; ask anything">
+                <span class="cr-footer-msg-dot" aria-hidden="true"></span>
+                <span>Team Chat</span>
+              </button>
+              <a href="#contact" class="cr-footer-chat-btn" aria-label="Let's chat" data-open-contact="true">
+                <span class="cr-footer-chat-btn-text">Let's chat</span>
+                <span class="cr-footer-chat-btn-hover" aria-hidden="true">Let's chat</span>
+                <div class="cr-footer-ripple-outer" aria-hidden="true">
+                  <div class="cr-footer-ripple-mid">
+                    <div class="cr-footer-ripple-inner"></div>
+                  </div>
+                </div>
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -3890,6 +4091,6 @@
       <img id="cr-image-cursor-img" src="assets/projects/project1-1.png" alt="" loading="lazy" decoding="async">
     </div>
 
-    <script src="script.js?v=5.1"></script>
+    <script src="script.js?v=8.5"></script>
   </body>
 </html>

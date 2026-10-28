@@ -3725,7 +3725,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (
         document.body.classList.contains("messenger-open") ||
         (messengerPanel && messengerPanel.classList.contains("active")) ||
-        target.closest("#resume-panel, .cr-messenger-modal, .resume-panel")
+        target.closest("#resume-panel, .cr-messenger-modal, .resume-panel, .cr-sky-letter, .cr-sky-social-card")
       ) {
         if (eyesCursor) eyesCursor.classList.remove("is-visible", "is-on-control", "is-pressed", "kind-image");
         if (imageCursor) imageCursor.classList.remove("is-visible");
@@ -4286,6 +4286,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         setTimeout(function () {
           if (contactFeedback) {
+            contactFeedback.classList.remove("is-plane-note");
             contactFeedback.textContent = "Thank you! Your message has been sent. We'll reply within 24 hours.";
             contactFeedback.style.display = "block";
           }
@@ -4303,6 +4304,1269 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   initContactModal();
+
+  // ==========================================================================
+  // FOOTER STUDIO KICKOFF ENHANCEMENTS (Live Manila Clock, Scope Prefill, Copy)
+  // ==========================================================================
+  function initFooterEnhancements() {
+    // 1. Live Manila Studio Clock (GMT+8)
+    var clockEls = document.querySelectorAll("[data-studio-clock]");
+    if (clockEls.length) {
+      function updateStudioClock() {
+        var label = "MNL GMT+8";
+        try {
+          var fmt = new Intl.DateTimeFormat("en-US", {
+            timeZone: "Asia/Manila",
+            hour: "numeric",
+            minute: "2-digit",
+            hour12: true
+          });
+          label = "MNL " + fmt.format(new Date());
+        } catch (err) {
+          label = "MNL GMT+8";
+        }
+        clockEls.forEach(function (el) {
+          el.textContent = label;
+        });
+      }
+      updateStudioClock();
+      setInterval(updateStudioClock, 30000);
+    }
+
+    // 2. Quick-Scope Project Brief Starter Pills -> Open & Prefill Contact Modal
+    var scopePills = document.querySelectorAll("[data-kickoff-scope]");
+    var scopeTemplates = {
+      "Client Website":
+        "Hi TEMport team! We're looking to design and launch a custom Client Website. Our target timeline & goals: ",
+      "E-Commerce Store":
+        "Hi TEMport team! We want to build an E-Commerce Store (catalog, cart & checkout). Here's what we're selling: ",
+      "Full-Stack Web App":
+        "Hi TEMport team! We're planning a Full-Stack Web Application (frontend, APIs & database). Key features we need: ",
+      "UI/UX Design System":
+        "Hi TEMport team! We need a UI/UX Design System & interactive Figma prototype for our product. Brief overview: "
+    };
+
+    if (scopePills.length) {
+      scopePills.forEach(function (pill) {
+        pill.addEventListener("click", function (e) {
+          e.preventDefault();
+          var scope = pill.getAttribute("data-kickoff-scope") || "Client Website";
+          scopePills.forEach(function (p) {
+            p.classList.toggle("is-selected", p === pill);
+          });
+
+          var contactModal = document.getElementById("cr-contact-modal");
+          var msgInput = document.getElementById("cr-input-msg");
+          var nameInput = document.getElementById("cr-input-name");
+
+          if (msgInput) {
+            var currentVal = (msgInput.value || "").trim();
+            if (!currentVal || msgInput.getAttribute("data-prefilled") === "true") {
+              msgInput.value =
+                scopeTemplates[scope] ||
+                "Hi TEMport team! I'd love to discuss a " + scope + " project with you.";
+              msgInput.setAttribute("data-prefilled", "true");
+            }
+          }
+
+          if (contactModal) {
+            contactModal.classList.add("is-active");
+            contactModal.setAttribute("aria-hidden", "false");
+            document.body.style.overflow = "hidden";
+            setTimeout(function () {
+              if (nameInput && !nameInput.value) {
+                nameInput.focus();
+              } else if (msgInput) {
+                msgInput.focus();
+                msgInput.setSelectionRange(msgInput.value.length, msgInput.value.length);
+              }
+            }, 120);
+          }
+        });
+      });
+
+      var msgField = document.getElementById("cr-input-msg");
+      if (msgField) {
+        msgField.addEventListener("input", function () {
+          msgField.setAttribute("data-prefilled", "false");
+        });
+      }
+    }
+
+    // 3. 1-Click Direct Studio Email Copy
+    var copyBtns = document.querySelectorAll("[data-copy-email]");
+    copyBtns.forEach(function (btn) {
+      var copyTimer = null;
+      btn.addEventListener("click", function (e) {
+        e.preventDefault();
+        var email = btn.getAttribute("data-copy-email") || "elaine150605@gmail.com";
+        var labelSpan = btn.querySelector("span") || btn;
+
+        function showCopiedState() {
+          btn.classList.add("is-copied");
+          labelSpan.textContent = "Copied ✓";
+          if (window.TemportSkyPlane) window.TemportSkyPlane.deliverTo(btn);
+          if (copyTimer) clearTimeout(copyTimer);
+          copyTimer = setTimeout(function () {
+            btn.classList.remove("is-copied");
+            labelSpan.textContent = "Copy";
+          }, 2200);
+        }
+
+        function fallbackCopy(text) {
+          var ta = document.createElement("textarea");
+          ta.value = text;
+          ta.setAttribute("readonly", "");
+          ta.style.position = "fixed";
+          ta.style.opacity = "0";
+          ta.style.pointerEvents = "none";
+          document.body.appendChild(ta);
+          ta.select();
+          try {
+            document.execCommand("copy");
+          } catch (err) {}
+          document.body.removeChild(ta);
+          showCopiedState();
+        }
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(email).then(showCopiedState).catch(function () {
+            fallbackCopy(email);
+          });
+        } else {
+          fallbackCopy(email);
+        }
+      });
+    });
+  }
+
+  initFooterEnhancements();
+
+  // ==========================================================================
+  // INTERACTIVE PAPER-PLANE SKY PLAYGROUND + UNFOLDABLE LETTER & SOCIALS
+  // - Intro: loop-the-loop flight that lands beside "Have an idea?"
+  // - Click / tap plane (or yellow hint) to unfold into an Air-Mail Letter
+  // - Write a note, fold it (plane shows red wax seal), and drag & throw it:
+  //     * Throw at "Let's chat" -> unfolds your exact note into the Contact modal
+  //     * Throw at "Team Chat"  -> sends your note live into Team Messenger
+  //     * Throw at any Social icon (IG, X, GitHub, Phone, Email) -> delivers to that social!
+  // - Or click any postage stamp inside the open letter to fold & auto-fly there
+  // ==========================================================================
+  function initSkyPlane() {
+    var card = document.querySelector(".cr-footer-card");
+    if (!card) return;
+    var plane = card.querySelector(".cr-sky-plane");
+    var play = card.querySelector(".cr-sky-play");
+    if (!plane || !play) return;
+    var guide = play.querySelector(".cr-sky-guide");
+    var trailDash = play.querySelector(".cr-sky-trail-dashes");
+    var trailGlow = play.querySelector(".cr-sky-trail-glow");
+    var hint = card.querySelector(".cr-sky-hint");
+    var letterEl = card.querySelector(".cr-sky-letter");
+    var socialCardEl = card.querySelector(".cr-sky-social-card");
+    var toastEl = card.querySelector(".cr-sky-toast");
+    var chatBtn = card.querySelector(".cr-footer-chat-btn");
+    var messengerBtn = card.querySelector(".cr-footer-messenger-btn");
+    var socialIcons = Array.prototype.slice.call(card.querySelectorAll(".cr-footer-social-icon"));
+    var tagRow = card.querySelector(".cr-footer-tagline-row1");
+    var reduceMotion = !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+
+    var letterInput = letterEl ? letterEl.querySelector(".cr-sky-letter-input") : null;
+    var letterFrom = letterEl ? letterEl.querySelector(".cr-sky-letter-from") : null;
+    var letterToBadge = letterEl ? letterEl.querySelector(".cr-sky-letter-to") : null;
+    var letterClearBtn = letterEl ? letterEl.querySelector("[data-letter-clear]") : null;
+    var letterFoldBtn = letterEl ? letterEl.querySelector("[data-letter-fold]") : null;
+
+    var PW = 44, PH = 30, DASH_PERIOD = 12;
+    var st = {
+      x: -100, y: -100, angle: -12, bank: 1, scale: 1, mode: "hidden", atHome: false,
+      home: { x: 0, y: 0, hint: "left" }, vx: 0, vy: 0, throwStart: 0, justDragged: 0,
+      lastBounce: 0, path: null, homeTimer: null, chatRect: null, msgRect: null, socials: [],
+      letterOpen: false, letterOpenedAt: 0, socialOpen: false, targetSocial: null, hoverSocial: null, aimTimer: null
+    };
+    var trail = [], trailRemoved = 0, trailLife = 1800, lastTrailD = "";
+    var running = false, visible = false, introDone = false, lastNow = 0;
+    var pointer = null, drag = null;
+
+    var SOCIAL_META = {
+      Instagram: {
+        bg: "#fce7f3", accent: "#ec4899",
+        colors: ["#f472b6", "#fb923c", "#facc15", "#c084fc"],
+        tag: "Instagram DM"
+      },
+      X: {
+        bg: "#e0f2fe", accent: "#0284c7",
+        colors: ["#38bdf8", "#ffffff", "#7dd3fc", "#fde047"],
+        tag: "X / Twitter"
+      },
+      GitHub: {
+        bg: "#ede9fe", accent: "#7c3aed",
+        colors: ["#a78bfa", "#c4b5fd", "#ffffff", "#daf3b4"],
+        tag: "GitHub Studio"
+      },
+      Phone: {
+        bg: "#d1fae5", accent: "#059669",
+        colors: ["#34d399", "#a7f3d0", "#fff4b0"],
+        tag: "Studio Phone"
+      },
+      Email: {
+        bg: "#fef3c7", accent: "#d97706",
+        colors: ["#fbbf24", "#fde68a", "#ffffff", "#f87171"],
+        tag: "Direct Air-Mail"
+      }
+    };
+
+    function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
+    function deg(r) { return (r * 180) / Math.PI; }
+    function r1(v) { return Math.round(v * 10) / 10; }
+    function easeInOut(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+    function easeSine(t) { return -(Math.cos(Math.PI * t) - 1) / 2; }
+    function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+    function escHtml(s) {
+      return String(s || "").replace(/[&<>"']/g, function (c) {
+        return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+      });
+    }
+
+    function getNote() { return letterInput ? (letterInput.value || "").trim() : ""; }
+    function getFrom() { return letterFrom ? (letterFrom.value || "").trim() : ""; }
+    function hasNote() { return getNote().length > 0; }
+
+    function syncSealState() {
+      var active = hasNote();
+      plane.classList.toggle("has-letter", active);
+      if (letterClearBtn) letterClearBtn.hidden = !(active || getFrom().length > 0);
+    }
+
+    function clearNoteState() {
+      if (letterInput) letterInput.value = "";
+      if (letterFrom) letterFrom.value = "";
+      st.targetSocial = null;
+      syncSealState();
+    }
+
+    function copyTextSilent(txt) {
+      if (!txt) return;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(txt).catch(function () {});
+      } else {
+        try {
+          var ta = document.createElement("textarea");
+          ta.value = txt;
+          ta.style.position = "fixed";
+          ta.style.opacity = "0";
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand("copy");
+          ta.remove();
+        } catch (err) {}
+      }
+    }
+
+    function cardBox() { return card.getBoundingClientRect(); }
+    function toLocal(cx, cy) { var r = cardBox(); return { x: cx - r.left, y: cy - r.top }; }
+    function rectLocal(el) {
+      var r = el.getBoundingClientRect(), c = cardBox();
+      return { left: r.left - c.left, top: r.top - c.top, right: r.right - c.left, bottom: r.bottom - c.top, width: r.width, height: r.height };
+    }
+
+    function computeHome() {
+      var w = card.clientWidth;
+      if (!tagRow) { st.home = { x: w - 60, y: 60, hint: "left" }; return; }
+      var t = rectLocal(tagRow);
+      var cy = t.top + t.height / 2 + 1;
+      if (t.left > 110) st.home = { x: t.left - 34, y: cy, hint: "left" };
+      else st.home = { x: Math.min(w - 28, t.right + 32), y: cy, hint: "below" };
+    }
+
+    function cacheTargets() {
+      st.chatRect = chatBtn && chatBtn.offsetParent ? rectLocal(chatBtn) : null;
+      st.msgRect = messengerBtn && messengerBtn.offsetParent ? rectLocal(messengerBtn) : null;
+      st.socials = [];
+      socialIcons.forEach(function (el) {
+        if (!el.offsetParent) return;
+        var r = rectLocal(el);
+        var label = el.getAttribute("aria-label") || "Social";
+        st.socials.push({
+          el: el,
+          label: label,
+          href: el.getAttribute("href") || "#",
+          rect: r,
+          cx: r.left + r.width / 2,
+          cy: r.top + r.height / 2
+        });
+      });
+    }
+
+    function clearDropHovers() {
+      if (chatBtn) chatBtn.classList.remove("is-drop-hover");
+      if (messengerBtn) messengerBtn.classList.remove("is-drop-hover");
+      socialIcons.forEach(function (el) { el.classList.remove("is-drop-hover"); });
+    }
+
+    function pulseAimTargets(ms) {
+      card.classList.add("is-letter-aiming");
+      clearTimeout(st.aimTimer);
+      if (ms) {
+        st.aimTimer = setTimeout(function () {
+          if (st.mode !== "drag") card.classList.remove("is-letter-aiming");
+        }, ms);
+      }
+    }
+
+    function findHitTarget(x, y, pad) {
+      var p = pad == null ? 12 : pad;
+      var cr = st.chatRect;
+      if (cr && x >= cr.left - p && x <= cr.right + p && y >= cr.top - p && y <= cr.bottom + p) {
+        return { kind: "chat" };
+      }
+      var mr = st.msgRect;
+      if (mr && x >= mr.left - p && x <= mr.right + p && y >= mr.top - p && y <= mr.bottom + p) {
+        return { kind: "messenger" };
+      }
+      var bestSoc = null, bestDist = Infinity;
+      for (var i = 0; i < st.socials.length; i++) {
+        var s = st.socials[i];
+        var d = Math.hypot(x - s.cx, y - s.cy);
+        var rad = Math.max(s.rect.width, s.rect.height) / 2 + p;
+        if (d <= rad && d < bestDist) {
+          bestSoc = s;
+          bestDist = d;
+        }
+      }
+      if (bestSoc) return { kind: "social", social: bestSoc };
+      return null;
+    }
+
+    function updateDragHover(x, y) {
+      clearDropHovers();
+      var hit = findHitTarget(x, y, 16);
+      if (!hit) return;
+      if (hit.kind === "chat" && chatBtn) chatBtn.classList.add("is-drop-hover");
+      else if (hit.kind === "messenger" && messengerBtn) messengerBtn.classList.add("is-drop-hover");
+      else if (hit.kind === "social" && hit.social.el) hit.social.el.classList.add("is-drop-hover");
+    }
+
+    function wake() {
+      if (!running) { running = true; lastNow = performance.now(); requestAnimationFrame(tick); }
+    }
+    function setMode(m) {
+      st.mode = m;
+      plane.classList.toggle("is-flying", m === "path" || m === "throw" || m === "drag");
+      if (m !== "idle") st.atHome = false;
+      wake();
+    }
+    function clearHomeTimer() { if (st.homeTimer) { clearTimeout(st.homeTimer); st.homeTimer = null; } }
+
+    function startPath(d, dur, ease, done, scaleTo) {
+      guide.setAttribute("d", d);
+      var len = 0;
+      try { len = guide.getTotalLength(); } catch (err) {}
+      if (!len) { if (done) done(); return; }
+      st.path = { len: len, start: performance.now(), dur: dur, ease: ease || easeInOut, done: done, scaleFrom: st.scale, scaleTo: scaleTo == null ? null : scaleTo };
+      setMode("path");
+    }
+
+    function curveTo(x1, y1, done, opts) {
+      opts = opts || {};
+      var w = card.clientWidth, h = card.clientHeight;
+      var x0 = st.x, y0 = st.y, dx = x1 - x0, dy = y1 - y0, dist = Math.hypot(dx, dy) || 1;
+      var a = (st.angle * Math.PI) / 180, k = Math.min(170, dist * 0.45);
+      var c1x = clamp(x0 + Math.cos(a) * k, 16, w - 16), c1y = clamp(y0 + Math.sin(a) * k, 16, h - 16);
+      var nx = -dy / dist, ny = dx / dist, bend = (opts.bend == null ? 0.22 : opts.bend) * dist;
+      var c2x = clamp(x1 - dx * 0.3 + nx * bend, 16, w - 16), c2y = clamp(y1 - dy * 0.3 + ny * bend, 16, h - 16);
+      var d = "M" + r1(x0) + " " + r1(y0) + " C" + r1(c1x) + " " + r1(c1y) + " " + r1(c2x) + " " + r1(c2y) + " " + r1(x1) + " " + r1(y1);
+      startPath(d, opts.dur || clamp(dist * 1.5, 480, 1400), opts.ease, done, opts.scaleTo);
+    }
+
+    function land(atHome) {
+      st.mode = "idle";
+      plane.classList.remove("is-flying");
+      st.vx = st.vy = 0;
+      st.atHome = !!atHome;
+      if (atHome) burst(st.x + 16, st.y - 4, 5, ["#fff6a8", "#ffffff"]);
+      wake();
+    }
+
+    function goHome(delay) {
+      clearHomeTimer();
+      st.homeTimer = setTimeout(function () {
+        if (st.letterOpen) return;
+        st.homeTimer = null;
+        computeHome();
+        curveTo(st.home.x, st.home.y, function () { land(true); }, { bend: -0.2 });
+      }, delay || 0);
+    }
+
+    function burst(x, y, n, colors) {
+      if (reduceMotion) return;
+      var host = document.createElement("div");
+      host.className = "cr-sky-burst";
+      host.style.left = x + "px";
+      host.style.top = y + "px";
+      for (var i = 0; i < n; i++) {
+        var sp = document.createElement("span");
+        sp.className = "cr-eyes-spark";
+        var ang = (Math.PI * 2 * i) / n + Math.random() * 0.6, dist = 16 + Math.random() * 16;
+        sp.style.setProperty("--dx", (Math.cos(ang) * dist).toFixed(1) + "px");
+        sp.style.setProperty("--dy", (Math.sin(ang) * dist).toFixed(1) + "px");
+        sp.style.setProperty("--sz", (6 + Math.random() * 5).toFixed(1) + "px");
+        sp.style.background = colors[i % colors.length];
+        host.appendChild(sp);
+      }
+      card.appendChild(host);
+      setTimeout(function () { host.remove(); }, 900);
+    }
+
+    function marker(x, y) {
+      var m = document.createElement("span");
+      m.className = "cr-sky-target";
+      m.style.left = x + "px";
+      m.style.top = y + "px";
+      card.appendChild(m);
+      setTimeout(function () { m.remove(); }, 900);
+    }
+
+    function toast(text, el) {
+      if (!toastEl) return;
+      toastEl.textContent = text;
+      var cw = card.clientWidth;
+      var r = el ? rectLocal(el) : { left: st.x, top: st.y, width: 0 };
+      var tx = clamp(r.left + r.width / 2, 110, Math.max(110, cw - 110));
+      var ty = Math.max(42, r.top - 12);
+      toastEl.style.left = tx + "px";
+      toastEl.style.top = ty + "px";
+      toastEl.classList.remove("is-visible");
+      void toastEl.offsetWidth;
+      toastEl.classList.add("is-visible");
+      clearTimeout(toastEl._t);
+      toastEl._t = setTimeout(function () { toastEl.classList.remove("is-visible"); }, 2100);
+    }
+
+    // "psst... click to write a note" hint (positioned cleanly above tagline row 2)
+    var hintTimer = null, hintSeen = false;
+    try { hintSeen = sessionStorage.getItem("temport_plane_hint_v2") === "1"; } catch (err) {}
+    function showHint() {
+      if (!hint || hintSeen || st.letterOpen) return;
+      var w = hint.offsetWidth, h = hint.offsetHeight;
+      if (st.home.hint === "left") {
+        hint.style.left = Math.max(12, st.home.x - 46 - w) + "px";
+        hint.style.top = Math.max(10, st.home.y - h / 2 - 12) + "px";
+      } else {
+        hint.style.left = Math.max(12, st.home.x + 22 - w) + "px";
+        hint.style.top = st.home.y + 26 + "px";
+      }
+      hint.setAttribute("data-placement", st.home.hint);
+      hint.classList.add("is-visible");
+      clearTimeout(hintTimer);
+      hintTimer = setTimeout(hideHint, 10500);
+    }
+    function hideHint() {
+      if (!hint) return;
+      hint.classList.remove("is-visible");
+      hintSeen = true;
+      try { sessionStorage.setItem("temport_plane_hint_v2", "1"); } catch (err) {}
+    }
+
+    // ========================================================================
+    // UNFOLDABLE PAPER-PLANE STATIONERY LETTER
+    // ========================================================================
+    function positionLetter() {
+      if (!letterEl) return;
+      var cw = card.clientWidth, ch = card.clientHeight;
+      var lw = letterEl.offsetWidth || Math.min(322, cw - 28);
+      var lh = letterEl.offsetHeight || 246;
+      var lx = clamp(st.x - lw * 0.68, 14, Math.max(14, cw - lw - 14));
+      var ly = clamp(st.y - 18, 14, Math.max(14, ch - lh - 14));
+      letterEl.style.left = r1(lx) + "px";
+      letterEl.style.top = r1(ly) + "px";
+      letterEl.style.setProperty("--origin-x", r1(clamp(st.x - lx, 16, lw - 16)) + "px");
+      letterEl.style.setProperty("--origin-y", r1(clamp(st.y - ly, 12, lh - 12)) + "px");
+    }
+
+    function openLetter(forSocialLabel) {
+      if (!letterEl || st.mode === "hidden") return;
+      closeSocialCard();
+      clearHomeTimer();
+      hideHint();
+      if (st.mode === "path" || st.mode === "throw") {
+        st.path = null;
+        land(false);
+      }
+      st.targetSocial = forSocialLabel || null;
+      if (letterToBadge) {
+        letterToBadge.textContent = st.targetSocial ? "TO: " + st.targetSocial.toUpperCase() : "AIR-MAIL NOTE";
+      }
+      if (letterFoldBtn) {
+        var span0 = letterFoldBtn.querySelector("span");
+        if (span0) span0.textContent = st.targetSocial ? "Fold & Fly to " + st.targetSocial : "Fold & Throw";
+      }
+      syncSealState();
+      positionLetter();
+      st.letterOpen = true;
+      st.letterOpenedAt = performance.now();
+      var ec0 = document.getElementById("cr-eyes-cursor");
+      if (ec0) ec0.classList.remove("has-bubble", "is-visible");
+      plane.classList.add("is-unfolded");
+      letterEl.classList.add("is-open");
+      letterEl.setAttribute("aria-hidden", "false");
+      burst(st.x, st.y, 5, ["#fff4b0", "#ffffff", "#daf3b4"]);
+      if (letterInput) {
+        setTimeout(function () {
+          try { letterInput.focus({ preventScroll: true }); } catch (err) { letterInput.focus(); }
+        }, 90);
+      }
+    }
+
+    function foldLetter(announce) {
+      if (!letterEl || !st.letterOpen) return;
+      st.letterOpen = false;
+      letterEl.classList.remove("is-open");
+      letterEl.setAttribute("aria-hidden", "true");
+      plane.classList.remove("is-unfolded");
+      syncSealState();
+      burst(st.x, st.y, 6, hasNote() ? ["#fff4b0", "#ef4444", "#ffffff"] : ["#ffffff", "#bfdbfe"]);
+      if (announce) {
+        if (hasNote()) {
+          toast("Sealed! Drag & throw at Let’s chat or Socials ✈");
+          pulseAimTargets(2600);
+        } else {
+          toast("Folded! Drag & throw me ✈");
+        }
+      }
+      wake();
+    }
+
+    // ========================================================================
+    // SOCIAL AIR-MAIL DELIVERY POPOVER
+    // ========================================================================
+    function closeSocialCard() {
+      if (!socialCardEl || !st.socialOpen) return;
+      st.socialOpen = false;
+      socialCardEl.classList.remove("is-open");
+      socialCardEl.setAttribute("aria-hidden", "true");
+    }
+
+    function showSocialCard(soc, deliveredNote, deliveredFrom) {
+      if (!socialCardEl || !soc) return;
+      var meta = SOCIAL_META[soc.label] || SOCIAL_META.Email;
+      var hasMsg = !!(deliveredNote && deliveredNote.length);
+      var signedNote = deliveredNote + (deliveredFrom ? "\n\u2014 " + deliveredFrom : "");
+
+      socialCardEl.style.setProperty("--soc-bg", meta.bg);
+      socialCardEl.style.setProperty("--soc-accent", meta.accent);
+
+      var titleHtml = "", subHtml = "", ctaHtml = "", altHtml = "";
+      var quoteHtml = hasMsg ? '<div class="cr-sky-social-quote">&ldquo;' + escHtml(deliveredNote) + '&rdquo;</div>' : "";
+
+      if (soc.label === "Email") {
+        var studioMail = "elaine150605@gmail.com";
+        if (hasMsg) {
+          var subj = encodeURIComponent("Paper-Plane Note" + (deliveredFrom ? " from " + deliveredFrom : " via TEMport"));
+          var body = encodeURIComponent(signedNote);
+          copyTextSilent(signedNote);
+          titleHtml = "Air-Mail ready for " + studioMail;
+          subHtml = "Your folded note is attached to the email draft:";
+          ctaHtml = '<a class="cr-sky-social-cta" href="mailto:' + studioMail + '?subject=' + subj + '&amp;body=' + body + '">Open Mail App &#8599;</a>';
+          altHtml = '<button type="button" class="cr-sky-social-alt" data-social-send-form="1">Site Form</button>';
+        } else {
+          copyTextSilent(studioMail);
+          titleHtml = "Copied " + studioMail + "!";
+          subHtml = "Write a paper-plane note or open your mail app:";
+          ctaHtml = '<button type="button" class="cr-sky-social-cta" data-social-write="Email">Write Air-Mail &#9998;</button>';
+          altHtml = '<a class="cr-sky-social-alt" href="mailto:' + studioMail + '">Mail App &#8599;</a>';
+        }
+      } else if (soc.label === "X") {
+        if (hasMsg) {
+          copyTextSilent(signedNote);
+          var xIntent = "https://x.com/intent/tweet?text=" + encodeURIComponent(signedNote);
+          titleHtml = "Note delivered to X!";
+          subHtml = "&#10003; Copied for DM &amp; pre-filled for X:";
+          ctaHtml = '<a class="cr-sky-social-cta" href="' + xIntent + '" target="_blank" rel="noopener noreferrer">Share Note on X &#8599;</a>';
+          altHtml = '<a class="cr-sky-social-alt" href="' + escHtml(soc.href) + '" target="_blank" rel="noopener noreferrer">Profile &#8599;</a>';
+        } else {
+          titleHtml = "Plane landed on X!";
+          subHtml = "Attach a quick note or visit our X profile:";
+          ctaHtml = '<button type="button" class="cr-sky-social-cta" data-social-write="X">Write Note for X &#9998;</button>';
+          altHtml = '<a class="cr-sky-social-alt" href="' + escHtml(soc.href) + '" target="_blank" rel="noopener noreferrer">Open X &#8599;</a>';
+        }
+      } else if (soc.label === "Instagram") {
+        if (hasMsg) {
+          copyTextSilent(signedNote);
+          titleHtml = "Note delivered to Instagram!";
+          subHtml = "&#10003; Note copied to clipboard &mdash; paste straight into DM:";
+          ctaHtml = '<a class="cr-sky-social-cta" href="' + escHtml(soc.href) + '" target="_blank" rel="noopener noreferrer">Open Instagram &#8599;</a>';
+          altHtml = '<button type="button" class="cr-sky-social-alt" data-social-write="Instagram">Edit Note</button>';
+        } else {
+          titleHtml = "Plane landed on Instagram!";
+          subHtml = "Write a note to copy into DM or open Instagram:";
+          ctaHtml = '<button type="button" class="cr-sky-social-cta" data-social-write="Instagram">Write IG Note &#9998;</button>';
+          altHtml = '<a class="cr-sky-social-alt" href="' + escHtml(soc.href) + '" target="_blank" rel="noopener noreferrer">Open IG &#8599;</a>';
+        }
+      } else if (soc.label === "GitHub") {
+        if (hasMsg) {
+          copyTextSilent(signedNote);
+          titleHtml = "Note delivered to GitHub!";
+          subHtml = "&#10003; Note copied &mdash; ready for collab or discussion:";
+          ctaHtml = '<a class="cr-sky-social-cta" href="' + escHtml(soc.href) + '" target="_blank" rel="noopener noreferrer">Open GitHub &#8599;</a>';
+          altHtml = '<button type="button" class="cr-sky-social-alt" data-social-send-form="1">Send to Team</button>';
+        } else {
+          titleHtml = "Plane landed on GitHub!";
+          subHtml = "Explore our repositories or attach a collab note:";
+          ctaHtml = '<a class="cr-sky-social-cta" href="' + escHtml(soc.href) + '" target="_blank" rel="noopener noreferrer">Explore GitHub &#8599;</a>';
+          altHtml = '<button type="button" class="cr-sky-social-alt" data-social-write="GitHub">Write Note &#9998;</button>';
+        }
+      } else if (soc.label === "Phone") {
+        var studioPhoneDisp = "+84 (123) 456-789";
+        var studioPhoneHref = "tel:+84123456789";
+        if (hasMsg) {
+          copyTextSilent(signedNote);
+          titleHtml = "Callback note ready!";
+          subHtml = "Studio line: " + studioPhoneDisp;
+          ctaHtml = '<button type="button" class="cr-sky-social-cta" data-social-callback="1">Request Callback &#8599;</button>';
+          altHtml = '<a class="cr-sky-social-alt" href="' + studioPhoneHref + '">Call Now</a>';
+        } else {
+          copyTextSilent(studioPhoneDisp);
+          titleHtml = "Studio Line: " + studioPhoneDisp;
+          subHtml = "&#10003; Phone number copied to clipboard:";
+          ctaHtml = '<a class="cr-sky-social-cta" href="' + studioPhoneHref + '">Call Studio &#8599;</a>';
+          altHtml = '<button type="button" class="cr-sky-social-alt" data-social-write="Phone">Callback Note &#9998;</button>';
+        }
+      }
+
+      socialCardEl.innerHTML =
+        '<div class="cr-sky-social-top">' +
+          '<span class="cr-sky-social-badge">' + escHtml(meta.tag) + '</span>' +
+          '<button type="button" class="cr-sky-letter-close" data-social-close aria-label="Close">&#10005;</button>' +
+        '</div>' +
+        '<p class="cr-sky-social-title">' + titleHtml + '</p>' +
+        quoteHtml +
+        '<p class="cr-sky-social-sub">' + subHtml + '</p>' +
+        '<div class="cr-sky-social-actions">' + ctaHtml + altHtml + '</div>';
+
+      var cw = card.clientWidth, ch = card.clientHeight;
+      var sw = socialCardEl.offsetWidth || Math.min(286, cw - 28);
+      var sh = socialCardEl.offsetHeight || 156;
+      var sx = clamp(soc.cx - 32, 14, Math.max(14, cw - sw - 14));
+      var sy = clamp(soc.rect.bottom + 12, 14, Math.max(14, ch - sh - 14));
+      socialCardEl.style.left = r1(sx) + "px";
+      socialCardEl.style.top = r1(sy) + "px";
+      socialCardEl.style.transformOrigin = r1(clamp(soc.cx - sx, 18, sw - 18)) + "px 0%";
+
+      st.socialOpen = true;
+      var ec1 = document.getElementById("cr-eyes-cursor");
+      if (ec1) ec1.classList.remove("has-bubble", "is-visible");
+      socialCardEl.classList.add("is-open");
+      socialCardEl.setAttribute("aria-hidden", "false");
+    }
+
+    // Intro loop-the-loop that lands beside the tagline
+    var INTRO = [12, 114, 76, 118, 124, 28, 178, 34, 220, 38.7, 230, 106, 188, 108, 150, 109.8, 144, 34, 212, 28, 264, 23.4, 300, 39, 344, 22];
+    function intro() {
+      computeHome();
+      plane.classList.remove("is-hidden");
+      if (reduceMotion) {
+        st.x = st.home.x; st.y = st.home.y; st.angle = -12;
+        land(true); showHint();
+        return;
+      }
+      var cw = card.clientWidth;
+      var sc = cw < 720 ? 0.66 : cw < 1180 ? 0.82 : 1;
+      var pts = INTRO.map(function (v, i) { return i % 2 === 0 ? st.home.x + (v - 344) * sc : st.home.y + (v - 22) * sc; });
+      var d = "M" + r1(pts[0]) + " " + r1(pts[1]);
+      for (var i = 2; i < pts.length; i += 6) d += " C" + pts.slice(i, i + 6).map(r1).join(" ");
+      st.x = pts[0]; st.y = pts[1]; st.scale = 0.55;
+      trail = []; trailRemoved = 0; trailLife = 2600;
+      startPath(d, 4300, easeSine, function () { trailLife = 1800; land(true); showHint(); }, 1);
+    }
+
+    // Loop-the-loop acrobatic stunt
+    function stunt() {
+      closeSocialCard();
+      if (st.letterOpen) foldLetter(false);
+      clearHomeTimer(); hideHint();
+      var w = card.clientWidth, x = st.x, y = st.y;
+      var fx = x > w - 110 ? -1 : 1, fy = y < 100 ? -1 : 1;
+      var P = [0, 0, 52, 0, 66, -68, 6, -74, -50, -78, -46, -6, 20, 0, 36, 3, 50, 2, 62, -2];
+      var pts = [];
+      for (var i = 0; i < P.length; i += 2) pts.push(r1(x + P[i] * fx), r1(y + P[i + 1] * fy));
+      var d = "M" + pts[0] + " " + pts[1];
+      for (var j = 2; j < pts.length; j += 6) d += " C" + pts.slice(j, j + 6).join(" ");
+      var wasHome = st.atHome;
+      startPath(d, 1250, easeInOut, function () {
+        if (wasHome) goHome(120);
+        else { land(false); goHome(900); }
+      });
+    }
+
+    // Tap on empty sky = fly there, hover, then glide home
+    function flyTo(x, y) {
+      clearHomeTimer(); hideHint();
+      var w = card.clientWidth, h = card.clientHeight;
+      x = clamp(x, 20, w - 20); y = clamp(y, 20, h - 20);
+      curveTo(x, y, function () {
+        land(false);
+        burst(x, y, 4, ["#ffffff", "#bfdbfe"]);
+        goHome(1300);
+      });
+    }
+
+    function startThrow(vx, vy) {
+      var sp = Math.hypot(vx, vy), max = 2.4;
+      if (sp > max) { vx *= max / sp; vy *= max / sp; }
+      st.vx = vx; st.vy = vy; st.throwStart = performance.now();
+      cacheTargets();
+      setMode("throw");
+    }
+
+    function respawn() {
+      computeHome();
+      trail = []; trailRemoved = 0;
+      st.x = st.home.x; st.y = st.home.y; st.angle = -12; st.scale = 1; st.bank = 1;
+      plane.classList.remove("is-hidden", "is-unfolded", "is-respawn");
+      void plane.offsetWidth;
+      plane.classList.add("is-respawn");
+      land(true);
+    }
+
+    function applyNoteToContactModal(noteText, fromText, prefixText) {
+      var msg = document.getElementById("cr-input-msg");
+      var nameIn = document.getElementById("cr-input-name");
+      var emailIn = document.getElementById("cr-input-email");
+      var feedback = document.getElementById("cr-contact-feedback");
+
+      if (fromText) {
+        if (fromText.indexOf("@") !== -1 && fromText.indexOf(".") !== -1) {
+          if (emailIn && !emailIn.value.trim()) emailIn.value = fromText;
+        } else {
+          if (nameIn && !nameIn.value.trim()) nameIn.value = fromText;
+        }
+      }
+
+      if (msg) {
+        if (noteText) {
+          msg.value = (prefixText ? prefixText + noteText : noteText);
+          msg.setAttribute("data-prefilled", "false");
+        } else if (!msg.value.trim()) {
+          msg.value = "✈ Paper-plane delivery! Here's my idea: ";
+          msg.setAttribute("data-prefilled", "true");
+        }
+      }
+
+      if (feedback && noteText) {
+        feedback.textContent = "✉ Unfolded from your paper plane! Fill in any remaining details & hit Submit.";
+        feedback.classList.add("is-plane-note");
+        feedback.style.display = "block";
+      }
+    }
+
+    function focusNextContactField(hadCustomNote) {
+      var nameIn = document.getElementById("cr-input-name");
+      var emailIn = document.getElementById("cr-input-email");
+      var msgIn = document.getElementById("cr-input-msg");
+      var submitBtn = document.getElementById("cr-contact-submit-btn");
+      setTimeout(function () {
+        if (!hadCustomNote && msgIn) { msgIn.focus(); return; }
+        if (nameIn && !nameIn.value.trim()) { nameIn.focus(); return; }
+        if (emailIn && !emailIn.value.trim()) { emailIn.focus(); return; }
+        if (submitBtn) submitBtn.focus();
+      }, 160);
+    }
+
+    // Plane hits "Let's chat" = unfolds your letter into the Contact Modal!
+    function deliverToChat(prefixOpt) {
+      if (!chatBtn) return;
+      closeSocialCard();
+      clearDropHovers();
+      card.classList.remove("is-letter-aiming");
+      var r = st.chatRect || rectLocal(chatBtn);
+      st.chatRect = null;
+      var capturedNote = getNote();
+      var capturedFrom = getFrom();
+      var cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+      var d = "M" + r1(st.x) + " " + r1(st.y) + " Q" + r1((st.x + cx) / 2) + " " + r1(Math.min(st.y, cy) - 30) + " " + r1(cx) + " " + r1(cy);
+      startPath(d, 320, easeOut, function () {
+        plane.classList.add("is-hidden");
+        plane.classList.remove("is-flying");
+        st.mode = "hidden";
+        chatBtn.classList.remove("is-delivered");
+        void chatBtn.offsetWidth;
+        chatBtn.classList.add("is-delivered");
+        burst(cx, cy, 9, ["#fff6a8", "#f9bc60", "#daf3b4", "#ef4444"]);
+        toast(capturedNote ? "✉ Letter unfolded in Let’s chat!" : "Idea delivered! ✈", chatBtn);
+        if (capturedNote) clearNoteState();
+        setTimeout(function () { chatBtn.classList.remove("is-delivered"); }, 1100);
+        setTimeout(function () {
+          applyNoteToContactModal(capturedNote, capturedFrom, prefixOpt || "");
+          chatBtn.click();
+          focusNextContactField(!!capturedNote);
+        }, 680);
+        setTimeout(respawn, 1300);
+      }, 0.25);
+    }
+
+    // Plane hits "Team Chat" = delivers your written note live into Team Messenger!
+    function deliverToMessenger() {
+      if (!messengerBtn) return;
+      closeSocialCard();
+      clearDropHovers();
+      card.classList.remove("is-letter-aiming");
+      var r = st.msgRect || rectLocal(messengerBtn);
+      st.msgRect = null;
+      var capturedNote = getNote();
+      var capturedFrom = getFrom();
+      var cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+      var d = "M" + r1(st.x) + " " + r1(st.y) + " Q" + r1((st.x + cx) / 2) + " " + r1(Math.min(st.y, cy) - 28) + " " + r1(cx) + " " + r1(cy);
+      startPath(d, 320, easeOut, function () {
+        plane.classList.add("is-hidden");
+        plane.classList.remove("is-flying");
+        st.mode = "hidden";
+        burst(cx, cy, 8, ["#c4b5fd", "#daf3b4", "#fff4b0"]);
+        toast(capturedNote ? "✉ Note delivered to Team Chat!" : "Opening Team Chat! ✈", messengerBtn);
+        if (capturedNote) clearNoteState();
+        setTimeout(function () {
+          if (typeof openMessengerModal === "function") {
+            openMessengerModal("kenneth");
+          } else {
+            messengerBtn.click();
+          }
+          if (capturedNote && typeof handleSendMessage === "function") {
+            var fullChat = (capturedFrom ? "[" + capturedFrom + "] " : "") + capturedNote;
+            setTimeout(function () { handleSendMessage(fullChat); }, 280);
+          }
+        }, 620);
+        setTimeout(respawn, 1300);
+      }, 0.25);
+    }
+
+    // Plane hits any of the 5 Social Icons = brand spark bounce + Social Air-Mail card!
+    function deliverToSocial(soc) {
+      if (!soc || !soc.el) return;
+      clearDropHovers();
+      card.classList.remove("is-letter-aiming");
+      var freshRect = rectLocal(soc.el);
+      soc.rect = freshRect;
+      soc.cx = freshRect.left + freshRect.width / 2;
+      soc.cy = freshRect.top + freshRect.height / 2;
+      var meta = SOCIAL_META[soc.label] || SOCIAL_META.Email;
+      var capturedNote = getNote();
+      var capturedFrom = getFrom();
+
+      var dist = Math.hypot(soc.cx - st.x, soc.cy - st.y);
+      var finishSocialHit = function () {
+        land(false);
+        soc.el.classList.remove("is-letter-hit");
+        void soc.el.offsetWidth;
+        soc.el.classList.add("is-letter-hit");
+        setTimeout(function () { soc.el.classList.remove("is-letter-hit"); }, 750);
+        burst(soc.cx, soc.cy, 8, meta.colors);
+        showSocialCard(soc, capturedNote, capturedFrom);
+        goHome(780);
+      };
+
+      if (dist < 42) {
+        var d = "M" + r1(st.x) + " " + r1(st.y) + " Q" + r1((st.x + soc.cx) / 2) + " " + r1(Math.min(st.y, soc.cy) - 18) + " " + r1(soc.cx) + " " + r1(soc.cy);
+        startPath(d, 240, easeOut, finishSocialHit);
+      } else {
+        curveTo(soc.cx, soc.cy, finishSocialHit, { bend: -0.22, dur: clamp(dist * 1.15, 420, 950) });
+      }
+    }
+
+    function dispatchHit(hit) {
+      if (!hit) return false;
+      if (hit.kind === "chat") { deliverToChat(); return true; }
+      if (hit.kind === "messenger") { deliverToMessenger(); return true; }
+      if (hit.kind === "social") { deliverToSocial(hit.social); return true; }
+      return false;
+    }
+
+    function tick(now) {
+      var dt = Math.min(48, now - lastNow || 16);
+      lastNow = now;
+      var w = card.clientWidth, h = card.clientHeight;
+      var targetAngle = st.angle, drawY = st.y, smooth = 0.3;
+
+      if (st.mode === "path" && st.path) {
+        var P = st.path, t = Math.min(1, (now - P.start) / P.dur), L = P.ease(t) * P.len;
+        var pt = guide.getPointAtLength(L);
+        if (L + 1.5 <= P.len) {
+          var pt2 = guide.getPointAtLength(L + 1.5);
+          targetAngle = deg(Math.atan2(pt2.y - pt.y, pt2.x - pt.x));
+        }
+        st.x = pt.x; st.y = pt.y; drawY = st.y; smooth = 0.6;
+        if (P.scaleTo != null) st.scale = P.scaleFrom + (P.scaleTo - P.scaleFrom) * P.ease(t);
+        if (t >= 1) {
+          var done = P.done;
+          st.path = null;
+          if (done) done(); else land(false);
+        }
+      } else if (st.mode === "drag" && drag) {
+        if (Math.hypot(drag.vx, drag.vy) > 0.08) targetAngle = deg(Math.atan2(drag.vy, drag.vx));
+        smooth = 0.25;
+      } else if (st.mode === "throw") {
+        var sp0 = Math.hypot(st.vx, st.vy);
+        st.vy += (0.0009 - Math.min(0.0007, sp0 * 0.0007)) * dt;
+        var fr = Math.pow(0.9975, dt);
+        st.vx *= fr; st.vy *= fr;
+        st.x += st.vx * dt; st.y += st.vy * dt;
+        var pad = 18, hitWall = false;
+        if (st.x < pad) { st.x = pad; st.vx = Math.abs(st.vx) * 0.6; hitWall = true; }
+        if (st.x > w - pad) { st.x = w - pad; st.vx = -Math.abs(st.vx) * 0.6; hitWall = true; }
+        if (st.y < pad) { st.y = pad; st.vy = Math.abs(st.vy) * 0.6; hitWall = true; }
+        if (st.y > h - pad) { st.y = h - pad; st.vy = -Math.abs(st.vy) * 0.5; st.vx *= 0.8; hitWall = true; }
+        if (hitWall && now - st.lastBounce > 120) { st.lastBounce = now; burst(st.x, st.y, 4, ["#ffffff", "#fff6a8"]); }
+        drawY = st.y;
+        targetAngle = deg(Math.atan2(st.vy, st.vx));
+        smooth = 0.35;
+        var hit = findHitTarget(st.x, st.y, 12);
+        if (!dispatchHit(hit)) {
+          var sp = Math.hypot(st.vx, st.vy), age = now - st.throwStart;
+          if ((age > 500 && sp < 0.18) || age > 3800) { land(false); goHome(220); }
+        }
+      } else if (st.mode === "idle") {
+        drawY = st.y + Math.sin(now / 620) * 2.6;
+        if (st.hoverSocial) {
+          targetAngle = deg(Math.atan2(st.hoverSocial.cy - st.y, st.hoverSocial.cx - st.x));
+          smooth = 0.12;
+        } else {
+          var tilt = pointer ? clamp((pointer.y - st.y) / 7, -16, 16) : 0;
+          targetAngle = (st.atHome ? -12 : -6) + tilt;
+          smooth = 0.07;
+        }
+      }
+
+      // Smooth heading + 3D banking on tight turns
+      var diff = ((targetAngle - st.angle + 540) % 360) - 180;
+      var step = diff * smooth;
+      st.angle += step;
+      var bankT = 1 - Math.min(0.6, Math.abs(step / dt) * 1.4);
+      st.bank += (bankT - st.bank) * 0.25;
+
+      // Fading dashed contrail
+      if (st.mode === "path" || st.mode === "throw" || st.mode === "drag") {
+        var last = trail[trail.length - 1];
+        if (!last || Math.hypot(last.x - st.x, last.y - st.y) > 2.5) trail.push({ x: st.x, y: st.y, t: now });
+      }
+      while (trail.length && now - trail[0].t > trailLife) {
+        var gone = trail.shift();
+        if (trail.length) trailRemoved += Math.hypot(trail[0].x - gone.x, trail[0].y - gone.y);
+        else trailRemoved = 0;
+      }
+      var td = "";
+      if (trail.length > 1) {
+        td = "M" + r1(trail[0].x) + " " + r1(trail[0].y);
+        for (var i = 1; i < trail.length; i++) td += " L" + r1(trail[i].x) + " " + r1(trail[i].y);
+      }
+      if (td !== lastTrailD) {
+        lastTrailD = td;
+        trailDash.setAttribute("d", td);
+        trailGlow.setAttribute("d", td);
+        trailDash.style.strokeDashoffset = r1(trailRemoved % DASH_PERIOD);
+      }
+
+      if (st.mode !== "hidden") {
+        plane.style.transform =
+          "translate3d(" + r1(st.x - PW / 2) + "px," + r1(drawY - PH / 2) + "px,0) rotate(" + r1(st.angle) + "deg) scale(" +
+          st.scale.toFixed(3) + "," + (st.scale * st.bank).toFixed(3) + ")";
+      }
+
+      if (visible || st.mode === "path" || st.mode === "throw" || st.mode === "drag" || trail.length) {
+        requestAnimationFrame(tick);
+      } else {
+        running = false;
+      }
+    }
+
+    // Drag & throw (or click without dragging = unfold letter!)
+    plane.addEventListener("pointerdown", function (e) {
+      if (e.button != null && e.button !== 0) return;
+      if (st.mode === "hidden" || st.letterOpen) return;
+      e.preventDefault();
+      clearHomeTimer(); hideHint();
+      try { plane.setPointerCapture(e.pointerId); } catch (err) {}
+      var p = toLocal(e.clientX, e.clientY), now = performance.now();
+      drag = { id: e.pointerId, sx: p.x, sy: p.y, ox: p.x - st.x, oy: p.y - st.y, moved: false, vx: 0, vy: 0, samples: [{ x: st.x, y: st.y, t: now }] };
+    });
+    plane.addEventListener("pointermove", function (e) {
+      if (!drag || e.pointerId !== drag.id) return;
+      var p = toLocal(e.clientX, e.clientY), now = performance.now();
+      if (!drag.moved) {
+        if (Math.hypot(p.x - drag.sx, p.y - drag.sy) < 6) return;
+        drag.moved = true;
+        st.path = null;
+        closeSocialCard();
+        cacheTargets();
+        plane.classList.add("is-grabbing");
+        card.classList.add("is-letter-aiming");
+        setMode("drag");
+      }
+      var w = card.clientWidth, h = card.clientHeight;
+      st.x = clamp(p.x - drag.ox, 16, w - 16);
+      st.y = clamp(p.y - drag.oy, 16, h - 16);
+      updateDragHover(st.x, st.y);
+      drag.samples.push({ x: st.x, y: st.y, t: now });
+      while (drag.samples.length > 2 && now - drag.samples[0].t > 110) drag.samples.shift();
+      var f = drag.samples[0], dtS = Math.max(1, now - f.t);
+      drag.vx = (st.x - f.x) / dtS;
+      drag.vy = (st.y - f.y) / dtS;
+    });
+    function endDrag(e, cancelled) {
+      if (!drag || (e && e.pointerId !== drag.id)) return;
+      var d = drag;
+      drag = null;
+      plane.classList.remove("is-grabbing");
+      clearDropHovers();
+      card.classList.remove("is-letter-aiming");
+      try { plane.releasePointerCapture(d.id); } catch (err) {}
+      if (!d.moved) {
+        if (!cancelled) openLetter(null);
+        return;
+      }
+      st.justDragged = performance.now();
+      if (cancelled) { land(false); goHome(500); return; }
+      // Check direct drop onto Let's chat, Team Chat, or any Social icon!
+      var directHit = findHitTarget(st.x, st.y, 16);
+      if (dispatchHit(directHit)) return;
+
+      var age = performance.now() - d.samples[d.samples.length - 1].t;
+      var sp = Math.hypot(d.vx, d.vy);
+      if (age > 120 || sp < 0.3) { land(false); goHome(500); }
+      else startThrow(d.vx * 1.15, d.vy * 1.15);
+    }
+    plane.addEventListener("pointerup", function (e) { endDrag(e, false); });
+    plane.addEventListener("pointercancel", function (e) { endDrag(e, true); });
+    plane.addEventListener("click", function (e) {
+      if (e.detail === 0 && st.mode !== "hidden") openLetter(null); // keyboard Enter / Space
+    });
+
+    // Clicking the yellow "psst..." sticky bubble also unfolds the letter
+    if (hint) {
+      hint.addEventListener("click", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        openLetter(null);
+      });
+    }
+
+    // Wire Unfolded Letter controls
+    if (letterEl) {
+      if (letterInput) letterInput.addEventListener("input", syncSealState);
+      if (letterFrom) letterFrom.addEventListener("input", syncSealState);
+
+      letterEl.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") {
+          e.preventDefault();
+          e.stopPropagation();
+          foldLetter(false);
+          plane.focus();
+          return;
+        }
+        if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
+          e.preventDefault();
+          var targetSoc = st.targetSocial;
+          foldLetter(false);
+          cacheTargets();
+          if (targetSoc) {
+            var found = st.socials.filter(function (s) { return s.label === targetSoc; })[0];
+            if (found) { deliverToSocial(found); return; }
+          }
+          deliverToChat();
+          return;
+        }
+        e.stopPropagation();
+      });
+
+      letterEl.addEventListener("click", function (e) {
+        var presetBtn = e.target.closest("[data-letter-preset]");
+        if (presetBtn && letterInput) {
+          e.preventDefault();
+          letterInput.value = presetBtn.getAttribute("data-letter-preset") || "";
+          syncSealState();
+          letterInput.focus();
+          return;
+        }
+        if (e.target.closest("[data-letter-clear]")) {
+          e.preventDefault();
+          clearNoteState();
+          if (letterToBadge) letterToBadge.textContent = "AIR-MAIL NOTE";
+          if (letterFoldBtn) {
+            var sp0 = letterFoldBtn.querySelector("span");
+            if (sp0) sp0.textContent = "Fold & Throw";
+          }
+          if (letterInput) letterInput.focus();
+          return;
+        }
+        if (e.target.closest("[data-letter-loop]")) {
+          e.preventDefault();
+          stunt();
+          return;
+        }
+        if (e.target.closest("[data-letter-close]")) {
+          e.preventDefault();
+          foldLetter(false);
+          return;
+        }
+        if (e.target.closest("[data-letter-fold]")) {
+          e.preventDefault();
+          var targetSocName = st.targetSocial;
+          st.targetSocial = null;
+          if (targetSocName) {
+            foldLetter(false);
+            cacheTargets();
+            var matchSoc = st.socials.filter(function (s) { return s.label === targetSocName; })[0];
+            if (matchSoc) { deliverToSocial(matchSoc); return; }
+          }
+          foldLetter(true);
+          return;
+        }
+        var flyStamp = e.target.closest("[data-letter-fly]");
+        if (flyStamp) {
+          e.preventDefault();
+          var dest = flyStamp.getAttribute("data-letter-fly");
+          st.targetSocial = null;
+          foldLetter(false);
+          cacheTargets();
+          if (dest === "chat") {
+            deliverToChat();
+          } else {
+            var socObj = st.socials.filter(function (s) { return s.label === dest; })[0];
+            if (socObj) deliverToSocial(socObj);
+          }
+        }
+      });
+    }
+
+    // Wire Social Air-Mail Popover controls
+    if (socialCardEl) {
+      socialCardEl.addEventListener("click", function (e) {
+        if (e.target.closest("[data-social-close]")) {
+          e.preventDefault();
+          closeSocialCard();
+          return;
+        }
+        var writeBtn = e.target.closest("[data-social-write]");
+        if (writeBtn) {
+          e.preventDefault();
+          var targetName = writeBtn.getAttribute("data-social-write");
+          closeSocialCard();
+          openLetter(targetName);
+          return;
+        }
+        if (e.target.closest("[data-social-send-form]")) {
+          e.preventDefault();
+          closeSocialCard();
+          cacheTargets();
+          deliverToChat();
+          return;
+        }
+        if (e.target.closest("[data-social-callback]")) {
+          e.preventDefault();
+          closeSocialCard();
+          cacheTargets();
+          deliverToChat("Phone callback request: ");
+          return;
+        }
+      });
+    }
+
+    // Two-way interaction with Top-Left Social Dock Icons & "Let's chat"
+    socialIcons.forEach(function (iconEl) {
+      iconEl.addEventListener("pointerenter", function () {
+        var r = rectLocal(iconEl);
+        st.hoverSocial = { cx: r.left + r.width / 2, cy: r.top + r.height / 2 };
+        wake();
+      });
+      iconEl.addEventListener("pointerleave", function () {
+        st.hoverSocial = null;
+      });
+      iconEl.addEventListener("click", function (e) {
+        // When carrying a sealed paper-plane letter, clicking a social icon flies the letter right to it!
+        if (!hasNote() || st.mode === "hidden") return;
+        e.preventDefault();
+        if (st.letterOpen) foldLetter(false);
+        cacheTargets();
+        var label = iconEl.getAttribute("aria-label") || "Social";
+        var soc = st.socials.filter(function (s) { return s.label === label; })[0];
+        if (soc) deliverToSocial(soc);
+      });
+    });
+
+    if (chatBtn) {
+      chatBtn.addEventListener("click", function () {
+        // If user wrote a sealed note in the plane and directly clicked "Let's chat", transfer their note!
+        if (hasNote()) {
+          applyNoteToContactModal(getNote(), getFrom(), "");
+          clearNoteState();
+        }
+      });
+    }
+
+    window.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && st.socialOpen) closeSocialCard();
+    });
+
+    // Tap the empty sky (closes open popovers gently without losing written notes, or flies to tapped spot)
+    card.addEventListener("click", function (e) {
+      if (st.mode === "hidden" || st.mode === "drag") return;
+      if (performance.now() - st.justDragged < 350) return;
+      if (performance.now() - st.letterOpenedAt < 320) return;
+      if (e.target.closest && e.target.closest(".cr-sky-letter, .cr-sky-social-card, .cr-sky-plane, .cr-sky-hint")) return;
+      if (st.letterOpen) {
+        foldLetter(true);
+        return;
+      }
+      if (st.socialOpen && !(e.target.closest && e.target.closest(".cr-footer-social-dock"))) {
+        closeSocialCard();
+      }
+      if (e.target.closest && e.target.closest("a, button, input, textarea, label, .cr-footer-kickoff-card, .cr-footer-title, .cr-footer-proof-row, .cr-footer-tagline-stack, .cr-footer-social-dock")) return;
+      var p = toLocal(e.clientX, e.clientY);
+      marker(p.x, p.y);
+      flyTo(p.x, p.y);
+    });
+
+    card.addEventListener("pointermove", function (e) { pointer = toLocal(e.clientX, e.clientY); }, { passive: true });
+    card.addEventListener("pointerleave", function () { pointer = null; });
+
+    window.addEventListener("resize", function () {
+      if (st.atHome && st.mode === "idle") { computeHome(); st.x = st.home.x; st.y = st.home.y; }
+      if (st.letterOpen) positionLetter();
+    }, { passive: true });
+
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          visible = en.isIntersecting;
+          if (visible) wake();
+          if (en.intersectionRatio >= 0.3 && !introDone) {
+            introDone = true;
+            setTimeout(intro, 250);
+          }
+        });
+      }, { threshold: [0, 0.3, 0.6] }).observe(card);
+    } else {
+      visible = true;
+      introDone = true;
+      intro();
+    }
+
+    // Public hooks for other footer widgets
+    window.TemportSkyPlane = {
+      deliverTo: function (el) {
+        if (!el || st.mode === "hidden" || st.mode === "drag" || st.mode === "throw") return;
+        if (st.letterOpen) foldLetter(false);
+        var r = rectLocal(el);
+        clearHomeTimer(); hideHint();
+        curveTo(r.left + r.width / 2, r.top - 8, function () {
+          land(false);
+          burst(st.x, st.y, 5, ["#34c75a", "#ffffff", "#fff6a8"]);
+          goHome(650);
+        }, { bend: 0.3 });
+      },
+      openLetter: openLetter
+    };
+  }
+
+  initSkyPlane();
 
   /* ==========================================================================
      SEAMLESS & SMOOTH LAZY LOADING OBSERVER (Zero Stutter / Layout Shift)

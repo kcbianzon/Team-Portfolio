@@ -1,16 +1,17 @@
-<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
-  <title id="title">Team Portfolio Icon</title>
-  <desc id="desc">A slick purple and white TP monogram icon for Team Portfolio.</desc>
-  <defs>
-    <linearGradient id="purple" x1="54" y1="50" x2="458" y2="462" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#8B5CF6"/>
-      <stop offset="1" stop-color="#4C1D95"/>
-    </linearGradient>
-  </defs>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" fill="none">
+  <title>TEMport Studio Tab Logo</title>
+  <!-- Neo-brutalist Dandelion Yellow Tab Stamp Badge -->
+  <rect width="64" height="64" rx="16" fill="#FFE600"/>
+  <rect x="1.5" y="1.5" width="61" height="61" rx="14.5" stroke="#212121" stroke-width="3" fill="none" opacity="0.18"/>
 
-  <rect x="32" y="32" width="448" height="448" rx="116" fill="url(#purple)"/>
-  <path d="M103 135H363V216H278V396H191V216H103V135Z" fill="white"/>
-  <path d="M319 211H399C454 211 490 245 490 298C490 351 454 386 399 386H319V211ZM396 312C416 312 429 305 429 297C429 288 416 281 396 281H401V312H396Z" fill="white"/>
-  <path d="M104 422H410" stroke="white" stroke-width="30" stroke-linecap="round" opacity="0.22"/>
-  <circle cx="407" cy="135" r="30" fill="white" opacity="0.92"/>
+  <!-- Origami Paper Plane (Soaring Forward & Upward) -->
+  <!-- Main Wing in Crisp Paper White with Solid Ink Outline -->
+  <path d="M8 35L56 10L34 54L28 36L8 35Z" fill="#FFFFFF" stroke="#212121" stroke-width="4.2" stroke-linejoin="round"/>
+  <!-- Inner Fold in Electric Violet with Contrast Outline -->
+  <path d="M28 36L56 10L34 34L28 36Z" fill="#8168FD" stroke="#212121" stroke-width="3.5" stroke-linejoin="round"/>
+  <!-- Keel Crease Line -->
+  <path d="M28 36L24 45L31 41" stroke="#212121" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Subtle Studio Spark (Mint Lime) -->
+  <circle cx="15" cy="15" r="3.5" fill="#93BA06" stroke="#212121" stroke-width="2"/>
 </svg>
