@@ -48,22 +48,23 @@
 }
 
 html.dark-mode {
-  --bg: #141619;
-  --cream-bg: #141619;
+  --bg: #111318;
+  --cream-bg: #111318;
   --sky-hero-bg: url('assets/hero-bg-night.png?v=4.0');
   --sky-projects-bg: url('assets/projects-bg-night.png?v=4.0');
   --paper-noise: url('assets/grid-bg-night.png?v=3.3');
-  --ink: #f5f3ea;
-  --ink-soft: #c7c5bc;
-  --purple-900: #f5f3ea;
-  --purple-700: #3aa9ff;
-  --purple-600: #9f8bff;
-  --purple-400: #66bfff;
-  --lilac-100: #1f2229;
-  --lilac-200: #2b2f3a;
-  --line: rgba(255, 255, 255, 0.12);
-  --nav-bg: rgba(20, 22, 25, 0.88);
-  --marquee-bg: #1c1f24;
+  --ink: #f8fafc;
+  --ink-soft: #cbd5e1;
+  --ink-muted: #94a3b8;
+  --purple-900: #f8fafc;
+  --purple-700: #60a5fa;
+  --purple-600: #a78bfa;
+  --purple-400: #38bdf8;
+  --lilac-100: #1b202c;
+  --lilac-200: #262d3d;
+  --line: rgba(255, 255, 255, 0.13);
+  --nav-bg: rgba(17, 19, 24, 0.88);
+  --marquee-bg: #171a22;
 }
 
 * {
@@ -601,7 +602,7 @@ nav a:hover {
 }
 
 /* ---------------- SECTIONS SHARED ---------------- */
-section:not(.cr-projects-section):not(.cr-services-section):not(.cr-about-section):not(.cr-skills-section):not(.cr-subpage-hero):not(.cr-faq-section) {
+section:not(.cr-projects-section):not(.cr-services-section):not(.cr-about-section):not(.cr-skills-section):not(.cr-subpage-hero):not(.cr-faq-section):not(.cr-messenger-chat-pane) {
   max-width: 1280px;
   margin: 0 auto;
   padding: 90px 48px;
@@ -18441,14 +18442,30 @@ img[loading="lazy"] {
 }
 
 /* ==========================================================================
-   FOOTER FIREFLIES DISABLED (Hero, Projects, & Subpage Fireflies Preserved)
+   FOOTER FIREFLIES (Dynamic, scattered & serene night meadow atmosphere)
    ========================================================================== */
-.cr-footer-fireflies,
-.cr-footer .cr-fireflies-layer,
-.cr-footer .cr-firefly {
-  display: none !important;
-  visibility: hidden !important;
-  opacity: 0 !important;
+.cr-footer-fireflies {
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  overflow: hidden;
+  pointer-events: none !important;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+html.dark-mode .cr-footer-fireflies {
+  opacity: 1;
+}
+
+.cr-footer-fireflies .cr-fireflies-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 24px;
+  display: block;
   pointer-events: none !important;
 }
 
@@ -19500,4 +19517,664 @@ button.cr-sky-hint.is-visible:hover {
   border: 1.5px solid #252525 !important;
   box-shadow: 2px 2px 0 #252525;
   font-weight: 700;
+}
+
+
+/* ==========================================================================
+   COHESIVE DARK MODE & PROPER FONT-COLOR SYSTEM (WCAG AA/AAA VERIFIED)
+   Clean cool-midnight surfaces, crisp slate typography hierarchy, semantic
+   luminous pills/avatars, nocturnal air-mail stationery, and workstation polish.
+   ========================================================================== */
+
+/* 1. Global Dark-Mode Font Hierarchy & Light-Sticker Guards */
+html.dark-mode body {
+  color: #f8fafc;
+}
+
+html.dark-mode h1,
+html.dark-mode h2,
+html.dark-mode h3,
+html.dark-mode h4,
+html.dark-mode h5,
+html.dark-mode h6 {
+  color: #f8fafc;
+}
+
+html.dark-mode p {
+  color: #cbd5e1;
+}
+
+/* Protect intentional pastel sticky-note chips & cursor speech bubbles from global dark-mode text rules */
+html.dark-mode .cr-title-chip,
+html.dark-mode .cr-title-chip .cr-chip-body,
+html.dark-mode .cr-title-chip .cr-chip-body span {
+  color: #18181b !important;
+}
+
+html.dark-mode .cr-title-chip .cr-chip-body {
+  box-shadow: 0 10px 24px -6px rgba(0, 0, 0, 0.5), 3px 3px 0 rgba(0, 0, 0, 0.38);
+}
+
+html.dark-mode .cr-eyes-bubble {
+  color: #18181b !important;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.65);
+}
+
+html.dark-mode .cr-eyes-bubble-t {
+  color: #18181b !important;
+}
+
+html.dark-mode .cr-eyes-bubble-s {
+  color: rgba(24, 24, 27, 0.72) !important;
+}
+
+/* 2. Hero, About, Toolkit & Services Clean Surfaces & Typography */
+html.dark-mode .cr-section-title,
+html.dark-mode .cr-reviews-heading {
+  color: #f8fafc;
+}
+
+html.dark-mode .cr-section-sub,
+html.dark-mode .cr-skills-section .cr-section-sub,
+html.dark-mode .cr-services-section .cr-section-sub,
+html.dark-mode #reviews .cr-section-sub,
+html.dark-mode .cr-faq-section .cr-section-sub,
+html.dark-mode .cr-about-sub-p {
+  color: #cbd5e1;
+}
+
+html.dark-mode .cr-profile-card {
+  background: rgba(17, 21, 30, 0.8);
+  border-color: rgba(255, 255, 255, 0.22);
+  box-shadow: 0 18px 40px -10px rgba(0, 0, 0, 0.65);
+}
+
+html.dark-mode .cr-profile-name {
+  color: #f8fafc;
+}
+
+html.dark-mode .cr-profile-role {
+  color: #7dd3fc;
+}
+
+html.dark-mode .cr-profile-msg {
+  color: #e2e8f0;
+}
+
+html.dark-mode .cr-stat-card {
+  background: #171b24 !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+html.dark-mode .cr-stat-num {
+  color: #f8fafc !important;
+}
+
+html.dark-mode .cr-stat-label {
+  color: #7dd3fc !important;
+}
+
+html.dark-mode .cr-stat-desc {
+  color: #cbd5e1 !important;
+}
+
+/* Toolkit / Skills Stickers + Dark Monochrome Devicon Contrast Fix */
+html.dark-mode .cr-skill-sticker {
+  background: #181d27;
+  color: #f1f5f9;
+  border: 1.5px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 3px 4px 0 rgba(0, 0, 0, 0.45);
+}
+
+html.dark-mode .cr-skill-sticker:hover {
+  background: #202736;
+  border-color: rgba(56, 189, 248, 0.48);
+  color: #ffffff;
+}
+
+html.dark-mode .cr-skill-sticker i:not(.colored),
+html.dark-mode .cr-skill-sticker .devicon-wordpress-plain,
+html.dark-mode .cr-skill-sticker .devicon-express-original,
+html.dark-mode .cr-skill-sticker .devicon-notion-plain,
+html.dark-mode .cr-skill-sticker .devicon-vercel-original,
+html.dark-mode .cr-skill-sticker .devicon-json-plain,
+html.dark-mode .cr-skill-sticker .devicon-github-original {
+  color: #f1f5f9 !important;
+}
+
+/* Services Stacked Rows */
+html.dark-mode .cr-service-item {
+  background: #171b24;
+  border: 1.5px solid rgba(255, 255, 255, 0.13);
+  box-shadow: 5px 6px 0 rgba(0, 0, 0, 0.45);
+}
+
+html.dark-mode .cr-service-item:hover {
+  background: #1e2432;
+  border-color: #38bdf8;
+  box-shadow: 7px 8px 0 rgba(0, 0, 0, 0.6);
+}
+
+html.dark-mode .cr-service-title {
+  color: #f8fafc !important;
+}
+
+html.dark-mode .cr-service-desc {
+  color: #cbd5e1 !important;
+}
+
+html.dark-mode .cr-service-badge {
+  border-color: rgba(255, 255, 255, 0.28);
+  box-shadow: 6px -3px 0 rgba(0, 0, 0, 0.42);
+}
+
+/* Case Study Showcase Modal Typography */
+html.dark-mode .cr-showcase-modal {
+  background: #151923;
+  border-color: rgba(255, 255, 255, 0.13);
+}
+
+html.dark-mode .cr-showcase-address-bar {
+  background: #1d2230;
+  border-color: rgba(255, 255, 255, 0.12);
+  color: #cbd5e1;
+}
+
+html.dark-mode .cr-showcase-desc {
+  color: #cbd5e1;
+}
+
+html.dark-mode .cr-showcase-preview-link {
+  color: #7dd3fc;
+  background: rgba(56, 189, 248, 0.14);
+  border: 1px solid rgba(56, 189, 248, 0.28);
+}
+
+html.dark-mode .cr-showcase-preview-link:hover {
+  background: rgba(56, 189, 248, 0.24);
+  color: #bae6fd;
+}
+
+/* 3. Team Member Cards & Client Reviews — High-Contrast Nocturnal Semantic Pills & Avatars */
+html.dark-mode .cr-pinned-card,
+html.dark-mode .cr-review-card {
+  background: #171b24 !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.15) !important;
+  box-shadow: 5px 6px 0 rgba(0, 0, 0, 0.55), 0 18px 32px -10px rgba(0, 0, 0, 0.5) !important;
+  color: #f8fafc;
+}
+
+html.dark-mode .cr-team-photo-wrap {
+  background: #11141c;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+html.dark-mode .cr-team-member-name {
+  color: #f8fafc !important;
+}
+
+html.dark-mode .cr-team-member-bio {
+  color: #cbd5e1 !important;
+}
+
+/* Default role pill (Sky Blue — Kenneth) */
+html.dark-mode .cr-team-role-pill {
+  background: rgba(56, 189, 248, 0.14) !important;
+  color: #7dd3fc !important;
+  border: 1px solid rgba(56, 189, 248, 0.32) !important;
+}
+
+/* Orchid / Pink role pill (Jenz) */
+html.dark-mode .cr-team-role-pill[style*="#f4eaf5"] {
+  background: rgba(232, 121, 249, 0.14) !important;
+  color: #f0abfc !important;
+  border: 1px solid rgba(232, 121, 249, 0.32) !important;
+}
+
+/* Emerald role & value pills (Jamil + 03 Honest Communication) */
+html.dark-mode .cr-team-role-pill[style*="#dcf5e0"] {
+  background: rgba(52, 211, 153, 0.14) !important;
+  color: #6ee7b7 !important;
+  border: 1px solid rgba(52, 211, 153, 0.32) !important;
+}
+
+/* Violet role pill (ChrisJohn) */
+html.dark-mode .cr-team-role-pill[style*="#f1eefc"] {
+  background: rgba(167, 139, 250, 0.15) !important;
+  color: #c4b5fd !important;
+  border: 1px solid rgba(167, 139, 250, 0.34) !important;
+}
+
+/* Amber role pill (Khian — fixes 3.8:1 low-contrast warning) */
+html.dark-mode .cr-team-role-pill[style*="#fef4dc"] {
+  background: rgba(251, 191, 36, 0.14) !important;
+  color: #fcd34d !important;
+  border: 1px solid rgba(251, 191, 36, 0.34) !important;
+}
+
+/* Rose / Coral value pill (01 Craft Over Speed) */
+html.dark-mode .cr-team-role-pill[style*="#fbe7e3"] {
+  background: rgba(251, 113, 133, 0.15) !important;
+  color: #fda4af !important;
+  border: 1px solid rgba(251, 113, 133, 0.34) !important;
+}
+
+/* Sky Blue value pill (02 Design & Code, Together — fixes 4.35:1 low-contrast warning) */
+html.dark-mode .cr-team-role-pill[style*="#d9e7f5"] {
+  background: rgba(56, 189, 248, 0.15) !important;
+  color: #7dd3fc !important;
+  border: 1px solid rgba(56, 189, 248, 0.34) !important;
+}
+
+html.dark-mode .cr-review-quote {
+  color: #e2e8f0 !important;
+}
+
+html.dark-mode .cr-review-author {
+  border-top-color: rgba(255, 255, 255, 0.12);
+  color: #f8fafc;
+}
+
+/* Client Review Avatars (MV, BB, ND — fixes 1.18:1 - 1.44:1 white-on-pastel bug) */
+html.dark-mode .cr-review-avatar,
+html.dark-mode .cr-review-avatar[style*="#fedcdd"] {
+  background: rgba(244, 63, 94, 0.18) !important;
+  color: #fda4af !important;
+  border: 1.5px solid rgba(251, 113, 133, 0.4) !important;
+}
+
+html.dark-mode .cr-review-avatar[style*="#bbdafe"] {
+  background: rgba(59, 130, 246, 0.2) !important;
+  color: #93c5fd !important;
+  border: 1.5px solid rgba(96, 165, 250, 0.42) !important;
+}
+
+html.dark-mode .cr-review-avatar[style*="#c7f8d9"] {
+  background: rgba(16, 185, 129, 0.18) !important;
+  color: #6ee7b7 !important;
+  border: 1.5px solid rgba(52, 211, 153, 0.4) !important;
+}
+
+/* 4. FAQ Pastel Accordion Cards — Fix Plus Icon Box Glitch & Ground Shadows */
+html.dark-mode .cr-faq-card {
+  border-color: rgba(15, 23, 42, 0.18);
+  box-shadow: 4px 5px 0 rgba(0, 0, 0, 0.55), 0 14px 28px -8px rgba(0, 0, 0, 0.45);
+}
+
+html.dark-mode .cr-faq-card:hover,
+html.dark-mode .cr-faq-card.is-open {
+  box-shadow: 6px 7px 0 rgba(0, 0, 0, 0.68), 0 18px 34px -8px rgba(0, 0, 0, 0.55) !important;
+}
+
+html.dark-mode .cr-faq-card .cr-faq-q {
+  color: #0f172a !important;
+}
+
+html.dark-mode .cr-faq-card .cr-faq-a {
+  color: #1e293b !important;
+}
+
+html.dark-mode .cr-faq-card .cr-faq-plus,
+html.dark-mode .cr-faq-plus {
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.09) !important;
+  color: #0f172a !important;
+}
+
+/* 5. Footer Nocturnal Air-Mail Letter, Social Delivery Card, Sky Hint & Contact Modal */
+html.dark-mode .cr-sky-hint {
+  color: #18181b !important;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.65);
+}
+
+html.dark-mode .cr-sky-hint strong {
+  color: #18181b !important;
+}
+
+html.dark-mode .cr-sky-hint span {
+  color: rgba(24, 24, 27, 0.72) !important;
+}
+
+html.dark-mode .cr-sky-toast {
+  color: #18181b !important;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.65);
+}
+
+/* Nocturnal Stationery Theme for Unfolded Paper-Plane Letter */
+html.dark-mode .cr-sky-letter {
+  background: #171c28;
+  color: #f8fafc;
+  border-color: rgba(255, 255, 255, 0.24);
+  box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.68), 0 22px 44px rgba(0, 0, 0, 0.65);
+}
+
+html.dark-mode .cr-sky-letter-airmail {
+  background: repeating-linear-gradient(
+    -45deg,
+    #f87171 0 8px,
+    #171c28 8px 13px,
+    #60a5fa 13px 21px,
+    #171c28 21px 26px
+  );
+  border-bottom-color: rgba(255, 255, 255, 0.14);
+}
+
+html.dark-mode .cr-sky-letter-creases line {
+  stroke: rgba(148, 163, 184, 0.16);
+}
+
+html.dark-mode .cr-sky-letter-stamp {
+  background: #fde047;
+  color: #111827;
+  border-color: rgba(17, 24, 39, 0.65);
+}
+
+html.dark-mode .cr-sky-letter-mini,
+html.dark-mode .cr-sky-letter-close {
+  background: #232a3b;
+  color: #f1f5f9;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+html.dark-mode .cr-sky-letter-mini:hover {
+  background: #2e384f;
+  color: #7dd3fc;
+}
+
+html.dark-mode .cr-sky-letter-mini.cr-sky-letter-clear:hover,
+html.dark-mode .cr-sky-letter-close:hover {
+  background: rgba(239, 68, 68, 0.24);
+  color: #fca5a5;
+  border-color: rgba(248, 113, 113, 0.45);
+}
+
+html.dark-mode .cr-sky-letter-paper {
+  background-color: rgba(11, 15, 25, 0.58);
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0 21px,
+    rgba(96, 165, 250, 0.18) 21px 22px
+  );
+}
+
+html.dark-mode .cr-sky-letter-input {
+  color: #f8fafc;
+}
+
+html.dark-mode .cr-sky-letter-input::placeholder {
+  color: #94a3b8;
+}
+
+html.dark-mode .cr-sky-letter-chip {
+  background: #212838;
+  border-color: rgba(255, 255, 255, 0.16);
+  color: #e2e8f0;
+}
+
+html.dark-mode .cr-sky-letter-chip:hover {
+  background: #fde047;
+  border-color: #fde047;
+  color: #111827;
+}
+
+html.dark-mode .cr-sky-letter-from-row {
+  border-top-color: rgba(255, 255, 255, 0.14);
+}
+
+html.dark-mode .cr-sky-letter-from-lbl {
+  color: #94a3b8;
+}
+
+html.dark-mode .cr-sky-letter-from {
+  color: #f8fafc;
+}
+
+html.dark-mode .cr-sky-letter-from::placeholder {
+  color: #94a3b8;
+}
+
+html.dark-mode .cr-sky-letter-foot {
+  border-top-color: rgba(255, 255, 255, 0.14);
+}
+
+html.dark-mode .cr-sky-letter-fold-btn {
+  background: #d9f99d;
+  color: #111827;
+  border-color: rgba(17, 24, 39, 0.7);
+  box-shadow: 2.5px 2.5px 0 rgba(0, 0, 0, 0.65);
+}
+
+html.dark-mode .cr-sky-letter-fold-btn:hover {
+  background: #bef264;
+  box-shadow: 3.5px 3.5px 0 rgba(0, 0, 0, 0.75);
+}
+
+html.dark-mode .cr-sky-letter-stamps-lbl {
+  color: #94a3b8;
+}
+
+html.dark-mode .cr-sky-stamp-btn {
+  background: #22293a;
+  color: #f1f5f9;
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 1.5px 1.5px 0 rgba(0, 0, 0, 0.55);
+}
+
+html.dark-mode .cr-sky-stamp-btn.cr-sky-stamp-chat {
+  background: #fde047;
+  color: #111827;
+  border-color: rgba(17, 24, 39, 0.65);
+}
+
+html.dark-mode .cr-sky-stamp-btn:hover {
+  background: #38bdf8;
+  color: #0b1120;
+  border-color: #38bdf8;
+}
+
+/* Nocturnal Stationery Theme for Social Air-Mail Delivery Popover */
+html.dark-mode .cr-sky-social-card {
+  background: #171c28;
+  color: #f8fafc;
+  border-color: rgba(255, 255, 255, 0.24);
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.68), 0 18px 36px rgba(0, 0, 0, 0.62);
+}
+
+html.dark-mode .cr-sky-social-badge {
+  color: #111827 !important;
+  border-color: rgba(17, 24, 39, 0.6);
+}
+
+html.dark-mode p.cr-sky-social-title,
+html.dark-mode .cr-sky-social-title {
+  color: #f8fafc !important;
+}
+
+html.dark-mode .cr-sky-social-quote {
+  background: #10141f;
+  color: #e2e8f0;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+html.dark-mode p.cr-sky-social-sub,
+html.dark-mode .cr-sky-social-sub {
+  color: #cbd5e1 !important;
+}
+
+html.dark-mode .cr-sky-social-cta {
+  background: #d9f99d;
+  color: #111827 !important;
+  border-color: rgba(17, 24, 39, 0.65);
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.65);
+}
+
+html.dark-mode .cr-sky-social-cta:hover {
+  background: #bef264;
+}
+
+html.dark-mode .cr-sky-social-alt {
+  background: #232a3b;
+  color: #f1f5f9 !important;
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 1.5px 1.5px 0 rgba(0, 0, 0, 0.55);
+}
+
+html.dark-mode .cr-sky-social-alt:hover {
+  background: #fde047;
+  color: #111827 !important;
+  border-color: #fde047;
+}
+
+/* Contact Modal Dark-Mode Font & Feedback Polish */
+html.dark-mode .cr-contact-info-val {
+  color: #cbd5e1;
+}
+
+html.dark-mode .cr-contact-info-val:hover {
+  color: #38bdf8;
+}
+
+html.dark-mode .cr-form-input::placeholder,
+html.dark-mode .cr-form-textarea::placeholder {
+  color: #94a3b8;
+}
+
+html.dark-mode .cr-contact-feedback {
+  background: rgba(16, 185, 129, 0.16);
+  border-color: rgba(52, 211, 153, 0.38);
+  color: #6ee7b7;
+}
+
+html.dark-mode .cr-contact-feedback.is-plane-note {
+  background: #292312 !important;
+  color: #fef08a !important;
+  border: 1.5px solid rgba(250, 204, 21, 0.45) !important;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.55);
+}
+
+/* 6. Project.html Unified OS Workstation & Blueprint Terminal Contrast Fixes */
+html.dark-mode #cr-project-search::placeholder {
+  color: #94a3b8 !important;
+}
+
+html.dark-mode .project-sidebar-item .project-sidebar-index {
+  color: #94a3b8 !important;
+}
+
+html.dark-mode .project-sidebar-item .project-sidebar-name {
+  color: #f1f5f9 !important;
+}
+
+html.dark-mode .project-sidebar-badge.live {
+  background: rgba(16, 185, 129, 0.16) !important;
+  color: #6ee7b7 !important;
+  border-color: rgba(52, 211, 153, 0.42) !important;
+}
+
+html.dark-mode .project-sidebar-badge.dev {
+  background: rgba(245, 158, 11, 0.16) !important;
+  color: #fcd34d !important;
+  border-color: rgba(251, 191, 36, 0.42) !important;
+}
+
+html.dark-mode .project-sidebar-badge.flow {
+  background: rgba(99, 102, 241, 0.18) !important;
+  color: #a5b4fc !important;
+  border-color: rgba(129, 140, 248, 0.45) !important;
+}
+
+html.dark-mode .project-sidebar-badge.plan {
+  background: rgba(148, 163, 184, 0.16) !important;
+  color: #cbd5e1 !important;
+  border-color: rgba(148, 163, 184, 0.42) !important;
+}
+
+html.dark-mode .project-sidebar-badge.ui {
+  background: rgba(236, 72, 153, 0.18) !important;
+  color: #f9a8d4 !important;
+  border-color: rgba(244, 114, 182, 0.45) !important;
+}
+
+html.dark-mode .project-sidebar-item.is-active {
+  background: #1557b0 !important;
+  border-color: #38bdf8 !important;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.65) !important;
+}
+
+html.dark-mode .project-sidebar-item.is-active .project-sidebar-index {
+  color: #e0f2fe !important;
+}
+
+html.dark-mode .project-sidebar-item.is-active .project-sidebar-name {
+  color: #ffffff !important;
+}
+
+html.dark-mode .project-sidebar-item.is-active .project-sidebar-badge {
+  background: #ffde05 !important;
+  color: #121418 !important;
+  border-color: #121418 !important;
+  box-shadow: 1.5px 1.5px 0 rgba(0, 0, 0, 0.55) !important;
+}
+
+html.dark-mode .project-viewer-body p,
+html.dark-mode .project-viewer-panel p {
+  color: #cbd5e1 !important;
+}
+
+html.dark-mode .cr-pag-counter {
+  color: #cbd5e1 !important;
+}
+
+.cr-t-dim,
+.cr-blueprint-footer {
+  color: #94a3b8 !important;
+}
+
+/* ==========================================================================
+   DYNAMIC & INTERACTIVE BIOLUMINESCENT FIREFLY ECOSYSTEM
+   High-DPI multi-depth canvas meadows (Hero, Selected Projects, Subpage Hero)
+   with proper stacking behind foreground UI cards and zero click blocking.
+   ========================================================================== */
+.cr-fireflies-layer,
+.cr-projects-fireflies,
+.cr-subpage-fireflies,
+.cr-footer-fireflies {
+  overflow: hidden;
+  pointer-events: none !important;
+}
+
+.cr-fireflies-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  pointer-events: none !important;
+}
+
+/* Retire static 5px CSS fallback dots once the interactive canvas engine mounts */
+.cr-fireflies-layer.is-dynamic .cr-firefly {
+  display: none !important;
+  animation: none !important;
+}
+
+/* Keep Selected Projects foreground UI cards cleanly above the meadow fireflies */
+.cr-projects-section > .cr-section-header,
+.cr-projects-section > .cr-os-projects-grid,
+.cr-projects-section > .cr-about-cta-wrap,
+.cr-projects-section > .cr-project-filters {
+  position: relative;
+  z-index: 4;
+}
+
+/* Subtle interactive pointer feedback when hovering directly on a firefly in open sky */
+html.dark-mode .cr-hero[data-firefly-hover="true"],
+html.dark-mode .cr-projects-section[data-firefly-hover="true"],
+html.dark-mode .cr-subpage-hero[data-firefly-hover="true"],
+html.dark-mode .cr-footer-card[data-firefly-hover="true"] {
+  cursor: pointer;
 }

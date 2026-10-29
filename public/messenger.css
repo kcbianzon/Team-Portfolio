@@ -18,12 +18,12 @@
   --m-dot: rgba(37, 37, 37, 0.07);
 }
 html.dark-mode .cr-messenger-modal {
-  --m-ink: #f5f3ea;
-  --m-paper: #1b1e26;
-  --m-cream: #20232c;
-  --m-purple-soft: #2b2745;
-  --m-line: rgba(255, 255, 255, 0.12);
-  --m-dot: rgba(255, 255, 255, 0.06);
+  --m-ink: #f8fafc;
+  --m-paper: #161a23;
+  --m-cream: #1a1f2b;
+  --m-purple-soft: #262542;
+  --m-line: rgba(255, 255, 255, 0.13);
+  --m-dot: rgba(255, 255, 255, 0.05);
 }
 
 /* ---------- 1. window shell: one clean card ---------- */
@@ -125,13 +125,17 @@ html.dark-mode .cr-messenger-modal .cr-thread-item.is-active { border-color: rgb
 .cr-messenger-modal .cr-messenger-chat-pane {
   flex: 1 1 0;
   width: auto;
+  max-width: none !important;
   min-width: 0;
   min-height: 0;
   align-items: stretch;
   justify-content: flex-start;
-  padding: 0;
-  margin: 0;
+  padding: 0 !important;
+  margin: 0 !important;
   background: #ffffff;
+}
+html.dark-mode .cr-messenger-modal .cr-messenger-chat-pane {
+  background: #161922;
 }
 .cr-messenger-modal .cr-messenger-chat-pane > * { max-width: none; margin-left: 0; margin-right: 0; }
 
@@ -275,4 +279,113 @@ html.dark-mode .cr-messenger-modal .cr-chat-input { background: #14161d; }
 }
 @media (prefers-reduced-motion: reduce) {
   .cr-messenger-modal * { animation-duration: 0.01s !important; transition-duration: 0.01s !important; }
+}
+
+/* ---------- 5. cohesive nocturnal dark-mode polish for messenger & resume sheet ---------- */
+html.dark-mode .cr-messenger-modal .cr-resume-os-address {
+  background: #202534 !important;
+  border-color: rgba(255, 255, 255, 0.16) !important;
+  color: #cbd5e1 !important;
+}
+
+html.dark-mode .cr-messenger-modal #cr-messenger-address {
+  color: #e2e8f0 !important;
+}
+
+html.dark-mode .cr-messenger-modal .cr-sidebar-badge {
+  background: rgba(16, 185, 129, 0.16);
+  color: #6ee7b7;
+  border-color: rgba(52, 211, 153, 0.35);
+}
+
+html.dark-mode .cr-messenger-modal .cr-thread-time {
+  background: rgba(255, 255, 255, 0.08);
+  color: #94a3b8 !important;
+}
+
+html.dark-mode .cr-messenger-modal .cr-thread-item.is-active .cr-thread-snippet {
+  color: #cbd5e1 !important;
+}
+
+html.dark-mode .cr-messenger-modal .cr-chat-toggle-sheet-btn {
+  background: #ffde05 !important;
+  color: #121418 !important;
+  border-color: rgba(18, 20, 24, 0.65) !important;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.6);
+}
+
+html.dark-mode .cr-messenger-modal .cr-chat-toggle-sheet-btn:hover {
+  background: #fef08a !important;
+  color: #121418 !important;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.7);
+}
+
+html.dark-mode .cr-messenger-modal .cr-attachment-btn-tab {
+  background: #222734 !important;
+  border-color: rgba(255, 255, 255, 0.18) !important;
+  color: #f1f5f9 !important;
+}
+
+html.dark-mode .cr-messenger-modal .cr-attachment-btn-tab:hover {
+  background: #ffde05 !important;
+  border-color: #ffde05 !important;
+  color: #121418 !important;
+}
+
+html.dark-mode .cr-messenger-modal .cr-chat-input::placeholder {
+  color: #94a3b8 !important;
+}
+
+html.dark-mode .cr-messenger-modal .cr-sheet-view-toggle {
+  background: #12151d !important;
+  border-color: rgba(255, 255, 255, 0.16) !important;
+}
+
+html.dark-mode .cr-messenger-modal .cr-sheet-pdf-frame {
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.6);
+}
+
+/* HD Image Dossier Sheets (ChrisJohn & Khian fallback dossiers) in Dark Mode */
+html.dark-mode .cr-pacay-dossier-sheet,
+html.dark-mode .cr-khian-dossier-sheet {
+  background: #171c28;
+  border: 1.5px solid rgba(255, 255, 255, 0.14);
+  border-radius: 16px;
+  color: #f8fafc !important;
+}
+
+html.dark-mode .cr-pacay-dossier-sheet h3,
+html.dark-mode .cr-khian-dossier-sheet h3 {
+  color: #f8fafc !important;
+}
+
+html.dark-mode .cr-pacay-dossier-sheet p,
+html.dark-mode .cr-khian-dossier-sheet p,
+html.dark-mode .cr-pacay-dossier-sheet ul,
+html.dark-mode .cr-khian-dossier-sheet ul,
+html.dark-mode .cr-pacay-dossier-sheet li,
+html.dark-mode .cr-khian-dossier-sheet li {
+  color: #cbd5e1 !important;
+}
+
+html.dark-mode .cr-pacay-dossier-sheet div[style*="#fdf6f0"],
+html.dark-mode .cr-khian-dossier-sheet div[style*="#fdf6f0"] {
+  background: #1f2534 !important;
+  border-color: rgba(255, 255, 255, 0.14) !important;
+}
+
+html.dark-mode .cr-pacay-dossier-sheet strong[style*="#1668c7"],
+html.dark-mode .cr-pacay-dossier-sheet p[style*="#1668c7"] {
+  color: #7dd3fc !important;
+}
+
+html.dark-mode .cr-khian-dossier-sheet strong[style*="#b46b02"],
+html.dark-mode .cr-khian-dossier-sheet p[style*="#b46b02"] {
+  color: #fcd34d !important;
+}
+
+html.dark-mode .cr-pacay-dossier-sheet span[style*="#ffde05"],
+html.dark-mode .cr-khian-dossier-sheet span[style*="#ffde05"] {
+  color: #121418 !important;
 }

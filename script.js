@@ -4120,6 +4120,16 @@ document.addEventListener("DOMContentLoaded", function () {
           var tk = Math.min(1, td / 40);
           tgtX = (tx / td) * tk;
           tgtY = (ty / td) * tk;
+        } else if (!onImage && !navActive && window._temportFireflyFocus) {
+          var ffFocus = window._temportFireflyFocus;
+          if (now - ffFocus.at < 220) {
+            var ffx = ffFocus.clientX - (px + 28 * eyeScale);
+            var ffy = ffFocus.clientY - (py + 18 * eyeScale);
+            var ffd = Math.hypot(ffx, ffy) || 1;
+            var ffk = Math.min(0.95, ffd / 36);
+            tgtX = (ffx / ffd) * ffk;
+            tgtY = (ffy / ffd) * ffk;
+          }
         }
 
         if (navActive) {
@@ -4186,6 +4196,28 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       requestAnimationFrame(animateCustomCursors);
+
+    window.TemportEyes = {
+      say: function (opts) {
+        if (!eyesCursor || hoverEl || onImage || navActive || draggingSticker) return;
+        showBubble(opts);
+      },
+      hide: function () {
+        if (!eyesCursor || hoverEl || onImage || navActive || draggingSticker) return;
+        hideBubble();
+      },
+      celebrate: function (tone, count) {
+        if (!eyesCursor || hoverEl || onImage || navActive || draggingSticker) return;
+        hopVy = -6.5;
+        if (count) sparkBurst(tone || "yellow", count);
+        eyesCursor.classList.remove("is-happy");
+        void eyesCursor.offsetWidth;
+        eyesCursor.classList.add("is-happy");
+        setTimeout(function () {
+          eyesCursor.classList.remove("is-happy");
+        }, 850);
+      }
+    };
     }
     requestAnimationFrame(animateCustomCursors);
   }
@@ -5625,6 +5657,964 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   initSeamlessLazyLoading();
+
+  /* ==========================================================================
+     INTERACTIVE BIOLUMINESCENT FIREFLY ECOSYSTEM (Dark-Mode Nocturnal Meadows)
+     - 3 depth tiers (far/mid/near), pre-baked HiDPI glow sprites, silky trails,
+       fluttering close-up micro-wings, and authentic Photinus flash rhythms
+     - Sympathetic neighbor chain-flash waves across the dark hills
+     - Curious cursor orbital swirl & fast-swipe breeze wakes
+     - Hover lock-on ring + click-to-boop spark burst + click-sky meadow summon
+     - Press-and-hold / drag Lantern Beacon vortex & 360-degree starry scatter
+     ========================================================================== */
+  function initInteractiveFireflies() {
+    var layers = Array.prototype.slice.call(document.querySelectorAll(".cr-fireflies-layer"));
+    if (!layers.length) return;
+
+    var reduceMotionQuery = window.matchMedia
+      ? window.matchMedia("(prefers-reduced-motion: reduce)")
+      : { matches: false };
+
+    function isDarkMode() {
+      return document.documentElement.classList.contains("dark-mode");
+    }
+
+    function isModalBlocking() {
+      if (document.body.classList.contains("messenger-open")) return true;
+      var activeModal = document.querySelector(
+        "#resume-panel.active, .cr-showcase-modal.active, .cr-contact-modal.active"
+      );
+      return !!activeModal;
+    }
+
+    var UI_GUARD_SEL =
+      "a, button, input, textarea, select, label, [role='button'], " +
+      ".cr-profile-card, .cr-project-stack, .cr-stack-card, .cr-os-card, " +
+      ".cr-title-chip, .cr-sticker, .cr-hero-badge-pill, .cr-dock-nav, " +
+      ".cr-theme-toggle, .cr-logo, .cr-sky-plane, .cr-sky-hint";
+
+    // Pre-bake 3 bioluminescent radial glow sprites once for ultra-fast 60fps blitting
+    var SPRITE_SIZE = 96;
+    var PALETTES = {
+      lime: {
+        core: "#fffff0",
+        trail: "226, 255, 88",
+        ring: "236, 255, 112",
+        stops: [
+          [0.0, "rgba(255, 255, 240, 1)"],
+          [0.09, "rgba(242, 255, 110, 0.96)"],
+          [0.25, "rgba(196, 248, 44, 0.48)"],
+          [0.56, "rgba(148, 228, 24, 0.15)"],
+          [1.0, "rgba(124, 210, 16, 0)"]
+        ]
+      },
+      gold: {
+        core: "#fffef2",
+        trail: "255, 224, 92",
+        ring: "255, 232, 120",
+        stops: [
+          [0.0, "rgba(255, 254, 240, 1)"],
+          [0.09, "rgba(255, 232, 108, 0.96)"],
+          [0.25, "rgba(248, 188, 38, 0.45)"],
+          [0.56, "rgba(235, 150, 20, 0.14)"],
+          [1.0, "rgba(218, 128, 12, 0)"]
+        ]
+      },
+      mint: {
+        core: "#f2fffc",
+        trail: "136, 255, 210",
+        ring: "160, 255, 220",
+        stops: [
+          [0.0, "rgba(242, 255, 252, 1)"],
+          [0.09, "rgba(148, 255, 214, 0.94)"],
+          [0.25, "rgba(56, 228, 174, 0.41)"],
+          [0.56, "rgba(34, 198, 158, 0.12)"],
+          [1.0, "rgba(22, 175, 145, 0)"]
+        ]
+      }
+    };
+
+    var sprites = {};
+    Object.keys(PALETTES).forEach(function (key) {
+      var c = document.createElement("canvas");
+      c.width = SPRITE_SIZE;
+      c.height = SPRITE_SIZE;
+      var gctx = c.getContext("2d");
+      var half = SPRITE_SIZE / 2;
+      var grad = gctx.createRadialGradient(half, half, 0, half, half, half);
+      PALETTES[key].stops.forEach(function (st) {
+        grad.addColorStop(st[0], st[1]);
+      });
+      gctx.fillStyle = grad;
+      gctx.fillRect(0, 0, SPRITE_SIZE, SPRITE_SIZE);
+      sprites[key] = c;
+    });
+
+    var BOOP_LINES = [
+      ["Meadow glow!", "Drifting softly in the night breeze"],
+      ["Caught a firefly spark!", "Glowing peacefully across the hills"],
+      ["Bioluminescent flash!", "Answering in the quiet night"],
+      ["Gentle night wanderer!", "Lighting up the starry sky"]
+    ];
+    var boopLineIdx = 0;
+    var hoverHintShown = false;
+    var lastEyesBubbleAt = 0;
+
+    var meadows = [];
+
+    function pickColorKey() {
+      var r = Math.random();
+      if (r < 0.7) return "lime";
+      if (r < 0.9) return "gold";
+      return "mint";
+    }
+
+    function clamp(v, lo, hi) {
+      return v < lo ? lo : v > hi ? hi : v;
+    }
+
+    layers.forEach(function (layer) {
+      var host =
+        layer.closest(".cr-hero, .cr-projects-section, .cr-subpage-hero, .cr-footer-card, .cr-footer") ||
+        layer.parentElement;
+      if (!host) return;
+
+      var biome = host.classList.contains("cr-hero")
+        ? "hero"
+        : host.classList.contains("cr-projects-section")
+        ? "projects"
+        : host.classList.contains("cr-footer-card") || host.closest(".cr-footer") || layer.classList.contains("cr-footer-fireflies")
+        ? "footer"
+        : "subpage";
+
+      var canvas = document.createElement("canvas");
+      canvas.className = "cr-fireflies-canvas";
+      canvas.setAttribute("aria-hidden", "true");
+      layer.appendChild(canvas);
+      layer.classList.add("is-dynamic");
+
+      var ctx = canvas.getContext("2d");
+      if (!ctx) return;
+
+      var isMobile = window.innerWidth < 768;
+      var baseCount =
+        biome === "hero"
+          ? isMobile ? 24 : 46
+          : biome === "projects"
+          ? isMobile ? 24 : 44
+          : biome === "footer"
+          ? isMobile ? 10 : 16
+          : isMobile ? 18 : 32;
+      var maxCap = baseCount + 16;
+
+      var state = {
+        biome: biome,
+        layer: layer,
+        host: host,
+        canvas: canvas,
+        ctx: ctx,
+        w: 0,
+        h: 0,
+        dpr: 1,
+        inView: true,
+        running: false,
+        rafId: 0,
+        lastTs: 0,
+        baseCount: baseCount,
+        maxCap: maxCap,
+        fireflies: [],
+        sparks: [],
+        ripples: [],
+        hovered: null,
+        boopCount: 0,
+        pointer: {
+          inside: false,
+          overUI: false,
+          x: -9999,
+          y: -9999,
+          clientX: 0,
+          clientY: 0,
+          vx: 0,
+          vy: 0,
+          speed: 0,
+          lastMoveTs: 0,
+          down: false,
+          downAt: 0,
+          downX: 0,
+          downY: 0,
+          downTargetFirefly: null
+        }
+      };
+
+      function pickSpawnPos(w, h) {
+        // Uniform wide distribution across the entire canvas width
+        var x = (0.02 + Math.random() * 0.96) * w;
+        var y;
+        if (biome === "hero") {
+          // Full vertical spread across 3 natural altitude tiers:
+          // 32% upper starry sky & cloud atmosphere (0.04 .. 0.35)
+          // 40% mid mountain slopes & rolling ridge (0.35 .. 0.68)
+          // 28% lower grassy meadow & valley (0.68 .. 0.94)
+          var band = Math.random();
+          if (band < 0.32) {
+            y = (0.04 + Math.random() * 0.31) * h;
+          } else if (band < 0.72) {
+            y = (0.35 + Math.random() * 0.33) * h;
+          } else {
+            y = (0.68 + Math.random() * 0.26) * h;
+          }
+        } else if (biome === "projects") {
+          // Wide scenic distribution across night landscape and between OS windows
+          var bandP = Math.random();
+          if (bandP < 0.35) {
+            y = (0.05 + Math.random() * 0.30) * h;
+          } else if (bandP < 0.72) {
+            y = (0.35 + Math.random() * 0.35) * h;
+          } else {
+            y = (0.70 + Math.random() * 0.25) * h;
+          }
+        } else if (biome === "footer") {
+          // Serene, scattered night meadow across footer card
+          // 35% starry nocturnal sky (0.08 .. 0.38)
+          // 40% mid grassy hills slope (0.38 .. 0.70)
+          // 25% lower ridge & valley (0.70 .. 0.92)
+          var bandF = Math.random();
+          if (bandF < 0.35) {
+            y = (0.08 + Math.random() * 0.30) * h;
+          } else if (bandF < 0.75) {
+            y = (0.38 + Math.random() * 0.32) * h;
+          } else {
+            y = (0.70 + Math.random() * 0.22) * h;
+          }
+        } else {
+          // Subpage hero hills
+          y = (0.12 + Math.random() * 0.80) * h;
+        }
+        return { x: x, y: y };
+      }
+
+      function createFirefly(opts) {
+        opts = opts || {};
+        var w = Math.max(320, state.w || layer.clientWidth || 1200);
+        var h = Math.max(220, state.h || layer.clientHeight || 640);
+        var pos =
+          typeof opts.x === "number" && typeof opts.y === "number"
+            ? { x: opts.x, y: opts.y }
+            : pickSpawnPos(w, h);
+
+        var tr = typeof opts.tier === "number" ? opts.tier : Math.random();
+        var tier = tr < 0.3 ? 0 : tr < 0.76 ? 1 : 2; // 0: far, 1: mid, 2: near
+        var scale =
+          tier === 0
+            ? 0.62 + Math.random() * 0.24
+            : tier === 1
+            ? 0.94 + Math.random() * 0.3
+            : 1.32 + Math.random() * 0.38;
+
+        var baseSpeed =
+          tier === 0
+            ? 14 + Math.random() * 10
+            : tier === 1
+            ? 24 + Math.random() * 14
+            : 32 + Math.random() * 18;
+
+        var angle = opts.angle != null ? opts.angle : Math.random() * Math.PI * 2;
+        var initBoost = opts.summoned ? 1.15 : 0;
+
+        return {
+          x: pos.x,
+          y: pos.y,
+          vx: Math.cos(angle) * baseSpeed * (opts.summoned ? 1.5 : 0.7),
+          vy: opts.summoned ? -28 - Math.random() * 26 : Math.sin(angle) * baseSpeed * 0.5,
+          heading: angle,
+          tier: tier,
+          scale: scale,
+          baseSpeed: baseSpeed,
+          colorKey: opts.colorKey || pickColorKey(),
+          seed: Math.random() * 100,
+          seed2: Math.random() * 100,
+          freq1: 0.45 + Math.random() * 0.55,
+          freq2: 0.85 + Math.random() * 0.75,
+          baseGlow: tier === 0 ? 0.16 + Math.random() * 0.1 : 0.22 + Math.random() * 0.12,
+          flashPhase: opts.summoned ? 0.05 : -1,
+          flashDuration: 1.15 + Math.random() * 0.55,
+          doubleFlash: Math.random() < 0.42,
+          nextFlashIn: opts.summoned ? 0.1 : Math.random() * 4.2,
+          queuedFlashAt: 0,
+          queuedBoost: 0,
+          excited: initBoost,
+          hoverMix: 0,
+          fadeIn: opts.summoned ? 0.05 : 1,
+          retiring: false,
+          lifeAlpha: 1,
+          temporary: !!opts.temporary,
+          trail: [],
+          lastTrailAt: 0
+        };
+      }
+
+      function resize() {
+        var rect = layer.getBoundingClientRect();
+        var nw = Math.max(1, Math.round(rect.width || layer.clientWidth || 1));
+        var nh = Math.max(1, Math.round(rect.height || layer.clientHeight || 1));
+        var dpr = Math.min(window.devicePixelRatio || 1, 2);
+        if (nw === state.w && nh === state.h && dpr === state.dpr) return;
+
+        var prevW = state.w || nw;
+        var prevH = state.h || nh;
+        state.w = nw;
+        state.h = nh;
+        state.dpr = dpr;
+        canvas.width = Math.round(nw * dpr);
+        canvas.height = Math.round(nh * dpr);
+
+        if (state.fireflies.length && prevW > 10 && prevH > 10) {
+          var sx = nw / prevW;
+          var sy = nh / prevH;
+          state.fireflies.forEach(function (f) {
+            f.x = clamp(f.x * sx, 12, nw - 12);
+            f.y = clamp(f.y * sy, 12, nh - 12);
+            f.trail.length = 0;
+          });
+        }
+      }
+
+      function populate() {
+        resize();
+        state.fireflies.length = 0;
+        for (var i = 0; i < state.baseCount; i++) {
+          state.fireflies.push(createFirefly());
+        }
+      }
+
+      function addRipple(x, y, maxR, colorKey, width) {
+        state.ripples.push({
+          x: x,
+          y: y,
+          r: 4,
+          maxR: maxR || 68,
+          age: 0,
+          dur: 0.72,
+          width: width || 1.6,
+          rgb: PALETTES[colorKey || "lime"].ring
+        });
+      }
+
+      function emitSparks(x, y, count, colorKey, speedMul) {
+        if (reduceMotionQuery.matches) return;
+        var sm = speedMul || 1;
+        for (var i = 0; i < count; i++) {
+          var ang = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.65;
+          var spd = (20 + Math.random() * 55) * sm;
+          var key = i % 3 === 0 ? "gold" : colorKey || "lime";
+          state.sparks.push({
+            x: x + (Math.random() - 0.5) * 6,
+            y: y + (Math.random() - 0.5) * 6,
+            vx: Math.cos(ang) * spd,
+            vy: Math.sin(ang) * spd - 12,
+            size: 1.1 + Math.random() * 1.8,
+            age: 0,
+            dur: 0.48 + Math.random() * 0.48,
+            rgb: PALETTES[key].trail
+          });
+        }
+        if (state.sparks.length > 120) {
+          state.sparks.splice(0, state.sparks.length - 120);
+        }
+      }
+
+      function triggerChainFlash(sourceF, nowMs, radius, boost, allowSecondHop) {
+        var rSq = radius * radius;
+        state.fireflies.forEach(function (other) {
+          if (other === sourceF || other.retiring) return;
+          var dx = other.x - sourceF.x;
+          var dy = other.y - sourceF.y;
+          var dSq = dx * dx + dy * dy;
+          if (dSq <= rSq) {
+            var d = Math.sqrt(dSq);
+            var targetTime = nowMs + 65 + d * 1.45;
+            if (!other.queuedFlashAt || targetTime < other.queuedFlashAt) {
+              other.queuedFlashAt = targetTime;
+              other.queuedBoost = Math.max(other.queuedBoost, boost);
+              other.allowHop = !!allowSecondHop;
+            }
+          }
+        });
+      }
+
+      function boopFirefly(f, nowMs) {
+        if (!f) return;
+        state.boopCount++;
+        f.flashPhase = 0.08;
+        f.excited = 1.55;
+        var dashAngle = Math.atan2(f.y - state.pointer.y, f.x - state.pointer.x);
+        if (!isFinite(dashAngle)) dashAngle = Math.random() * Math.PI * 2;
+        dashAngle += (Math.random() < 0.5 ? 1 : -1) * 0.65;
+        var dashSpeed = 110 + Math.random() * 45;
+        f.vx = Math.cos(dashAngle) * dashSpeed;
+        f.vy = Math.sin(dashAngle) * dashSpeed - 18;
+        f.heading = dashAngle;
+
+        addRipple(f.x, f.y, 72, f.colorKey, 2.0);
+        addRipple(f.x, f.y, 38, "gold", 1.2);
+        emitSparks(f.x, f.y, 12, f.colorKey, 1.1);
+        triggerChainFlash(f, nowMs, 200, 0.95, true);
+
+        if (window.TemportEyes && nowMs - lastEyesBubbleAt > 900) {
+          lastEyesBubbleAt = nowMs;
+          var line = BOOP_LINES[boopLineIdx % BOOP_LINES.length];
+          boopLineIdx++;
+          window.TemportEyes.celebrate("yellow", 6);
+          window.TemportEyes.say({
+            k: "Firefly",
+            t: line[0],
+            s: line[1],
+            tone: "yellow",
+            ms: 1950
+          });
+        }
+      }
+
+      function findNearestFirefly(x, y, maxDist) {
+        var best = null;
+        var bestD = maxDist;
+        for (var i = 0; i < state.fireflies.length; i++) {
+          var f = state.fireflies[i];
+          if (f.retiring) continue;
+          var dx = f.x - x;
+          var dy = f.y - y;
+          var hitBonus = f.tier === 2 ? 6 : f.tier === 1 ? 3 : 0;
+          var d = Math.hypot(dx, dy) - hitBonus;
+          if (d < bestD) {
+            bestD = d;
+            best = f;
+          }
+        }
+        return best;
+      }
+
+      function setHoverState(targetF, rect) {
+        state.hovered = targetF;
+        if (targetF && !state.pointer.overUI) {
+          host.setAttribute("data-firefly-hover", "true");
+          window._temportFireflyFocus = {
+            clientX: rect.left + targetF.x,
+            clientY: rect.top + targetF.y,
+            at: performance.now()
+          };
+          if (!hoverHintShown && window.TemportEyes && performance.now() - lastEyesBubbleAt > 1600) {
+            hoverHintShown = true;
+            lastEyesBubbleAt = performance.now();
+            window.TemportEyes.say({
+              k: "Firefly",
+              t: "Bioluminescent Firefly",
+              s: "Drifting in the nocturnal breeze",
+              tone: "yellow",
+              ms: 2000
+            });
+          }
+        } else {
+          if (host.hasAttribute("data-firefly-hover")) {
+            host.removeAttribute("data-firefly-hover");
+          }
+        }
+      }
+
+      // Pointer Listeners on Host Section (Zero blocking of foreground UI controls!)
+      host.addEventListener(
+        "pointermove",
+        function (e) {
+          if (!isDarkMode() || isModalBlocking()) return;
+          var rect = layer.getBoundingClientRect();
+          if (!rect.width || !rect.height) return;
+
+          var nx = e.clientX - rect.left;
+          var ny = e.clientY - rect.top;
+          var nowMs = performance.now();
+          var dtMs = Math.max(8, nowMs - (state.pointer.lastMoveTs || nowMs - 16));
+
+          if (state.pointer.inside) {
+            var ivx = ((nx - state.pointer.x) / dtMs) * 1000;
+            var ivy = ((ny - state.pointer.y) / dtMs) * 1000;
+            state.pointer.vx = state.pointer.vx * 0.45 + ivx * 0.55;
+            state.pointer.vy = state.pointer.vy * 0.45 + ivy * 0.55;
+            state.pointer.speed = Math.hypot(state.pointer.vx, state.pointer.vy);
+          }
+
+          state.pointer.inside = true;
+          state.pointer.x = nx;
+          state.pointer.y = ny;
+          state.pointer.clientX = e.clientX;
+          state.pointer.clientY = e.clientY;
+          state.pointer.lastMoveTs = nowMs;
+
+          var overControl = !!(e.target && e.target.closest && e.target.closest(UI_GUARD_SEL));
+          state.pointer.overUI = overControl;
+
+          var nearF = !overControl ? findNearestFirefly(nx, ny, 26) : null;
+          setHoverState(nearF, rect);
+
+          // Fast cursor breeze wake sheds occasional pollen sparks
+          if (!reduceMotionQuery.matches && state.pointer.speed > 820 && !overControl) {
+            if (Math.random() < 0.35) {
+              emitSparks(nx, ny, 1, "lime", 0.5);
+            }
+          }
+        },
+        { passive: true }
+      );
+
+      host.addEventListener("pointerdown", function (e) {
+        if (!isDarkMode() || isModalBlocking()) return;
+        if (e.pointerType === "mouse" && e.button !== 0) return;
+        if (e.target && e.target.closest && e.target.closest(UI_GUARD_SEL)) return;
+
+        var rect = layer.getBoundingClientRect();
+        if (!rect.width || !rect.height) return;
+        var nx = e.clientX - rect.left;
+        var ny = e.clientY - rect.top;
+
+        state.pointer.inside = true;
+        state.pointer.x = nx;
+        state.pointer.y = ny;
+
+        var hitFirefly = findNearestFirefly(nx, ny, e.pointerType === "touch" ? 36 : 28);
+
+        // Allow normal text selection if user clicks directly on a heading/paragraph without hitting a firefly
+        var onCopyText =
+          !hitFirefly &&
+          e.target &&
+          e.target.closest &&
+          e.target.closest("h1, h2, h3, p, .cr-hero-tagline-row");
+        if (onCopyText) return;
+
+        state.pointer.down = true;
+        state.pointer.downAt = performance.now();
+        state.pointer.downX = nx;
+        state.pointer.downY = ny;
+        state.pointer.downTargetFirefly = hitFirefly;
+      });
+
+      function finishPointerPress() {
+        if (!state.pointer.down) return;
+        var nowMs = performance.now();
+        var targetF = state.pointer.downTargetFirefly;
+        var px = state.pointer.x;
+        var py = state.pointer.y;
+
+        state.pointer.down = false;
+        state.pointer.downTargetFirefly = null;
+
+        if (!isDarkMode()) return;
+
+        if (targetF) {
+          boopFirefly(targetF, nowMs);
+        } else {
+          // Serene ripple on open nocturnal sky (zero firefly pulling)
+          addRipple(px, py, 58, "lime", 1.4);
+          emitSparks(px, py, 6, "gold", 0.7);
+        }
+      }
+
+      window.addEventListener("pointerup", finishPointerPress, { passive: true });
+      window.addEventListener("pointercancel", function () {
+        state.pointer.down = false;
+        state.pointer.downTargetFirefly = null;
+      });
+
+      host.addEventListener("pointerleave", function () {
+        state.pointer.inside = false;
+        state.pointer.speed = 0;
+        state.pointer.vx = 0;
+        state.pointer.vy = 0;
+        state.hovered = null;
+        if (host.hasAttribute("data-firefly-hover")) {
+          host.removeAttribute("data-firefly-hover");
+        }
+      });
+
+      // Step & Render Frame
+      function step(ts) {
+        if (!state.running) return;
+        var dt = state.lastTs ? Math.min(0.05, (ts - state.lastTs) / 1000) : 0.016;
+        state.lastTs = ts;
+        var tSec = ts * 0.001;
+        var reduceMotion = reduceMotionQuery.matches;
+
+        resize();
+        var w = state.w;
+        var h = state.h;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.save();
+        ctx.scale(state.dpr, state.dpr);
+        ctx.globalCompositeOperation = "lighter";
+
+        // Decay cursor velocity smoothly when mouse stops
+        if (ts - state.pointer.lastMoveTs > 48) {
+          state.pointer.vx *= 0.82;
+          state.pointer.vy *= 0.82;
+          state.pointer.speed = Math.hypot(state.pointer.vx, state.pointer.vy);
+        }
+
+        // Update & Draw Ripples
+        for (var rIdx = state.ripples.length - 1; rIdx >= 0; rIdx--) {
+          var rp = state.ripples[rIdx];
+          rp.age += dt;
+          if (rp.age >= rp.dur) {
+            state.ripples.splice(rIdx, 1);
+            continue;
+          }
+          var p = rp.age / rp.dur;
+          var ease = 1 - Math.pow(1 - p, 2.4);
+          var rr = rp.r + (rp.maxR - rp.r) * ease;
+          var ra = Math.pow(1 - p, 1.65) * 0.52;
+          ctx.strokeStyle = "rgba(" + rp.rgb + ", " + ra.toFixed(3) + ")";
+          ctx.lineWidth = rp.width * (1 - p * 0.45);
+          ctx.beginPath();
+          ctx.arc(rp.x, rp.y, rr, 0, Math.PI * 2);
+          ctx.stroke();
+        }
+
+        // Update & Draw Floating Bioluminescent Micro-Sparks
+        for (var sIdx = state.sparks.length - 1; sIdx >= 0; sIdx--) {
+          var sp = state.sparks[sIdx];
+          sp.age += dt;
+          if (sp.age >= sp.dur) {
+            state.sparks.splice(sIdx, 1);
+            continue;
+          }
+          var spProg = sp.age / sp.dur;
+          sp.vx *= Math.pow(0.08, dt);
+          sp.vy = sp.vy * Math.pow(0.12, dt) - 18 * dt;
+          sp.x += sp.vx * dt;
+          sp.y += sp.vy * dt;
+          var sa = (1 - spProg) * (1 - spProg) * 0.92;
+          ctx.fillStyle = "rgba(" + sp.rgb + ", " + sa.toFixed(3) + ")";
+          ctx.beginPath();
+          ctx.arc(sp.x, sp.y, sp.size * (1 - spProg * 0.4), 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        // Update & Draw Fireflies (Far -> Mid -> Near)
+        for (var i = state.fireflies.length - 1; i >= 0; i--) {
+          var f = state.fireflies[i];
+
+          if (f.fadeIn < 1) {
+            f.fadeIn = Math.min(1, f.fadeIn + dt * 2.2);
+          }
+          if (f.retiring) {
+            f.lifeAlpha -= dt * 0.65;
+            if (f.lifeAlpha <= 0.01) {
+              state.fireflies.splice(i, 1);
+              continue;
+            }
+          }
+
+          // Check queued sympathetic flash
+          if (f.queuedFlashAt && ts >= f.queuedFlashAt) {
+            f.queuedFlashAt = 0;
+            if (f.flashPhase < 0 || f.flashPhase > 0.55) {
+              f.flashPhase = 0.01;
+            }
+            f.excited = Math.max(f.excited, f.queuedBoost || 0.7);
+            if (f.allowHop) {
+              f.allowHop = false;
+              triggerChainFlash(f, ts, 165, (f.queuedBoost || 0.8) * 0.68, false);
+            }
+            f.queuedBoost = 0;
+          }
+
+          // Biological flash envelope
+          var flashVal = 0;
+          if (f.flashPhase >= 0) {
+            f.flashPhase += dt / f.flashDuration;
+            if (f.flashPhase >= 1) {
+              f.flashPhase = -1;
+              f.nextFlashIn = 1.9 + Math.random() * 4.4;
+            } else {
+              var fp = f.flashPhase;
+              if (fp < 0.22) {
+                flashVal = Math.sin((fp / 0.22) * (Math.PI / 2));
+              } else if (f.doubleFlash && fp < 0.52) {
+                flashVal = 0.68 + 0.32 * Math.cos(((fp - 0.22) / 0.3) * Math.PI * 2);
+              } else {
+                var tailP = (fp - (f.doubleFlash ? 0.52 : 0.22)) / (f.doubleFlash ? 0.48 : 0.78);
+                flashVal = Math.pow(1 - clamp(tailP, 0, 1), 1.85);
+              }
+            }
+          } else {
+            f.nextFlashIn -= dt;
+            if (f.nextFlashIn <= 0) {
+              f.flashPhase = 0;
+              f.doubleFlash = Math.random() < 0.38;
+              if (Math.random() < 0.22) {
+                triggerChainFlash(f, ts, 145, 0.45, false);
+              }
+            }
+          }
+
+          f.excited = Math.max(0, f.excited - dt * 1.15);
+          var isHovered = f === state.hovered && !state.pointer.overUI;
+          f.hoverMix += ((isHovered ? 1 : 0) - f.hoverMix) * Math.min(1, dt * 12);
+
+          if (!reduceMotion) {
+            // 1. Organic autonomous dual-harmonic curl wander (Continuous natural drift)
+            var turnRate =
+              Math.sin(tSec * f.freq1 + f.seed) * 1.15 +
+              Math.cos(tSec * f.freq2 + f.seed2) * 0.75;
+            f.heading += turnRate * dt;
+
+            var desiredVx = Math.cos(f.heading) * f.baseSpeed;
+            var desiredVy =
+              Math.sin(f.heading) * f.baseSpeed * 0.68 - (flashVal > 0.35 ? 10 * flashVal : 0);
+
+            f.vx += (desiredVx - f.vx) * Math.min(1, dt * 1.9);
+            f.vy += (desiredVy - f.vy) * Math.min(1, dt * 1.9);
+
+            // Soft edge steering cushion: keeps fireflies moving gracefully within the section
+            var padX = 18;
+            var padTop = biome === "hero" ? h * 0.03 : biome === "footer" ? h * 0.06 : biome === "subpage" ? h * 0.06 : h * 0.03;
+            var padBot = h - 16;
+            if (f.x < padX) f.vx += (padX - f.x) * 2.2 * dt;
+            else if (f.x > w - padX) f.vx -= (f.x - (w - padX)) * 2.2 * dt;
+            if (f.y < padTop) f.vy += (padTop - f.y) * 2.2 * dt;
+            else if (f.y > padBot) f.vy -= (f.y - padBot) * 2.5 * dt;
+
+            // Soft mutual separation: prevents unnatural clumping and keeps fireflies spread out across the scene
+            for (var j = i - 1; j >= 0; j--) {
+              var other = state.fireflies[j];
+              if (other.retiring) continue;
+              var sdx = f.x - other.x;
+              var sdy = f.y - other.y;
+              var sDistSq = sdx * sdx + sdy * sdy;
+              var minSep = 54;
+              if (sDistSq < minSep * minSep && sDistSq > 0.01) {
+                var sDist = Math.sqrt(sDistSq);
+                var sepForce = ((minSep - sDist) / minSep) * 36;
+                var snx = sdx / sDist;
+                var sny = sdy / sDist;
+                f.vx += snx * sepForce * dt;
+                f.vy += sny * sepForce * dt;
+                other.vx -= snx * sepForce * dt;
+                other.vy -= sny * sepForce * dt;
+              }
+            }
+
+            // 2. Non-Gathering Localized Cursor Physics (Zero clumping, zero idle gathering, zero global displacement)
+            if (state.pointer.inside && !state.pointer.overUI) {
+              var dxP = state.pointer.x - f.x;
+              var dyP = state.pointer.y - f.y;
+              var distP = Math.hypot(dxP, dyP) || 1;
+
+              // Anti-clumping cushion: if an idle cursor is in a firefly's path (< 46px),
+              // firefly gently steers around it so fireflies NEVER congregate or rest on the mouse!
+              if (distP < 46) {
+                var pushFactor = ((46 - distP) / 46) * 44;
+                f.vx -= (dxP / distP) * pushFactor * dt * 2.4;
+                f.vy -= (dyP / distP) * pushFactor * dt * 2.4;
+              }
+
+              // Subtle localized air wake ONLY when cursor is swiped quickly near a firefly (< 72px)
+              if (state.pointer.speed > 240 && distP < 72) {
+                var wake = (1 - distP / 72) * Math.min(1.2, state.pointer.speed / 850);
+                f.vx += (state.pointer.vx * 0.08 - (dxP / distP) * 18) * wake * dt * 6;
+                f.vy += (state.pointer.vy * 0.08 - (dyP / distP) * 18) * wake * dt * 6;
+                f.excited = Math.max(f.excited, wake * 0.65);
+              }
+            }
+
+            // Clamp velocity smoothly so dashes stay graceful
+            var spdNow = Math.hypot(f.vx, f.vy);
+            var maxSpd = f.baseSpeed * 3.6 + 60;
+            if (spdNow > maxSpd) {
+              f.vx = (f.vx / spdNow) * maxSpd;
+              f.vy = (f.vy / spdNow) * maxSpd;
+              spdNow = maxSpd;
+            }
+
+            f.x += f.vx * dt;
+            f.y += f.vy * dt;
+            f.heading = Math.atan2(f.vy, f.vx);
+
+            // Sample silky flight trail points for mid/near fireflies
+            var maxTrail = f.tier === 2 ? 8 : f.tier === 1 ? 5 : 0;
+            if (maxTrail > 0) {
+              if (ts - f.lastTrailAt > 24) {
+                f.lastTrailAt = ts;
+                f.trail.push({
+                  x: f.x,
+                  y: f.y
+                });
+                if (f.trail.length > maxTrail) {
+                  f.trail.shift();
+                }
+              }
+            }
+          }
+
+          // Exact World Space Render Coordinates (Zero mouse-drag parallax translation!)
+          var rx = f.x;
+          var ry = f.y;
+
+          var totalGlow = clamp(
+            f.baseGlow + flashVal * 0.82 + f.excited * 0.55 + f.hoverMix * 0.65,
+            0.12,
+            1.45
+          );
+          var masterAlpha = f.fadeIn * f.lifeAlpha;
+          var pal = PALETTES[f.colorKey];
+
+          // 1. Draw Silky Tapered Flight Trail when gliding fast or excited
+          var moveSpd = Math.hypot(f.vx, f.vy);
+          if (f.trail.length > 2 && (moveSpd > f.baseSpeed * 1.25 || f.excited > 0.15)) {
+            var trailBoost = clamp((moveSpd - f.baseSpeed) / 95 + f.excited * 0.5, 0.08, 0.72);
+            ctx.lineCap = "round";
+            for (var ti = 1; ti < f.trail.length; ti++) {
+              var tp0 = f.trail[ti - 1];
+              var tp1 = f.trail[ti];
+              var frac = ti / f.trail.length;
+              var ta = frac * frac * trailBoost * 0.46 * masterAlpha;
+              ctx.strokeStyle = "rgba(" + pal.trail + ", " + ta.toFixed(3) + ")";
+              ctx.lineWidth = Math.max(0.7, f.scale * 2.1 * frac);
+              ctx.beginPath();
+              ctx.moveTo(tp0.x, tp0.y);
+              ctx.lineTo(tp1.x, tp1.y);
+              ctx.stroke();
+            }
+          }
+
+          // 2. Translucent Fluttering Micro-Wings on Foreground / Hovered Fireflies
+          if ((f.tier === 2 || f.hoverMix > 0.25) && totalGlow > 0.48 && !reduceMotion) {
+            var flap = Math.sin(ts * 0.045 + f.seed * 7);
+            var wingAlpha = clamp((totalGlow - 0.42) * 0.24 * masterAlpha, 0, 0.26);
+            var wingLen = (4.2 + f.hoverMix * 1.4) * f.scale;
+            var wingWid = (1.6 + Math.abs(flap) * 0.9) * f.scale;
+            ctx.save();
+            ctx.translate(rx, ry);
+            ctx.rotate(f.heading + Math.PI);
+            ctx.fillStyle = "rgba(226, 246, 255, " + wingAlpha.toFixed(3) + ")";
+
+            ctx.save();
+            ctx.rotate(0.48 + flap * 0.36);
+            ctx.beginPath();
+            ctx.ellipse(wingLen * 0.52, 0, wingLen * 0.55, wingWid * 0.5, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+
+            ctx.save();
+            ctx.rotate(-0.48 - flap * 0.36);
+            ctx.beginPath();
+            ctx.ellipse(wingLen * 0.52, 0, wingLen * 0.55, wingWid * 0.5, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+
+            ctx.restore();
+          }
+
+          // 3. Bioluminescent Radial Halo Sprite
+          var haloRadius =
+            (13 + 12 * totalGlow + f.hoverMix * 6) *
+            f.scale *
+            (f.tier === 0 ? 0.85 : 1);
+          ctx.globalAlpha = clamp(totalGlow * 0.95, 0.14, 1) * masterAlpha;
+          ctx.drawImage(
+            sprites[f.colorKey],
+            rx - haloRadius,
+            ry - haloRadius,
+            haloRadius * 2,
+            haloRadius * 2
+          );
+
+          // 4. Crisp Hot Bioluminescent Core
+          var coreR = (1.35 + 1.05 * Math.min(1.2, totalGlow) + f.hoverMix * 0.65) * f.scale;
+          ctx.globalAlpha = clamp(0.45 + totalGlow * 0.65, 0.3, 1) * masterAlpha;
+          ctx.fillStyle = pal.core;
+          ctx.beginPath();
+          ctx.arc(rx, ry, coreR, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        ctx.restore();
+        state.rafId = requestAnimationFrame(step);
+      }
+
+      state.syncPlayback = function () {
+        var shouldRun = isDarkMode() && state.inView && !reduceMotionQuery.matches && !isModalBlocking();
+        if (shouldRun && !state.running) {
+          state.running = true;
+          state.lastTs = 0;
+          if (!state.fireflies.length) populate();
+          state.rafId = requestAnimationFrame(step);
+        } else if (!shouldRun && state.running) {
+          state.running = false;
+          if (state.rafId) cancelAnimationFrame(state.rafId);
+          state.rafId = 0;
+          if (host.hasAttribute("data-firefly-hover")) {
+            host.removeAttribute("data-firefly-hover");
+          }
+        }
+      };
+
+      populate();
+      meadows.push(state);
+    });
+
+    if (!meadows.length) return;
+
+    function syncAll() {
+      meadows.forEach(function (m) {
+        m.syncPlayback();
+      });
+    }
+
+    // Viewport Observer: pause off-screen meadows automatically
+    if ("IntersectionObserver" in window) {
+      var io = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            meadows.forEach(function (m) {
+              if (m.host === entry.target) {
+                m.inView = entry.isIntersecting;
+                m.syncPlayback();
+              }
+            });
+          });
+        },
+        { rootMargin: "160px 0px 160px 0px" }
+      );
+      meadows.forEach(function (m) {
+        io.observe(m.host);
+      });
+    }
+
+    // Theme Observer: wake up instantly on Dark Mode, sleep cleanly in Light Mode
+    if ("MutationObserver" in window) {
+      new MutationObserver(syncAll).observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ["class"]
+      });
+    }
+
+    document.addEventListener("visibilitychange", syncAll);
+    window.addEventListener(
+      "resize",
+      function () {
+        meadows.forEach(function (m) {
+          if (m.running) m.lastTs = 0;
+        });
+      },
+      { passive: true }
+    );
+
+    // Public diagnostic & interaction handle
+    window.TemportFireflies = {
+      meadows: meadows,
+      sync: syncAll
+    };
+
+    syncAll();
+  }  initInteractiveFireflies();
+
 
 });
 
