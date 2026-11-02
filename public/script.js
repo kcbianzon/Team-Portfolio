@@ -1054,11 +1054,17 @@
         if (item.dataset.project && window.history && window.history.replaceState) {
           window.history.replaceState(null, "", "#" + item.dataset.project);
         }
-        // Smoothly scroll to the stage on mobile when choosing a project
+        // Smoothly center the active pill on mobile without jarringly jumping the screen
         if (window.innerWidth <= 860) {
-          var stage = document.getElementById("cr-workstation-stage");
-          if (stage) {
-            stage.scrollIntoView({ behavior: "smooth", block: "start" });
+          try {
+            item.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+          } catch (e) {}
+          var ws = document.querySelector(".cr-os-workstation");
+          if (ws) {
+            var rect = ws.getBoundingClientRect();
+            if (rect.top < -80) {
+              ws.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
           }
         }
       });
@@ -1875,7 +1881,7 @@ document.addEventListener("DOMContentLoaded", function () {
 /* ==========================================================================
    CREATIE® FRAMER UI/UX INTERACTIVE ANIMATIONS ENGINE
    ========================================================================== */
-document.addEventListener("DOMContentLoaded", function () {
+function initCreatieEngine() {
   // 1. Interactive Mouse-Tracking & Blinking Googly Eyes (#cr-googly-eyes)
   var googlyEyes = document.getElementById("cr-googly-eyes");
   if (googlyEyes) {
@@ -2639,6 +2645,11 @@ document.addEventListener("DOMContentLoaded", function () {
       var isCurrent = btn.getAttribute("data-chat-person") === key;
       btn.classList.toggle("is-active", isCurrent);
       btn.setAttribute("aria-selected", isCurrent ? "true" : "false");
+      if (isCurrent && window.innerWidth <= 768) {
+        try {
+          btn.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+        } catch (e) {}
+      }
     });
 
     // Address bar
@@ -2944,8 +2955,20 @@ document.addEventListener("DOMContentLoaded", function () {
     var activeCat = "websites";
     var currentQuery = "";
 
-    // 1. Sync OS Viewer Header (Slug & Live CTA Link)
+    // 1. Sync OS Viewer Header (Slug, Live CTA Link & Category Tab)
     function syncViewerHeader(projId) {
+      if (!projId) return;
+      var targetItem = document.querySelector('.project-sidebar-item[data-project="' + projId + '"]');
+      if (targetItem) {
+        var itemCat = targetItem.getAttribute("data-category") || "";
+        if (itemCat && itemCat !== activeCat) {
+          activeCat = itemCat;
+          categoryPills.forEach(function(p) {
+            p.classList.toggle("is-active", (p.getAttribute("data-cat-filter") || "") === itemCat);
+          });
+          applySidebarFilters();
+        }
+      }
       if (viewerSlugEl) {
         viewerSlugEl.textContent = projId.toLowerCase() + ".case";
       }
@@ -2990,16 +3013,28 @@ document.addEventListener("DOMContentLoaded", function () {
           var matchesQuery = !q || itemName.includes(q) || itemIdx.includes(q) || itemBadge.includes(q) || itemCat.includes(q);
 
           if (matchesCat && matchesQuery) {
-            item.style.display = "flex";
+            item.style.removeProperty("display");
+            item.classList.remove("is-hidden");
+            item.removeAttribute("data-hidden");
             groupVisibleCount++;
             visibleCount++;
           } else {
-            item.style.display = "none";
+            item.style.setProperty("display", "none", "important");
+            item.classList.add("is-hidden");
+            item.setAttribute("data-hidden", "true");
           }
         });
 
         // Hide group heading if all its items are filtered out
-        group.style.display = groupVisibleCount > 0 ? "block" : "none";
+        if (groupVisibleCount > 0) {
+          group.style.removeProperty("display");
+          group.classList.remove("is-hidden");
+          group.removeAttribute("data-hidden");
+        } else {
+          group.style.setProperty("display", "none", "important");
+          group.classList.add("is-hidden");
+          group.setAttribute("data-hidden", "true");
+        }
       });
 
       if (emptyStateEl) {
@@ -3023,10 +3058,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // If active project is hidden, switch to the first visible one
       var activeItem = document.querySelector(".project-sidebar-item.is-active");
-      if (activeItem && activeItem.style.display === "none" && visibleCount > 0) {
-        var firstVisible = document.querySelector('.project-sidebar-item[style*="display: flex"]');
+      if (activeItem && (activeItem.style.display === "none" || activeItem.classList.contains("is-hidden")) && visibleCount > 0) {
+        var firstVisible = document.querySelector('.project-sidebar-item:not(.is-hidden):not([data-hidden="true"])');
         if (firstVisible) {
           firstVisible.click();
+        }
+      }
+
+      // On mobile, smoothly reset horizontal scroll to first visible pill
+      if (window.innerWidth <= 860) {
+        var sidebarScroll = document.querySelector(".cr-sidebar-items-scroll");
+        if (sidebarScroll) {
+          sidebarScroll.scrollTo({ left: 0, behavior: "smooth" });
         }
       }
     }
@@ -3256,8 +3299,16 @@ document.addEventListener("DOMContentLoaded", function () {
         nextItem.click();
         var sidebarScroll = document.querySelector(".cr-sidebar-items-scroll");
         if (sidebarScroll) {
-          var itemOffset = nextItem.offsetTop - sidebarScroll.offsetTop;
-          sidebarScroll.scrollTo({ top: Math.max(0, itemOffset - 40), behavior: "smooth" });
+          if (window.innerWidth <= 860) {
+            try {
+              nextItem.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+            } catch (e) {
+              sidebarScroll.scrollTo({ left: Math.max(0, nextItem.offsetLeft - 30), behavior: "smooth" });
+            }
+          } else {
+            var itemOffset = nextItem.offsetTop - sidebarScroll.offsetTop;
+            sidebarScroll.scrollTo({ top: Math.max(0, itemOffset - 40), behavior: "smooth" });
+          }
         }
       }
     }
@@ -6613,10 +6664,15 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     syncAll();
-  }  initInteractiveFireflies();
+  }
+  initInteractiveFireflies();
+}
 
-
-});
+if (document.body) {
+  initCreatieEngine();
+} else {
+  document.addEventListener("DOMContentLoaded", initCreatieEngine);
+}
 
   // Mobile Hero Auto-Scaler (Fits exact desktop lockup proportionally & centered)
   function fitHeroLockup() {

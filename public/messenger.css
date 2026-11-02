@@ -389,3 +389,586 @@ html.dark-mode .cr-pacay-dossier-sheet span[style*="#ffde05"],
 html.dark-mode .cr-khian-dossier-sheet span[style*="#ffde05"] {
   color: #121418 !important;
 }
+
+/* ==========================================================================
+   NATIVE MOBILE MESSENGER APP REDESIGN (<= 768px & <= 480px)
+   Transforms the desktop OS messenger window into a sleek, full-viewport
+   mobile messenger app with a top Story/People Switcher Strip, compact
+   1-row active contact bar, spacious chat feed, horizontal file card,
+   swipeable quick chips, and safe-area-aware bottom composer.
+   ========================================================================== */
+@media (max-width: 768px) {
+  /* Hide bottom navigation docks & celestial toggles while Messenger is open so composer & close button are unobstructed */
+  body.messenger-open .cr-apple-dock,
+  body.messenger-open .mobile-dock,
+  body.messenger-open .theme-toggle,
+  body.messenger-open #theme-toggle,
+  body.messenger-open .cr-back-to-home {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transform: translateY(24px) !important;
+  }
+
+  #resume-panel.cr-messenger-modal {
+    z-index: 200000 !important;
+    padding: 6px !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  #resume-panel .cr-messenger-window {
+    width: calc(100vw - 12px) !important;
+    max-width: 100% !important;
+    height: calc(100dvh - 12px) !important;
+    max-height: calc(100dvh - 12px) !important;
+    margin: 0 !important;
+    border-radius: 22px !important;
+    border: 2px solid #252525 !important;
+    box-shadow: 0 22px 54px rgba(0, 0, 0, 0.52) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+  }
+
+  html.dark-mode #resume-panel .cr-messenger-window {
+    border-color: rgba(255, 255, 255, 0.18) !important;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.82) !important;
+  }
+
+  #resume-panel .cr-resume-os-paperclip {
+    display: none !important;
+  }
+
+  /* 1. Compact Mobile App Titlebar */
+  #resume-panel .cr-messenger-chrome {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 8px 12px !important;
+    min-height: 44px !important;
+    border-radius: 20px 20px 0 0 !important;
+    gap: 8px !important;
+    flex-shrink: 0 !important;
+  }
+
+  #resume-panel .cr-messenger-chrome .cr-os-controls {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    flex-shrink: 0 !important;
+  }
+
+  #resume-panel .cr-resume-os-address {
+    min-width: 0 !important;
+    max-width: 170px !important;
+    padding: 4px 10px !important;
+    font-size: 11px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    flex: 1 1 auto !important;
+    justify-content: center !important;
+  }
+
+  #resume-panel .cr-resume-os-address #cr-messenger-address {
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  #resume-panel .resume-panel-close,
+  #resume-panel .cr-messenger-close-btn {
+    position: static !important;
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 50% !important;
+    border: 1.5px solid #252525 !important;
+    background: #ffffff !important;
+    color: #252525 !important;
+    box-shadow: 1.5px 1.5px 0 #252525 !important;
+    font-size: 20px !important;
+    line-height: 1 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    flex-shrink: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    z-index: 5 !important;
+    transition: transform 0.18s ease, background-color 0.18s ease !important;
+  }
+
+  #resume-panel .resume-panel-close:hover,
+  #resume-panel .cr-messenger-close-btn:hover {
+    background: #ffde05 !important;
+    transform: scale(1.08) !important;
+  }
+
+  html.dark-mode #resume-panel .resume-panel-close,
+  html.dark-mode #resume-panel .cr-messenger-close-btn {
+    background: #232a3b !important;
+    border-color: rgba(255, 255, 255, 0.22) !important;
+    color: #f1f5f9 !important;
+    box-shadow: 1.5px 1.5px 0 rgba(0, 0, 0, 0.6) !important;
+  }
+
+  /* 2. Mobile Messenger Body & Story/People Switcher Strip */
+  #resume-panel .cr-messenger-body {
+    flex-direction: column !important;
+    flex: 1 1 0 !important;
+    min-height: 0 !important;
+    border-radius: 0 0 20px 20px !important;
+    overflow: hidden !important;
+  }
+
+  #resume-panel .cr-messenger-sidebar {
+    width: 100% !important;
+    height: auto !important;
+    flex-shrink: 0 !important;
+    border-right: none !important;
+    border-bottom: 1.5px solid rgba(37, 37, 37, 0.14) !important;
+    background: #f5f3ea !important;
+    padding: 0 !important;
+  }
+
+  html.dark-mode #resume-panel .cr-messenger-sidebar {
+    background: #12151e !important;
+    border-bottom-color: rgba(255, 255, 255, 0.1) !important;
+  }
+
+  #resume-panel .cr-sidebar-header,
+  #resume-panel .cr-sidebar-footer,
+  #resume-panel .cr-thread-snippet,
+  #resume-panel .cr-thread-time {
+    display: none !important;
+  }
+
+  #resume-panel .cr-threads-list {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 7px !important;
+    padding: 8px 10px !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  #resume-panel .cr-threads-list::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+
+  #resume-panel .cr-thread-item {
+    display: inline-flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 7px !important;
+    width: auto !important;
+    padding: 4px 11px 4px 5px !important;
+    border-radius: 999px !important;
+    border: 1.5px solid rgba(37, 37, 37, 0.16) !important;
+    background: #ffffff !important;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04) !important;
+    flex-shrink: 0 !important;
+    transform: none !important;
+  }
+
+  html.dark-mode #resume-panel .cr-thread-item {
+    background: #1b202d !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
+  }
+
+  #resume-panel .cr-thread-item.is-active {
+    background: #8168fd !important;
+    border-color: #252525 !important;
+    box-shadow: 2px 2px 0 #252525 !important;
+    transform: none !important;
+  }
+
+  html.dark-mode #resume-panel .cr-thread-item.is-active {
+    background: #6d55e8 !important;
+    border-color: #ffde05 !important;
+    box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.65) !important;
+  }
+
+  #resume-panel .cr-thread-avatar-wrap {
+    width: 28px !important;
+    height: 28px !important;
+  }
+
+  #resume-panel .cr-thread-avatar {
+    width: 28px !important;
+    height: 28px !important;
+    border-radius: 50% !important;
+    border-width: 1.5px !important;
+  }
+
+  #resume-panel .cr-thread-item.is-active .cr-thread-avatar {
+    border-color: #ffde05 !important;
+    background: #ffde05 !important;
+  }
+
+  #resume-panel .cr-status-dot {
+    width: 8px !important;
+    height: 8px !important;
+    right: -1px !important;
+    bottom: -1px !important;
+    border-width: 1.5px !important;
+  }
+
+  #resume-panel .cr-thread-meta {
+    display: flex !important;
+    align-items: center !important;
+  }
+
+  #resume-panel .cr-thread-top {
+    margin: 0 !important;
+  }
+
+  #resume-panel .cr-thread-name {
+    font-size: 12px !important;
+    font-weight: 800 !important;
+    white-space: nowrap !important;
+    color: #1e293b !important;
+  }
+
+  html.dark-mode #resume-panel .cr-thread-name {
+    color: #e2e8f0 !important;
+  }
+
+  #resume-panel .cr-thread-item.is-active .cr-thread-name {
+    color: #ffffff !important;
+  }
+
+  /* 3. Sleek Single-Row Active Contact Header */
+  #resume-panel .cr-messenger-stage {
+    flex: 1 1 0 !important;
+    min-height: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  #resume-panel .cr-chat-header {
+    padding: 8px 12px !important;
+    gap: 8px !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    flex-shrink: 0 !important;
+    border-bottom-width: 1.5px !important;
+  }
+
+  #resume-panel .cr-chat-contact-meta {
+    gap: 9px !important;
+    min-width: 0 !important;
+    flex: 1 1 0 !important;
+  }
+
+  #resume-panel .cr-chat-header-avatar {
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 50% !important;
+    border-width: 1.5px !important;
+    flex-shrink: 0 !important;
+  }
+
+  #resume-panel .cr-chat-contact-text {
+    min-width: 0 !important;
+    flex: 1 1 0 !important;
+  }
+
+  #resume-panel .cr-chat-name-row {
+    gap: 6px !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+  }
+
+  #resume-panel #cr-chat-header-name {
+    font-size: 13.5px !important;
+    font-weight: 800 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  #resume-panel .cr-role-badge {
+    font-size: 9px !important;
+    padding: 2px 6px !important;
+    flex-shrink: 0 !important;
+    white-space: nowrap !important;
+  }
+
+  #resume-panel .cr-chat-status-text {
+    font-size: 11px !important;
+    margin-top: 1px !important;
+  }
+
+  #resume-panel .cr-chat-header-actions {
+    flex-shrink: 0 !important;
+  }
+
+  #resume-panel .cr-chat-toggle-sheet-btn {
+    padding: 6px 11px !important;
+    font-size: 11px !important;
+    border-radius: 999px !important;
+    gap: 5px !important;
+    white-space: nowrap !important;
+    box-shadow: 2px 2px 0 #252525 !important;
+  }
+
+  #resume-panel .cr-chat-toggle-sheet-btn svg {
+    width: 13px !important;
+    height: 13px !important;
+  }
+
+  /* 4. Spacious Native Mobile Chat Feed & Bubbles */
+  #resume-panel .cr-chat-feed {
+    flex: 1 1 0 !important;
+    min-height: 0 !important;
+    padding: 12px 12px 14px !important;
+    gap: 9px !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  #resume-panel .cr-chat-date-divider {
+    margin-bottom: 2px !important;
+  }
+
+  #resume-panel .cr-chat-date-divider span {
+    font-size: 10px !important;
+    padding: 3px 10px !important;
+  }
+
+  #resume-panel .cr-chat-bubble {
+    max-width: 86% !important;
+    padding: 9px 13px !important;
+    font-size: 13.5px !important;
+    line-height: 1.45 !important;
+    border-radius: 18px 18px 18px 4px !important;
+    border-width: 1.5px !important;
+    box-shadow: 2px 2px 0 rgba(37, 37, 37, 0.1) !important;
+  }
+
+  #resume-panel .cr-chat-bubble.outgoing {
+    border-radius: 18px 18px 4px 18px !important;
+    box-shadow: 2px 2px 0 #252525 !important;
+  }
+
+  /* 5. Compact Horizontal File Attachment Card inside Mobile Chat */
+  #resume-panel .cr-chat-attachment-card {
+    display: grid !important;
+    grid-template-columns: 58px minmax(0, 1fr) !important;
+    align-items: center !important;
+    gap: 10px !important;
+    width: 100% !important;
+    max-width: 94% !important;
+    padding: 9px 10px !important;
+    border-radius: 16px !important;
+    border-width: 1.5px !important;
+    box-shadow: 3px 3px 0 #252525 !important;
+  }
+
+  #resume-panel .cr-attachment-thumb {
+    width: 58px !important;
+    height: 74px !important;
+    border-radius: 9px !important;
+    border-width: 1.5px !important;
+  }
+
+  #resume-panel .cr-attachment-thumb-badge {
+    bottom: 3px !important;
+    right: 3px !important;
+    padding: 1.5px 4px !important;
+    font-size: 7.5px !important;
+    border-radius: 4px !important;
+    box-shadow: none !important;
+  }
+
+  #resume-panel .cr-attachment-details {
+    min-width: 0 !important;
+    gap: 2px !important;
+  }
+
+  #resume-panel .cr-attachment-title {
+    font-size: 12px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  #resume-panel .cr-attachment-sub {
+    font-size: 10.5px !important;
+    line-height: 1.25 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  #resume-panel .cr-attachment-actions {
+    margin-top: 5px !important;
+    gap: 5px !important;
+    flex-wrap: wrap !important;
+  }
+
+  #resume-panel .cr-attachment-btn-primary,
+  #resume-panel .cr-attachment-btn-download {
+    padding: 5px 9px !important;
+    font-size: 10.5px !important;
+    border-radius: 8px !important;
+    border-width: 1.5px !important;
+    box-shadow: 1.5px 1.5px 0 #252525 !important;
+  }
+
+  /* 6. Single-Row Swipeable Quick-Reply Chips + Safe-Area Bottom Input Bar */
+  #resume-panel .cr-chat-chips-bar {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    gap: 6px !important;
+    padding: 7px 10px !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+    -webkit-overflow-scrolling: touch;
+    flex-shrink: 0 !important;
+  }
+
+  #resume-panel .cr-chat-chips-bar::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+
+  #resume-panel .cr-chat-chip {
+    flex-shrink: 0 !important;
+    padding: 5px 11px !important;
+    font-size: 11.5px !important;
+    border-radius: 999px !important;
+    white-space: nowrap !important;
+  }
+
+  #resume-panel .cr-chat-input-bar {
+    padding: 8px 10px max(10px, env(safe-area-inset-bottom)) !important;
+    gap: 8px !important;
+    flex-shrink: 0 !important;
+    border-top-width: 1.5px !important;
+  }
+
+  #resume-panel .cr-chat-input {
+    height: 40px !important;
+    padding: 0 14px !important;
+    font-size: 16px !important; /* Prevents iOS auto-zoom on focus */
+    border-radius: 999px !important;
+    border-width: 1.5px !important;
+  }
+
+  #resume-panel .cr-chat-send-btn {
+    width: 40px !important;
+    height: 40px !important;
+    flex-shrink: 0 !important;
+    border-width: 1.5px !important;
+    box-shadow: 2px 2px 0 #252525 !important;
+  }
+
+  /* 7. Fullscreen Mobile Resume Sheet Overlay */
+  #resume-panel .cr-sheet-header {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 6px !important;
+    padding: 8px 10px !important;
+  }
+
+  #resume-panel .cr-sheet-back-btn {
+    width: 100% !important;
+    justify-content: center !important;
+    padding: 6px 10px !important;
+    font-size: 11.5px !important;
+    border-radius: 8px !important;
+  }
+
+  #resume-panel .cr-sheet-header-tools {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 5px !important;
+    width: 100% !important;
+  }
+
+  #resume-panel .cr-sheet-view-toggle {
+    flex: 1 1 auto !important;
+    justify-content: center !important;
+  }
+
+  #resume-panel .cr-sheet-mode-btn {
+    flex: 1 1 0 !important;
+    justify-content: center !important;
+    padding: 5px 8px !important;
+    font-size: 10.5px !important;
+  }
+
+  #resume-panel .cr-sheet-tab-pill,
+  #resume-panel .cr-sheet-download-pill {
+    padding: 5px 9px !important;
+    font-size: 10.5px !important;
+    border-radius: 8px !important;
+  }
+
+  #resume-panel .cr-sheet-scroll-body {
+    padding: 8px !important;
+  }
+
+  #resume-panel .cr-sheet-pdf-frame {
+    height: calc(100dvh - 120px) !important;
+    min-height: 340px !important;
+    border-radius: 10px !important;
+  }
+
+  #resume-panel .cr-pacay-dossier-sheet,
+  #resume-panel .cr-khian-dossier-sheet {
+    padding: 16px 14px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  #resume-panel.cr-messenger-modal {
+    padding: 0 !important;
+  }
+
+  #resume-panel .cr-messenger-window {
+    width: 100vw !important;
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+    border-radius: 0 !important;
+    border: none !important;
+  }
+
+  #resume-panel .cr-messenger-chrome {
+    border-radius: 0 !important;
+    padding: 8px 12px !important;
+  }
+
+  #resume-panel .cr-resume-os-address {
+    max-width: 140px !important;
+    font-size: 10px !important;
+    padding: 3px 8px !important;
+  }
+
+  #resume-panel .cr-messenger-body {
+    border-radius: 0 !important;
+  }
+
+  /* Compact header badge on narrow phones so name + Resume button never crowd */
+  #resume-panel .cr-chat-name-row .cr-role-badge {
+    font-size: 8.5px !important;
+    padding: 2px 5px !important;
+  }
+}
