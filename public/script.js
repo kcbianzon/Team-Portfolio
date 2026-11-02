@@ -438,13 +438,17 @@
           !href.startsWith("//");
         if (isInternal) {
           link.addEventListener("click", function (e) {
-            // Check if link points to current page (with or without hash)
+            // Check if link points to current page (supports both clean URLs like /project and /project.html)
             var currentPath = window.location.pathname.split("/").pop() || "index.html";
             var urlParts = href.split("#");
             var targetPath = urlParts[0].split("/").pop();
             var targetHash = urlParts[1];
 
-            if (targetPath === "" || targetPath === currentPath) {
+            var norm = function (p) {
+              return (p || "").replace(/\.html$/, "") || "index";
+            };
+
+            if (targetPath === "" || targetPath === currentPath || norm(targetPath) === norm(currentPath)) {
               if (targetHash) {
                 e.preventDefault();
                 window.location.hash = targetHash;
