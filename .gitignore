@@ -70,3 +70,4 @@ node_modules/
 
 # Temporary agent scratch
 scratch/
+.vercel
