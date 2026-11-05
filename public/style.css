@@ -7942,14 +7942,24 @@ html.dark-mode .cr-reviews-badge {
     margin: 0 auto !important;
   }
 
-  .cr-faq-card.faq-5 {
+  .cr-faq-card.faq-5,
+  .cr-faq-card.is-open.faq-5,
+  .cr-faq-card.is-open:not(.faq-5) {
     top: auto !important;
     left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
     transform: none !important;
   }
 
-  .cr-faq-card:hover {
+  .cr-faq-card:hover,
+  .cr-faq-card.faq-5:hover {
     transform: translateY(-3px) !important;
+  }
+
+  .cr-faq-card.is-open:hover,
+  .cr-faq-card.is-open.faq-5:hover {
+    transform: none !important;
   }
 }
 
@@ -10600,7 +10610,10 @@ html.dark-mode .cr-sky-plane svg {
     width: 100% !important;
     max-width: 100% !important;
   }
-  .cr-faq-card {
+  .cr-faq-card,
+  .cr-faq-card.faq-5,
+  .cr-faq-card.is-open,
+  .cr-faq-card.is-open.faq-5 {
     position: relative !important;
     top: auto !important;
     left: auto !important;
@@ -21070,9 +21083,59 @@ html.dark-mode .cr-footer-card[data-firefly-hover="true"] {
     grid-template-columns: 1fr !important;
     gap: 12px !important;
   }
+
+  /* FAQ Pastel Notes Mobile Alignment & Centering (Ensures all notes including Note 5 open centered) */
+  .cr-faq-section {
+    padding: 60px 16px 80px !important;
+  }
+
+  .cr-faq-stage {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    min-height: auto !important;
+    gap: 14px !important;
+    width: 100% !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .cr-faq-card,
+  .cr-faq-card.faq-5,
+  .cr-faq-card.is-open,
+  .cr-faq-card.is-open.faq-5,
+  .cr-faq-card:hover,
+  .cr-faq-card.faq-5:hover,
+  .cr-faq-card.is-open:hover,
+  .cr-faq-card.is-open.faq-5:hover {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    transform: none !important;
+    width: 100% !important;
+    max-width: 520px !important;
+    margin: 0 auto !important;
+    box-sizing: border-box !important;
+  }
 }
 
 @media (max-width: 480px) {
+  .cr-faq-section {
+    padding: 48px 10px 64px !important;
+  }
+
+  .cr-faq-card,
+  .cr-faq-card.faq-5,
+  .cr-faq-card.is-open,
+  .cr-faq-card.is-open.faq-5 {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 12px 16px !important;
+    border-radius: 14px !important;
+    transform: none !important;
+  }
   #work,
   .project-browser-section {
     padding: 8px 4px 125px !important;
