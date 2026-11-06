@@ -2276,14 +2276,14 @@ function initCreatieEngine() {
     },
     bunbite: {
       title: "Bun & Bite",
-      address: "bunandbite.co",
+      address: "bun-and-bite-88537.web.app",
       heroImg: "assets/projects/project2-1.png",
       gallery: [
         "assets/projects/project2-2.png",
         "assets/projects/project2-3.png",
         "assets/projects/project2-4.png"
       ],
-      previewLink: "assets/projects/project2-1.png",
+      previewLink: "https://bun-and-bite-88537.web.app/",
       desc: "An artisanal gourmet burger online ordering and menu experience featuring dynamic ingredient customization, mouthwatering hero presentations, and lightning-fast checkout flow.",
       client: "Gourmet Food & Beverage",
       years: "2026",
@@ -3541,9 +3541,15 @@ function initCreatieEngine() {
         hover: [["Sharp fades, zero scheduling conflicts", "Book the full-stack case study"], ["Fresh cut, seamless booking", "MySQL & Node under the hood"]],
         click: [["Checking barber chair\u2026", "Next in line!"], ["Styling the case study\u2026", "Looking sharp"]],
       },
+      "NextLevelGaming": {
+        hover: [["Turnkey event rentals & multiplayer gaming hubs", "VR, 360 booths & giant screens"], ["Level up your event", "Interactive entertainment in NH, MA & NC"]],
+        click: [["Connecting tournament lobby\u2026", "Player 1 ready!"], ["Powering up the screens\u2026", "Game on!"]],
+      },
     };
     PROJECT_SAYS.ykb = PROJECT_SAYS["ykb-clothing"];
     PROJECT_SAYS.yankiii = PROJECT_SAYS["yankii-barber"];
+    PROJECT_SAYS.nextlevel = PROJECT_SAYS["NextLevelGaming"];
+    PROJECT_SAYS.nextlevelgaming = PROJECT_SAYS["NextLevelGaming"];
     var GENERIC_PROJECT = {
       hover: [["Peek behind the curtain", "Case study inside"], ["I worked hard on this one", "Tap to see how"]],
       click: [["Opening the case study\u2026", "Good choice"]],

@@ -211,7 +211,7 @@
                   <button class="project-sidebar-item" type="button" data-project="bunbite" data-category="websites">
                     <span class="project-sidebar-index">02</span>
                     <span class="project-sidebar-name">Bun &amp; Bite</span>
-                    <span class="project-sidebar-badge dev">Dev</span>
+                    <span class="project-sidebar-badge live">Live ↗</span>
                   </button>
                   <button class="project-sidebar-item" type="button" data-project="newwebsiteproject" data-category="websites">
                     <span class="project-sidebar-index">03</span>
@@ -241,7 +241,7 @@
                   <button class="project-sidebar-item" type="button" data-project="NextLevelGaming" data-category="websites">
                     <span class="project-sidebar-index">08</span>
                     <span class="project-sidebar-name">NextLevelGaming</span>
-                    <span class="project-sidebar-badge plan">WIP</span>
+                    <span class="project-sidebar-badge live">Live ↗</span>
                   </button>
                   <button class="project-sidebar-item" type="button" data-project="ykb-clothing" data-category="websites">
                     <span class="project-sidebar-index">09</span>
@@ -432,12 +432,12 @@
           </article>
 
           <!-- 02 Bun & Bite -->
-          <article class="project-viewer-panel" data-panel="bunbite">
+          <article class="project-viewer-panel" data-panel="bunbite" data-live-url="https://bun-and-bite-88537.web.app/">
             <div class="project-viewer-media">
               <div class="project-live-preview">
-                <img src="assets/projects/project2-1.png"
-                  alt="Bun and Bite website preview"
-                  class="project-media-img" loading="lazy" decoding="async">
+                <iframe data-src="https://bun-and-bite-88537.web.app/"
+                  loading="lazy"
+                ></iframe>
               </div>
             </div>
 
@@ -456,7 +456,7 @@
               </p>
               <!-- STATUS BADGE -->
               <div class="project-status-badge ">
-                <span class="status-dot"></span> Active Development
+                <span class="status-dot"></span> Completed
               </div>
 
               <!-- BUILT WITH -->
@@ -1322,40 +1322,84 @@
           </article>
 
           <!-- 08 NextLevelGaming -->
-          <article class="project-viewer-panel" data-panel="NextLevelGaming">
+          <article class="project-viewer-panel" data-panel="NextLevelGaming" data-live-url="https://nextlevelgamingevents.com">
             <div class="project-viewer-media">
-              <div class="project-live-preview cr-blueprint-preview">
-                <div class="cr-blueprint-grid-overlay"></div>
-                <div class="cr-blueprint-inner">
-                  <div class="cr-blueprint-badge">
-                    <span class="cr-pulse-dot-amber"></span>
-                    <span>ACTIVE PRODUCTION // SPRINT IN PROGRESS</span>
-                  </div>
-                  <div class="cr-blueprint-title">
-                    <h4>SYSTEM ARCHITECTURE // SCHEMATIC</h4>
-                    <p>NextLevelGaming High-Performance Tournament Hub</p>
-              </div>
-                  <div class="cr-blueprint-terminal">
-                    <div class="cr-terminal-line"><span class="cr-t-prompt">&gt;</span> <span class="cr-t-cmd">status --target</span> <span class="cr-t-arg">gaming-hub</span></div>
-                    <div class="cr-terminal-line cr-t-dim">[INIT] Realtime matchmaking tournament lobbies...</div>
-                    <div class="cr-terminal-line cr-t-dim">[WEBSOCKET] Leaderboard sync &amp; live brackets...</div>
-                    <div class="cr-terminal-line cr-t-accent">&check; Target Release: Q3 2026 Milestone</div>
-                  </div>
-                  <div class="cr-blueprint-footer">
-                    <span>ARCHIVE DOSSIER 08</span>
-                    <span>CONFIDENTIAL // PRE-LAUNCH</span>
-                  </div>
-                </div>
+              <div class="project-live-preview">
+                <iframe data-src="https://nextlevelgamingevents.com"
+                  loading="lazy"
+                ></iframe>
               </div>
             </div>
 
             <div class="project-viewer-body">
-              <div class="project-viewer-eyebrow ">Websites &mdash; 08</div>
+              <div class="project-viewer-eyebrow">Websites &mdash; 08</div>
               <h3>NextLevelGaming</h3>
+              <p>
+                A premier turnkey event and interactive party rental platform engineered for university orientations, corporate gatherings, festivals, and large-scale celebrations. The platform showcases giant outdoor inflatable movie screens, mobile LED video walls, multiplayer esports gaming hubs, room-scale Virtual Reality escape rooms, 3-channel silent disco systems, 360 photo booths, force-feedback sim racing cockpits, and 11 custom DIY novelty maker workshops across New England and North Carolina.
+              </p>
+              <div class="project-status-badge">
+                <span class="status-dot"></span>
+                Completed
+              </div>
 
-              <div class="project-status-badge ">
-                <span class="status-dot" style="background: #f59e0b"></span>
-                Ongoing Project
+              <div class="project-features">
+                <div class="project-features-title">Frontend Stack</div>
+                <div class="tag-pills">
+                  <span>React</span><span>JavaScript (ES6+)</span><span>HTML5</span><span>CSS3</span><span>Responsive Web Design</span><span>Component Architecture</span>
+                </div>
+              </div>
+
+              <div class="project-features">
+                <div class="project-features-title">Backend, CDN &amp; Hosting</div>
+                <div class="tag-pills">
+                  <span>Node.js</span><span>Fastly CDN Edge</span><span>REST API</span><span>Dynamic Quote Engine</span><span>SSL / HTTPS</span>
+                </div>
+              </div>
+
+              <div class="project-features">
+                <div class="project-features-title">Interactive Attractions &amp; Service Zones</div>
+                <div class="tag-pills">
+                  <span>Multiplayer Esports Hubs</span><span>16–40ft Inflatable Screens</span><span>Daylight Mobile LED Walls</span><span>360 Video Booths</span><span>VR Escape Rooms</span><span>Silent Disco</span><span>Sim Racing</span><span>Glow Park</span>
+                </div>
+              </div>
+
+              <div class="project-features">
+                <div class="project-features-title">Design &amp; Development Highlights</div>
+                <ul class="project-features-list">
+                  <li>Engineered a high-converting digital storefront showcasing comprehensive event packages for universities, corporations, and private festivals.</li>
+                  <li>Created intuitive experience selectors allowing event directors to explore gaming hubs, movie screens, VR attractions, and maker workshops.</li>
+                  <li>Built an interactive custom quote request engine with multi-state regional routing (NH, Boston MA, and North Carolina).</li>
+                  <li>Optimized responsive mobile navigation and touch-friendly media carousels for seamless on-the-go browsing.</li>
+                  <li>Integrated social proof and verified client testimonials from 23+ partner universities including Harvard, Boston University, and Penn State.</li>
+                  <li>Implemented Fastly edge caching and modern asset optimization for rapid page loads across all viewports.</li>
+                </ul>
+              </div>
+
+              <div class="project-features">
+                <div class="project-features-title">Architectural Features</div>
+                <div class="tag-pills">
+                  <span>Interactive Experience Catalog</span><span>Dynamic Quote Request Flow</span><span>Multi-Region Service Locator</span><span>Fastly Edge Caching</span><span>Mobile-First Responsive Layout</span><span>SEO Meta Architecture</span>
+                </div>
+              </div>
+
+              <div class="status-columns">
+                <div class="status-col">
+                  <div class="project-features-title">Current Implementation</div>
+                  <ul class="project-features-list status-list is-done">
+                    <li>Turnkey Event &amp; Experience Showcase</li>
+                    <li>Interactive Multi-Category Filter System</li>
+                    <li>Custom Quote &amp; Inquiry Engine</li>
+                    <li>Production Launch on nextlevelgamingevents.com</li>
+                  </ul>
+                </div>
+                <div class="status-col">
+                  <div class="project-features-title">Planned Enhancements</div>
+                  <ul class="project-features-list status-list is-wip">
+                    <li>Instant Online Date Availability Calendar</li>
+                    <li>Client Self-Service Rental Dashboard</li>
+                    <li>Automated Rental Agreement Digital Signatures</li>
+                  </ul>
+                </div>
               </div>
             </div>
           </article>
