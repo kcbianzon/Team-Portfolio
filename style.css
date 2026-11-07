@@ -7,7 +7,7 @@
   --bg: #f5f3ea;
   --cream-bg: #f5f3ea;
   --paper-noise: url('https://framerusercontent.com/images/eOYxEIuj9eit1MkxUJQwRtgpmw.png?width=4320&height=4320');
-  --sky-hero-bg: url('assets/hero-bg-day.png');
+  --sky-hero-bg: url('assets/hero-bg-day.webp');
   --sky-projects-bg: url('https://framerusercontent.com/images/iheh57SbwDCbLIJPfTCJqC9yGG4.png?width=4320&height=2848');
   --sky-footer-outer: url('https://framerusercontent.com/images/2y9hWY2pBjaONGzPRqdv67woE.png?width=4320&height=2253');
   --sky-footer-inner: url('https://framerusercontent.com/images/Be455u4BRYelSl1NS32A0tLSZU.png?width=4140&height=1887');
@@ -50,9 +50,9 @@
 html.dark-mode {
   --bg: #111318;
   --cream-bg: #111318;
-  --sky-hero-bg: url('assets/hero-bg-night.png?v=4.0');
-  --sky-projects-bg: url('assets/projects-bg-night.png?v=4.0');
-  --paper-noise: url('assets/grid-bg-night.png?v=3.3');
+  --sky-hero-bg: url('assets/hero-bg-night.webp?v=4.0');
+  --sky-projects-bg: url('assets/projects-bg-night.webp?v=4.0');
+  --paper-noise: url('assets/grid-bg-night.webp?v=3.3');
   --ink: #f8fafc;
   --ink-soft: #cbd5e1;
   --ink-muted: #94a3b8;
@@ -5643,7 +5643,7 @@ html.dark-mode .cr-fireflies-layer {
   content: '';
   position: absolute;
   inset: 0;
-  background-image: url('assets/grid-bg-night.png?v=3.3');
+  background-image: url('assets/grid-bg-night.webp?v=3.3');
   background-repeat: repeat;
   background-position: left top;
   background-size: 2160px auto;
@@ -9497,7 +9497,7 @@ html.dark-mode .cr-sky-plane svg {
   position: relative;
   width: 100%;
   padding: 120px 32px 72px;
-  background-image: url('assets/projects-bg-day.png');
+  background-image: url('assets/projects-bg-day.webp');
   background-size: cover;
   background-position: center 30%;
   color: #ffffff;
@@ -13600,7 +13600,7 @@ html.dark-mode #cr-viewer-os-slug {
 
 /* A. Subpage Sky Hero in Dark Mode */
 html.dark-mode .cr-subpage-hero {
-  background-image: url('assets/projects-bg-night.png?v=4.0') !important;
+  background-image: url('assets/projects-bg-night.webp?v=4.0') !important;
   background-size: cover !important;
   background-position: center 30% !important;
   border-bottom: 2px solid rgba(255, 255, 255, 0.16) !important;
@@ -16015,7 +16015,7 @@ html.dark-mode .theme-toggle {
   position: relative !important;
   width: 100% !important;
   padding: 130px 24px 70px !important;
-  background-image: url('assets/projects-bg-day.png');
+  background-image: url('assets/projects-bg-day.webp');
   background-size: cover !important;
   background-position: center 30% !important;
   color: #ffffff !important;
@@ -16029,7 +16029,7 @@ html.dark-mode .theme-toggle {
 }
 
 html.dark-mode .cr-subpage-hero {
-  background-image: url('assets/projects-bg-night.png?v=4.0') !important;
+  background-image: url('assets/projects-bg-night.webp?v=4.0') !important;
   background-size: cover !important;
   background-position: center 30% !important;
   border-bottom: 2px solid rgba(255, 255, 255, 0.16) !important;
@@ -17143,11 +17143,11 @@ html.dark-mode .cr-pag-counter {
 
 /* Ensure Subpage Hero on project.html matches Projects section background */
 .cr-subpage-hero {
-  background-image: url('assets/projects-bg-day.png') !important;
+  background-image: url('assets/projects-bg-day.webp') !important;
 }
 
 html.dark-mode .cr-subpage-hero {
-  background-image: url('assets/projects-bg-night.png?v=4.0') !important;
+  background-image: url('assets/projects-bg-night.webp?v=4.0') !important;
 }
 
 /* ==========================================================================
