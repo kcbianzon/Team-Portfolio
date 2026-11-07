@@ -6696,3 +6696,29 @@ if (document.body) {
   }
   fitHeroLockup();
   window.addEventListener('resize', fitHeroLockup, { passive: true });
+
+// Toolkit category filters. Keep every original tool logo in the markup.
+document.addEventListener("DOMContentLoaded", function () {
+  var board = document.querySelector(".cr-toolkit-board");
+  if (!board) return;
+  var filters = board.querySelectorAll("[data-tool-filter]");
+  var tools = board.querySelectorAll("[data-tool-categories]");
+  var status = board.querySelector(".cr-toolkit-status");
+  filters.forEach(function (button) {
+    button.addEventListener("click", function () {
+      var category = button.getAttribute("data-tool-filter");
+      var count = 0;
+      filters.forEach(function (filter) {
+        var selected = filter === button;
+        filter.classList.toggle("is-active", selected);
+        filter.setAttribute("aria-pressed", String(selected));
+      });
+      tools.forEach(function (tool) {
+        var categories = tool.getAttribute("data-tool-categories").split(/\s+/);
+        tool.hidden = category !== "all" && categories.indexOf(category) === -1;
+        if (!tool.hidden) count++;
+      });
+      if (status) status.textContent = count + " tools & capabilities" + (category === "all" ? "" : " in " + button.textContent.trim());
+    });
+  });
+});

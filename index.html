@@ -16,7 +16,7 @@
       href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css"
     />
     <link rel="icon" type="image/svg+xml" href="assets/WebTempLogo.svg" />
-    <link rel="stylesheet" href="style.css?v=9.4" />
+    <link rel="stylesheet" href="style.css?v=9.5" />
     <link rel="stylesheet" href="loader.css?v=7.0" />
     <link rel="stylesheet" href="messenger.css?v=1.3" />
     <link rel="prefetch" href="project.html" as="document" />
@@ -722,33 +722,53 @@
             THE CRAFT
           </h2>
           <p class="cr-section-sub">
-            20+ modern frameworks, design tools, and full-stack technologies our team ships with every day.
+            The tools and capabilities we bring to design, development, commerce, and launch.
           </p>
         </div>
 
 
-        <!-- 20 Tactile Sticker Skill Badges -->
-        <div class="cr-skills-grid">
-          <span class="cr-skill-sticker"><i class="devicon-html5-plain colored"></i> HTML5</span>
-          <span class="cr-skill-sticker"><i class="devicon-css3-plain colored"></i> CSS3</span>
-          <span class="cr-skill-sticker"><i class="devicon-javascript-plain colored"></i> JavaScript</span>
-          <span class="cr-skill-sticker"><i class="devicon-typescript-plain colored"></i> TypeScript</span>
-          <span class="cr-skill-sticker"><i class="devicon-react-original colored"></i> React</span>
-          <span class="cr-skill-sticker"><i class="devicon-nodejs-plain colored"></i> Node.js</span>
-          <span class="cr-skill-sticker"><i class="devicon-express-original"></i> Express</span>
-          <span class="cr-skill-sticker"><i class="devicon-mongodb-plain colored"></i> MongoDB</span>
-          <span class="cr-skill-sticker"><i class="devicon-firebase-plain colored"></i> Firebase</span>
-          <span class="cr-skill-sticker"><i class="devicon-git-plain colored"></i> Git</span>
-          <span class="cr-skill-sticker"><i class="devicon-figma-plain colored"></i> Figma</span>
-          <span class="cr-skill-sticker"><i class="devicon-tailwindcss-original colored"></i> Tailwind CSS</span>
-          <span class="cr-skill-sticker"><i class="devicon-canva-original colored"></i> Canva</span>
-          <span class="cr-skill-sticker"><i class="devicon-laravel-original colored"></i> Laravel</span>
-          <span class="cr-skill-sticker"><i class="devicon-json-plain"></i> Json</span>
-          <span class="cr-skill-sticker"><i class="devicon-vuejs-plain colored"></i> Vue.js</span>
-          <span class="cr-skill-sticker"><i class="devicon-webflow-original colored"></i> Webflow</span>
-          <span class="cr-skill-sticker"><i class="devicon-notion-plain"></i> Notion</span>
-          <span class="cr-skill-sticker"><i class="devicon-vercel-original"></i> Vercel</span>
-          <span class="cr-skill-sticker"><i class="devicon-wordpress-plain colored"></i> WordPress</span>
+        <div class="cr-toolkit-board">
+          <div class="cr-toolkit-filters" role="group" aria-label="Filter tools by category">
+            <button type="button" class="cr-toolkit-filter is-active" data-tool-filter="all" aria-pressed="true" aria-controls="cr-toolkit-grid">All</button>
+            <button type="button" class="cr-toolkit-filter" data-tool-filter="development" aria-pressed="false" aria-controls="cr-toolkit-grid">Development</button>
+            <button type="button" class="cr-toolkit-filter" data-tool-filter="commerce" aria-pressed="false" aria-controls="cr-toolkit-grid">Commerce</button>
+            <button type="button" class="cr-toolkit-filter" data-tool-filter="ai" aria-pressed="false" aria-controls="cr-toolkit-grid">AI Tools</button>
+            <button type="button" class="cr-toolkit-filter" data-tool-filter="integrations" aria-pressed="false" aria-controls="cr-toolkit-grid">Integrations</button>
+            <button type="button" class="cr-toolkit-filter" data-tool-filter="launch" aria-pressed="false" aria-controls="cr-toolkit-grid">Launch</button>
+          </div>
+        <!-- Filterable toolkit: original logos retained -->
+        <div class="cr-skills-grid" id="cr-toolkit-grid">
+          <span class="cr-skill-sticker" data-tool-categories="development"><i aria-hidden="true" class="devicon-html5-plain colored"></i> HTML5</span>
+          <span class="cr-skill-sticker" data-tool-categories="development"><i aria-hidden="true" class="devicon-css3-plain colored"></i> CSS3</span>
+          <span class="cr-skill-sticker" data-tool-categories="development"><i aria-hidden="true" class="devicon-javascript-plain colored"></i> JavaScript</span>
+          <span class="cr-skill-sticker" data-tool-categories="development"><i aria-hidden="true" class="devicon-typescript-plain colored"></i> TypeScript</span>
+          <span class="cr-skill-sticker" data-tool-categories="development"><i aria-hidden="true" class="devicon-react-original colored"></i> React</span>
+          <span class="cr-skill-sticker" data-tool-categories="development"><i aria-hidden="true" class="devicon-nodejs-plain colored"></i> Node.js</span>
+          <span class="cr-skill-sticker" data-tool-categories="development"><i aria-hidden="true" class="devicon-express-original"></i> Express</span>
+          <span class="cr-skill-sticker" data-tool-categories="development"><i aria-hidden="true" class="devicon-mongodb-plain colored"></i> MongoDB</span>
+          <span class="cr-skill-sticker" data-tool-categories="development integrations launch"><i aria-hidden="true" class="devicon-firebase-plain colored"></i> Firebase</span>
+          <span class="cr-skill-sticker" data-tool-categories="development launch"><i aria-hidden="true" class="devicon-git-plain colored"></i> Git</span>
+          <span class="cr-skill-sticker" data-tool-categories="development"><i aria-hidden="true" class="devicon-figma-plain colored"></i> Figma</span>
+          <span class="cr-skill-sticker" data-tool-categories="development"><i aria-hidden="true" class="devicon-tailwindcss-original colored"></i> Tailwind CSS</span>
+          <span class="cr-skill-sticker" data-tool-categories="development"><i aria-hidden="true" class="devicon-canva-original colored"></i> Canva</span>
+          <span class="cr-skill-sticker" data-tool-categories="development"><i aria-hidden="true" class="devicon-laravel-original colored"></i> Laravel</span>
+          <span class="cr-skill-sticker" data-tool-categories="development integrations"><i aria-hidden="true" class="devicon-json-plain"></i> JSON</span>
+          <span class="cr-skill-sticker" data-tool-categories="development"><i aria-hidden="true" class="devicon-vuejs-plain colored"></i> Vue.js</span>
+          <span class="cr-skill-sticker" data-tool-categories="development commerce"><i aria-hidden="true" class="devicon-webflow-original colored"></i> Webflow</span>
+          <span class="cr-skill-sticker" data-tool-categories="development"><i aria-hidden="true" class="devicon-notion-plain"></i> Notion</span>
+          <span class="cr-skill-sticker" data-tool-categories="launch"><i aria-hidden="true" class="devicon-vercel-original"></i> Vercel</span>
+          <span class="cr-skill-sticker" data-tool-categories="development commerce"><i aria-hidden="true" class="devicon-wordpress-plain colored"></i> WordPress</span>
+          <span class="cr-skill-sticker" data-tool-categories="commerce"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path fill="#95bf47" stroke="#628e22" d="m5 7 12-2 3 16H3Z"/><path d="M8 7V5a4 4 0 0 1 8 0v1"/><path stroke="white" d="M14 10c-5-2-6 3-2 3s3 5-2 3"/></svg> Shopify</span>
+          <span class="cr-skill-sticker" data-tool-categories="development ai"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" fill="#fa6939" stroke="none"/><path stroke="white" d="m9 6-4 7h6M9 10v8m9-12-4 7h6m-2-3v8"/></svg> Base44</span>
+          <span class="cr-skill-sticker" data-tool-categories="ai"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="4"/><path d="m6 9 3 3-3 3m6 0h5"/></svg> Codex</span>
+          <span class="cr-skill-sticker" data-tool-categories="ai"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><g stroke="#c15f3c" stroke-width="2.4"><path d="M12 2v20M2 12h20M5 5l14 14M5 19 19 5M8 3l8 18M3 8l18 8M3 16l18-8M8 21l8-18"/></g></svg> Claude Code</span>
+          <span class="cr-skill-sticker" data-tool-categories="ai"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 20 9-17 9 17M7 15h10" stroke="#4285f4" stroke-width="2.4"/><path d="M4 21h16" stroke="#34a853"/></svg> Antigravity</span>
+          <span class="cr-skill-sticker" data-tool-categories="integrations"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 7-5 5 5 5m8-10 5 5-5 5m-3-13-2 18"/></svg> API Integration</span>
+          <span class="cr-skill-sticker" data-tool-categories="commerce integrations"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="M2 10h20m-16 5h4m6 0h2"/></svg> Payment Gateways</span>
+          <span class="cr-skill-sticker" data-tool-categories="launch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10" cy="10" r="6"/><path d="m15 15 6 6M7 12l2-3 2 2 2-4"/></svg> SEO</span>
+          <span class="cr-skill-sticker" data-tool-categories="launch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 17a5 5 0 0 1-1-10 7 7 0 0 1 13-1 5.5 5.5 0 0 1 0 11M12 22V10m-4 4 4-4 4 4"/></svg> Deployment</span>
+        </div>
+          <p class="cr-toolkit-status" role="status" aria-live="polite">29 tools &amp; capabilities</p>
         </div>
       </section>
 
@@ -2407,6 +2427,6 @@
     </div>
 
     <script src="loader.js?v=1.0"></script>
-    <script src="script.js?v=9.3"></script>
+    <script src="script.js?v=9.4"></script>
   </body>
 </html>

@@ -21204,3 +21204,82 @@ html.dark-mode .cr-footer-card[data-firefly-hover="true"] {
     font-size: 11px !important;
   }
 }
+
+/* Compact, filterable toolkit inspired by the category pill reference. */
+.cr-toolkit-board {
+  width: min(1120px, calc(100% - 48px));
+  margin: 0 auto;
+}
+.cr-toolkit-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid rgba(37, 37, 37, 0.16);
+}
+.cr-toolkit-filter {
+  border: 1px solid rgba(37, 37, 37, 0.28);
+  border-radius: 999px;
+  padding: 8px 16px;
+  background: transparent;
+  color: var(--ink);
+  font: 600 14px/1.2 'Plus Jakarta Sans', sans-serif;
+  cursor: pointer;
+  transition: background-color 160ms ease, color 160ms ease;
+}
+.cr-toolkit-filter:hover { background: rgba(129, 104, 253, 0.1); }
+.cr-toolkit-filter.is-active { background: #252525; color: #fff; border-color: #252525; }
+.cr-toolkit-filter:focus-visible { outline: 3px solid #8168fd; outline-offset: 3px; }
+#skills .cr-skills-grid {
+  max-width: none;
+  padding: 24px 0 0;
+  gap: 10px;
+  align-items: center;
+}
+#skills .cr-skill-sticker {
+  gap: 9px;
+  padding: 11px 14px;
+  border: 1px solid rgba(37, 37, 37, 0.13);
+  border-radius: 14px;
+  box-shadow: none;
+  transform: none;
+  color: #252525;
+  background: #faf2b2;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.3;
+  cursor: default;
+  transition: transform 160ms ease;
+}
+#skills .cr-skill-sticker:nth-child(5n + 2) { background: #dff1fb; }
+#skills .cr-skill-sticker:nth-child(5n + 3) { background: #fbe5e1; }
+#skills .cr-skill-sticker:nth-child(5n + 4) { background: #def4e3; }
+#skills .cr-skill-sticker:nth-child(5n + 5) { background: #efe7fc; }
+#skills .cr-skill-sticker:hover { transform: translateY(-2px) !important; box-shadow: none; }
+#skills .cr-skill-sticker[hidden] { display: none !important; }
+#skills .cr-skill-sticker i, #skills .cr-skill-sticker svg {
+  width: 21px; height: 21px; font-size: 21px; flex-shrink: 0;
+}
+.cr-toolkit-status {
+  margin: 18px 0 0;
+  text-align: center;
+  color: var(--ink-soft);
+  font: 500 12px/1.5 'Plus Jakarta Sans', sans-serif;
+}
+html.dark-mode .cr-toolkit-filters { border-color: rgba(255, 255, 255, 0.16); }
+html.dark-mode .cr-toolkit-filter { color: #d5d5d5; border-color: rgba(255, 255, 255, 0.25); }
+html.dark-mode .cr-toolkit-filter.is-active { color: #202020; background: #eee; border-color: #eee; }
+html.dark-mode #skills .cr-skill-sticker i:not(.colored),
+html.dark-mode #skills .cr-skill-sticker .devicon-wordpress-plain { color: #252525 !important; }
+html.dark-mode .cr-toolkit-status { color: #c7c5bc; }
+@media (max-width: 600px) {
+  .cr-toolkit-board { width: calc(100% - 32px); }
+  .cr-toolkit-filters { gap: 7px; padding-bottom: 18px; }
+  .cr-toolkit-filter { padding: 9px 13px; font-size: 12px; }
+  #skills .cr-skills-grid { gap: 8px; padding-top: 20px; }
+  #skills .cr-skill-sticker { padding: 10px 12px; gap: 7px; font-size: 13px; border-radius: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #skills .cr-skill-sticker, .cr-toolkit-filter { transition: none; }
+  #skills .cr-skill-sticker:hover { transform: none !important; }
+}
