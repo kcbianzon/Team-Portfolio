@@ -143,77 +143,77 @@
       // Define each tile's image, title, and exact direct link
       var items = [
         {
-          image: "assets/projects/herosection1-1.png",
+          image: "assets/projects/herosection1-1.webp",
           title: "Cognita AI",
           href: "#project",
         },
         {
-          image: "assets/projects/project1-1.png",
+          image: "assets/projects/project1-1.webp",
           title: "Magnify Vision Media",
           href: "#project",
         },
         {
-          image: "assets/projects/herosection2-1.png",
+          image: "assets/projects/herosection2-1.webp",
           title: "Sonix Audio",
           href: "#project",
         },
         {
-          image: "assets/projects/project2-1.png",
+          image: "assets/projects/project2-1.webp",
           title: "Bun & Bite",
           href: "#project",
         },
         {
-          image: "assets/projects/herosection3-1.png",
+          image: "assets/projects/herosection3-1.webp",
           title: "Workli",
           href: "#project",
         },
         {
-          image: "assets/projects/project3-1.png",
+          image: "assets/projects/project3-1.webp",
           title: "NewDay Child Coaching",
           href: "#project",
         },
         {
-          image: "assets/projects/herosection4-1.png",
+          image: "assets/projects/herosection4-1.webp",
           title: "Aerix",
           href: "#project",
         },
         {
-          image: "assets/projects/herosection5-1.png",
+          image: "assets/projects/herosection5-1.webp",
           title: "Velor",
           href: "#project",
         },
         {
-          image: "assets/projects/webdesign1-1.png",
+          image: "assets/projects/webdesign1-1.webp",
           title: "Where to Know",
           href: "#project",
         },
         {
-          image: "assets/projects/herosection6.png",
+          image: "assets/projects/herosection6.webp",
           title: "Outride",
           href: "#project",
         },
         {
-          image: "assets/projects/website6-1.png",
+          image: "assets/projects/website6-1.webp",
           title: "e-Sweets",
           href: "#project",
         },
         {
-          image: "assets/projects/herosection7.png",
+          image: "assets/projects/herosection7.webp",
           title: "Payora",
           href: "#project",
         },
         {
-          image: "assets/projects/herosection8.png",
+          image: "assets/projects/herosection8.webp",
           title: "Nexride",
           href: "#project",
         },
         {
-          image: "assets/projects/herosection9.png",
+          image: "assets/projects/herosection9.webp",
           title: "Industera",
           href: "#project",
         },
         {
-          image: "assets/projects/herosection10.png",
+          image: "assets/projects/herosection10.webp",
           title: "Signet",
           href: "#project",
         },
@@ -1308,7 +1308,7 @@
           name: "Kenneth Cyrus Bianzon",
           role: "Fullstack Developer",
           kicker: "Profile 01 · Fullstack development",
-          photo: "assets/kenneth.png",
+          photo: "assets/kenneth.webp",
           resume: "resumes/kenneth.png",
           summary:
             "Fullstack developer who combines user-focused frontend work with dependable backend integrations, turning product ideas into responsive, production-ready web experiences.",
@@ -1324,7 +1324,7 @@
           name: "Jenz Patrick Reguyal",
           role: "Website Director & Design Lead",
           kicker: "Profile 02 · Website direction & design",
-          photo: "assets/jenz.png",
+          photo: "assets/jenz.webp",
           resume: "resumes/jenz.png",
           summary:
             "Design-focused technologist who brings visual direction, interface thinking, and practical web implementation together for clear, engaging digital experiences.",
@@ -1340,7 +1340,7 @@
           name: "Jamil Kharim Abinal",
           role: "Computer Engineering Technologist",
           kicker: "Profile 03 · Engineering & support",
-          photo: "assets/jamil.png",
+          photo: "assets/jamil.webp",
           resume: "resumes/jamil.png",
           summary:
             "Computer Engineering Technology student with a hands-on approach to software development, systems support, circuit logic, mechatronics, and technical documentation.",
@@ -1356,7 +1356,7 @@
           name: "ChrisJohn Pacay",
           role: "Backend Developer",
           kicker: "Profile 04 · Backend development",
-          photo: "assets/pacay.png",
+          photo: "assets/pacay.webp",
           resume: "resumes/pacay.png",
           summary:
             "Backend developer focused on the services, data models, and integrations that make the team’s web applications dependable behind the scenes.",
@@ -2056,7 +2056,7 @@ function initCreatieEngine() {
       {
         firstName: "KENNETH",
         role: "TEAM LEAD & FULL-STACK",
-        avatar: "assets/kenneth.png",
+        avatar: "assets/kenneth.webp",
         status: "Available for work",
         time: "Active now",
         bio: "\"Engineering clean system architecture, full-stack web applications, and leading the team to launch.\"",
@@ -2066,7 +2066,7 @@ function initCreatieEngine() {
       {
         firstName: "JENZ",
         role: "WEBSITE DIRECTOR & DESIGN LEAD",
-        avatar: "assets/jenz.png",
+        avatar: "assets/jenz.webp",
         status: "Designing new UI",
         time: "Just now",
         bio: "\"Crafting emotional interfaces, bespoke design systems, typography, and interactive brand experiences.\"",
@@ -2076,7 +2076,7 @@ function initCreatieEngine() {
       {
         firstName: "JAMIL",
         role: "FRONTEND ENGINEER",
-        avatar: "assets/jamil.png",
+        avatar: "assets/jamil.webp",
         status: "Coding interactions",
         time: "1m ago",
         bio: "\"Turning high-fidelity concepts into buttery-smooth frontend web experiences and creative micro-interactions.\"",
@@ -2086,7 +2086,7 @@ function initCreatieEngine() {
       {
         firstName: "CHRISJOHN",
         role: "BACKEND DEVELOPER",
-        avatar: "assets/pacay.png",
+        avatar: "assets/pacay.webp",
         status: "Optimizing databases",
         time: "Just now",
         bio: "\"Building robust backend infrastructure, secure REST APIs, database schemas, and performance optimizations.\"",
@@ -2270,10 +2270,10 @@ function initCreatieEngine() {
     magnify: {
       title: "Magnify Vision",
       address: "magnifyvisionmedia.com",
-      heroImg: "assets/projects/project1-1.png",
+      heroImg: "assets/projects/project1-1.webp",
       gallery: [
-        "assets/projects/project1-2.png",
-        "assets/projects/project1-3.png"
+        "assets/projects/project1-2.webp",
+        "assets/projects/project1-3.webp"
       ],
       previewLink: "https://mvm-website-624e7.web.app/",
       desc: "Developed a premium corporate website for Magnify Vision Media, a digital marketing agency specializing in social media strategy, paid advertising, and brand growth. The website emphasizes modern branding, responsive layout, and interactive frontend experiences.",
@@ -2285,11 +2285,11 @@ function initCreatieEngine() {
     bunbite: {
       title: "Bun & Bite",
       address: "bun-and-bite-88537.web.app",
-      heroImg: "assets/projects/project2-1.png",
+      heroImg: "assets/projects/project2-1.webp",
       gallery: [
-        "assets/projects/project2-2.png",
-        "assets/projects/project2-3.png",
-        "assets/projects/project2-4.png"
+        "assets/projects/project2-2.webp",
+        "assets/projects/project2-3.webp",
+        "assets/projects/project2-4.webp"
       ],
       previewLink: "https://bun-and-bite-88537.web.app/",
       desc: "An artisanal gourmet burger online ordering and menu experience featuring dynamic ingredient customization, mouthwatering hero presentations, and lightning-fast checkout flow.",
@@ -2301,12 +2301,12 @@ function initCreatieEngine() {
     newday: {
       title: "NewDay Coaching",
       address: "newdaychildcoaching.com",
-      heroImg: "assets/projects/project3-1.png",
+      heroImg: "assets/projects/project3-1.webp",
       gallery: [
-        "assets/projects/project3-2.png",
-        "assets/projects/project3-3.png"
+        "assets/projects/project3-2.webp",
+        "assets/projects/project3-3.webp"
       ],
-      previewLink: "assets/projects/project3-1.png",
+      previewLink: "assets/projects/project3-1.webp",
       desc: "A compassionate, family-centered wellness and coaching platform designed to guide parents and children through developmental milestones with clear scheduling, curated resources, and an approachable brand identity.",
       client: "Family Wellness & Coaching",
       years: "2026",
@@ -2316,10 +2316,10 @@ function initCreatieEngine() {
     vibetix: {
       title: "Vibe//Tix Live",
       address: "vibetix.live",
-      heroImg: "assets/projects/vibetix-1.png",
+      heroImg: "assets/projects/vibetix-1.webp",
       gallery: [
-        "assets/projects/vibetix-2.png",
-        "assets/projects/vibetix-3.png"
+        "assets/projects/vibetix-2.webp",
+        "assets/projects/vibetix-3.webp"
       ],
       previewLink: "https://vibetix-c74f0.web.app/",
       desc: "A premier live music & electronic festival ticketing ecosystem featuring real-time seat reservation, dynamic artist showcases, and frictionless mobile checkouts.",
@@ -2331,10 +2331,10 @@ function initCreatieEngine() {
     airedigital: {
       title: "AIRE Digital",
       address: "airedigital.agency",
-      heroImg: "assets/projects/airedigital-1.png",
+      heroImg: "assets/projects/airedigital-1.webp",
       gallery: [
-        "assets/projects/airedigital-2.png",
-        "assets/projects/airedigital-3.png"
+        "assets/projects/airedigital-2.webp",
+        "assets/projects/airedigital-3.webp"
       ],
       previewLink: "https://airedigitalservices.co/",
       desc: "A bespoke outbound lead generation and digital business development website built for AIRE Digital, featuring verified prospect research, clear conversion paths, and an international B2B aesthetic.",
@@ -2348,10 +2348,10 @@ function initCreatieEngine() {
       address: "ykb-ecommerce.onrender.com",
       heroImg: "assets/projects/ykb-01.webp",
       gallery: [
-        "assets/projects/ykb-shop.png",
-        "assets/projects/ykb-product.png",
-        "assets/projects/ykb-cart.png",
-        "assets/projects/ykb-admin.png"
+        "assets/projects/ykb-shop.webp",
+        "assets/projects/ykb-product.webp",
+        "assets/projects/ykb-cart.webp",
+        "assets/projects/ykb-admin.webp"
       ],
       previewLink: "https://ykb-ecommerce.onrender.com",
       desc: "A full-stack clothing e-commerce platform with authentication, catalog filtering, real-time cart, checkout, order management, wishlist, customer reviews, and administrative tooling.",
@@ -2365,10 +2365,10 @@ function initCreatieEngine() {
       address: "yankiii-barber-co.vercel.app",
       heroImg: "assets/projects/yankiii-01.webp",
       gallery: [
-        "assets/projects/yankiii-booking.png",
-        "assets/projects/yankiii-dashboard.png",
-        "assets/projects/yankiii-admin.png",
-        "assets/projects/yankiii-mobile.png"
+        "assets/projects/yankiii-booking.webp",
+        "assets/projects/yankiii-dashboard.webp",
+        "assets/projects/yankiii-admin.webp",
+        "assets/projects/yankiii-mobile.webp"
       ],
       previewLink: "https://yankiii-barber-co.vercel.app/",
       desc: "A modern full-stack barbershop booking platform featuring service browsing, barber selection, schedule availability, customer authentication, appointment scheduling, and admin management.",
@@ -2382,10 +2382,10 @@ function initCreatieEngine() {
       address: "nextlevelgamingevents.com",
       heroImg: "assets/projects/nextlevel-01.webp",
       gallery: [
-        "assets/projects/nextlevel-packages.png",
-        "assets/projects/nextlevel-features.png",
-        "assets/projects/nextlevel-booking.png",
-        "assets/projects/nextlevel-mobile.png"
+        "assets/projects/nextlevel-packages.webp",
+        "assets/projects/nextlevel-features.webp",
+        "assets/projects/nextlevel-booking.webp",
+        "assets/projects/nextlevel-mobile.webp"
       ],
       previewLink: "https://nextlevelgamingevents.com/",
       desc: "A premier turnkey event and interactive party rental platform engineered for university orientations, corporate gatherings, and festivals — showcasing giant inflatable movie screens, mobile LED walls, multiplayer esports hubs, VR escape rooms, 360 booths, and an interactive multi-state quote request engine.",
@@ -2498,7 +2498,7 @@ function initCreatieEngine() {
     kenneth: {
       name: "Kenneth Cyrus Bianzon",
       role: "TEAM LEAD",
-      avatar: "assets/kenneth.png",
+      avatar: "assets/kenneth.webp",
       status: "Active now",
       addressSlug: "creatie://team-messenger.chat/kenneth.bianzon",
       intro: "Hey there! 👋 Welcome to our portfolio. I'm Kenneth, Team Lead & Full-Stack Developer at TEMport.",
@@ -2525,7 +2525,7 @@ function initCreatieEngine() {
     jenz: {
       name: "Jenz Patrick Reguyal",
       role: "WEBSITE DIRECTOR & DESIGN LEAD",
-      avatar: "assets/jenz.png",
+      avatar: "assets/jenz.webp",
       status: "Active now",
       addressSlug: "creatie://team-messenger.chat/jenz.reguyal",
       intro: "Hi! ✨ I'm Jenz, Website Director & Design Lead at TEMport. Nice to meet you!",
@@ -2552,7 +2552,7 @@ function initCreatieEngine() {
     jamil: {
       name: "Jamil Kharim Abinal",
       role: "FRONTEND DEV",
-      avatar: "assets/jamil.png",
+      avatar: "assets/jamil.webp",
       status: "Active now",
       addressSlug: "creatie://team-messenger.chat/jamil.abinal",
       intro: "Hello! 🚀 I'm Jamil, Frontend Engineer at TEMport. Glad you stopped by!",
@@ -2579,7 +2579,7 @@ function initCreatieEngine() {
     pacay: {
       name: "ChrisJohn Pacay",
       role: "BACKEND DEV",
-      avatar: "assets/pacay.png",
+      avatar: "assets/pacay.webp",
       status: "Active now",
       addressSlug: "creatie://team-messenger.chat/chrisjohn.pacay",
       intro: "Hey! 🛡️ I'm ChrisJohn, Backend Developer at TEMport. Ready to build something solid?",
@@ -2587,7 +2587,7 @@ function initCreatieEngine() {
       fileName: "ChrisJohn_Pacay_Resume_2026.pdf",
       subTitle: "Verified Vector PDF · High-DPI Crystal Clear Document",
       pdfUrl: "resumes/pacay.pdf",
-      thumbImg: "assets/pacay.png",
+      thumbImg: "assets/pacay.webp",
       sheetId: "cr-sheet-image-pacay",
       roleBg: "#f2efff",
       roleColor: "#5c3cfa",
