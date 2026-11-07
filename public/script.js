@@ -119,8 +119,8 @@
     setTimeout(tick, pauseAfterDelete);
   }
 
-  // Kick off the sequence on page load
-  document.addEventListener("DOMContentLoaded", function () {
+  // Kick off the sequence immediately when body is parsed (avoids slow-CDN race)
+  function initCorePortfolio() {
     if (!prefixEl || !dynamicEl) {
       revealRest();
     } else if (hasSeenHomeIntro) {
@@ -1016,6 +1016,9 @@
         var frame = targetPanelEl.querySelector("iframe[data-src]");
         if (frame && !frame.getAttribute("src")) {
           frame.setAttribute("src", frame.getAttribute("data-src"));
+          if (typeof window.__temportArmIframeShimmer === "function") {
+            window.__temportArmIframeShimmer(frame, false);
+          }
         }
       }
 
@@ -1562,7 +1565,12 @@
         }
       });
     }
-  });
+  }
+  if (document.body) {
+    initCorePortfolio();
+  } else {
+    document.addEventListener("DOMContentLoaded", initCorePortfolio);
+  }
 })();
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -1625,7 +1633,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function syncMobileDock(matches) {
-    if (document.querySelector(".cr-apple-dock")) return;
+    if (document.querySelector(".cr-apple-dock") || document.body.classList.contains("cr-404-body")) return;
     if (matches && !mobileDock) {
       var currentPage =
         window.location.pathname.split("/").pop() || "index.html";
@@ -2802,6 +2810,7 @@ function initCreatieEngine() {
   if (messengerBackdrop) {
     messengerBackdrop.addEventListener("click", closeMessengerModal);
   }
+  window.openTemportMessenger = openMessengerModal;
   window.addEventListener("keydown", function (e) {
     if (e.key === "Escape" && messengerPanel && messengerPanel.classList.contains("active")) {
       closeMessengerModal();
@@ -2981,6 +2990,7 @@ function initCreatieEngine() {
     // 1. Sync OS Viewer Header (Slug, Live CTA Link & Category Tab)
     function syncViewerHeader(projId) {
       if (!projId) return;
+      window.__temportActiveProjectId = projId;
       var targetItem = document.querySelector('.project-sidebar-item[data-project="' + projId + '"]');
       if (targetItem) {
         var itemCat = targetItem.getAttribute("data-category") || "";
@@ -3338,6 +3348,7 @@ function initCreatieEngine() {
 
     // Keyboard Arrow Navigation when viewing projects
     window.addEventListener("keydown", function(e) {
+      if (document.body.classList.contains("cmd-bar-open")) return;
       if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
       if (e.key === "ArrowLeft") {
         navigateProject(-1);
@@ -3654,6 +3665,24 @@ function initCreatieEngine() {
           click: ["Resizing to " + dev + "…", dev + " view active"]
         };
       }
+      if (el.closest("#cr-viewer-os-address")) {
+        return {
+          k: "Share Link",
+          t: "Copy direct project link",
+          s: "Share this exact case study",
+          tone: "green",
+          click: ["Link copied! \u2713", "Ready to paste anywhere"]
+        };
+      }
+      if (el.closest("[data-open-cmd]")) {
+        return {
+          k: "Dossiers",
+          t: "Search 17 Dossiers",
+          s: "Filter by name, category or stack",
+          tone: "purple",
+          click: ["Searching dossiers\u2026", "Pick a build!"]
+        };
+      }
       if (el.closest("#project-live-btn, .project-live-cta, .project-live-btn")) {
         return {
           k: "Live Site",
@@ -3804,8 +3833,9 @@ function initCreatieEngine() {
 
       if (
         document.body.classList.contains("messenger-open") ||
+        document.body.classList.contains("cmd-bar-open") ||
         (messengerPanel && messengerPanel.classList.contains("active")) ||
-        target.closest("#resume-panel, .cr-messenger-modal, .resume-panel, .cr-sky-letter, .cr-sky-social-card")
+        target.closest("#resume-panel, .cr-messenger-modal, .resume-panel, #cr-cmd-backdrop, .cr-sky-letter, .cr-sky-social-card")
       ) {
         if (eyesCursor) eyesCursor.classList.remove("is-visible", "is-on-control", "is-pressed", "kind-image");
         if (imageCursor) imageCursor.classList.remove("is-visible");
@@ -4318,6 +4348,7 @@ function initCreatieEngine() {
 
     if (!contactModal) return;
 
+    window.openTemportContact = openModal;
     function openModal() {
       contactModal.classList.add("is-active");
       contactModal.setAttribute("aria-hidden", "false");
@@ -6718,6 +6749,455 @@ function initCreatieEngine() {
     syncAll();
   }
   initInteractiveFireflies();
+
+  // ==========================================================================
+  // CREATIE® OS INTERACTIVE SUITE (Shimmer, Deep-Link Copy, Ctrl+K, 404 Eyes)
+  // ==========================================================================
+  function initCreatieOSSuite() {
+    var isMac = /Mac|iPhone|iPad|iPod/i.test(navigator.platform || navigator.userAgent || "");
+    var modLabel = isMac ? "⌘K" : "Ctrl K";
+
+    document.querySelectorAll(".cr-os-cmd-kbd").forEach(function (kbd) {
+      kbd.textContent = modLabel;
+    });
+
+    // ------------------------------------------------------------------------
+    // 1. Live Project Iframe Boot Shimmer (.cr-iframe-shimmer)
+    // ------------------------------------------------------------------------
+    function extractHostname(rawUrl) {
+      if (!rawUrl) return "live-preview.temport.studio";
+      try {
+        var u = new URL(rawUrl, window.location.href);
+        return u.hostname.replace(/^www\./, "");
+      } catch (e) {
+        return rawUrl.replace(/^https?:\/\//, "").split("/")[0] || "live-preview";
+      }
+    }
+
+    function ensureShimmerOverlay(previewEl, rawUrl) {
+      var existing = previewEl.querySelector(".cr-iframe-shimmer");
+      if (existing) return existing;
+      var shimmer = document.createElement("div");
+      shimmer.className = "cr-iframe-shimmer";
+      shimmer.setAttribute("aria-hidden", "true");
+      shimmer.innerHTML =
+        '<div class="cr-shimmer-card">' +
+          '<div class="cr-shimmer-top">' +
+            '<span class="cr-shimmer-dots"><i class="d-pink"></i><i class="d-blue"></i><i class="d-yellow"></i></span>' +
+            '<span class="cr-shimmer-tag">OS // LIVE STREAM</span>' +
+          '</div>' +
+          '<div class="cr-shimmer-status-row">' +
+            '<span class="cr-shimmer-pulse"></span>' +
+            '<span class="cr-shimmer-title">Booting Live Website…</span>' +
+          '</div>' +
+          '<span class="cr-shimmer-host">' + extractHostname(rawUrl) + '</span>' +
+          '<div class="cr-shimmer-bar"><span></span></div>' +
+        '</div>';
+      previewEl.appendChild(shimmer);
+      return shimmer;
+    }
+
+    function armIframeShimmer(frame, isAlreadyAssigned) {
+      if (!frame) return;
+      var previewEl = frame.closest(".project-live-preview");
+      if (!previewEl) return;
+      var url = frame.getAttribute("src") || frame.getAttribute("data-src") || "";
+      var shimmer = ensureShimmerOverlay(previewEl, url);
+      var hostEl = shimmer.querySelector(".cr-shimmer-host");
+      if (hostEl) hostEl.textContent = extractHostname(url);
+
+      shimmer.classList.remove("is-loaded");
+      if (frame.__shimmerTimer) {
+        clearTimeout(frame.__shimmerTimer);
+      }
+
+      var settled = false;
+      function finishShimmer() {
+        if (settled) return;
+        settled = true;
+        if (frame.__shimmerTimer) {
+          clearTimeout(frame.__shimmerTimer);
+          frame.__shimmerTimer = null;
+        }
+        shimmer.classList.add("is-loaded");
+      }
+
+      frame.addEventListener("load", function () {
+        setTimeout(finishShimmer, 110);
+      }, { once: true });
+
+      // Failsafe so slow 3rd-party trackers or pre-fired initial loads never trap clicks
+      frame.__shimmerTimer = setTimeout(finishShimmer, isAlreadyAssigned ? 1500 : 3400);
+    }
+
+    window.__temportArmIframeShimmer = armIframeShimmer;
+
+    document.querySelectorAll(".project-live-preview").forEach(function (previewEl) {
+      var frame = previewEl.querySelector("iframe[data-src], iframe[src]");
+      if (!frame) return;
+      var rawUrl = frame.getAttribute("src") || frame.getAttribute("data-src") || "";
+      ensureShimmerOverlay(previewEl, rawUrl);
+      if (frame.getAttribute("src")) {
+        armIframeShimmer(frame, true);
+      }
+    });
+
+    // ------------------------------------------------------------------------
+    // 2. Copyable Deep-Link Address Bar (#cr-viewer-os-address)
+    // ------------------------------------------------------------------------
+    function copyTextToClipboard(str) {
+      window.__lastCopiedStudioText = str;
+      if (navigator.clipboard && typeof navigator.clipboard.writeText === "function") {
+        return navigator.clipboard.writeText(str).catch(function () {
+          return fallbackCopyText(str);
+        });
+      }
+      return fallbackCopyText(str);
+    }
+
+    function fallbackCopyText(str) {
+      return new Promise(function (resolve) {
+        try {
+          var ta = document.createElement("textarea");
+          ta.value = str;
+          ta.setAttribute("readonly", "");
+          ta.style.position = "fixed";
+          ta.style.top = "-9999px";
+          ta.style.opacity = "0";
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand("copy");
+          document.body.removeChild(ta);
+        } catch (e) {}
+        resolve();
+      });
+    }
+
+    var addressBtn = document.getElementById("cr-viewer-os-address");
+    var copyResetTimer = null;
+    if (addressBtn) {
+      addressBtn.addEventListener("click", function () {
+        var activeItem = document.querySelector(".project-sidebar-item.is-active");
+        var projId =
+          window.__temportActiveProjectId ||
+          (activeItem && activeItem.getAttribute("data-project")) ||
+          "magnify";
+        var cleanBase = window.location.href.split("#")[0].split("?")[0];
+        var deepLink = cleanBase + "#" + projId;
+        try {
+          window.history.replaceState(null, "", "#" + projId);
+        } catch (e) {}
+
+        copyTextToClipboard(deepLink).then(function () {
+          addressBtn.classList.add("is-copied");
+          addressBtn.setAttribute("aria-label", "Copied link: " + deepLink);
+          if (copyResetTimer) clearTimeout(copyResetTimer);
+          copyResetTimer = setTimeout(function () {
+            addressBtn.classList.remove("is-copied");
+            addressBtn.setAttribute("aria-label", "Copy direct link to this project");
+          }, 1900);
+        });
+      });
+    }
+
+    // ------------------------------------------------------------------------
+    // 3. Dossier-Only Quick Search (Strictly inside project.html OS Workstation)
+    // ------------------------------------------------------------------------
+    var dossierWorkstation = document.querySelector(".cr-os-workstation, .project-viewer");
+    if (dossierWorkstation) {
+      var DOSSIER_CATEGORIES = [
+        { key: "websites", label: "Client Websites" },
+        { key: "webbuilder", label: "Web Builder" },
+        { key: "landing", label: "Landing Pages" },
+        { key: "uiux", label: "UI / UX Systems" }
+      ];
+
+      var DOSSIER_PROJECTS = [
+        { id: "magnify", cat: "websites", title: "Magnify Vision Media", sub: "Media Production & Growth Agency", badge: "LIVE", live: true, icon: "01", keywords: "mvm video agency corporate" },
+        { id: "bunbite", cat: "websites", title: "Bun & Bite", sub: "Smash Burger & Online Ordering App", badge: "LIVE", live: true, icon: "02", keywords: "food restaurant burger ordering" },
+        { id: "newwebsiteproject", cat: "websites", title: "Vibe//Tix", sub: "Live Concert & Event Ticketing Platform", badge: "LIVE", live: true, icon: "03", keywords: "vibetix tickets events music" },
+        { id: "aire-digital", cat: "websites", title: "AIRE Digital", sub: "B2B Lead Generation & Growth Studio", badge: "LIVE", live: true, icon: "04", keywords: "agency marketing b2b" },
+        { id: "e-Sweets", cat: "websites", title: "e-Sweets", sub: "Artisan Pastries & Confectionery Store", badge: "LIVE", live: true, icon: "05", keywords: "bakery desserts ecommerce" },
+        { id: "novara-real-estate", cat: "websites", title: "Novara Real Estate", sub: "Luxury Property Listings & Discovery", badge: "LIVE", live: true, icon: "06", keywords: "property homes luxury realty" },
+        { id: "beantown", cat: "websites", title: "Beantown", sub: "Specialty Coffee Roasters Experience", badge: "WIP", live: false, icon: "07", keywords: "cafe espresso coffee" },
+        { id: "NextLevelGaming", cat: "websites", title: "NextLevelGaming", sub: "Interactive Event & Gaming Rental Platform", badge: "LIVE", live: true, icon: "08", keywords: "gaming events esports party" },
+        { id: "ykb-clothing", cat: "webbuilder", title: "YKB Clothing", sub: "Streetwear Apparel Storefront", badge: "SHOPIFY", live: false, icon: "09", keywords: "fashion apparel shopify" },
+        { id: "yankii-barber", cat: "webbuilder", title: "Yankii Barber Co.", sub: "Grooming Brand & Studio Booking", badge: "SHOPIFY", live: false, icon: "10", keywords: "barbershop salon shopify" },
+        { id: "newday", cat: "webbuilder", title: "NewDay Child Coaching", sub: "Family & Youth Coaching Platform", badge: "WEBFLOW", live: false, icon: "11", keywords: "education coaching webflow" },
+        { id: "buy-coffe", cat: "landing", title: "Buy-Coffe", sub: "Creator Micro-Support Landing Page", badge: "LIVE", live: true, icon: "12", keywords: "creator support landing" },
+        { id: "flowdesk", cat: "landing", title: "FlowDesk", sub: "Modern Team Productivity SaaS", badge: "LIVE", live: true, icon: "13", keywords: "saas workspace dashboard" },
+        { id: "signalcraft", cat: "landing", title: "Signalcraft", sub: "Research & Product Insights Platform", badge: "LIVE", live: true, icon: "14", keywords: "analytics insights landing" },
+        { id: "webdesign", cat: "uiux", title: "Web Design", sub: "Multi-Industry Interface Concepts", badge: "UI/UX", live: false, icon: "15", keywords: "figma interface gallery" },
+        { id: "mobileappdesign", cat: "uiux", title: "Mobile App Design", sub: "iOS & Android Product Screens", badge: "UI/UX", live: false, icon: "16", keywords: "mobile ios android figma" },
+        { id: "herosection", cat: "uiux", title: "Hero Section", sub: "Above-the-Fold Visual Explorations", badge: "UI/UX", live: false, icon: "17", keywords: "hero typography visual" }
+      ];
+
+      // Enrich each dossier with its real tech stack tags from the DOM
+      DOSSIER_PROJECTS.forEach(function (proj) {
+        var panelEl = document.querySelector('.project-viewer-panel[data-panel="' + proj.id + '"]');
+        if (panelEl) {
+          var tags = Array.from(panelEl.querySelectorAll(".tag-pills span")).map(function (s) {
+            return s.textContent.trim();
+          });
+          if (tags.length) {
+            proj.keywords += " " + tags.join(" ");
+          }
+        }
+      });
+
+      var cmdBackdrop = document.createElement("div");
+      cmdBackdrop.id = "cr-cmd-backdrop";
+      cmdBackdrop.className = "cr-cmd-backdrop";
+      cmdBackdrop.setAttribute("aria-hidden", "true");
+      cmdBackdrop.innerHTML =
+        '<div class="cr-cmd-window" role="dialog" aria-modal="true" aria-label="Search Project Dossiers">' +
+          '<div class="cr-cmd-topbar">' +
+            '<div class="cr-cmd-dots">' +
+              '<button type="button" class="d-pink" data-cmd-close="true" aria-label="Close"></button>' +
+              '<button type="button" class="d-blue" data-cmd-close="true" aria-label="Close"></button>' +
+              '<button type="button" class="d-yellow" data-cmd-close="true" aria-label="Close"></button>' +
+            '</div>' +
+            '<span class="cr-cmd-title">creatie://work/search-dossiers</span>' +
+            '<button type="button" class="cr-cmd-close-btn" data-cmd-close="true" aria-label="Close search">' +
+              '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>' +
+            '</button>' +
+          '</div>' +
+          '<div class="cr-cmd-search-bar">' +
+            '<svg class="cr-cmd-search-ico" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>' +
+            '<input type="text" id="cr-cmd-input" class="cr-cmd-input" placeholder="Search 17 project dossiers by name, category, or stack…" autocomplete="off" spellcheck="false" />' +
+            '<span class="cr-cmd-count-pill" id="cr-cmd-count">17 dossiers</span>' +
+          '</div>' +
+          '<div class="cr-cmd-results" id="cr-cmd-results" role="listbox" aria-label="Project dossiers"></div>' +
+        '</div>';
+      document.body.appendChild(cmdBackdrop);
+
+      var cmdInput = cmdBackdrop.querySelector("#cr-cmd-input");
+      var cmdResults = cmdBackdrop.querySelector("#cr-cmd-results");
+      var cmdCount = cmdBackdrop.querySelector("#cr-cmd-count");
+      var flatRecords = [];
+      var selectedIdx = 0;
+
+      function renderCommandResults(query) {
+        var q = (query || "").toLowerCase().trim();
+        flatRecords = [];
+        cmdResults.innerHTML = "";
+
+        DOSSIER_CATEGORIES.forEach(function (catInfo) {
+          var matches = DOSSIER_PROJECTS.filter(function (p) {
+            if (p.cat !== catInfo.key) return false;
+            if (!q) return true;
+            var haystack = (p.icon + " " + p.title + " " + p.sub + " " + catInfo.label + " " + p.badge + " " + p.keywords).toLowerCase();
+            return haystack.indexOf(q) !== -1;
+          });
+          if (!matches.length) return;
+
+          var heading = document.createElement("div");
+          heading.className = "cr-cmd-group-label";
+          heading.textContent = catInfo.label + " (" + matches.length + ")";
+          cmdResults.appendChild(heading);
+
+          matches.forEach(function (item) {
+            var idx = flatRecords.length;
+            flatRecords.push(item);
+
+            var btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = "cr-cmd-item" + (idx === 0 ? " is-selected" : "");
+            btn.setAttribute("role", "option");
+            btn.setAttribute("aria-selected", idx === 0 ? "true" : "false");
+            btn.dataset.cmdIndex = String(idx);
+
+            btn.innerHTML =
+              '<span class="cr-cmd-item-left">' +
+                '<span class="cr-cmd-item-icon">' + item.icon + '</span>' +
+                '<span class="cr-cmd-item-text">' +
+                  '<span class="cr-cmd-item-title">' + item.title + '</span>' +
+                  '<span class="cr-cmd-item-sub">' + item.sub + '</span>' +
+                '</span>' +
+              '</span>' +
+              '<span class="cr-cmd-item-right">' +
+                '<span class="cr-cmd-badge' + (item.live ? ' is-live' : '') + '">' + item.badge + '</span>' +
+                '<span class="cr-cmd-enter-hint" aria-hidden="true"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>' +
+              '</span>';
+
+            btn.addEventListener("mouseenter", function () {
+              setSelectedIndex(idx, false);
+            });
+            btn.addEventListener("click", function () {
+              selectDossierProject(item);
+            });
+
+            cmdResults.appendChild(btn);
+          });
+        });
+
+        selectedIdx = 0;
+        if (cmdCount) {
+          cmdCount.textContent = flatRecords.length + (flatRecords.length === 1 ? " dossier" : " dossiers");
+        }
+
+        if (!flatRecords.length) {
+          var empty = document.createElement("div");
+          empty.className = "cr-cmd-empty";
+          empty.textContent = 'No project dossier matches "' + query + '". Try searching a project title or tech stack.';
+          cmdResults.appendChild(empty);
+        }
+      }
+
+      function setSelectedIndex(nextIdx, shouldScroll) {
+        if (!flatRecords.length) return;
+        selectedIdx = (nextIdx + flatRecords.length) % flatRecords.length;
+        var optionBtns = cmdResults.querySelectorAll(".cr-cmd-item");
+        optionBtns.forEach(function (el, i) {
+          var active = i === selectedIdx;
+          el.classList.toggle("is-selected", active);
+          el.setAttribute("aria-selected", active ? "true" : "false");
+          if (active && shouldScroll) {
+            try {
+              el.scrollIntoView({ block: "nearest" });
+            } catch (e) {}
+          }
+        });
+      }
+
+      function openCommandBar() {
+        renderCommandResults("");
+        if (cmdInput) cmdInput.value = "";
+        cmdBackdrop.classList.add("is-open");
+        cmdBackdrop.setAttribute("aria-hidden", "false");
+        document.body.classList.add("cmd-bar-open");
+        setTimeout(function () {
+          if (cmdInput) cmdInput.focus();
+        }, 40);
+      }
+
+      function closeCommandBar() {
+        cmdBackdrop.classList.remove("is-open");
+        cmdBackdrop.setAttribute("aria-hidden", "true");
+        document.body.classList.remove("cmd-bar-open");
+      }
+
+      function selectDossierProject(item) {
+        if (!item) return;
+        var localSidebarBtn = document.querySelector('.project-sidebar-item[data-project="' + item.id + '"]');
+        closeCommandBar();
+        if (localSidebarBtn) {
+          localSidebarBtn.click();
+          try {
+            window.history.replaceState(null, "", "#" + item.id);
+          } catch (e) {}
+          var workSec = document.getElementById("work");
+          if (workSec) {
+            workSec.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        }
+      }
+
+      if (cmdInput) {
+        cmdInput.addEventListener("input", function () {
+          renderCommandResults(cmdInput.value);
+        });
+      }
+
+      cmdBackdrop.addEventListener("click", function (e) {
+        if (e.target === cmdBackdrop || e.target.closest("[data-cmd-close]")) {
+          closeCommandBar();
+        }
+      });
+
+      document.addEventListener("click", function (e) {
+        var trigger = e.target.closest("[data-open-cmd]");
+        if (trigger) {
+          e.preventDefault();
+          openCommandBar();
+        }
+      });
+
+      window.addEventListener("keydown", function (e) {
+        var isK = e.key && e.key.toLowerCase() === "k";
+        if ((e.ctrlKey || e.metaKey) && isK) {
+          e.preventDefault();
+          if (cmdBackdrop.classList.contains("is-open")) {
+            closeCommandBar();
+          } else {
+            openCommandBar();
+          }
+          return;
+        }
+
+        if (cmdBackdrop.classList.contains("is-open")) {
+          if (e.key === "Escape") {
+            e.preventDefault();
+            closeCommandBar();
+          } else if (e.key === "ArrowDown") {
+            e.preventDefault();
+            setSelectedIndex(selectedIdx + 1, true);
+          } else if (e.key === "ArrowUp") {
+            e.preventDefault();
+            setSelectedIndex(selectedIdx - 1, true);
+          } else if (e.key === "Enter") {
+            e.preventDefault();
+            selectDossierProject(flatRecords[selectedIdx]);
+          }
+          return;
+        }
+
+        var tag = (e.target && e.target.tagName) ? e.target.tagName.toUpperCase() : "";
+        var isEditable = tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || (e.target && e.target.isContentEditable);
+        if (!isEditable && !e.ctrlKey && !e.metaKey && !e.altKey && e.key === "/") {
+          if (!document.body.classList.contains("messenger-open")) {
+            e.preventDefault();
+            openCommandBar();
+          }
+        }
+      });
+
+      window.TemportCommandBar = {
+        open: openCommandBar,
+        close: closeCommandBar
+      };
+    }
+
+    // ------------------------------------------------------------------------
+    // 4. Deep-Link Query Opener (?chat=person / ?contact=1) & 404 Eyes Tracker
+    // ------------------------------------------------------------------------
+    try {
+      var params = new URLSearchParams(window.location.search);
+      var chatPerson = params.get("chat");
+      var wantContact = params.get("contact");
+      if (chatPerson && typeof window.openTemportMessenger === "function" && document.getElementById("resume-panel")) {
+        setTimeout(function () {
+          window.openTemportMessenger(chatPerson);
+        }, 250);
+        window.history.replaceState(null, "", window.location.pathname + window.location.hash);
+      } else if (wantContact && typeof window.openTemportContact === "function" && document.getElementById("cr-contact-modal")) {
+        setTimeout(function () {
+          window.openTemportContact();
+        }, 250);
+        window.history.replaceState(null, "", window.location.pathname + window.location.hash);
+      }
+    } catch (e) {}
+
+    var eyes404 = document.getElementById("cr-404-eyes");
+    if (eyes404) {
+      var pupils404 = eyes404.querySelectorAll(".cr-404-pupil");
+      window.addEventListener("pointermove", function (e) {
+        pupils404.forEach(function (pupil) {
+          var eye = pupil.parentElement;
+          if (!eye) return;
+          var r = eye.getBoundingClientRect();
+          var dx = e.clientX - (r.left + r.width / 2);
+          var dy = e.clientY - (r.top + r.height / 2);
+          var ang = Math.atan2(dy, dx);
+          var dist = Math.min(6.5, Math.hypot(dx, dy) / 16);
+          pupil.style.transform =
+            "translate(calc(-50% + " + (Math.cos(ang) * dist).toFixed(1) + "px), calc(-50% + " + (Math.sin(ang) * dist).toFixed(1) + "px))";
+        });
+      }, { passive: true });
+    }
+  }
+
+  initCreatieOSSuite();
 }
 
 if (document.body) {
