@@ -2368,10 +2368,29 @@ function initCreatieEngine() {
       years: "2026",
       type: "Web Builder / Shopify",
       tools: "Shopify, HTML5, CSS3, JavaScript, Node.js, Express, MySQL, JWT, Vercel"
+    },
+    NextLevelGaming: {
+      title: "NextLevel Gaming",
+      address: "nextlevelgamingevents.com",
+      heroImg: "assets/projects/nextlevel-01.webp",
+      gallery: [
+        "assets/projects/nextlevel-packages.png",
+        "assets/projects/nextlevel-features.png",
+        "assets/projects/nextlevel-booking.png",
+        "assets/projects/nextlevel-mobile.png"
+      ],
+      previewLink: "https://nextlevelgamingevents.com/",
+      desc: "A premier turnkey event and interactive party rental platform engineered for university orientations, corporate gatherings, and festivals — showcasing giant inflatable movie screens, mobile LED walls, multiplayer esports hubs, VR escape rooms, 360 booths, and an interactive multi-state quote request engine.",
+      client: "NextLevel Gaming Events (NH, MA & NC)",
+      years: "2026",
+      type: "Interactive Event & Booking Platform",
+      tools: "React, JavaScript (ES6+), Node.js, Base44, Fastly CDN Edge, Dynamic Quote Engine"
     }
   };
   showcaseProjectsData.ykb = showcaseProjectsData["ykb-clothing"];
   showcaseProjectsData.yankiii = showcaseProjectsData["yankii-barber"];
+  showcaseProjectsData.nextlevel = showcaseProjectsData.NextLevelGaming;
+  showcaseProjectsData.nextlevelgaming = showcaseProjectsData.NextLevelGaming;
 
   var showcaseBackdrop = document.getElementById("cr-showcase-backdrop");
   var showcaseCloseBtn = document.getElementById("cr-showcase-close-btn");
