@@ -1319,8 +1319,8 @@
         },
         jenz: {
           name: "Jenz Patrick Reguyal",
-          role: "Web Design & Development",
-          kicker: "Profile 02 · Design & technology",
+          role: "Website Director & Design Lead",
+          kicker: "Profile 02 · Website direction & design",
           photo: "assets/jenz.png",
           resume: "resumes/jenz.png",
           summary:
@@ -2057,7 +2057,7 @@ function initCreatieEngine() {
       },
       {
         firstName: "JENZ",
-        role: "DESIGN LEAD & UI/UX",
+        role: "WEBSITE DIRECTOR & DESIGN LEAD",
         avatar: "assets/jenz.png",
         status: "Designing new UI",
         time: "Just now",
@@ -2497,11 +2497,11 @@ function initCreatieEngine() {
     },
     jenz: {
       name: "Jenz Patrick Reguyal",
-      role: "DESIGN LEAD",
+      role: "WEBSITE DIRECTOR & DESIGN LEAD",
       avatar: "assets/jenz.png",
       status: "Active now",
       addressSlug: "creatie://team-messenger.chat/jenz.reguyal",
-      intro: "Hi! ✨ I'm Jenz, Design Lead & UI/UX Designer at TEMport. Nice to meet you!",
+      intro: "Hi! ✨ I'm Jenz, Website Director & Design Lead at TEMport. Nice to meet you!",
       specialty: "I craft bespoke visual identities, emotional web interfaces, and high-fidelity interaction prototypes in Figma.",
       fileName: "Jenz_Reguyal_Resume_2026.pdf",
       subTitle: "Verified Vector PDF · High-DPI Crystal Clear Document",
