@@ -18263,7 +18263,7 @@ html.dark-mode .cr-contact-subheading {
 /* 2-Column Info Grid with Top & Bottom Dividers */
 .cr-contact-info-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 16px;
   padding: 16px 0;
   border-top: 1px solid #e2e8f0;
@@ -21283,3 +21283,8 @@ html.dark-mode .cr-toolkit-status { color: #c7c5bc; }
   #skills .cr-skill-sticker, .cr-toolkit-filter { transition: none; }
   #skills .cr-skill-sticker:hover { transform: none !important; }
 }
+
+/* Keep long contact addresses readable on smaller screens. */
+.cr-contact-info-item { min-width: 0; }
+.cr-contact-info-val { overflow-wrap: anywhere; }
+@media (max-width: 480px) { .cr-contact-info-grid { grid-template-columns: 1fr; } }

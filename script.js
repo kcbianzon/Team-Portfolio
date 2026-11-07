@@ -1506,11 +1506,11 @@
       });
     });
 
-    // 5d. Contact form — builds and opens a pre-filled email to kcbianzon@gmail.com
+    // 5d. Contact form — builds and opens a pre-filled email to kennethcyrusbianzon@gmail.com
     var contactForm = document.getElementById("contact-form");
     if (contactForm) {
       var formStatus = document.getElementById("form-status");
-      var CONTACT_EMAIL = "kcbianzon@gmail.com";
+      var CONTACT_EMAIL = "kennethcyrusbianzon@gmail.com";
 
       contactForm.addEventListener("submit", function (e) {
         e.preventDefault();
@@ -3715,11 +3715,11 @@ function initCreatieEngine() {
         var SOC = {
           Instagram: ["Follow along", "Behind-the-scenes & pixel crimes"],
           X: ["Say hi on X", "Hot takes, mostly design"],
-          Phone: ["Give me a ring", "Old school. Still works."],
+          WhatsApp: ["Message us on WhatsApp", "Let’s talk about your project"],
           Email: ["Drop me a line", "I actually read these"],
         };
         var sp = SOC[sl] || ["Say hello", "Come on over"];
-        return { k: sl, t: sp[0], s: sp[1], tone: sl === "Email" || sl === "Phone" ? "green" : "purple", click: ["Opening " + sl + " \u2197", "See you there"] };
+        return { k: sl, t: sp[0], s: sp[1], tone: sl === "Email" || sl === "WhatsApp" ? "green" : "purple", click: ["Opening " + sl + " \u2197", "See you there"] };
       }
       if (el.closest(".cr-footer-chat-btn, [data-open-contact]"))
         return { k: "Contact", t: pick(["Let's make something", "Got a wild idea?"]), s: "Bring snacks. And ideas.", tone: "pink", click: ["Opening contact\u2026", "Spill the idea"] };
@@ -4368,30 +4368,51 @@ function initCreatieEngine() {
       });
     }
 
-    // Handle Contact Form Submit with live feedback
+    // Send inquiries through FormSubmit; keep entered values on failures.
     if (contactForm) {
-      contactForm.addEventListener("submit", function (e) {
+      contactForm.addEventListener("submit", async function (e) {
         e.preventDefault();
         var submitBtn = document.getElementById("cr-contact-submit-btn");
+        if (submitBtn && submitBtn.disabled) return;
+        if (!contactForm.reportValidity()) return;
+        var formData = new FormData(contactForm);
+        if (formData.get("_honey")) return;
+        var controller = new AbortController();
+        var timeout = setTimeout(function () { controller.abort(); }, 20000);
+        function showFeedback(message) {
+          if (!contactFeedback) return;
+          contactFeedback.classList.remove("is-plane-note");
+          contactFeedback.textContent = message;
+          contactFeedback.style.display = "block";
+        }
         if (submitBtn) {
           submitBtn.disabled = true;
           submitBtn.innerHTML = "<span>Sending...</span>";
         }
-        setTimeout(function () {
-          if (contactFeedback) {
-            contactFeedback.classList.remove("is-plane-note");
-            contactFeedback.textContent = "Thank you! Your message has been sent. We'll reply within 24 hours.";
-            contactFeedback.style.display = "block";
-          }
+        showFeedback("Sending your message…");
+        try {
+          var payload = Object.fromEntries(formData.entries());
+          payload._url = window.location.href;
+          var response = await fetch("https://formsubmit.co/ajax/kennethcyrusbianzon@gmail.com", {
+            method: "POST",
+            headers: { "Content-Type": "application/json", "Accept": "application/json" },
+            body: JSON.stringify(payload),
+            signal: controller.signal
+          });
+          if (!response.ok) throw new Error("Submission failed");
+          var result = await response.json();
+          if (result.success !== true && result.success !== "true") throw new Error("Submission rejected");
+          showFeedback("Thank you! Your message has been submitted. We'll get back to you soon.");
           contactForm.reset();
+        } catch (error) {
+          showFeedback("Your message could not be submitted. Please try again, email kennethcyrusbianzon@gmail.com, or message us on WhatsApp. Your message is still here.");
+        } finally {
+          clearTimeout(timeout);
           if (submitBtn) {
             submitBtn.disabled = false;
             submitBtn.innerHTML = "<span>Submit</span>";
           }
-          setTimeout(function () {
-            closeModal();
-          }, 2400);
-        }, 650);
+        }
       });
     }
   }
@@ -4492,7 +4513,7 @@ function initCreatieEngine() {
       var copyTimer = null;
       btn.addEventListener("click", function (e) {
         e.preventDefault();
-        var email = btn.getAttribute("data-copy-email") || "elaine150605@gmail.com";
+        var email = btn.getAttribute("data-copy-email") || "kennethcyrusbianzon@gmail.com";
         var labelSpan = btn.querySelector("span") || btn;
 
         function showCopiedState() {
@@ -4597,10 +4618,10 @@ function initCreatieEngine() {
         colors: ["#a78bfa", "#c4b5fd", "#ffffff", "#daf3b4"],
         tag: "GitHub Studio"
       },
-      Phone: {
+      WhatsApp: {
         bg: "#d1fae5", accent: "#059669",
         colors: ["#34d399", "#a7f3d0", "#fff4b0"],
-        tag: "Studio Phone"
+        tag: "WhatsApp"
       },
       Email: {
         bg: "#fef3c7", accent: "#d97706",
@@ -4953,7 +4974,7 @@ function initCreatieEngine() {
       var quoteHtml = hasMsg ? '<div class="cr-sky-social-quote">&ldquo;' + escHtml(deliveredNote) + '&rdquo;</div>' : "";
 
       if (soc.label === "Email") {
-        var studioMail = "elaine150605@gmail.com";
+        var studioMail = "kennethcyrusbianzon@gmail.com";
         if (hasMsg) {
           var subj = encodeURIComponent("Paper-Plane Note" + (deliveredFrom ? " from " + deliveredFrom : " via TEMport"));
           var body = encodeURIComponent(signedNote);
@@ -5009,21 +5030,21 @@ function initCreatieEngine() {
           ctaHtml = '<a class="cr-sky-social-cta" href="' + escHtml(soc.href) + '" target="_blank" rel="noopener noreferrer">Explore GitHub &#8599;</a>';
           altHtml = '<button type="button" class="cr-sky-social-alt" data-social-write="GitHub">Write Note &#9998;</button>';
         }
-      } else if (soc.label === "Phone") {
-        var studioPhoneDisp = "+84 (123) 456-789";
-        var studioPhoneHref = "tel:+84123456789";
+      } else if (soc.label === "WhatsApp") {
+        var studioPhoneDisp = "+63 931 027 1150";
+        var studioPhoneHref = "https://wa.me/639310271150";
         if (hasMsg) {
           copyTextSilent(signedNote);
-          titleHtml = "Callback note ready!";
+          titleHtml = "WhatsApp message ready!";
           subHtml = "Studio line: " + studioPhoneDisp;
-          ctaHtml = '<button type="button" class="cr-sky-social-cta" data-social-callback="1">Request Callback &#8599;</button>';
-          altHtml = '<a class="cr-sky-social-alt" href="' + studioPhoneHref + '">Call Now</a>';
+          ctaHtml = '<a class="cr-sky-social-cta" href="' + studioPhoneHref + '?text=' + encodeURIComponent(signedNote) + '" target="_blank" rel="noopener noreferrer">Open WhatsApp &#8599;</a>';
+          altHtml = '<a class="cr-sky-social-alt" href="' + studioPhoneHref + '" target="_blank" rel="noopener noreferrer">Open WhatsApp</a>';
         } else {
           copyTextSilent(studioPhoneDisp);
-          titleHtml = "Studio Line: " + studioPhoneDisp;
+          titleHtml = "WhatsApp: " + studioPhoneDisp;
           subHtml = "&#10003; Phone number copied to clipboard:";
-          ctaHtml = '<a class="cr-sky-social-cta" href="' + studioPhoneHref + '">Call Studio &#8599;</a>';
-          altHtml = '<button type="button" class="cr-sky-social-alt" data-social-write="Phone">Callback Note &#9998;</button>';
+          ctaHtml = '<a class="cr-sky-social-cta" href="' + studioPhoneHref + '" target="_blank" rel="noopener noreferrer">Open WhatsApp &#8599;</a>';
+          altHtml = '<button type="button" class="cr-sky-social-alt" data-social-write="WhatsApp">Write WhatsApp Note &#9998;</button>';
         }
       }
 
@@ -5573,6 +5594,8 @@ function initCreatieEngine() {
         st.hoverSocial = null;
       });
       iconEl.addEventListener("click", function (e) {
+        var directLabel = iconEl.getAttribute("aria-label");
+        if (directLabel === "WhatsApp" || directLabel === "Instagram") return;
         // When carrying a sealed paper-plane letter, clicking a social icon flies the letter right to it!
         if (!hasNote() || st.mode === "hidden") return;
         e.preventDefault();
