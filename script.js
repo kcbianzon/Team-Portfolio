@@ -2349,8 +2349,8 @@ function initCreatieEngine() {
       desc: "A full-stack clothing e-commerce platform with authentication, catalog filtering, real-time cart, checkout, order management, wishlist, customer reviews, and administrative tooling.",
       client: "Apparel & E-Commerce",
       years: "2026",
-      type: "Full-Stack E-Commerce",
-      tools: "HTML5, CSS3, JavaScript, Node.js, Express, MySQL, JWT, Render"
+      type: "Web Builder / Shopify E-Commerce",
+      tools: "Shopify, HTML, CSS, JavaScript, Node.js, Express.js, MySQL, JWT, bcrypt, Multer, Cloudinary, CORS, Nodemailer, Render"
     },
     "yankii-barber": {
       title: "Yankiii Barber Co.",
@@ -2366,8 +2366,8 @@ function initCreatieEngine() {
       desc: "A modern full-stack barbershop booking platform featuring service browsing, barber selection, schedule availability, customer authentication, appointment scheduling, and admin management.",
       client: "Grooming & Lifestyle Services",
       years: "2026",
-      type: "Full-Stack Web Application",
-      tools: "HTML5, CSS3, JavaScript, Node.js, Express, MySQL, JWT, Vercel"
+      type: "Web Builder / Shopify",
+      tools: "Shopify, HTML5, CSS3, JavaScript, Node.js, Express, MySQL, JWT, Vercel"
     }
   };
   showcaseProjectsData.ykb = showcaseProjectsData["ykb-clothing"];
@@ -2598,7 +2598,7 @@ function initCreatieEngine() {
       ],
       presetReplies: {
         hire: "That's fantastic! I'd love to help build and launch your website. From responsive landing pages to functional e-commerce flows and custom layouts, we can get started right away. Drop a note in the contact section or schedule a call so we can discuss your project details!",
-        stack: "Glad you asked! My core toolkit includes semantic HTML5, modern CSS3, responsive layout engineering, JavaScript, Node.js, Express.js, and MySQL. I also build full-stack web platforms like YKB Clothing and Yankii Barber Co. featured in our Client Websites section! Check out my verified PDF sheet attached above to see my technical skills and project experience!",
+        stack: "Glad you asked! My core toolkit includes semantic HTML5, modern CSS3, responsive layout engineering, JavaScript, Node.js, Express.js, and MySQL. I also build full-stack web platforms like YKB Clothing and Yankii Barber Co. featured in our Web Builder section! Check out my verified PDF sheet attached above to see my technical skills and project experience!",
         timeline: "For web builds, landing pages and standard portfolio sites typically take 1 to 2 weeks, while full e-commerce websites with product pages, cart flows, and backend database integrations usually take 3 to 5 weeks. Let us know what you need in the contact form below and we'll map out a clear timeline!",
         hello: "Thank you so much! 😊 We worked hard to make this studio experience interactive, playful, and responsive across all screen sizes. Hope you enjoy exploring our work!"
       }
